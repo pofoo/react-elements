@@ -1,0 +1,17 @@
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$text-highlight--color:                 $green-2;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+/* WEBKIT / BLINK BROWSERS */
+::selection {
+    background: $text-highlight--color; 
+}
+
+/* GECKO BROWSERS */
+::-moz-selection {
+    background: $text-highlight--color; 
+}

@@ -1,0 +1,66 @@
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$font-name:     'YOUR_FONT_NAME';
+
+/*--------------------------------------------------------------
+# CUSTOM FONTS - Font Family
+--------------------------------------------------------------*/
+@font-face {
+    font-family: $font-name;
+    src: url( '/static/fonts/PATH_TO_YOUR_FONT' );
+    font-style: normal;
+    font-display: swap;
+}
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$font-scale--tablet:                0.95;
+$font-scale--mobile:                0.9;
+
+$font-sizing-map: (
+    "h1":               3em,
+    "h2":               2.4em,
+    "h3":               1.8em,
+    "h4":               1.4em,
+    "p":                1.2em,
+    ".text-norm":       1.2em,
+    ".text-sm":         1em,
+    ".text-xs":         0.9em,
+    ".text-xxs":        0.8em,
+);
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+@each $font-type, $font-size in $font-sizing-map {
+    #{$font-type} {
+        font-size: $font-size;
+    }
+}
+
+/* BREAKPOINT LARGE */
+@media(max-width: $breakpoint--large) {
+    @each $font-type, $font-size in $font-sizing-map {
+        #{$font-type} {
+            font-size: $font-size * $font-scale--tablet;
+        }
+    }
+}
+
+/* BREAKPOINT MEDIUM */
+@media(max-width: $breakpoint--medium) {
+    @each $font-type, $font-size in $font-sizing-map {
+        #{$font-type} {
+            font-size: $font-size * $font-scale--mobile;
+        }
+    }
+}
+
+/*--------------------------------------------------------------
+# Helper
+--------------------------------------------------------------*/
+.weak-heading {
+    font-weight: normal;
+}

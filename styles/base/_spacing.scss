@@ -1,0 +1,27 @@
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$breakpoint--large:                 1025px;     // anything under is not a desktop   
+$breakpoint--medium:                800px;      // anything under is not a tablet
+$breakpoint--small:                 600px;      // anything is under is a mobile device
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.container {
+    padding: 3rem 5rem;
+}
+
+/* BREAKPOINT LARGE */
+@media ( max-width: $breakpoint--large ) {
+    .container {
+        padding: 2.1rem 3.5rem;
+    }
+}
+
+/* BREAKPOINT MEDIUM */
+@media ( max-width: $breakpoint--medium ) {
+    .container {
+        padding: 1.5rem 2.5rem;
+    }
+}
