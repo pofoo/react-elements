@@ -11,21 +11,22 @@ interface Props {
     // event handlers
     onClick: EventFunction;
     // accessibility
-    ariaPressed: boolean;
-    ariaHasPopup: boolean;
     ariaLabel: string;
+    ariaHasPopup?: boolean;
+    isPressed?: boolean;
 }   
 
 const AccessibleButton: FC<Props> = ( { 
     children,
     className,
     onClick,
-    ariaHasPopup=true,
     ariaLabel,
+    ariaHasPopup=true,
+    isPressed=false
 } ) => {
 
     /* HOOKS */
-    const [ pressed, setPressed ] = useState( false )
+    const [ pressed, setPressed ] = useState<boolean>( isPressed )
 
     /* FUNCTIONS */
     const onPress = ( event: MouseEvent ) => {

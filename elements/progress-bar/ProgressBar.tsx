@@ -26,7 +26,7 @@ const ProgressBar = ( {
 }: Props ) => {
 
     /* HOOKS */
-    const [ progress, setProgress ] = useState( 0 );
+    const [ progress, setProgress ] = useState<number>( 0 );
 
     /* FUNCTIONS */
     const handleScroll = ( () => {

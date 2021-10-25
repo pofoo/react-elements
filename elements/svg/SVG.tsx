@@ -6,7 +6,7 @@ interface Props {
     alt: string;
     width: number | string;
     height: number | string;
-    type: 'image/svg+xml';
+    type?: 'image/svg+xml';
 };
 
 const SVG = ( {

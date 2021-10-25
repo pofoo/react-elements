@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
 
-type OnClick = ( event: ChangeEvent ) => void;
+type OnChange = ( event: ChangeEvent ) => void;
 
-export default OnClick;
+export default OnChange;
