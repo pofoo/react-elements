@@ -1,0 +1,39 @@
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$button-lg--padding:                1.3rem;
+$button-md--padding:                1rem;
+$button-sm--padding:                0.7rem;
+
+$button--border-radius:             5px;
+
+/*--------------------------------------------------------------
+# Styling / Regular Buttons
+--------------------------------------------------------------*/
+.button-wrapper {
+    border-radius: $button--border-radius;
+
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: translateY(-3%);
+    }
+}
+
+.link-button-wrapper {
+    border-radius: $button--border-radius;
+
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: translateY(-3%);
+    }
+}
+
+/*--------------------------------------------------------------
+# Styling / SignIn Buttons
+--------------------------------------------------------------*/
+.github-button {
+    background-color: #24292e;
+    color: #f6f8fa;
+}
