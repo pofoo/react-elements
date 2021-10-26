@@ -13,7 +13,9 @@ interface ButtonProps {
     type?: 'submit' | 'reset';
 }
 
-// 
+/**
+ * Submit and Reset Button for Forms
+ */
 const Button = ( {
     className,
     content: {
