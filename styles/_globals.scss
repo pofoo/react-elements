@@ -4,8 +4,9 @@
 html,
 body {
   margin: 0;
-  // ADD FONT HERE
-  font-family: $font-name, Verdana; // variables defined in './branding/typography'
+  // ADD FONT HERE ($font-name in front of Verdana)
+  /* font-family: $font-name; */
+  font-family: Verdana; // variables defined in './branding/typography'
   // scroll-behavior: smooth;
 }
 

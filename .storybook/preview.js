@@ -1,5 +1,5 @@
 // styles
-// import '../styles/styles.scss';
+import '../styles/styles.scss'
 
 
 export const parameters = {

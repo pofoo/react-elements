@@ -1,17 +1,18 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$font-name:     'YOUR_FONT_NAME';
+// $font-name:     'YOUR_FONT_NAME'; uncomment this to add custom font
 
 /*--------------------------------------------------------------
 # CUSTOM FONTS - Font Family
 --------------------------------------------------------------*/
-@font-face {
-    font-family: $font-name;
-    src: url( '/static/fonts/PATH_TO_YOUR_FONT' );
-    font-style: normal;
-    font-display: swap;
-}
+// uncomment this to add custom font
+// @font-face {
+//     font-family: $font-name;
+//     src: url( '/static/fonts/PATH_TO_YOUR_FONT' );
+//     font-style: normal;
+//     font-display: swap;
+// }
 
 /*--------------------------------------------------------------
 # Variables
