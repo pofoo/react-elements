@@ -16,6 +16,10 @@ interface Props {
     isPressed?: boolean;
 }   
 
+/**
+ * Accessible Buttons that include aria labels
+ * Used for Icon Buttons
+ */
 const AccessibleButton: FC<Props> = ( { 
     children,
     className,

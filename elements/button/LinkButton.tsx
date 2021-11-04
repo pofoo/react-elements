@@ -14,6 +14,9 @@ interface Props {
     href: Href;
 }
 
+/**
+ * Link Buttons redirect to another part of the website (internal)
+ */
 const LinkButton = ( {
     className,
     content: {

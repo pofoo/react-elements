@@ -1,3 +1,6 @@
+// constants
+@use '../constants/colors' as *;
+
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
@@ -6,28 +9,88 @@ $button-md--padding:                1rem;
 $button-sm--padding:                0.7rem;
 
 $button--border-radius:             5px;
+$button--border-width:              4px;
 
 /*--------------------------------------------------------------
 # Styling / Regular Buttons
 --------------------------------------------------------------*/
 .button-wrapper {
     border-radius: $button--border-radius;
+    padding: $button-sm--padding;
     
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 
+    // this should be its own className for own style
     &:hover {
         transform: translateY(-3%);
     }
+
+    // TO-DO - add click transition / animation
 }
 
 .link-button-wrapper {
     border-radius: $button--border-radius;
 
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 
+    // this should be its own className for own style
     &:hover {
         transform: translateY(-3%);
     }
+}
+
+/* SIZES */
+.button--lg {
+    padding-inline: $button-lg--padding;
+}
+
+.button--md {
+    padding-inline: $button-md--padding;
+}
+
+.button--sm {
+    padding: $button-sm--padding;
+}
+
+/* COLORS */
+.button--green {
+    border: $button--border-width solid $green-4;
+
+    // only shows the BORDER of the button - no fill
+    &.hollow {
+        // leave blank
+        &:hover {
+            
+        }
+    }
+
+    // only shows the FILL of the button - no border
+    &.filled {
+        background-color: $green-2;
+    }
+
+    // includes both the FILL and BORDER of the button
+    &.outline {
+
+    }
+
+    &:hover {
+        background-color: $green-1;
+    }
+}
+
+// THERE IS A BETTER WAY TO WRTIE THIS CSS
+.button--purple {
+    border: $button--border-width solid $purple-4;
+
+    &:hover {
+        background-color: $purple-1;
+    }
+}
+
+/* STATES */
+.button--disabled {
+    pointer-events: none;
 }
 
 /*--------------------------------------------------------------

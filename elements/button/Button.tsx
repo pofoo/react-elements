@@ -7,10 +7,13 @@ interface Content {
 }
 
 interface ButtonProps {
-    className?: string;
+    className?: 'hollow' | 'filled' | 'outline' | string;
     content: Content;
     onClick: ( event: MouseEvent<HTMLButtonElement> ) => void;
+    isDisabled?: boolean;
     type?: 'submit' | 'reset';
+    size: 'sm' | 'md' | 'lg';
+    color: 'green' | 'purple' | 'blue';
 }
 
 /**
@@ -22,17 +25,25 @@ const Button = ( {
         text,
     },
     onClick,
+    isDisabled=false,
     type='submit',
+    size,
+    color,
 }: ButtonProps ) => {
 
     /* CLASSNAMES */
     const buttonClasses = `
-        button-wrapper 
+        button-wrapper
         ${className}
+        button--${color}
+        button--${size}
+        ${isDisabled && 'button--disabled'}
     `;
 
     return (
-        <button className={buttonClasses} onClick={onClick} type={type}>
+        <button className={buttonClasses} 
+            onClick={onClick} disabled={isDisabled}
+            type={type}>
             {text}
         </button>
     );

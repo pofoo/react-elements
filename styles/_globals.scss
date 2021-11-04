@@ -1,20 +1,23 @@
+// constants
+@use './constants/fontStyles' as *;
+
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
 html,
 body {
   margin: 0;
-  // ADD FONT HERE ($font-name in front of Verdana)
-  /* font-family: $font-name; */
+  // ADD FONT HERE - add $main-font in front of Verdana to enable custom fonts
+  // font-family: $main-font;
   font-family: Verdana; // variables defined in './branding/typography'
   // scroll-behavior: smooth;
 }
 
 main.site-content {
   // text-align: center;
-
-  height: 300rem;
 }
+
+// add other customer fonts with classNames here...
 
 /*--------------------------------------------------------------
 # Helper

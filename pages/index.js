@@ -1,7 +1,7 @@
 // dependencies
 import Head from 'next/head';
 // layout
-import { DefaultLayout } from '../layout';
+import { DefaultLayout } from 'layout';
 // components
 import { Hello } from 'components';
 // elements
