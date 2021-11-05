@@ -1,3 +1,6 @@
+// dependencies
+@use 'sass:string';
+@use 'sass:map';
 // constants
 @use '../constants/colors' as *;
 
@@ -53,38 +56,31 @@ $button--border-width:              4px;
 }
 
 /* COLORS */
-.button--green {
-    border: $button--border-width solid $green-4;
+@each $color, $color-map in $colors {
+    .button--#{$color} {
+        border: $button--border-width solid map.get( $color-map, 4 );
 
-    // only shows the BORDER of the button - no fill
-    &.hollow {
-        // leave blank
-        &:hover {
-            
+        // only shows the BORDER of the button - no fill
+        &.hollow {
+            // leave blank
+            &:hover {
+                
+            }
         }
-    }
 
-    // only shows the FILL of the button - no border
-    &.filled {
-        background-color: $green-2;
-    }
+        // only shows the FILL of the button - no border
+        &.filled {
+            background-color: map.get( $color-map, 2 );
+        }
 
-    // includes both the FILL and BORDER of the button
-    &.outline {
+        // includes both the FILL and BORDER of the button
+        &.outline {
 
-    }
+        }
 
-    &:hover {
-        background-color: $green-1;
-    }
-}
-
-// THERE IS A BETTER WAY TO WRTIE THIS CSS
-.button--purple {
-    border: $button--border-width solid $purple-4;
-
-    &:hover {
-        background-color: $purple-1;
+        &:hover {
+            background-color: map.get( $color-map, 1 );
+        }
     }
 }
 

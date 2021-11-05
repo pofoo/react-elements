@@ -1,3 +1,5 @@
+// dependencies
+@use 'sass:map';
 // colors
 @use '../constants/colors' as *;
 
@@ -5,8 +7,8 @@
 # Variables
 --------------------------------------------------------------*/
 $scrollbar--width:                  0.8rem;
-$scrollbar-thumb--color:            $green-3;
-$scrollbar--background-color:       $green-1;
+$scrollbar-thumb--color:            map.get( $colors, 'green', 3 );
+$scrollbar--background-color:       map.get( $colors, 'green', 1 );
 $scroll-bar-thumb--border-radius:   20px;
 
 /*--------------------------------------------------------------

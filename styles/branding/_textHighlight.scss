@@ -1,10 +1,12 @@
+// dependencies
+@use 'sass:map';
 // colors
 @use '../constants/colors' as *;
 
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$text-highlight--color:                 $green-2;
+$text-highlight--color:                 map.get( $colors, 'green', 2 );
 
 /*--------------------------------------------------------------
 # Styling

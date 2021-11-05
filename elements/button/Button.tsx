@@ -13,7 +13,7 @@ interface ButtonProps {
     isDisabled?: boolean;
     type?: 'submit' | 'reset';
     size: 'sm' | 'md' | 'lg';
-    color: 'green' | 'purple' | 'blue';
+    color: 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
 }
 
 /**
@@ -27,8 +27,8 @@ const Button = ( {
     onClick,
     isDisabled=false,
     type='submit',
-    size,
-    color,
+    size='md',
+    color='green',
 }: ButtonProps ) => {
 
     /* CLASSNAMES */
