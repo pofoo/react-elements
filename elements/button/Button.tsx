@@ -20,6 +20,7 @@ interface ButtonProps {
     color?: 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
     fillType?: 'gradient';
     hoverType?: 'lift' | 'press' | 'pulse' | 'glimmer';
+    clickType?: 'ripple';
 }
 
 /**
@@ -38,6 +39,7 @@ const Button = ( {
     color='green',
     fillType,
     hoverType='lift',
+    clickType,
 }: ButtonProps ) => {
 
     /* CLASSNAMES */
@@ -50,6 +52,7 @@ const Button = ( {
         ${isDisabled && 'button--disabled'}
         ${fillType}
         ${hoverType}
+        ${clickType !== 'ripple' && clickType}
     `;
 
     return (
@@ -57,7 +60,11 @@ const Button = ( {
             onClick={onClick} disabled={isDisabled}
             type={type}>
             {text}
-            <Ripple />
+            {
+                clickType === 'ripple' && (
+                    <Ripple />
+                )
+            }
         </button>
     );
 }
