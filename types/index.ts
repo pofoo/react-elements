@@ -5,6 +5,7 @@ import EventFunction from './eventFunction';
 import OnChange from './onChange';
 import OnSubmit from './onSubmit';
 import OnInput from './onInput';
+import Colors from './colors';
 
 export type {
     Href,
@@ -14,4 +15,5 @@ export type {
     OnChange,
     OnSubmit,
     OnInput,
+    Colors,
 }
