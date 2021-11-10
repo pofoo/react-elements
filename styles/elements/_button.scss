@@ -25,7 +25,7 @@ $button--transition:                0.24s ease;
 /*--------------------------------------------------------------
 # Styling / Regular Buttons
 --------------------------------------------------------------*/
-@keyframes rip {
+@keyframes ripple {
     to {
         opacity: 0;
         transform: scale(2);
@@ -54,7 +54,7 @@ $button--transition:                0.24s ease;
             position: absolute;
             opacity: 0.75;
             background-color: #ffffff;
-            animation: ripple 1s;
+            animation: ripple ease-out;
         }
     }
 }

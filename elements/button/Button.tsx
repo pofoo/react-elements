@@ -1,5 +1,5 @@
 // partials
-import Ripple from './Ripple';
+import Ripple from './ripple';
 // types
 import { MouseEvent } from 'react';
 // import { Colors } from 'types';

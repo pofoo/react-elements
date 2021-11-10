@@ -3,20 +3,26 @@ import { useState } from 'react';
 import { nanoid } from 'nanoid';
 // types
 import { MouseEvent } from 'react';
+// hooks
+import useRippleCleanUp from './useRippleCleanUp';
 
 /* TYPES */
 interface RippleProps {
     className?: string;
+    duration?: number;
 }
 
 const Ripple = ( {
     className,
+    duration=750,
  }: RippleProps ) => {
    
     /* TYPES */
     interface RippleStyles {
         top: string;
         left: string;
+        width: string;
+        height: string;
     };
 
     /* HOOKS */
@@ -31,32 +37,30 @@ const Ripple = ( {
     /* FUNCTIONS */
     const handleRippleClick = ( event: MouseEvent<HTMLDivElement> ) => {
         const target = event.target as HTMLDivElement;
-        const rect = target.getBoundingClientRect();
-        // width + height of the button
-        const width = target.offsetWidth;
-        const height = target.offsetHeight;
-        // coordinates of the client click
-        const xClick = event.clientX - rect.left;
-        const yClick = event.clientY - rect.top;
+
+        const rippleContainer = target.getBoundingClientRect();
+        const { width, height } = rippleContainer;
+        // idk what this does
+        const size = width > height ? width : height;
+        // x and y clicks relative to the ripple div
+        const xClick = event.pageX - rippleContainer.x - ( size / 2 );
+        const yClick = event.pageY - rippleContainer.y - ( size / 2 );
 
         const newRippleStyles = {
-            top: xClick + 'px',
-            left: yClick + 'px',
-            width: width + 'px',
-            height: height + 'px',
+            top: yClick + 'px',
+            left: xClick + 'px',
+            width: size + 'px',
+            height: size + 'px',
+            animationDuration: duration + 'ms',
         };
 
         // push new click onto the rippleStyles state
         setRippleStyles( ( rippleStyles ) => {
             return [ newRippleStyles, ...rippleStyles ];
         } );
-        // remove the click from the array of clicks after 1 second
-        // setTimeout( () => {
-        //     setRippleStyles( ( rippleStyles ) => {
-        //         return rippleStyles.splice( rippleStyles.indexOf( newrippleStyles, 1 ) )
-        //     } );
-        // }, 1000 );
     }
+
+    useRippleCleanUp( rippleStyles.length, duration, () => setRippleStyles( [] ) );
 
     return (
         <div className={rippleClasses} 
@@ -64,9 +68,8 @@ const Ripple = ( {
             onClick={handleRippleClick}
             onPointerUp={() => {}}>
             {
-                rippleStyles.length !== 0 && (
+                rippleStyles.length > 0 && (
                     rippleStyles.map( ( style ) => {
-                        console.log( style );
                         return (
                             <span key={nanoid(5)} className='ripple' 
                                 style={style} />
