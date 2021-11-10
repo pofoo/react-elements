@@ -1,7 +1,11 @@
 /* TYPES */
 interface TriangleProps {
+    // customization
     className?: string;
     direction?: 'left' | 'right' | 'up' | 'down';
+    // states
+    isActive?: boolean;
+    // accessibility
     ariaLabel: string;
 }
 
@@ -11,6 +15,7 @@ interface TriangleProps {
 const Triangle = ( { 
     className,
     direction='right',
+    isActive,
     ariaLabel,
 }: TriangleProps ) => {
 

@@ -1,6 +1,10 @@
 /* TYPES */
 interface HamburgerProps {
+    // customization
     className?: string;
+    // states
+    isActive?: boolean;
+    // accessibility
     ariaLabel: string;
 }
 
@@ -9,6 +13,7 @@ interface HamburgerProps {
  */
 const Hamburger = ( { 
     className,
+    isActive,
     ariaLabel,
 }: HamburgerProps ) => {
 

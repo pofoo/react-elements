@@ -20,7 +20,7 @@ $chevron--normalize:            math.div( $chevron--length, 3 );        // norma
         height: $chevron--length;
         width: $chevron--length;
 
-        transition: transform 0.2s ease;
+        transition: transform 0.22s ease;
     }
 
     &.up {

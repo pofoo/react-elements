@@ -1,7 +1,11 @@
 /* TYPES */
 interface ArrowProps {
+    // customization
     className?: string;
     direction?: 'left' | 'right' | 'up' | 'down';
+    // states
+    isActive?: boolean;
+    // accessibility
     ariaLabel: string;
 }
 
@@ -11,6 +15,7 @@ interface ArrowProps {
 const Arrow = ( { 
     className,
     direction='right',
+    isActive,
     ariaLabel,
 }: ArrowProps ) => {
 
@@ -22,6 +27,7 @@ const Arrow = ( {
     const arrowClasses = `
         arrow
         ${direction}
+        ${isActive && 'active'}
     `;
 
     return (

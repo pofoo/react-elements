@@ -1,7 +1,11 @@
 /* TYPES */
 interface ChevronProps {
+    // customization
     className?: string;
     direction?: 'left' | 'right' | 'up' | 'down';
+    // states
+    isActive?: boolean;
+    // accessibility
     ariaLabel: string;
 }
 
@@ -11,6 +15,7 @@ interface ChevronProps {
 const Chevron = ( { 
     className,
     direction='right',
+    isActive,
     ariaLabel,
 }: ChevronProps ) => {
 
