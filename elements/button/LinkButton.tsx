@@ -9,9 +9,13 @@ interface Content {
 }
 
 interface Props {
+    // customization
     className?: string;
     content: Content;
     href: Href;
+    // styling
+    // TO-DO - implement header + footer links styles
+    type?: 'CTA' | 'header' | 'footer';
 }
 
 /**
@@ -23,12 +27,16 @@ const LinkButton = ( {
         text,
     },
     href,
+    type,
 }: Props ) => {
 
+    // INCLUDE THE ARROW BY DEFAULT - DO NOT ALLOW FOR CUSTOMIZATION OF THAT
+    
     /* CLASSNAMES */
     const linkButtonClasses = `
         link-button-wrapper
         ${className}
+        ${type}
     `;
 
     return (

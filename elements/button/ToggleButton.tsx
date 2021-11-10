@@ -3,10 +3,9 @@ import { FC, MouseEvent, useState } from 'react';
 // types
 import { EventFunction } from 'types';
 
-
 /* TYPES */
 interface Props {
-    // styling
+    // customization
     className?: string;
     // event handlers
     onClick: EventFunction;
@@ -16,11 +15,13 @@ interface Props {
     isPressed?: boolean;
 }   
 
+// i should really just make this into a ToggleButton
 /**
- * Accessible Buttons that include aria labels
- * Used for Icon Buttons
+ * Buttons that toggle states - for example. showing more information onClick
+ * Because Toggle Buttons can vary in size and styling, this element does not specifiy a content field
+ * Instead, children will be rendered
  */
-const AccessibleButton: FC<Props> = ( { 
+const ToggleButton: FC<Props> = ( { 
     children,
     className,
     onClick,
@@ -33,7 +34,7 @@ const AccessibleButton: FC<Props> = ( {
     const [ pressed, setPressed ] = useState<boolean>( isPressed )
 
     /* FUNCTIONS */
-    const onPress = ( event: MouseEvent ) => {
+    const onPress = ( event: MouseEvent<HTMLButtonElement> ) => {
         onClick( event );
         setPressed( ( pressed ) => !pressed );
     }
@@ -44,6 +45,7 @@ const AccessibleButton: FC<Props> = ( {
         ${className}
     `;
 
+    // 
     return (
         <button className={buttonClasses} onClick={onPress} type='button'
             aria-pressed={pressed} aria-haspopup={ariaHasPopup} aria-label={ariaLabel}>
@@ -52,4 +54,4 @@ const AccessibleButton: FC<Props> = ( {
     );
 }
 
-export default AccessibleButton;
+export default ToggleButton;

@@ -1,9 +1,7 @@
-// dependencies
-import React from 'react';
 // types
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 // elements
-import { Button } from '../../../elements';
+import { LinkButton as Button } from '../../../elements';
 
 
 export default {
@@ -12,10 +10,10 @@ export default {
 } as ComponentMeta<typeof Button>;
 
 const Template: ComponentStory<typeof Button> = ( args ) => <Button {...args} />;
-
-export const FormButton = Template.bind({});
-FormButton.args = {
+export const LinkButton = Template.bind({});
+LinkButton.args = {
   content: {
-    text: 'Click Me!',
-  }
+    text: 'Take Me There!',
+  },
+  href: '/',
 }

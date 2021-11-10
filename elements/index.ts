@@ -1,13 +1,15 @@
 import ProgressBar from './progress-bar';
-import { Button, AccessibleButton, LinkButton } from './button';
+import { FormButton, ToggleButton, LinkButton } from './button';
 import SVG from './svg';
 import LabelInput from './label-input';
+import Icon from './icon';
 
 export {
     ProgressBar,
-    Button,
-    AccessibleButton,
+    FormButton,
+    ToggleButton,
     LinkButton,
     SVG,
     LabelInput,
+    Icon,
 }

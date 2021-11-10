@@ -1,11 +1,11 @@
-import Button from './Button';
-import AccessibleButton from './AccessibleButton';
+import FormButton from './FormButton';
+import ToggleButton from './ToggleButton';
 import LinkButton from './LinkButton';
 import SigninButton from './SigninButton';
 
 export {
-    Button,
-    AccessibleButton,
+    FormButton,
+    ToggleButton,
     LinkButton,
     SigninButton,
 }
