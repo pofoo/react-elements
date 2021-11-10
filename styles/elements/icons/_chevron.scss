@@ -1,0 +1,51 @@
+// dependencies
+@use 'sass:math';
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$chevron--thickness:            0.15em;                                 // thickness of chevron
+$chevron--length:               0.7em;                                  // length of chevron
+$chevron--normalize:            math.div( $chevron--length, 3 );        // normalize left and right chevron to look cleaner
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.chevron {
+    &::before {
+        display: inline-block;
+        border-style: solid;
+        content: '';
+        border-width: $chevron--thickness $chevron--thickness 0 0;
+        height: $chevron--length;
+        width: $chevron--length;
+
+        transition: transform 0.2s ease;
+    }
+
+    &.up {
+        &::before {
+            transform: rotate(-45deg);
+        }
+    }
+
+    &.down {
+        &::before {
+            transform: rotate(-225deg);
+        }
+    }
+
+    &.right {
+        &::before {
+            right: $chevron--normalize;
+            transform: rotate(45deg);
+        }
+    }
+
+    &.left {
+        &::before {
+            left: $chevron--normalize;
+            transform: rotate(-135deg);
+        }
+    }
+}
