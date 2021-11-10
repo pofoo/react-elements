@@ -1,0 +1,11 @@
+/*--------------------------------------------------------------
+# Useful State Mixins
+--------------------------------------------------------------*/
+// includes both the mouse over and focus state
+// focus state is for mobile devices and tab focused elements
+@mixin hover {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}

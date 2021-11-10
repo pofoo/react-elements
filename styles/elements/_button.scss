@@ -1,45 +1,67 @@
 // dependencies
 @use 'sass:string';
 @use 'sass:map';
+@use 'sass:color';
 // constants
 @use '../constants/colors' as *;
+// utils
+@use '../utils/colors' as *;
+@use '../utils/states' as *;
 
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$button-lg--padding:                1.3rem;
-$button-md--padding:                1rem;
-$button-sm--padding:                0.7rem;
+$button-lg--padding:                1.5rem;
+$button-md--padding:                1.25rem;
+$button-sm--padding:                1rem;
+
+$button--default-padding:           0.8rem;
 
 $button--border-radius:             5px;
-$button--border-width:              4px;
+$button--border-width:              3px;
+
+$button--transition:                0.24s ease;
 
 /*--------------------------------------------------------------
 # Styling / Regular Buttons
 --------------------------------------------------------------*/
+@keyframes rip {
+    to {
+        opacity: 0;
+        transform: scale(2);
+    }
+}
+
 .button-wrapper {
     border-radius: $button--border-radius;
-    padding: $button-sm--padding;
-    
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    padding: $button--default-padding;
 
-    // this should be its own className for own style
-    &:hover {
-        transform: translateY(-3%);
+    position: relative;
+    overflow: hidden;
+    text-shadow: white 0 0 10px;
+
+    /* PARTIALS */
+    .ripple-wrapper {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        .ripple {
+            transform: scale(0);
+            border-radius: 100%;
+            position: absolute;
+            opacity: 0.75;
+            background-color: #ffffff;
+            animation: ripple 1s;
+        }
     }
-
-    // TO-DO - add click transition / animation
 }
 
 .link-button-wrapper {
     border-radius: $button--border-radius;
-
-    transition: transform 0.3s ease, background-color 0.3s ease;
-
-    // this should be its own className for own style
-    &:hover {
-        transform: translateY(-3%);
-    }
+    padding: $button--default-padding;
 }
 
 /* SIZES */
@@ -52,34 +74,98 @@ $button--border-width:              4px;
 }
 
 .button--sm {
-    padding: $button-sm--padding;
+    padding-inline: $button-sm--padding;
 }
 
 /* COLORS */
 @each $color, $color-map in $colors {
     .button--#{$color} {
-        border: $button--border-width solid map.get( $color-map, 4 );
+        $background: map.get( $color-map, 2 );
+        $shadow-colors: getShadowColors( map.get( $color-map, 2 ) );
+        
+        // DARKER box-shadow size
+        $box-shadow--size2: 1px 1px 2px;
+        // LIGHTER box-shadow size
+        $box-shadow--size1: 1px 1px 4px 0.35px;
+        $box-shadow: $box-shadow--size2 map.get( $shadow-colors, 2 ),
+                        $box-shadow--size1 map.get( $shadow-colors, 1 );
 
-        // only shows the BORDER of the button - no fill
-        &.hollow {
-            // leave blank
-            &:hover {
-                
+        background-color: $background;
+        box-shadow: $box-shadow;
+        
+
+        // TO-DO - figure out the best way to do focus state
+        // take into account mobile devices and accessibility concerns
+        // OPTIONS: border, box-shadow,
+        // transition: border-color $button--transition;
+        // &:focus {
+
+        // }
+
+        /* FILL TYPES */
+        // adds a subtle radial gradient at the top left corner of the button
+        &.gradient {
+            $light-gradient: color.adjust( map.get( $color-map, 2 ), $lightness: 12% );
+            background: radial-gradient( 
+                        farthest-corner at 0 0, 
+                        $light-gradient,
+                        map.get( $color-map, 2 ), 
+                    );
+        }
+
+        /* HOVER TYPES */
+        // moves button up and adds spread-radius to box-shadow
+        &.lift {
+            transition: transform $button--transition,
+                        box-shadow $button--transition;
+
+            @include hover {
+                transform: translateY( -2.5px );
+                box-shadow: $box-shadow--size2 map.get( $shadow-colors, 2 ),
+                            1px 1px 6px 1.5px map.get( $shadow-colors, 1 );
             }
         }
+        // real world button-press effect
+        &.press {
+            transition: box-shadow 0.35s ease;
 
-        // only shows the FILL of the button - no border
-        &.filled {
-            background-color: map.get( $color-map, 2 );
+            @include hover {
+                box-shadow: $box-shadow,
+                            inset 1px 1px 6px map.get( $shadow-colors, 2 ),
+                            inset 1px 1px 4px map.get( $shadow-colors, 1 );
+            }
         }
+        // pulsing outward effect
+        &.pulse {
+            transition: box-shadow 0.37s ease;
 
-        // includes both the FILL and BORDER of the button
-        &.outline {
-
+            @include hover {
+                box-shadow: 1px 1px 2px 0.3px map.get( $shadow-colors, 2),
+                            1px 1px 4px 3px map.get( $shadow-colors, 1 );
+            }
         }
+        // subtle color glimmer shift effect
+        &.glimmer {
+            // line that creates the glimmer effect
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                background: rgba(255, 255, 255, 0.5);
+                width: 30px;
+                height: 100%;
+                top: 0;
+                filter: blur( 5px );
+                transform: translateX(-100px) skewX(-15deg);
+            }
 
-        &:hover {
-            background-color: map.get( $color-map, 1 );
+            @include hover {                
+                &::after {
+                    transition: transform 0.7s ease;
+                    // move the line over the button
+                    transform: translateX(150px) skewX(-15deg);
+                }
+            }
         }
     }
 }
@@ -87,10 +173,11 @@ $button--border-width:              4px;
 /* STATES */
 .button--disabled {
     pointer-events: none;
+    opacity: 70%;
 }
 
 /*--------------------------------------------------------------
-# Styling / SignIn Buttons
+# Styling / Signin Buttons
 --------------------------------------------------------------*/
 .github-button {
     background-color: #24292e;

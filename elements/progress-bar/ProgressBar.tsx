@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 // utils
 import calcPagePosition from './calcPagePosition';
 
-
 /* TYPES */
 interface Styles {
     progressColor?: string;
