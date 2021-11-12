@@ -14,34 +14,45 @@ $triangle--color:                   black;
 # Styling
 --------------------------------------------------------------*/
 .triangle-wrapper {
+
+    &.align-left {
+        display: flex;
+        justify-content: flex-start;
+    }
+
     .triangle {
         display: block;
 
         $border-base: $triangle-base--length solid transparent;
         $border-side: $triangle-side--length solid $triangle--color;
 
+        &.left,
         &.right {
-            border-left: $border-side;
             border-top: $border-base;
             border-bottom: $border-base;
         }
 
+        &.up,
+        &.down {
+            border-left: $border-base;
+            border-right: $border-base;
+        }
+
+
         &.left {
+            border-right: $border-side;
+        }
+
+        &.right {
             border-left: $border-side;
-            border-top: $border-base;
-            border-bottom: $border-base;
         }
 
         &.up {
-            border-left: $border-side;
-            border-top: $border-base;
-            border-bottom: $border-base;
+            border-bottom: $border-side;
         }
 
         &.down {
-            border-left: $border-side;
-            border-top: $border-base;
-            border-bottom: $border-base;
+            border-top: $border-side;
         }
     }
 }

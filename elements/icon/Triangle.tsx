@@ -13,7 +13,7 @@ interface TriangleProps {
  * Triangle Icon
  */
 const Triangle = ( { 
-    className,
+    className='align-left',
     direction='right',
     isActive,
     ariaLabel,
