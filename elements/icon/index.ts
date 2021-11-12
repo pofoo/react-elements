@@ -3,6 +3,7 @@ import Chevron from './Chevron';
 import Hamburger from './Hamburger';
 import Triangle from './Triangle';
 import Diamond from './Diamond';
+import Line from './Line';
 
 export {
     Arrow,
@@ -10,4 +11,5 @@ export {
     Hamburger,
     Triangle,
     Diamond,
+    Line,
 };

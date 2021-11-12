@@ -13,7 +13,7 @@ interface LineProps {
 const Line = ( { 
     className,
     ariaLabel,
-    isPresentation,
+    isPresentation=false,
 }: LineProps ) => {
 
     const lineClasses = `
