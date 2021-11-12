@@ -1,0 +1,21 @@
+// transforms icon direction
+// normalize-horizontal makes icon look normal when on horizontal axis
+@mixin direction( $normalize-horizontal: 0 ) {
+    &.up {
+        transform: rotate(-45deg);
+    }
+
+    &.down {
+            transform: rotate(-225deg);
+    }
+
+    &.right {
+            right: $normalize-horizontal ;
+            transform: rotate(45deg);
+    }
+
+    &.left {
+            left: $normalize-horizontal ;
+            transform: rotate(-135deg);
+    }
+}

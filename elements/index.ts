@@ -2,7 +2,7 @@ import ProgressBar from './progress-bar';
 import { FormButton, ToggleButton, LinkButton } from './button';
 import SVG from './svg';
 import LabelInput from './label-input';
-import { Arrow, Chevron, Hamburger, Triangle} from './icon';
+import { Arrow, Chevron, Hamburger, Triangle, Diamond } from './icon';
 
 export {
     ProgressBar,
@@ -15,4 +15,5 @@ export {
     Chevron,
     Hamburger,
     Triangle,
+    Diamond,
 }

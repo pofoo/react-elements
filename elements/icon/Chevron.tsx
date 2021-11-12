@@ -27,6 +27,7 @@ const Chevron = ( {
     const chevronClasses = `
         chevron
         ${direction}
+        ${isActive}
     `;
 
     return (

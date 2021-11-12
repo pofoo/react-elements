@@ -12,5 +12,5 @@ export default {
 const Template: ComponentStory<typeof Icon> = ( args ) => <Icon {...args} />;
 export const Chevron = Template.bind({});
 Chevron.args = {
-    ariaLabel: 'I am an Chevron!'
+    ariaLabel: 'I am a Chevron!'
 }

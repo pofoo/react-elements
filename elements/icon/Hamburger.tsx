@@ -22,6 +22,11 @@ const Hamburger = ( {
         hamburger-wrapper
     `;
 
+    const hamburgerClasses = `
+        hamburger
+        ${isActive}
+    `;
+
     return (
         <span className={hamburgerWrapperClasses}>
             <span className='hamburger' aria-label={ariaLabel} />

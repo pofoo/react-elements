@@ -3,6 +3,7 @@ interface ArrowProps {
     // customization
     className?: string;
     direction?: 'left' | 'right' | 'up' | 'down';
+    type?: 'pointed' | 'triangle';
     // states
     isActive?: boolean;
     // accessibility
@@ -15,6 +16,7 @@ interface ArrowProps {
 const Arrow = ( { 
     className,
     direction='right',
+    type='pointed',
     isActive,
     ariaLabel,
 }: ArrowProps ) => {
@@ -28,6 +30,7 @@ const Arrow = ( {
         arrow
         ${direction}
         ${isActive && 'active'}
+        ${type}
     `;
 
     return (

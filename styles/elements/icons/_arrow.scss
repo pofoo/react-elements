@@ -1,0 +1,61 @@
+// dependencies
+@use 'sass:math';
+// mixins
+@use './direction' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$arrow-head--thickness:             0.19em;
+$arrow-head--length:                1em;
+$arrow--color:                      black;
+// TO-DO - can I make this a diff variable?
+$arrow-line--width:                 $arrow-head--thickness;
+$arrow-line--length:                2em;
+// normalize left and right arrow to look cleaner
+$arrow--normalize:                  math.div( $arrow-head--length, 3 );          
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.arrow-wrapper {
+    .arrow {
+        display: block;
+        border-style: solid;
+        width: $arrow-head--length;
+        height: $arrow-head--length;
+        border-color: $arrow--color;
+
+        transition: transform 0.22s ease;
+
+        // arrow TIP
+        &.pointed {
+            border-width: $arrow-head--thickness 0 0 $arrow-head--thickness;
+        }
+        
+        // arrow TRIANGLE
+        &.triangle  {
+            border-width: $arrow-head--thickness;
+        }
+    
+        // arrow LINE
+        &:before {
+            content: "";
+            display: block;
+            width: $arrow-line--width;
+            height: $arrow-line--length;
+            background-color: black;
+            transform: rotate( -45deg ) 
+                        translate( $arrow-line--length / 3, $arrow-line--width );
+   
+        }
+
+        // TO-DO - figure out normalize variable
+        @include direction();
+
+        
+    }
+    
+    // TO-DO - fix arrow directions
+    transform: rotate(45deg);
+}
