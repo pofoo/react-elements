@@ -19,7 +19,7 @@ const Diamond = ( {
 
     const diamondWrapperClasses = `
         ${className}
-        chevron-wrapper
+        diamond-wrapper
     `;
 
     const diamondClasses = `

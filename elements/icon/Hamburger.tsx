@@ -1,3 +1,6 @@
+// partials
+import Line from './Line';
+
 /* TYPES */
 interface HamburgerProps {
     // customization
