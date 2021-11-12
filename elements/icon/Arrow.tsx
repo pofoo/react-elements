@@ -8,6 +8,7 @@ interface ArrowProps {
     isActive?: boolean;
     // accessibility
     ariaLabel: string;
+    isPresentation?: boolean;
 }
 
 /**
@@ -19,6 +20,7 @@ const Arrow = ( {
     type='pointed',
     isActive,
     ariaLabel,
+    isPresentation=false,
 }: ArrowProps ) => {
 
     const arrowWrapperClasses = `
@@ -35,7 +37,8 @@ const Arrow = ( {
 
     return (
         <span className={arrowWrapperClasses}>
-            <span className={arrowClasses} aria-label={ariaLabel} />
+            <span className={arrowClasses} 
+                role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
         </span>
     )
 }

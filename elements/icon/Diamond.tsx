@@ -6,6 +6,7 @@ interface DiamondProps {
     isActive?: boolean;
     // accessibility
     ariaLabel: string;
+    isPresentation?: boolean;
 }
 
 /**
@@ -15,6 +16,7 @@ const Diamond = ( {
     className,
     isActive,
     ariaLabel,
+    isPresentation,
 }: DiamondProps ) => {
 
     const diamondWrapperClasses = `
@@ -29,7 +31,8 @@ const Diamond = ( {
 
     return (
         <span className={diamondWrapperClasses}>
-            <span className={diamondClasses} aria-label={ariaLabel} />
+            <span className={diamondClasses} 
+                role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
         </span>
     )
 }

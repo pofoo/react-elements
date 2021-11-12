@@ -9,6 +9,7 @@ interface HamburgerProps {
     isActive?: boolean;
     // accessibility
     ariaLabel: string;
+    isPresentation?: boolean;
 }
 
 /**
@@ -18,6 +19,7 @@ const Hamburger = ( {
     className,
     isActive,
     ariaLabel,
+    isPresentation,
 }: HamburgerProps ) => {
 
     const hamburgerWrapperClasses = `
@@ -32,7 +34,8 @@ const Hamburger = ( {
 
     return (
         <span className={hamburgerWrapperClasses}>
-            <span className={hamburgerClasses} aria-label={ariaLabel} />
+            <span className={hamburgerClasses} 
+                role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
         </span>
     )
 }

@@ -4,6 +4,7 @@ interface LineProps {
     className?: string;
     // accessibility
     ariaLabel: string;
+    isPresentation?: boolean;
 }
 
 /**
@@ -12,6 +13,7 @@ interface LineProps {
 const Line = ( { 
     className,
     ariaLabel,
+    isPresentation,
 }: LineProps ) => {
 
     const lineClasses = `
@@ -20,7 +22,8 @@ const Line = ( {
     `;
 
     return (
-        <span className={lineClasses} aria-label={ariaLabel} />
+        <span className={lineClasses} 
+            role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
     )
 }
 
