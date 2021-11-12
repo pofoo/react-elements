@@ -28,7 +28,7 @@ const Diamond = ( {
 
     const diamondClasses = `
         diamond
-        ${isActive && 'active'}
+        ${isActive ? 'active': 'not-active'}
     `;
 
     return (

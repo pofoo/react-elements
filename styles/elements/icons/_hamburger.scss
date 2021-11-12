@@ -1,18 +1,47 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$header-hamburger--size: 		1.5rem;		        // width and height
-$header-hamburger--thickness: 	0.125rem;		    // stroke width
-$header-hamburger--radius: 		null;		        // lines radius cap
-$header-hamburger--distance: 	0.438rem;		    // top and bottom lines distance from center
-$header-hamburger--color:       var(--main-color);  // color
+$hamburger-line--width: 		        3em;
+$hamburger-line--height:                0.35em;
+$hamburger--spacing:                    0.4em;
+$hamburger--color:                      black;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
 .hamburger {
+    transition: transform 1s ease;
+
     #hamburger-line {
-        margin: 0.4em;
-        width: 200px;
+        width: $hamburger-line--width;
+        height: $hamburger-line--height;
+        margin: $hamburger--spacing;
+        background: $hamburger--color;
+    }
+
+    &:before {
+        content: "";
+        position: absolute;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 70px;
+        height: 70px;
+        border: 5px solid transparent;
+        top: calc(50% - 35px);
+        left: calc(50% - 35px);
+        border-radius: 100%;
+        -webkit-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    &.active {
+
+        &:before {
+            border: 5px solid #ecf0f1;
+        }
+        
+        transform: rotate( 45deg );
     }
 }

@@ -33,7 +33,7 @@ const Arrow = ( {
     const arrowClasses = `
         arrow
         ${direction}
-        ${isActive && 'active'}
+        ${isActive ? 'active': 'not-active'}
         ${type}
     `;
 

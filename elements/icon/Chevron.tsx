@@ -34,7 +34,7 @@ const Chevron = ( {
     const chevronClasses = `
         chevron
         ${direction}
-        ${isActive && 'active'}
+        ${isActive ? 'active': 'not-active'}
     `;
 
     return (

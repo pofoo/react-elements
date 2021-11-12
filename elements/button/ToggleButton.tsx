@@ -15,7 +15,6 @@ interface Props {
     isPressed?: boolean;
 }   
 
-// i should really just make this into a ToggleButton
 /**
  * Buttons that toggle states - for example. showing more information onClick
  * Because Toggle Buttons can vary in size and styling, this element does not specifiy a content field

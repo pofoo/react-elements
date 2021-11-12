@@ -24,18 +24,20 @@ const Hamburger = ( {
     isPresentation=false,
 }: HamburgerProps ) => {
 
+    const activeClass = isActive ? 'active': '';
+
     const hamburgerClasses = `
         hamburger
         ${className}
-        ${isActive && 'active'}
+        ${isActive ? 'active': 'not-active'}
     `;
 
     return (
         <span id={id} className={hamburgerClasses}
             role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel}>
-            <Line id='hamburger-line' ariaLabel='hamburger-line'/>
-            <Line id='hamburger-line' ariaLabel='hamburger-line'/>
-            <Line id='hamburger-line' ariaLabel='hamburger-line'/>
+            <Line id='hamburger-line' className={activeClass} ariaLabel='hamburger-line'/>
+            <Line id='hamburger-line' className={activeClass} ariaLabel='hamburger-line'/>
+            <Line id='hamburger-line' className={activeClass} ariaLabel='hamburger-line'/>
         </span>
     )
 }
