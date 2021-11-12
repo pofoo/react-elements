@@ -3,6 +3,7 @@ interface ChevronProps {
     // customization
     className?: string;
     direction?: 'left' | 'right' | 'up' | 'down';
+    background?: 'square' | 'circle';
     // states
     isActive?: boolean;
     // accessibility
@@ -15,13 +16,15 @@ interface ChevronProps {
 const Chevron = ( { 
     className,
     direction='right',
+    background,
     isActive,
     ariaLabel,
 }: ChevronProps ) => {
 
     const chevronWrapperClasses = `
-        ${className}
         chevron-wrapper
+        ${className}
+        ${background}
     `;
 
     const chevronClasses = `

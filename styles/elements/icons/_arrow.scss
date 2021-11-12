@@ -46,14 +46,12 @@ $arrow--normalize:                  math.div( $arrow-head--length, 3 );
             height: $arrow-line--length;
             background-color: black;
             transform: rotate( -45deg ) 
-                        translate( $arrow-line--length / 3, $arrow-line--width );
+                        translate( math.div( $arrow-line--length, 3 ), $arrow-line--width );
    
         }
 
         // TO-DO - figure out normalize variable
         @include direction();
-
-        
     }
     
     // TO-DO - fix arrow directions

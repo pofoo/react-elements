@@ -1,0 +1,47 @@
+// dependencies
+@use 'sass:math';
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$triangle-base--length:             1.2em;
+$triangle-side--length:             2em;
+$triangle--color:                   black;
+ // normalize left and right triangle to look cleaner
+// $triangle--normalize:            math.div( $triangle--length, 3 );
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.triangle-wrapper {
+    .triangle {
+        display: block;
+
+        $border-base: $triangle-base--length solid transparent;
+        $border-side: $triangle-side--length solid $triangle--color;
+
+        &.right {
+            border-left: $border-side;
+            border-top: $border-base;
+            border-bottom: $border-base;
+        }
+
+        &.left {
+            border-left: $border-side;
+            border-top: $border-base;
+            border-bottom: $border-base;
+        }
+
+        &.up {
+            border-left: $border-side;
+            border-top: $border-base;
+            border-bottom: $border-base;
+        }
+
+        &.down {
+            border-left: $border-side;
+            border-top: $border-base;
+            border-bottom: $border-base;
+        }
+    }
+}

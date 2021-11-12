@@ -6,10 +6,11 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$chevron--thickness:            0.19em;                                 // thickness of chevron
-$chevron--length:               1em;                                    // length of chevron
-$chevron--color:                black;                                // color of chevron
-$chevron--normalize:            math.div( $chevron--length, 3 );        // normalize left and right chevron to look cleaner
+$chevron--thickness:            0.19em;
+$chevron--length:               1em;
+$chevron--color:                black;
+ // normalize left and right chevron to look cleaner
+$chevron--normalize:            math.div( $chevron--length, 3 ); 
 
 /*--------------------------------------------------------------
 # Styling
