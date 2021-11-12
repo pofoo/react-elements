@@ -1,6 +1,7 @@
 /* TYPES */
 interface LineProps {
     // customization
+    id?: string;
     className?: string;
     // accessibility
     ariaLabel: string;
@@ -10,10 +11,11 @@ interface LineProps {
 /**
  * Line Icon
  */
-const Line = ( { 
+const Line = ( {
+    id,
     className,
     ariaLabel,
-    isPresentation=false,
+    isPresentation=true,
 }: LineProps ) => {
 
     const lineClasses = `
@@ -22,7 +24,7 @@ const Line = ( {
     `;
 
     return (
-        <span className={lineClasses} 
+        <span id={id} className={lineClasses} 
             role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
     )
 }

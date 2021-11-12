@@ -4,6 +4,7 @@ import Line from './Line';
 /* TYPES */
 interface HamburgerProps {
     // customization
+    id?: string;
     className?: string;
     // states
     isActive?: boolean;
@@ -16,26 +17,25 @@ interface HamburgerProps {
  * Hamburger Icon
  */
 const Hamburger = ( { 
+    id,
     className,
     isActive,
     ariaLabel,
-    isPresentation,
+    isPresentation=false,
 }: HamburgerProps ) => {
-
-    const hamburgerWrapperClasses = `
-        ${className}
-        hamburger-wrapper
-    `;
 
     const hamburgerClasses = `
         hamburger
+        ${className}
         ${isActive && 'active'}
     `;
 
     return (
-        <span className={hamburgerWrapperClasses}>
-            <span className={hamburgerClasses} 
-                role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
+        <span id={id} className={hamburgerClasses}
+            role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel}>
+            <Line id='hamburger-line' ariaLabel='hamburger-line'/>
+            <Line id='hamburger-line' ariaLabel='hamburger-line'/>
+            <Line id='hamburger-line' ariaLabel='hamburger-line'/>
         </span>
     )
 }

@@ -1,6 +1,7 @@
 /* TYPES */
 interface DiamondProps {
     // customization
+    id?: string;
     className?: string;
     // states
     isActive?: boolean;
@@ -13,10 +14,11 @@ interface DiamondProps {
  * Diamond Icon
  */
 const Diamond = ( { 
+    id,
     className,
     isActive,
     ariaLabel,
-    isPresentation,
+    isPresentation=false,
 }: DiamondProps ) => {
 
     const diamondWrapperClasses = `
@@ -30,7 +32,7 @@ const Diamond = ( {
     `;
 
     return (
-        <span className={diamondWrapperClasses}>
+        <span id={id} className={diamondWrapperClasses}>
             <span className={diamondClasses} 
                 role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
         </span>

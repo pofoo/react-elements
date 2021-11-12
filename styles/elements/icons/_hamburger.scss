@@ -11,5 +11,8 @@ $header-hamburger--color:       var(--main-color);  // color
 # Styling
 --------------------------------------------------------------*/
 .hamburger {
-    
+    #hamburger-line {
+        margin: 0.4em;
+        width: 200px;
+    }
 }

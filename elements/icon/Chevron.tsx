@@ -1,6 +1,7 @@
 /* TYPES */
 interface ChevronProps {
     // customization
+    id?: string;
     className?: string;
     direction?: 'left' | 'right' | 'up' | 'down';
     background?: 'square' | 'circle';
@@ -14,13 +15,14 @@ interface ChevronProps {
 /**
  * Chevron Icon
  */
-const Chevron = ( { 
+const Chevron = ( {
+    id,
     className,
     direction='right',
     background,
     isActive,
     ariaLabel,
-    isPresentation,
+    isPresentation=false,
 }: ChevronProps ) => {
 
     const chevronWrapperClasses = `
@@ -36,7 +38,7 @@ const Chevron = ( {
     `;
 
     return (
-        <span className={chevronWrapperClasses}>
+        <span id={id} className={chevronWrapperClasses}>
             <span className={chevronClasses} 
                 role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
         </span>
