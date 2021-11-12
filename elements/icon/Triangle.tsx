@@ -27,7 +27,7 @@ const Triangle = ( {
     const triangleClasses = `
         triangle
         ${direction}
-        ${isActive}
+        ${isActive && 'active'}
     `;
 
     return (

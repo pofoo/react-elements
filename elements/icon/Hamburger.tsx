@@ -27,12 +27,12 @@ const Hamburger = ( {
 
     const hamburgerClasses = `
         hamburger
-        ${isActive}
+        ${isActive && 'active'}
     `;
 
     return (
         <span className={hamburgerWrapperClasses}>
-            <span className='hamburger' aria-label={ariaLabel} />
+            <span className={hamburgerClasses} aria-label={ariaLabel} />
         </span>
     )
 }
