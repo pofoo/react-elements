@@ -56,8 +56,12 @@ $colors: (
 # Background Colors
 --------------------------------------------------------------*/
 $background: (
-    ghost-white:                  #F8F7FF,
-    antique-white:                #FFEEDD,
-    mint-cream:                   #DBE7E4,
-    alice-blue:                   #D6E2E9,
+    'ghost-white':                  #F8F7FF,
+    'antique-white':                #FFEEDD,
+    'mint-cream':                   #DBE7E4,
+    'alice-blue':                   #D6E2E9,
 );
+
+$shadow: (
+    'gray':                         rgb( 0 0 0 / 0.2 ),
+)

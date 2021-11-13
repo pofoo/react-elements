@@ -13,22 +13,28 @@ interface Content {
 }
 
 interface Props {
+    // customization
     className?: string;
     content: Content;
+    // styling
     color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
+    isRounded?: boolean;
 }
 
 const Tag = ( {
     className,
     content,
+    color='green',
+    isRounded=true,
 }: Props ) => {
 
     const { text, icon=null } = content;
-    // border + circular
 
     const tagClasses = `
         tag-wrapper
         ${className}
+        ${color}
+        ${isRounded ? 'rounded' : ''}
     `;
 
     // TO-DO - implement icon

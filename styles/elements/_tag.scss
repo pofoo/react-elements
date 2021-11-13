@@ -1,15 +1,34 @@
+// dependencies
+@use 'sass:map';
+// constants
+@use '../constants/colors' as *;
+
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$tag--padding:              1rem;
-$tag--border:               2px solid black;
+$tag--padding:              0.8rem;
+$tag--border:               0.12em solid black;
+$tag--border-radius:        0.6rem;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
-// TO - DO - implement all the colors
-
 .tag-wrapper {
     padding: $tag--padding;
     border: $tag--border;
+    width: max-content;
+
+    &.rounded {
+        border-radius: $tag--border-radius;
+    }
+
+    $shadow: map.get( $shadow, 'gray' );
+    @each $color, $color-map in $colors {
+        &.#{$color} {
+            $background: map.get( $color-map, 2 );
+            box-shadow: 0 3px 3px $shadow;
+
+            background: $background;
+        }
+    }
 }

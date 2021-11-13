@@ -22,7 +22,7 @@ SVGFormButton.args = {
   content: {
     text: 'Click Me!',
     icon: {
-      data: '/favicon.svg/',
+      data: '/favicon.svg',
       alt: 'button SVG'
     }
   }
