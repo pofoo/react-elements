@@ -53,7 +53,7 @@ $button--transition:                0.24s ease;
             border-radius: 100%;
             position: absolute;
             opacity: 0.75;
-            background-color: #ffffff;
+            background: #ffffff;
             animation: ripple ease-out;
         }
     }
@@ -90,7 +90,7 @@ $button--transition:                0.24s ease;
         $box-shadow: $box-shadow--size2 map.get( $shadow-colors, 2 ),
                         $box-shadow--size1 map.get( $shadow-colors, 1 );
 
-        background-color: $background;
+        background: $background;
         box-shadow: $box-shadow;
         
 

@@ -27,7 +27,7 @@ interface Props {
     // styling
     type?: 'submit' | 'reset';
     size?: 'sm' | 'md' | 'lg';
-    color?: 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
+    color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
     fillType?: 'gradient';
     hoverType?: 'lift' | 'press' | 'pulse' | 'glimmer';
     clickType?: 'ripple';
@@ -53,6 +53,8 @@ const FormButton = ( {
     /* CONTENT */
     const { text, icon=null } = content;
 
+    // should button--color be the className?
+    // or should I have just the color className so it can be reused
     /* CLASSNAMES */
     const buttonClasses = `
         button-wrapper
@@ -78,7 +80,7 @@ const FormButton = ( {
                         width={50} height={50} />
                 )
             }
-            {text}
+            <span className='button-text'>{text}</span>
             {
                 clickType === 'ripple' && (
                     <Ripple />

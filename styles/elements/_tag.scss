@@ -1,16 +1,15 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$progress-bar--height:              0.5em;
+$tag--padding:              1rem;
+$tag--border:               2px solid black;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
-.progress-bar-container {
-    .progress-bar-wrapper {
-        position: fixed;
-        width: 100%;
-        height: $progress-bar--height;
-        z-index: 99;
-    }
+// TO - DO - implement all the colors
+
+.tag-wrapper {
+    padding: $tag--padding;
+    border: $tag--border;
 }
