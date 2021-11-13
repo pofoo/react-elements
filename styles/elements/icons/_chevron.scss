@@ -27,5 +27,9 @@ $chevron--normalize:            math.div( $chevron--length, 3 );
         transition: transform 0.22s ease;
     
         @include direction( $chevron--normalize );
+
+        &.active {
+            transform: rotate( -45deg );
+        }
     }
 }

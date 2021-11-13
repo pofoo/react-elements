@@ -19,7 +19,7 @@ interface Props {
 }
 
 /**
- * Link Buttons redirect to another part of the website (internal)
+ * Link Buttons redirect to another part of the website (internal).
  */
 const LinkButton = ( {
     className,

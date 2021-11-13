@@ -5,7 +5,7 @@ import { Line as Icon } from '../../../elements';
 
 
 export default {
-  title: 'Element/Icon',
+  title: 'Element/Icon/Line',
   component: Icon,
 } as ComponentMeta<typeof Icon>;
 

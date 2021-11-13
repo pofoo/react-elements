@@ -5,7 +5,7 @@ import { LinkButton as Button } from '../../../elements';
 
 
 export default {
-  title: 'Element/Button',
+  title: 'Element/Button/Link Button',
   component: Button,
 } as ComponentMeta<typeof Button>;
 

@@ -5,7 +5,7 @@ import { Arrow as Icon } from '../../../elements';
 
 
 export default {
-  title: 'Element/Icon',
+  title: 'Element/Icon/Arrow',
   component: Icon,
 } as ComponentMeta<typeof Icon>;
 

@@ -5,7 +5,7 @@ import { Triangle as Icon } from '../../../elements';
 
 
 export default {
-  title: 'Element/Icon',
+  title: 'Element/Icon/Triangle',
   component: Icon,
 } as ComponentMeta<typeof Icon>;
 

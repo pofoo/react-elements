@@ -5,7 +5,7 @@ import { Chevron as Icon } from '../../../elements';
 
 
 export default {
-  title: 'Element/Icon',
+  title: 'Element/Icon/Chevron',
   component: Icon,
 } as ComponentMeta<typeof Icon>;
 

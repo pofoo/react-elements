@@ -4,27 +4,35 @@ import { FC, MouseEvent, useState } from 'react';
 import { EventFunction } from 'types';
 
 /* TYPES */
+interface AriaLabel {
+    pressedLabel: string;
+    notPressedLabel: string;
+}
+
 interface Props {
     // customization
     className?: string;
     // event handlers
     onClick: EventFunction;
     // accessibility
-    ariaLabel: string;
+    ariaLabel: AriaLabel;
     ariaHasPopup?: boolean;
     isPressed?: boolean;
 }   
 
 /**
- * Buttons that toggle states - for example. showing more information onClick
- * Because Toggle Buttons can vary in size and styling, this element does not specifiy a content field
- * Instead, children will be rendered
+ * Buttons that toggle states - for example, showing more information onClick.
+ * Because Toggle Buttons can vary in size and styling, this element does not specifiy a content field.
+ * Instead, children will be rendered.
  */
 const ToggleButton: FC<Props> = ( { 
     children,
     className,
     onClick,
-    ariaLabel,
+    ariaLabel: {
+        pressedLabel,
+        notPressedLabel,
+    },
     ariaHasPopup=true,
     isPressed=false
 } ) => {
@@ -47,7 +55,7 @@ const ToggleButton: FC<Props> = ( {
     // 
     return (
         <button className={buttonClasses} onClick={onPress} type='button'
-            aria-pressed={pressed} aria-haspopup={ariaHasPopup} aria-label={ariaLabel}>
+            aria-pressed={pressed} aria-haspopup={ariaHasPopup} aria-label={pressed ? pressedLabel : notPressedLabel}>
             {children}
         </button>
     );

@@ -34,7 +34,7 @@ interface ButtonProps {
 }
 
 /**
- * Submit and Reset Button for Forms
+ * Submit and Reset Button for Forms.
  */
 const FormButton = ( {
     className,
