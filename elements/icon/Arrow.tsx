@@ -1,5 +1,5 @@
 /* TYPES */
-interface ArrowProps {
+interface Props {
     // customization
     id?: string;
     className?: string;
@@ -23,7 +23,7 @@ const Arrow = ( {
     isActive,
     ariaLabel,
     isPresentation=false,
-}: ArrowProps ) => {
+}: Props ) => {
 
     const arrowWrapperClasses = `
         ${className}

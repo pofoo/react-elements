@@ -16,3 +16,14 @@ FormButton.args = {
     text: 'Click Me!',
   }
 }
+
+export const SVGFormButton = Template.bind({});
+SVGFormButton.args = {
+  content: {
+    text: 'Click Me!',
+    icon: {
+      data: '/favicon.svg/',
+      alt: 'button SVG'
+    }
+  }
+}

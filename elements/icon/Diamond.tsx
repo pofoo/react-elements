@@ -1,5 +1,5 @@
 /* TYPES */
-interface DiamondProps {
+interface Props {
     // customization
     id?: string;
     className?: string;
@@ -19,7 +19,7 @@ const Diamond = ( {
     isActive,
     ariaLabel,
     isPresentation=false,
-}: DiamondProps ) => {
+}: Props ) => {
 
     const diamondWrapperClasses = `
         ${className}

@@ -1,5 +1,5 @@
 /* TYPES */
-interface TriangleProps {
+interface Props {
     // customization
     id?: string;
     className?: string;
@@ -21,7 +21,7 @@ const Triangle = ( {
     isActive,
     ariaLabel,
     isPresentation=false,
-}: TriangleProps ) => {
+}: Props ) => {
 
     const triangleWrapperClasses = `
         ${className}

@@ -1,5 +1,5 @@
 /* TYPES */
-interface LineProps {
+interface Props {
     // customization
     id?: string;
     className?: string;
@@ -18,7 +18,7 @@ const Line = ( {
     isRounded,
     ariaLabel,
     isPresentation=true,
-}: LineProps ) => {
+}: Props ) => {
 
     const lineClasses = `
         line

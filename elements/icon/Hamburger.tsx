@@ -2,7 +2,7 @@
 import Line from './Line';
 
 /* TYPES */
-interface HamburgerProps {
+interface Props {
     // customization
     id?: string;
     className?: string;
@@ -27,7 +27,7 @@ const Hamburger = ( {
     isActive,
     ariaLabel,
     isPresentation=false,
-}: HamburgerProps ) => {
+}: Props ) => {
 
     const activeClass = isActive ? 'active': '';
 

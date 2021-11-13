@@ -15,7 +15,7 @@ interface Content {
     }
 }
 
-interface ButtonProps {
+interface Props {
     // customization
     className?: string;
     content: Content;
@@ -48,7 +48,7 @@ const FormButton = ( {
     fillType,
     hoverType='lift',
     clickType,
-}: ButtonProps ) => {
+}: Props ) => {
 
     /* CONTENT */
     const { text, icon=null } = content;

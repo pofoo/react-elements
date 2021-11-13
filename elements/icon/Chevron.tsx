@@ -1,5 +1,5 @@
 /* TYPES */
-interface ChevronProps {
+interface Props {
     // customization
     id?: string;
     className?: string;
@@ -23,7 +23,7 @@ const Chevron = ( {
     isActive,
     ariaLabel,
     isPresentation=false,
-}: ChevronProps ) => {
+}: Props ) => {
 
     const chevronWrapperClasses = `
         chevron-wrapper
