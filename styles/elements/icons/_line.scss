@@ -13,4 +13,8 @@ $line--color:                   black;
     width: $line--width;
     height: $line--height;
     background: $line--color;
+
+    &.rounded {
+        border-radius: $line--width;
+    }
 }

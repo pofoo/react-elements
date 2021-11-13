@@ -3,6 +3,7 @@ interface LineProps {
     // customization
     id?: string;
     className?: string;
+    isRounded?: boolean;
     // accessibility
     ariaLabel: string;
     isPresentation?: boolean;
@@ -14,6 +15,7 @@ interface LineProps {
 const Line = ( {
     id,
     className,
+    isRounded,
     ariaLabel,
     isPresentation=true,
 }: LineProps ) => {
@@ -21,6 +23,7 @@ const Line = ( {
     const lineClasses = `
         line
         ${className}
+        ${isRounded ? 'rounded' : ''}
     `;
 
     return (

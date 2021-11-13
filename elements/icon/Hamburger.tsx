@@ -6,6 +6,9 @@ interface HamburgerProps {
     // customization
     id?: string;
     className?: string;
+    // TO-DO - implement xBorder
+    xBorder?: 'circle' | 'square';
+    isRounded?: boolean;
     // states
     isActive?: boolean;
     // accessibility
@@ -19,6 +22,8 @@ interface HamburgerProps {
 const Hamburger = ( { 
     id,
     className,
+    xBorder,
+    isRounded=true,
     isActive,
     ariaLabel,
     isPresentation=false,
@@ -29,15 +34,21 @@ const Hamburger = ( {
     const hamburgerClasses = `
         hamburger
         ${className}
-        ${isActive ? 'active': 'not-active'}
+        ${xBorder && `${xBorder} border`}
+        ${activeClass}
+    `;
+
+    const lineClasses = `
+        ${activeClass}
+        ${isRounded ? 'rounded' : ''}
     `;
 
     return (
         <span id={id} className={hamburgerClasses}
             role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel}>
-            <Line id='hamburger-line' className={activeClass} ariaLabel='hamburger-line'/>
-            <Line id='hamburger-line' className={activeClass} ariaLabel='hamburger-line'/>
-            <Line id='hamburger-line' className={activeClass} ariaLabel='hamburger-line'/>
+            <Line id='hamburger-line' className={lineClasses} ariaLabel='hamburger-line'/>
+            <Line id='hamburger-line' className={lineClasses} ariaLabel='hamburger-line'/>
+            <Line id='hamburger-line' className={lineClasses} ariaLabel='hamburger-line'/>
         </span>
     )
 }

@@ -5,43 +5,79 @@ $hamburger-line--width: 		        3em;
 $hamburger-line--height:                0.35em;
 $hamburger--spacing:                    0.4em;
 $hamburger--color:                      black;
+$hamburger--transition:                 0.33s ease-out;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
 .hamburger {
-    transition: transform 1s ease;
+    position: relative;
+    transition: transform $hamburger--transition;
+
+    /* TO-DO - implement border for hamburger close states (active) */
+    // &.border {
+    //     // SQUARE border
+    //     &:before {
+    //         position: absolute;
+    //         content: '';
+    //         width: 5em;
+    //         height: 5em;
+    //         border: 0.35em solid transparent;
+    //         // top: calc(50% -  2.5em );
+    //         // left: calc(50% - 2.5em );
+    //         // 0.34
+    //         // top: -1.36em;
+    //         // 0.11625
+    //         // left: -0.465em;
+    //         top: -1.7em;
+    //         left: -0.58125em;
+    //         top: calc(50% - 2.5em);
+    //         left: calc(50% - 2.5em);
+    
+    //         // TO-DO - figure out how to make this OPACITY transition
+    //         transition: all 0.3s ease;
+    //     }
+
+    //     &.circle {
+    //         &:before {
+    //             border-radius: 100%;
+    //         }
+    //     }
+    // }
+    // &.active {
+    //     // TO-DO - add a toggle className of circle
+    //     &:before {
+    //         border: 5px solid black;
+    //     }
+    // }
 
     #hamburger-line {
         width: $hamburger-line--width;
         height: $hamburger-line--height;
         margin: $hamburger--spacing;
         background: $hamburger--color;
-    }
 
-    &:before {
-        content: "";
-        position: absolute;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        width: 70px;
-        height: 70px;
-        border: 5px solid transparent;
-        top: calc(50% - 35px);
-        left: calc(50% - 35px);
-        border-radius: 100%;
-        -webkit-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-    }
+        transition: transform $hamburger--transition,
+                    opacity $hamburger--transition;
 
-    &.active {
-
-        &:before {
-            border: 5px solid #ecf0f1;
+        &.rounded {
+            border-radius: $hamburger-line--width;
         }
-        
-        transform: rotate( 45deg );
+
+        &.active {
+            $shift-y: 11.92px;
+
+            &:nth-child( 1 ) {
+                transform: translateY( $shift-y ) rotate( 45deg );
+            }
+
+            &:nth-child( 2 ) {
+                opacity: 0;
+            }
+
+            &:nth-child( 3 ) {
+                transform: translateY( -$shift-y ) rotate( 135deg );
+            }
+        }
     }
 }
