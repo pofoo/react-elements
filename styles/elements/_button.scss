@@ -22,6 +22,8 @@ $button--border-width:              3px;
 
 $button--transition:                0.24s ease;
 
+$button-disabled--opacity:          70%;
+
 /*--------------------------------------------------------------
 # Styling / Regular Buttons
 --------------------------------------------------------------*/
@@ -57,6 +59,107 @@ $button--transition:                0.24s ease;
             animation: ripple ease-out;
         }
     }
+
+
+    /* COLORS */
+    @each $color, $color-map in $colors {
+        &.#{$color} {
+            $background: map.get( $color-map, 2 );
+            $shadow-colors: getShadowColors( map.get( $color-map, 2 ) );
+            
+            // DARKER box-shadow size
+            $box-shadow--size2: 1px 1px 2px;
+            // LIGHTER box-shadow size
+            $box-shadow--size1: 1px 1px 4px 0.35px;
+            $box-shadow: $box-shadow--size2 map.get( $shadow-colors, 2 ),
+                            $box-shadow--size1 map.get( $shadow-colors, 1 );
+
+            background: $background;
+            box-shadow: $box-shadow;
+            
+
+            // TO-DO - figure out the best way to do focus state
+            // take into account mobile devices and accessibility concerns
+            // OPTIONS: border, box-shadow,
+            // transition: border-color $button--transition;
+            // &:focus {
+
+            // }
+
+            /* FILL TYPES */
+            // adds a subtle radial gradient at the top left corner of the button
+            &.gradient {
+                $light-gradient: color.adjust( map.get( $color-map, 2 ), $lightness: 12% );
+                background: radial-gradient( 
+                            farthest-corner at 0 0, 
+                            $light-gradient,
+                            map.get( $color-map, 2 ), 
+                        );
+            }
+
+            /* HOVER TYPES */
+            // moves button up and adds spread-radius to box-shadow
+            &.lift {
+                transition: transform $button--transition,
+                            box-shadow $button--transition;
+
+                @include hover {
+                    transform: translateY( -2.5px );
+                    box-shadow: $box-shadow--size2 map.get( $shadow-colors, 2 ),
+                                1px 1px 6px 1.5px map.get( $shadow-colors, 1 );
+                }
+            }
+            // real world button-press effect
+            &.press {
+                transition: box-shadow 0.35s ease;
+
+                @include hover {
+                    box-shadow: $box-shadow,
+                                inset 1px 1px 6px map.get( $shadow-colors, 2 ),
+                                inset 1px 1px 4px map.get( $shadow-colors, 1 );
+                }
+            }
+            // pulsing outward effect
+            &.pulse {
+                transition: box-shadow 0.37s ease;
+
+                @include hover {
+                    box-shadow: 1px 1px 2px 0.3px map.get( $shadow-colors, 2),
+                                1px 1px 4px 3px map.get( $shadow-colors, 1 );
+                }
+            }
+            // subtle color glimmer shift effect
+            &.glimmer {
+                // line that creates the glimmer effect
+                &::after {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    background: rgba(255, 255, 255, 0.5);
+                    width: 30px;
+                    height: 100%;
+                    top: 0;
+                    filter: blur( 5px );
+                    transform: translateX(-100px) skewX(-15deg);
+                }
+
+                @include hover {                
+                    &::after {
+                        transition: transform 0.7s ease;
+                        // move the line over the button
+                        transform: translateX(150px) skewX(-15deg);
+                    }
+                }
+            }
+        }
+    }
+
+    /* STATES */
+    &.disabled {
+        pointer-events: none;
+        opacity: $button-disabled--opacity;
+    }
+
 }
 
 .link-button-wrapper {
@@ -75,105 +178,6 @@ $button--transition:                0.24s ease;
 
 .button--sm {
     padding-inline: $button-sm--padding;
-}
-
-/* COLORS */
-@each $color, $color-map in $colors {
-    .button--#{$color} {
-        $background: map.get( $color-map, 2 );
-        $shadow-colors: getShadowColors( map.get( $color-map, 2 ) );
-        
-        // DARKER box-shadow size
-        $box-shadow--size2: 1px 1px 2px;
-        // LIGHTER box-shadow size
-        $box-shadow--size1: 1px 1px 4px 0.35px;
-        $box-shadow: $box-shadow--size2 map.get( $shadow-colors, 2 ),
-                        $box-shadow--size1 map.get( $shadow-colors, 1 );
-
-        background: $background;
-        box-shadow: $box-shadow;
-        
-
-        // TO-DO - figure out the best way to do focus state
-        // take into account mobile devices and accessibility concerns
-        // OPTIONS: border, box-shadow,
-        // transition: border-color $button--transition;
-        // &:focus {
-
-        // }
-
-        /* FILL TYPES */
-        // adds a subtle radial gradient at the top left corner of the button
-        &.gradient {
-            $light-gradient: color.adjust( map.get( $color-map, 2 ), $lightness: 12% );
-            background: radial-gradient( 
-                        farthest-corner at 0 0, 
-                        $light-gradient,
-                        map.get( $color-map, 2 ), 
-                    );
-        }
-
-        /* HOVER TYPES */
-        // moves button up and adds spread-radius to box-shadow
-        &.lift {
-            transition: transform $button--transition,
-                        box-shadow $button--transition;
-
-            @include hover {
-                transform: translateY( -2.5px );
-                box-shadow: $box-shadow--size2 map.get( $shadow-colors, 2 ),
-                            1px 1px 6px 1.5px map.get( $shadow-colors, 1 );
-            }
-        }
-        // real world button-press effect
-        &.press {
-            transition: box-shadow 0.35s ease;
-
-            @include hover {
-                box-shadow: $box-shadow,
-                            inset 1px 1px 6px map.get( $shadow-colors, 2 ),
-                            inset 1px 1px 4px map.get( $shadow-colors, 1 );
-            }
-        }
-        // pulsing outward effect
-        &.pulse {
-            transition: box-shadow 0.37s ease;
-
-            @include hover {
-                box-shadow: 1px 1px 2px 0.3px map.get( $shadow-colors, 2),
-                            1px 1px 4px 3px map.get( $shadow-colors, 1 );
-            }
-        }
-        // subtle color glimmer shift effect
-        &.glimmer {
-            // line that creates the glimmer effect
-            &::after {
-                content: '';
-                display: block;
-                position: absolute;
-                background: rgba(255, 255, 255, 0.5);
-                width: 30px;
-                height: 100%;
-                top: 0;
-                filter: blur( 5px );
-                transform: translateX(-100px) skewX(-15deg);
-            }
-
-            @include hover {                
-                &::after {
-                    transition: transform 0.7s ease;
-                    // move the line over the button
-                    transform: translateX(150px) skewX(-15deg);
-                }
-            }
-        }
-    }
-}
-
-/* STATES */
-.button--disabled {
-    pointer-events: none;
-    opacity: 70%;
 }
 
 /*--------------------------------------------------------------

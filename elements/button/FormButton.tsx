@@ -60,9 +60,9 @@ const FormButton = ( {
         button-wrapper
         ${className}
         ${isLoading && 'loading'}
-        button--${color}
+        ${color}
         button--${size}
-        ${isDisabled && 'button--disabled'}
+        ${isDisabled && 'disabled'}
         ${fillType}
         ${hoverType}
         ${clickType !== 'ripple' && clickType}
