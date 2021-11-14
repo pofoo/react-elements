@@ -5,6 +5,7 @@ import LabelInput from './label-input';
 import { Arrow, Chevron, Hamburger, Triangle, Diamond, Line } from './icon';
 import Tag from './tag';
 import { TextHighlight } from './text';
+import Card from './card';
 
 export {
     ProgressBar,
@@ -21,4 +22,5 @@ export {
     Line,
     Tag,
     TextHighlight,
+    Card,
 }
