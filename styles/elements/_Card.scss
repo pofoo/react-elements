@@ -1,7 +1,35 @@
+// dependencies
+@use 'sass:map';
+// constants
+@use '../constants/colors' as *;
+
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
+$card--width:                       12rem;
+// this shouldn't need to be specified in a flex container
+$card--height:                      15rem;
+$card--padding:                     0.8rem;
+$card--border-radius:               0.5rem;
+$card--box-shadow:                   0 1.5px 10px;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
+.card-wrapper {
+    width: $card--width;
+    height: $card--height;
+    padding: $card--padding;
+
+    &.rounded {
+        border-radius: $card--border-radius;
+    }
+    
+    /* COLORS */
+    @each $color, $color-map in $colors {
+        &.#{$color} {
+            box-shadow: $card--box-shadow 1px map.get( $color-map, 3 ),
+                        $card--box-shadow 1.5px map.get( $color-map, 2 );
+        }
+    }
+}
