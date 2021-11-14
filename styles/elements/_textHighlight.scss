@@ -6,7 +6,7 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$text-highlight--transition:              transform 0.3s ease;
+$text-highlight--transition:              0.3s ease;
 
 /*--------------------------------------------------------------
 # Styling
@@ -23,7 +23,7 @@ $text-highlight--transition:              transform 0.3s ease;
             top: 0; right: 0; bottom: 0; left: 0;
             inset: 0 0 0 0;
             z-index: -1;
-            transition: $text-highlight--transition;
+            transition: transform $text-highlight--transition;
             transform: scaleX(0);
             transform-origin: bottom right;
         }
