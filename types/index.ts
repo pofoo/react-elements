@@ -6,6 +6,7 @@ import OnChange from './onChange';
 import OnSubmit from './onSubmit';
 import OnInput from './onInput';
 import Colors from './colors';
+import Image from './Image';
 
 export type {
     Href,
@@ -16,4 +17,5 @@ export type {
     OnSubmit,
     OnInput,
     Colors,
+    Image,
 }

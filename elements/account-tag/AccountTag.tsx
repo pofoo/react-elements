@@ -2,13 +2,20 @@
 import Image from 'next/image';
 
 /* TYPES */
+type Image = {
+    src: string;
+    alt: string;
+}
+
 // EITHER an image or name needs to be specified
+// type Content = {
+//     ['image']: Image;
+//     image: Image;
+// }
+
 interface Content {
-    image?: {
-        src: string;
-        alt: string;
-    },
-    name: string;
+    name?: string;
+    image?: Image;
 }
 
 interface Props {
@@ -23,6 +30,7 @@ interface Props {
 const AccountTag = ( {
     className,
     content,
+    name,
     image,
 }: Props ) => {
     
@@ -35,7 +43,7 @@ const AccountTag = ( {
     
     return (
         <div className={accountClasses}>
-            <Image src={image?.src} alt={image?.alt}
+            <Image src={image?.src as string} alt={image?.alt as string}
                 className='account-image'
                 width='35' height='35' />
             <span className='account-name'>
