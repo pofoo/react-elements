@@ -37,9 +37,11 @@ $text-highlight--transition:              0.3s ease;
     }
 
     @each $color, $color-map in $colors {
-        > * {
-            &:before {
-                background: map.get( $color-map, 2 );
+        &.#{$color} {
+            > * {
+                &:before {
+                    background: map.get( $color-map, 2 );
+                }
             }
         }
     }
