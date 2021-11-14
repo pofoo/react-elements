@@ -6,7 +6,7 @@ import { TextHighlight as Element } from '../../../elements';
 
 
 export default {
-  title: 'Element/Text/TextHighlight',
+  title: 'Element/Text/Text Highlight',
   component: Element,
 } as ComponentMeta<typeof Element>;
 

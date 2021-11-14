@@ -1,0 +1,44 @@
+// constants
+@use '../constants/breakpoints' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$card-panel--gap:                   1.5rem;
+// TO-DO - implement smart card-panel-collumn numbers
+// includes gap + container width + card width
+// FOR GRID LAYOUT
+// $card-panel--collumns:              26rem;
+
+$card--width:                       15rem;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+/* GRID */
+.card-panel {
+    display: grid;
+    place-items: center;
+    // TO-DO - implement smart card-panel-collumn numbers
+    grid-template-columns: repeat( auto-fill, minmax( 15rem, 1fr ) );
+    gap: $card-panel--gap;
+}
+
+/* FLEX BOX */
+.centered-card-panel {
+    display: flex;
+    flex-flow: row wrap;
+    place-content: center;
+    
+    #card-panel-card {
+        // everything except the first and last child element
+        &:not( :first-child ):not( :last-child ) {
+            margin: 0 $card-panel--gap $card-panel--gap $card-panel--gap;
+        }
+    }
+}
+
+#card-panel-card {
+    // custom styling here
+    width: $card--width;
+}

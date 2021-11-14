@@ -1,7 +1,10 @@
+// dependencies
+import { nanoid } from 'nanoid';
 // types
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-// elements
+// components
 import { CardPanel as Component } from '../../../components';
+import { Card } from '../../../elements';
 
 
 export default {
@@ -9,7 +12,16 @@ export default {
   component: Component,
 } as ComponentMeta<typeof Component>;
 
-const Template: ComponentStory<typeof Component> = ( args ) => <Component {...args} />;
+const CardPanelComponent = ( args: any ) => {
+    return (
+        <Component>
+            {
+                [ ...Array(7)].map( () => <Card id='card-panel-card' key={nanoid(5)} /> )
+            }
+        </Component>
+    )
+}
+const Template: ComponentStory<typeof CardPanelComponent> = ( args ) => <CardPanelComponent {...args} />;
 export const CardPanel = Template.bind({});
 CardPanel.args = {
 }

@@ -7,18 +7,23 @@ interface Props {
     id?: string;
     className?: string;
     // styling
-    isCentered: boolean;
+    isCentered?: boolean;
 }
 
+/**
+ * Card Panel.
+ * ERROR - for some reason storybook doesn't refresh when the 'isCentered' prop is toggled.
+ * To see both styles, you have to manually change the code
+ */
 const CardPanel: FC<Props> = ( {
     children,
     id,
     className,
-    isCentered,
+    isCentered=true,
 } ) => {
 
     const cardPanelClasses = `
-        ${isCentered ? 'centerd-card-panel' : 'card-panel'}
+        ${isCentered ? 'centered-card-panel' : 'card-panel'}
         ${className}
     `;
 
