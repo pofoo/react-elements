@@ -17,11 +17,16 @@ $button-sm--padding:                1rem;
 $button--default-padding:           0.8rem;
 
 $button--border-radius:             5px;
-$button--border-width:              3px;
+$link-button--border-radius:        15px;
 
 $button--transition:                0.24s ease;
 
 $button-disabled--opacity:          70%;
+
+// DARKER box-shadow size
+$button--box-shadow--size2: 1px 1px 2px;
+// LIGHTER box-shadow size
+$button--box-shadow--size1: 1px 1px 4px 0.35px;
 
 /*--------------------------------------------------------------
 # Styling / Regular Buttons
@@ -69,23 +74,17 @@ $button-disabled--opacity:          70%;
             $background: map.get( $color-map, 2 );
             $shadow-colors: getShadowColors( map.get( $color-map, 2 ) );
             
-            // DARKER box-shadow size
-            $box-shadow--size2: 1px 1px 2px;
-            // LIGHTER box-shadow size
-            $box-shadow--size1: 1px 1px 4px 0.35px;
-            $box-shadow: $box-shadow--size2 map.get( $shadow-colors, 2 ),
-                            $box-shadow--size1 map.get( $shadow-colors, 1 );
+            $box-shadow: $button--box-shadow--size2 map.get( $shadow-colors, 2 ),
+                            $button--box-shadow--size1 map.get( $shadow-colors, 1 );
 
             background: $background;
             box-shadow: $box-shadow;
             
-
             // TO-DO - figure out the best way to do focus state
             // take into account mobile devices and accessibility concerns
             // OPTIONS: border, box-shadow,
             // transition: border-color $button--transition;
             // &:focus {
-
             // }
 
             /* FILL TYPES */
@@ -107,7 +106,7 @@ $button-disabled--opacity:          70%;
 
                 @include hover {
                     transform: translateY( -2.5px );
-                    box-shadow: $box-shadow--size2 map.get( $shadow-colors, 2 ),
+                    box-shadow: $button--box-shadow--size2 map.get( $shadow-colors, 2 ),
                                 1px 1px 6px 1.5px map.get( $shadow-colors, 1 );
                 }
             }
@@ -165,8 +164,34 @@ $button-disabled--opacity:          70%;
 }
 
 .link-button-wrapper {
-    border-radius: $button--border-radius;
     padding: $button--default-padding;
+    width: max-content;
+
+    transition: border-radius 0.3s ease;
+
+    &.rounded {
+        // border-radius: $link-button--border-radius;
+    }
+
+    &.sticky {
+        transition: border-radius $button--transition
+                    box-shadow $button--transition;
+
+        &:hover {
+            border-radius: 0 50% 0 0;
+        }
+    }
+
+    /* COLORS */
+    @each $color-name, $color in $background {
+        &.#{$color-name} {
+            $shadow-colors: getShadowColors( $color );
+
+            background: $color;
+            // box-shadow: $button--box-shadow--size2 map.get( $shadow-colors, 2 ),
+            //             $button--box-shadow--size1 map.get( $shadow-colors, 1 );
+        }
+    }
 }
 
 /* SIZES */
