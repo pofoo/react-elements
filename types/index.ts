@@ -5,7 +5,7 @@ import EventFunction from './eventFunction';
 import OnChange from './onChange';
 import OnSubmit from './onSubmit';
 import OnInput from './onInput';
-import Colors from './colors';
+import { Colors, BackgroundColors } from './colors';
 import Image from './Image';
 
 export type {
@@ -17,5 +17,6 @@ export type {
     OnSubmit,
     OnInput,
     Colors,
+    BackgroundColors,
     Image,
 }

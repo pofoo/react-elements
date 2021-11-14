@@ -12,8 +12,6 @@ interface Props {
 
 /**
  * Card Panel.
- * ERROR - for some reason storybook doesn't refresh when the 'isCentered' prop is toggled.
- * To see both styles, you have to manually change the code
  */
 const CardPanel: FC<Props> = ( {
     children,

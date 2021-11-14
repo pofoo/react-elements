@@ -12,9 +12,10 @@ export default {
   component: Component,
 } as ComponentMeta<typeof Component>;
 
-const CardPanelComponent = ( args: any ) => {
+const CardPanelComponent = ( args: { isCentered: boolean } ) => {
+
     return (
-        <Component>
+        <Component isCentered={args.isCentered}>
             {
                 [ ...Array(7)].map( () => <Card id='card-panel-card' key={nanoid(5)} /> )
             }
@@ -24,4 +25,5 @@ const CardPanelComponent = ( args: any ) => {
 const Template: ComponentStory<typeof CardPanelComponent> = ( args ) => <CardPanelComponent {...args} />;
 export const CardPanel = Template.bind({});
 CardPanel.args = {
+    isCentered: true,
 }

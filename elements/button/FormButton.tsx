@@ -29,6 +29,7 @@ interface Props {
     size?: 'sm' | 'md' | 'lg';
     color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
     fillType?: 'gradient';
+    isRounded?: boolean;
     hoverType?: 'lift' | 'press' | 'pulse' | 'glimmer';
     clickType?: 'ripple';
 }
@@ -46,6 +47,7 @@ const FormButton = ( {
     size='md',
     color='green',
     fillType,
+    isRounded=true,
     hoverType='lift',
     clickType,
 }: Props ) => {
@@ -64,6 +66,7 @@ const FormButton = ( {
         button--${size}
         ${isDisabled && 'disabled'}
         ${fillType}
+        ${isRounded ? 'rounded' : ''}
         ${hoverType}
         ${clickType !== 'ripple' && clickType}
     `;

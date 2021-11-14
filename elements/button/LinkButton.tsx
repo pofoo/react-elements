@@ -2,6 +2,7 @@
 import Link from 'next/link';
 // types
 import { Href } from 'types';
+// import { BackgroundColors } from 'types';
 // partials
 import SVG from '../svg';
 import { Arrow } from '../icon';
@@ -23,6 +24,7 @@ interface Props {
     // styling
     // TO-DO - implement header + footer links styles
     type?: 'CTA' | 'header' | 'footer';
+    color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
 }
 
 /**
@@ -33,6 +35,7 @@ const LinkButton = ( {
     content,
     href,
     type,
+    color,
 }: Props ) => {
 
     const { text, icon=null } = content;
@@ -47,6 +50,7 @@ const LinkButton = ( {
         link-button-wrapper
         ${className}
         ${type}
+        ${color}
     `;
 
     return (

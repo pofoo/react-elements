@@ -14,7 +14,6 @@
 $button-lg--padding:                1.5rem;
 $button-md--padding:                1.25rem;
 $button-sm--padding:                1rem;
-
 $button--default-padding:           0.8rem;
 
 $button--border-radius:             5px;
@@ -35,12 +34,15 @@ $button-disabled--opacity:          70%;
 }
 
 .button-wrapper {
-    border-radius: $button--border-radius;
     padding: $button--default-padding;
 
     position: relative;
     overflow: hidden;
     text-shadow: white 0 0 10px;
+
+    &.rounded {
+        border-radius: $button--border-radius;
+    }
 
     /* PARTIALS */
     .ripple-wrapper {
