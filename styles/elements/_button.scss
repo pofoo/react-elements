@@ -5,7 +5,6 @@
 // constants
 @use '../constants/colors' as *;
 // utils
-@use '../utils/colors' as *;
 @use '../utils/states' as *;
 
 /*--------------------------------------------------------------
@@ -72,7 +71,10 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     @each $color, $color-map in $colors {
         &.#{$color} {
             $background: map.get( $color-map, 2 );
-            $shadow-colors: getShadowColors( map.get( $color-map, 2 ) );
+            $shadow-colors: (
+                2: color.adjust( map.get( $color-map, 2 ), $lightness: -50% ),
+                1: color.adjust( map.get( $color-map, 2 ), $lightness: -30% ),
+            );
             
             $box-shadow: $button--box-shadow--size2 map.get( $shadow-colors, 2 ),
                             $button--box-shadow--size1 map.get( $shadow-colors, 1 );
