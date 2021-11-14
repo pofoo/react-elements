@@ -6,17 +6,17 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$text-highlight--color:                 map.get( $colors, 'green', 2 );
+$text-select--color:                 map.get( $colors, 'green', 2 );
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
 /* WEBKIT / BLINK BROWSERS */
 ::selection {
-    background: $text-highlight--color; 
+    background: $text-select--color; 
 }
 
 /* GECKO BROWSERS */
 ::-moz-selection {
-    background: $text-highlight--color; 
+    background: $text-select--color; 
 }

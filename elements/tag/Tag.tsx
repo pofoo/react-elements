@@ -21,6 +21,9 @@ interface Props {
     isRounded?: boolean;
 }
 
+/**
+ * Tag to categorize a piece of content
+ */
 const Tag = ( {
     className,
     content,

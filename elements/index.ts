@@ -4,6 +4,7 @@ import SVG from './svg';
 import LabelInput from './label-input';
 import { Arrow, Chevron, Hamburger, Triangle, Diamond, Line } from './icon';
 import Tag from './tag';
+import { TextHighlight } from './text';
 
 export {
     ProgressBar,
@@ -19,4 +20,5 @@ export {
     Diamond,
     Line,
     Tag,
+    TextHighlight,
 }

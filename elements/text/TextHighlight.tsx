@@ -1,22 +1,23 @@
+// types
+import { FC } from 'react';
+// import { Colors } from 'types';
 
 /* TYPES */
-interface Content {
-    text: string;
-}
-
 interface Props {
     className?: string;
-    content: Content;
     color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
 }
 
-const TextHighlght = ( {
+/**
+ * Cool text highlight effect.
+ * Children rendered to allow user to alter text type.
+ * For example, different kinds of headers (h1 or h2).
+ */
+const TextHighlight: FC<Props> = ( {
+    children,
     className,
-    content: {
-        text,
-    },
-    color,
-}: Props ) => {
+    color='blue',
+} ) => {
 
     const textHighlightClasses = `
         text-highlight
@@ -25,8 +26,8 @@ const TextHighlght = ( {
     `;
 
     return (
-        <span className={textHighlightClasses}>{text}</span>
+        <span className={textHighlightClasses}>{children}</span>
     )
 }
 
-export default TextHighlght;
+export default TextHighlight;
