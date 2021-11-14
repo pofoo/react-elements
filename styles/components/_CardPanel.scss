@@ -31,9 +31,14 @@ $card--width:                       15rem;
     place-content: center;
     
     #card-panel-card {
-        // everything except the first and last child element
-        &:not( :first-child ):not( :last-child ) {
-            margin: 0 $card-panel--gap $card-panel--gap $card-panel--gap;
+        margin: 0 $card-panel--gap $card-panel--gap $card-panel--gap;
+
+        &:first-child {
+            margin: 0 $card-panel--gap $card-panel--gap 0;
+        }
+
+        &:last-child {
+            margin: 0 0 $card-panel--gap $card-panel--gap;
         }
     }
 }
