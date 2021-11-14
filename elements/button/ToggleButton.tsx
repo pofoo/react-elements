@@ -1,5 +1,5 @@
 // dependencies
-import { FC, MouseEvent, useState } from 'react';
+import { FC } from 'react';
 // types
 import { EventFunction } from 'types';
 
@@ -17,7 +17,7 @@ interface Props {
     // accessibility
     ariaLabel: AriaLabel;
     ariaHasPopup?: boolean;
-    isPressed?: boolean;
+    isPressed: boolean;
 }   
 
 /**
@@ -34,17 +34,8 @@ const ToggleButton: FC<Props> = ( {
         notPressedLabel,
     },
     ariaHasPopup=true,
-    isPressed=false
+    isPressed,
 } ) => {
-
-    /* HOOKS */
-    const [ pressed, setPressed ] = useState<boolean>( isPressed )
-
-    /* FUNCTIONS */
-    const onPress = ( event: MouseEvent<HTMLButtonElement> ) => {
-        onClick( event );
-        setPressed( ( pressed ) => !pressed );
-    }
 
     /* CLASSNAMES */
     const buttonClasses = `
@@ -52,10 +43,9 @@ const ToggleButton: FC<Props> = ( {
         ${className}
     `;
 
-    // 
     return (
-        <button className={buttonClasses} onClick={onPress} type='button'
-            aria-pressed={pressed} aria-haspopup={ariaHasPopup} aria-label={pressed ? pressedLabel : notPressedLabel}>
+        <button className={buttonClasses} onClick={onClick} type='button'
+            aria-pressed={isPressed} aria-haspopup={ariaHasPopup} aria-label={isPressed ? pressedLabel : notPressedLabel}>
             {children}
         </button>
     );

@@ -23,7 +23,8 @@ const HamburgerToggle = () => {
   }
 
   return (
-    <ToggleButton onClick={() => setIsActive((state) => !state)} ariaLabel={ariaLabel}>
+    <ToggleButton onClick={() => setIsActive((state) => !state)} 
+      isPressed={isActive} ariaLabel={ariaLabel}>
       <Hamburger ariaLabel='hamburger icon' isActive={isActive} />
     </ToggleButton>
   )
@@ -42,7 +43,8 @@ const ChevronToggle = () => {
   }
 
   return (
-    <ToggleButton onClick={() => setIsActive((state) => !state)} ariaLabel={ariaLabel}>
+    <ToggleButton onClick={() => setIsActive((state) => !state)} 
+      isPressed={isActive} ariaLabel={ariaLabel}>
       <Chevron ariaLabel='chevron icon' direction='down' isActive={isActive} />
     </ToggleButton>
   )
@@ -60,7 +62,8 @@ const DiamongToggle = () => {
   }
 
   return (
-    <ToggleButton onClick={() => setIsActive((state) => !state)} ariaLabel={ariaLabel}>
+    <ToggleButton onClick={() => setIsActive((state) => !state)} isPressed={isActive} 
+      ariaLabel={ariaLabel}>
       <div style={{display: 'inline-flex', border: '2px solid black', padding: '5px'}}>
         <span style={{paddingRight: '8px'}}>Click Me</span>
         <Diamond ariaLabel='diamond icon' isActive={isActive} />
