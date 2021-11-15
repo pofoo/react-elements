@@ -28,10 +28,10 @@ interface Props {
     type?: 'submit' | 'reset';
     size?: 'sm' | 'md' | 'lg';
     color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
-    fillType?: 'gradient';
+    fill?: 'gradient';
     isRounded?: boolean;
-    hoverType?: 'lift' | 'press' | 'pulse' | 'glimmer';
-    clickType?: 'ripple';
+    hover?: 'lift' | 'press' | 'pulse' | 'glimmer';
+    click?: 'ripple';
 }
 
 /**
@@ -46,10 +46,10 @@ const FormButton = ( {
     type='submit',
     size='md',
     color='green',
-    fillType,
+    fill,
     isRounded=true,
-    hoverType='lift',
-    clickType,
+    hover='lift',
+    click,
 }: Props ) => {
 
     /* CONTENT */
@@ -65,10 +65,10 @@ const FormButton = ( {
         ${color}
         button--${size}
         ${isDisabled && 'disabled'}
-        ${fillType}
+        ${fill}
         ${isRounded ? 'rounded' : ''}
-        ${hoverType}
-        ${clickType !== 'ripple' && clickType}
+        ${hover}
+        ${click !== 'ripple' && click}
     `;
 
     return (
@@ -85,7 +85,7 @@ const FormButton = ( {
             }
             <span className='form-button-text'>{text}</span>
             {
-                clickType === 'ripple' && (
+                click === 'ripple' && (
                     <Ripple />
                 )
             }

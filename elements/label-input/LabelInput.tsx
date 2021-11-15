@@ -1,7 +1,7 @@
 // dependencies
 import { forwardRef, useEffect } from 'react';
 // types
-import { ForwardedRef, KeyboardEvent } from 'react';
+import { ForwardedRef, KeyboardEvent, RefObject } from 'react';
 import { OnInput, OnKeyDown } from 'types';
 
 /* TYPES */
@@ -27,7 +27,7 @@ interface Props {
     onEnterKey?: OnKeyDown;
 }
 
-const LabelInput = forwardRef<RefObject, Props>( ( { 
+const LabelInput = forwardRef<RefObject<HTMLInputElement>, Props>( ( { 
     className,
     label,
     input,
@@ -49,9 +49,12 @@ const LabelInput = forwardRef<RefObject, Props>( ( {
     `;
 
     useEffect( () => {
+        // @ts-ignore
         if ( ref?.current != null ) {
+            // @ts-ignore
             ref.current.addEventListener( 'keypress', ( event: KeyboardEvent ) => onEnterKey( event, ref ) );
             return () => {
+                    // @ts-ignore
                     ref.current.removeEventListener( 'keypress', ( event: KeyboardEvent ) => onEnterKey( event, ref ) );
                 }
         }
@@ -62,7 +65,7 @@ const LabelInput = forwardRef<RefObject, Props>( ( {
             <label htmlFor={label.htmlFor} className={labelClasses}>
                 <h3>{label.text}</h3>
             </label>
-            <input id={label.htmlFor} ref={ref} className={inputClasses}
+            <input id={label.htmlFor} ref={ref as RefObject<HTMLInputElement>} className={inputClasses}
                 type={input.type}
                 onInput={input.onInput}
                 placeholder={input.placeholder}

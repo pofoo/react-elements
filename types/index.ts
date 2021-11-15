@@ -7,6 +7,7 @@ import OnSubmit from './onSubmit';
 import OnInput from './onInput';
 import { Colors, BackgroundColors } from './colors';
 import Image from './Image';
+import ObjectAtLeastOne from './objectAtLeastOne';
 
 export type {
     Href,
@@ -19,4 +20,5 @@ export type {
     Colors,
     BackgroundColors,
     Image,
+    ObjectAtLeastOne,
 }

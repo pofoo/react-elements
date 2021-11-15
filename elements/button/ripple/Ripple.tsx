@@ -12,6 +12,10 @@ interface RippleProps {
     duration?: number;
 }
 
+// TO-DO - Fix ripple button effect
+/**
+ * Ripple effect for FormButton OnClick
+ */
 const Ripple = ( {
     className,
     duration=750,
@@ -60,6 +64,7 @@ const Ripple = ( {
         } );
     }
 
+    // TO-DO - this does not work properly
     useRippleCleanUp( rippleStyles.length, duration, () => setRippleStyles( [] ) );
 
     return (

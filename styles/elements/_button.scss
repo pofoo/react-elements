@@ -45,6 +45,7 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     overflow: hidden;
     text-shadow: white 0 0 10px;
 
+    /* SHAPE */
     &.rounded {
         border-radius: $button--border-radius;
     }
@@ -167,11 +168,29 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     padding: $button--default-padding;
     width: max-content;
     box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+    position: relative;
+    z-index: 1;
+    background: inherit;
+    overflow: hidden;
 
-    transition: border-radius 0.3s ease;
-
+    /* SHAPE */
     &.rounded {
         border-radius: $link-button--border-radius;
+    }
+    /* FILL */
+    &.glass {
+        &:before {
+            position: absolute;
+            background: inherit;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            box-shadow: inset 0 0 2000px rgba(255, 255, 255, 1);
+            filter: blur(10px);
+            margin: -20px;
+        }
     }
 
     &.sticky {

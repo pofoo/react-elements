@@ -1,5 +1,7 @@
 // dependencies
 import Image from 'next/image';
+// types
+import { ObjectAtLeastOne } from 'types';
 
 /* TYPES */
 type Image = {
@@ -8,19 +10,15 @@ type Image = {
 }
 
 // EITHER an image or name needs to be specified
-// type Content = {
-//     ['image']: Image;
-//     image: Image;
-// }
-
-interface Content {
-    name?: string;
-    image?: Image;
-}
+type Content = ObjectAtLeastOne<{
+    name: string;
+    image: Image;
+}>;
 
 interface Props {
     className?: string;
     content: Content;
+    firstElem?: 'name' | 'image';
 }
 
 /**
@@ -30,15 +28,15 @@ interface Props {
 const AccountTag = ( {
     className,
     content,
-    name,
-    image,
+    firstElem='image',
 }: Props ) => {
-    
-    const { image=null, name=null } = content;
+
+    const { name=null, image=null } = content;
 
     const accountClasses = `
         account-tag-wrapper
         ${className}
+        ${firstElem}-first
     `;
     
     return (
