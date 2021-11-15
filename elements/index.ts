@@ -1,4 +1,3 @@
-import ProgressBar from './progress-bar';
 import { FormButton, ToggleButton, LinkButton } from './button';
 import SVG from './svg';
 import LabelInput from './label-input';
@@ -8,7 +7,6 @@ import { TextHighlight } from './text';
 import Card from './card';
 
 export {
-    ProgressBar,
     FormButton,
     ToggleButton,
     LinkButton,

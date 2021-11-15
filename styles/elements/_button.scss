@@ -188,7 +188,8 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
         transition: transform $button--transition;
 
         @include hover {
-            tranform: scale( 1.1 );
+            transform: scale( 1.05 );
+
         }
     }
 
