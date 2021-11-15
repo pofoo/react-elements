@@ -3,9 +3,8 @@ import Link from 'next/link';
 // types
 import { Href } from 'types';
 // import { BackgroundColors } from 'types';
-// partials
+// elements
 import SVG from '../svg';
-import { Arrow } from '../icon';
 
 /* TYPES */
 interface Content {
@@ -17,14 +16,14 @@ interface Content {
 }
 
 // TO-DO - sticky should only work when isRounded = false
+// TO-DO - create an :focus after click effect
 interface Props {
     // customization
     className?: string;
     content: Content;
     href: Href;
     // styling
-    // TO-DO - implement header + footer links styles
-    type?: 'CTA' | 'sticky' | 'header' | 'footer';
+    type?: 'CTA' | 'sticky';
     size?: 'sm' | 'md' | 'lg';
     color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
     isRounded?: boolean;
@@ -32,6 +31,7 @@ interface Props {
 
 /**
  * Link Buttons redirect to another part of the website (internal).
+ * Looks like a button.
  */
 const LinkButton = ( {
     className,
@@ -40,19 +40,15 @@ const LinkButton = ( {
     type='CTA',
     size='md',
     color='ghost-white',
-    isRounded=false,
+    isRounded=true,
 }: Props ) => {
 
-    const { text, icon=null } = content;
-    // INCLUDE THE ARROW BY DEFAULT - DO NOT ALLOW FOR CUSTOMIZATION OF THAT
 
-    // header - include the light background option with a chevron -> arrow animation
-    // draw underline
-    // footer - regular highlight link - draw the underline
-    // CTA - scale + color 
+    const { text, icon=null } = content;
     
     /* CLASSNAMES */
     const linkButtonClasses = `
+        button-wrapper
         link-button-wrapper
         ${className}
         ${type}
@@ -73,11 +69,14 @@ const LinkButton = ( {
                             width={50} height={50} />
                     )
                 }
-                <span className='link-button-text'>{text}</span>
-                {
-
-                }
-                <Arrow id='link-button-arrow' direction='right' ariaLabel='link-button-arrow' />
+                <div className='link-button-text'>
+                    {text}
+                    {
+                        type === 'CTA' && (
+                            <div className='arrow'>➤</div>
+                        )
+                    }
+                </div>
             </div>
         </a>
         </Link>

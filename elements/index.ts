@@ -6,6 +6,7 @@ import Tag from './tag';
 import { TextHighlight } from './text';
 import Card from './card';
 import AccountTag from './account-tag';
+import NavLink from './nav-link';
 
 export {
     FormButton,
@@ -23,4 +24,5 @@ export {
     TextHighlight,
     Card,
     AccountTag,
+    NavLink,
 }

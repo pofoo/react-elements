@@ -60,6 +60,7 @@ const FormButton = ( {
     /* CLASSNAMES */
     const buttonClasses = `
         button-wrapper
+        form-button-wrapper
         ${className}
         ${isLoading && 'loading'}
         ${color}

@@ -38,13 +38,15 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     }
 }
 
+/* SHARED */
 .button-wrapper {
-    padding: $button--default-padding;
-
     position: relative;
     overflow: hidden;
+    padding: $button--default-padding;
     text-shadow: white 0 0 10px;
+}
 
+.form-button-wrapper {
     /* SHAPE */
     &.rounded {
         border-radius: $button--border-radius;
@@ -161,19 +163,48 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
         pointer-events: none;
         opacity: $button-disabled--opacity;
     }
-
 }
 
 .link-button-wrapper {
-    padding: $button--default-padding;
     width: max-content;
     box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+
+    transition: background $button--transition;
 
     /* SHAPE */
     &.rounded {
         border-radius: $link-button--border-radius;
     }
 
+    // TO-DO - create an :focus after click effect
+    // &:focus {
+    // }
+
+    /* TYPES */
+    // main navigation button that you want people to click
+    &.CTA {
+        .link-button-text {
+            display: flex;
+            flex-flow: row wrap;
+
+                .arrow {
+                    padding-left: 0.4rem;
+
+                    transition: transform $button--transition,
+                                color $button--transition;
+                }
+            }
+
+            @include hover {
+                .link-button-text {
+                    .arrow {
+                        color: map.get( $colors, 'brand-blue', 5 );
+                        transform: translateX( 1.5px );
+                    }
+                }
+            }
+        }
+    // peel away sticky note that's cool
     &.sticky {
         transition: border-radius $button--transition,
                     box-shadow $button--transition;
@@ -185,30 +216,6 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
         }
     }
 
-    // scale + darken color
-    &.CTA {
-        transition: transform $button--transition;
-
-        @include hover {
-            transform: scale( 1.05 );
-
-        }
-    }
-
-    &.header {
-
-    }
-
-    &.footer {
-        .link-button-text {
-            color: #808080
-        }
-
-        @include hover {
-
-        }
-    }
-
     /* COLORS */
     @each $color-name, $color in $background {
         &.#{$color-name} {
@@ -216,8 +223,9 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
 
             background: $color;
 
-            // box-shadow: $button--box-shadow--size2 map.get( $shadow-colors, 2 ),
-            //             $button--box-shadow--size1 map.get( $shadow-colors, 1 );
+            @include hover {
+                background: color.adjust( $color, $alpha: -0.22 );                
+            }
         }
     }
 }
