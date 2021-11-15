@@ -44,6 +44,7 @@ const NavLink = ( {
     `;
     return (
         <Link href={href}>
+        <a>
             <div className={navLinkClasses}>
                 {
                     icon && (
@@ -55,6 +56,7 @@ const NavLink = ( {
                 }
                 <span className='nav-link-text'>{text}</span>
             </div>
+        </a>
         </Link>
     )
 }
