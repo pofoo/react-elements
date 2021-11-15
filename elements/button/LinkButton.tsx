@@ -26,7 +26,6 @@ interface Props {
     // TO-DO - implement header + footer links styles
     type?: 'CTA' | 'sticky' | 'header' | 'footer';
     size?: 'sm' | 'md' | 'lg';
-    fill?: 'glass';
     color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
     isRounded?: boolean;
 }
@@ -40,7 +39,6 @@ const LinkButton = ( {
     href,
     type='CTA',
     size='md',
-    fill,
     color='ghost-white',
     isRounded=false,
 }: Props ) => {
@@ -59,7 +57,6 @@ const LinkButton = ( {
         ${className}
         ${type}
         button--${size}
-        ${fill}
         ${color}
         ${isRounded ? 'rounded' : ''}
     `;
@@ -78,7 +75,7 @@ const LinkButton = ( {
                 }
                 <span className='link-button-text'>{text}</span>
                 {
-                    
+
                 }
                 <Arrow id='link-button-arrow' direction='right' ariaLabel='link-button-arrow' />
             </div>

@@ -5,6 +5,7 @@ import { Arrow, Chevron, Hamburger, Triangle, Diamond, Line } from './icon';
 import Tag from './tag';
 import { TextHighlight } from './text';
 import Card from './card';
+import AccountTag from './account-tag';
 
 export {
     FormButton,
@@ -21,4 +22,5 @@ export {
     Tag,
     TextHighlight,
     Card,
+    AccountTag,
 }

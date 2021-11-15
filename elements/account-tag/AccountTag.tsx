@@ -41,12 +41,20 @@ const AccountTag = ( {
     
     return (
         <div className={accountClasses}>
-            <Image src={image?.src as string} alt={image?.alt as string}
-                className='account-image'
-                width='35' height='35' />
-            <span className='account-name'>
-                {name}
-            </span>
+            {
+                image && (
+                    <Image src={image.src} alt={image.alt}
+                        className='account-image'
+                        width='35' height='35' />
+                )
+            }
+            {
+                name && (
+                    <span className='account-name'>
+                        {name}
+                    </span>
+                )
+            }
         </div>
     )
 }
