@@ -13,7 +13,7 @@ $arrow--color:                      black;
 $arrow-line--width:                 $arrow-head--thickness;
 $arrow-line--length:                2em;
 // normalize left and right arrow to look cleaner
-$arrow--normalize:                  math.div( $arrow-head--length, 3 );          
+// $arrow--normalize:                  math.div( $arrow-head--length, 3 );          
 
 /*--------------------------------------------------------------
 # Styling
@@ -49,11 +49,8 @@ $arrow--normalize:                  math.div( $arrow-head--length, 3 );
                         translate( math.div( $arrow-line--length, 3 ), $arrow-line--width );
    
         }
-
+        
         // TO-DO - figure out normalize variable
-        @include direction();
+        @include direction( $start-angle: -45deg );
     }
-    
-    // TO-DO - fix arrow directions
-    transform: rotate(45deg);
 }

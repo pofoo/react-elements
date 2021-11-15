@@ -23,7 +23,7 @@ interface Props {
     href: Href;
     // styling
     // TO-DO - implement header + footer links styles
-    type?: 'CTA' | 'header' | 'footer' | 'sticky';
+    type?: 'CTA' | 'sticky' | 'header' | 'footer';
     size?: 'sm' | 'md' | 'lg';
     color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
     isRounded?: boolean;
@@ -36,7 +36,7 @@ const LinkButton = ( {
     className,
     content,
     href,
-    type='sticky',
+    type='CTA',
     size='md',
     color='ghost-white',
     isRounded=true,
@@ -72,7 +72,8 @@ const LinkButton = ( {
                             width={50} height={50} />
                     )
                 }
-                    {text}
+                <span className='link-button-text'>{text}</span>
+                <Arrow id='link-button-arrow' direction='right' ariaLabel='link-button-arrow' />
             </div>
         </a>
         </Link>

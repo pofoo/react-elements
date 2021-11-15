@@ -83,7 +83,7 @@ const FormButton = ( {
                         width={50} height={50} />
                 )
             }
-            <span className='button-text'>{text}</span>
+            <span className='form-button-text'>{text}</span>
             {
                 clickType === 'ripple' && (
                     <Ripple />

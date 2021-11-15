@@ -166,19 +166,43 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
 .link-button-wrapper {
     padding: $button--default-padding;
     width: max-content;
+    box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
 
     transition: border-radius 0.3s ease;
 
     &.rounded {
-        // border-radius: $link-button--border-radius;
+        border-radius: $link-button--border-radius;
     }
 
     &.sticky {
         transition: border-radius $button--transition
                     box-shadow $button--transition;
 
-        &:hover {
+        @include hover {
             border-radius: 0 50% 0 0;
+        }
+    }
+
+    // scale + darken color
+    &.CTA {
+        transition: transform $button--transition;
+
+        @include hover {
+            tranform: scale( 1.1 );
+        }
+    }
+
+    &.header {
+
+    }
+
+    &.footer {
+        .link-button-text {
+            color: #808080
+        }
+
+        @include hover {
+
         }
     }
 
