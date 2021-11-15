@@ -8,7 +8,7 @@ interface Props {
     id?: string;
     className?: string;
     // styling
-    color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
+    color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink' | 'gray';
     isRounded?: boolean;
 }
 

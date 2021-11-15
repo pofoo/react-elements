@@ -1,7 +1,10 @@
 // dependencies
 @use 'sass:map';
+@use 'sass:color';
 // constants
 @use '../constants/colors' as *;
+// utils
+@use '../utils/colors' as *;
 
 /*--------------------------------------------------------------
 # Variables
@@ -31,5 +34,12 @@ $card--box-shadow:                   0 1.5px 10px;
             box-shadow: $card--box-shadow 1px map.get( $color-map, 3 ),
                         $card--box-shadow 1.5px map.get( $color-map, 2 );
         }
+    }
+
+    &.gray {
+        $shadow-colors: getShadowColors( map.get( $shadow, 'gray' ) );
+
+        box-shadow: $card--box-shadow 1px map.get( $shadow-colors, 2 ),
+                    $card--box-shadow 1.5px map.get( $shadow-colors, 1 );
     }
 }
