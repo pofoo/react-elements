@@ -2,12 +2,24 @@
 @use 'sass:map';
 // constants
 @use '../../constants/colors' as *;
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$header--height:               5rem;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
 .header-wrapper {
+    position: fixed;
+    width: 100%;
+    height: $header--height;
     z-index: 99;
-    height: 10rem;
     box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+
+    transition: transform 0.6s ease;
+
+    &.hide {
+        transform: translateY( -$header--height - 0.6rem );
+    }
 }
