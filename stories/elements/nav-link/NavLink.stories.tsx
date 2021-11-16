@@ -15,5 +15,4 @@ NavLink.args = {
     content: {
         text: 'Navigate Me!'
     },
-    href: '/',
 }

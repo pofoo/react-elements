@@ -22,6 +22,10 @@ interface Props {
     href: Href;
     // styling
     type?: 'main-header' | 'sub-header' | 'footer';
+    // TO-DO - should only be present on type 'main-header'
+    isAcive?: boolean;
+    // TO-DO - different animation types should be available for different types
+    animation?: 'drop';
 }
 
 /**
@@ -31,8 +35,8 @@ interface Props {
 const NavLink = ( {
     className,
     content,
-    href,
-    type,
+    href='/',
+    type='footer',
 }: Props ) => {
 
     const { text, icon=null } = content;

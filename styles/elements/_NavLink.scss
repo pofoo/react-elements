@@ -1,3 +1,93 @@
+// utils
+@use '../utils/states' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$nav-link--transition:                      0.22s ease;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
 .nav-link-wrapper {
-    
+    width: max-content;
+
+    /* STYLING */
+    // underline the word
+    &.main-header {
+        position: relative;
+        padding-bottom: 0.4rem;
+
+        &:before {
+            content: "";
+            position: absolute;
+            display: block;
+            width: 100%;
+            border-bottom: 3px solid black;
+            border-radius: 25px;
+            bottom: 0;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: bottom left;
+
+            transition: transform $nav-link--transition;
+        }
+
+        // it would be really cool if you drop the word into the hole
+        // and the page navigates :-0
+        // TO-DO - implement drop effect
+        // &.drop {
+        //     border-radius: 50%;
+        // }
+
+        @include hover {
+            &:before {
+                transform: scaleX(1);
+            }
+        }
+    }
+
+    // not a big fan of this either
+    // highlights the background and shows an arrow
+    &.sub-header {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        transition: background $nav-link--transition;
+
+        &:after {
+            font-size: 10px;
+            content: "➜";
+            padding-left: 0.15rem;
+            opacity: 0;
+
+            transition: opacity $nav-link--transition;
+        }
+
+        @include hover {
+            background: #d7e4f7;
+
+            &:after {
+                opacity: 1;
+            }
+        }
+    }
+
+    // i don't like this at all
+    // darkens the word color
+    &.footer {
+        .nav-link-text {
+            color: #475761;
+            text-decoration: underline;
+
+            transition: color $nav-link--transition;
+        }
+
+        @include hover {
+            .nav-link-text {
+                color: black;
+            }
+        }
+    }
 }
