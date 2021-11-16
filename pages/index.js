@@ -3,9 +3,7 @@ import Head from 'next/head';
 // layout
 import { DefaultLayout } from 'layout';
 // components
-import { Hello } from 'components';
-// elements
-import { ProgressBar } from 'elements';
+import { Hello, ProgressBar } from 'components';
 
 
 const Home = ({

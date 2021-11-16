@@ -14,5 +14,9 @@ export const AccountTag = Template.bind({});
 AccountTag.args = {
     content: {
         name: 'Charlie Lu',
+        image: {
+          src: '/static/images/goat.jpg',
+          alt: 'Account Image',
+        }
     }
 }
