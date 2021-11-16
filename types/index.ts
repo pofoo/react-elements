@@ -8,6 +8,7 @@ import OnInput from './onInput';
 import { Colors, BackgroundColors } from './colors';
 import Image from './Image';
 import ObjectAtLeastOne from './objectAtLeastOne';
+import ConditionalProps from './conditionalProps';
 
 export type {
     Href,
@@ -21,4 +22,5 @@ export type {
     BackgroundColors,
     Image,
     ObjectAtLeastOne,
+    ConditionalProps,
 }

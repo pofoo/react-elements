@@ -1,7 +1,7 @@
 // dependencies
 import Link from 'next/link';
 // types
-import { Href } from 'types';
+import { Href, ConditionalProps } from 'types';
 // import { BackgroundColors } from 'types';
 // elements
 import SVG from '../svg';
@@ -15,19 +15,26 @@ interface Content {
     }
 }
 
-// TO-DO - sticky should only work when isRounded = false
 // TO-DO - create an :focus after click effect
-interface Props {
-    // customization
-    className?: string;
-    content: Content;
-    href: Href;
-    // styling
-    type?: 'CTA' | 'sticky';
-    size?: 'sm' | 'md' | 'lg';
-    color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
-    isRounded?: boolean;
-}
+type Props = ConditionalProps<
+    {
+        // customization
+        className?: string;
+        content: Content;
+        href: Href;
+        // styling
+        type?: 'CTA' | 'sticky';
+        size?: 'sm' | 'md' | 'lg';
+        color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
+        isRounded?: boolean;
+    }, 
+    'type',
+    {
+        // if type is sticky, isRounded must be false
+        type: 'sticky';
+        isRounded: false;
+    }
+>
 
 /**
  * Link Buttons redirect to another part of the website (internal).

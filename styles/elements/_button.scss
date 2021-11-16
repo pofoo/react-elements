@@ -171,11 +171,6 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
 
     transition: background $button--transition;
 
-    /* SHAPE */
-    &.rounded {
-        border-radius: $link-button--border-radius;
-    }
-
     // TO-DO - create an :focus after click effect
     // &:focus {
     // }
@@ -203,8 +198,13 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
                     }
                 }
             }
+
+            /* SHAPE */
+            &.rounded {
+                border-radius: $link-button--border-radius;
+            }
         }
-    // peel away sticky note that's cool
+    // peel away sticky note
     &.sticky {
         transition: border-radius $button--transition,
                     box-shadow $button--transition;
