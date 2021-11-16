@@ -16,25 +16,38 @@ interface Content {
 }
 
 // TO-DO - create an :focus after click effect
-type Props = ConditionalProps<
-    {
-        // customization
-        className?: string;
-        content: Content;
-        href: Href;
-        // styling
-        type?: 'CTA' | 'sticky';
-        size?: 'sm' | 'md' | 'lg';
-        color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
-        isRounded?: boolean;
-    }, 
-    'type',
-    {
-        // if type is sticky, isRounded must be false
-        type: 'sticky';
-        isRounded: false;
-    }
->
+// USE THIS TYPING IN PRODUCTION - DOSEN'T WORK IN STORYBOOK
+// type Props = ConditionalProps<
+//     {
+//         // customization
+//         className?: string;
+//         content: Content;
+//         href: Href;
+//         // styling
+//         type?: 'CTA' | 'sticky';
+//         size?: 'sm' | 'md' | 'lg';
+//         color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
+//         isRounded?: boolean;
+//     }, 
+//     'type',
+//     {
+//         // if type is sticky, isRounded must be false
+//         type: 'sticky';
+//         isRounded: false;
+//     }
+// >
+
+interface Props {
+    // customization
+    className?: string;
+    content: Content;
+    href: Href;
+    // styling
+    type?: 'CTA' | 'sticky';
+    size?: 'sm' | 'md' | 'lg';
+    color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
+    isRounded?: boolean;
+}
 
 /**
  * Link Buttons redirect to another part of the website (internal).
