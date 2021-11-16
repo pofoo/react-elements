@@ -8,7 +8,7 @@ import { Hamburger, Chevron, Diamond } from '../../../elements';
 
 
 export default {
-  title: 'Element/Button/Toggle Button',
+  title: 'Elements/Button/Toggle Button',
   component: ToggleButton,
 } as ComponentMeta<typeof ToggleButton>;
 

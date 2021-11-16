@@ -5,7 +5,7 @@ import { Hamburger as Icon } from '../../../elements';
 
 
 export default {
-  title: 'Element/Icon/Hamburger',
+  title: 'Elements/Icon/Hamburger',
   component: Icon,
 } as ComponentMeta<typeof Icon>;
 

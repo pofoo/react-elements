@@ -5,7 +5,7 @@ import { Card as Element } from '../../../elements';
 
 
 export default {
-  title: 'Element/Card',
+  title: 'Elements/Card',
   component: Element,
 } as ComponentMeta<typeof Element>;
 

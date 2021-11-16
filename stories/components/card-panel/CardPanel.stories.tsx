@@ -8,7 +8,7 @@ import { Card } from '../../../elements';
 
 
 export default {
-  title: 'Component/Card Panel',
+  title: 'Components/Card Panel',
   component: Component,
 } as ComponentMeta<typeof Component>;
 

@@ -5,7 +5,7 @@ import { Tag as Element } from '../../../elements';
 
 
 export default {
-  title: 'Element/Tag',
+  title: 'Elements/Tag',
   component: Element,
 } as ComponentMeta<typeof Element>;
 

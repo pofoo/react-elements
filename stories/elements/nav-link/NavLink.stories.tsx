@@ -5,7 +5,7 @@ import { NavLink as Element } from '../../../elements';
 
 
 export default {
-  title: 'Element/Nav Link',
+  title: 'Elements/Nav Link',
   component: Element,
 } as ComponentMeta<typeof Element>;
 

@@ -5,7 +5,7 @@ import { FormButton as Button } from '../../../elements';
 
 
 export default {
-  title: 'Element/Button/Form Button',
+  title: 'Elements/Button/Form Button',
   component: Button,
 } as ComponentMeta<typeof Button>;
 
