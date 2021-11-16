@@ -1,0 +1,13 @@
+// dependencies
+@use 'sass:map';
+// constants
+@use '../../constants/colors' as *;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.header-wrapper {
+    background: white;
+    height: 10rem;
+    box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+}
