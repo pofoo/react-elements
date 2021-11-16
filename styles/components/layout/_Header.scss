@@ -17,7 +17,7 @@ $header--height:               5rem;
     z-index: 99;
     box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
 
-    transition: transform 0.6s ease;
+    transition: transform 0.3s linear;
 
     &.hide {
         transform: translateY( -$header--height - 0.6rem );

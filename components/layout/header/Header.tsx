@@ -29,7 +29,6 @@ const Header: FC<Props> = ( {
     /* FUNCTIONS */
     const handleScroll = ( prevScrollPos: number ): void => {
         const currScrollPos = window.scrollY;
-        console.log( `Current: ${currScrollPos}, Prev: ${prevScrollPos}` );
         const scrollDirection = currScrollPos >= prevScrollPos ? 'down' : 'up';
         
         setScrollPos( currScrollPos );
@@ -38,11 +37,11 @@ const Header: FC<Props> = ( {
 
     // TO-DO - there should be a more efficient way to add event listener
     // right now it renders on the smallest scroll amount
-    // the scroll amount can be bigger
+    // the scroll amount can be bigger with useThrottleCallback maybe?
     useEffect( () => {
-        window.addEventListener( 'scroll', () => handleScroll( scrollPos ) );
+        document.addEventListener( 'scroll', () => handleScroll( scrollPos ) );
         return () => {
-            window.removeEventListener( 'scroll', () => handleScroll( scrollPos ) );
+            document.removeEventListener( 'scroll', () => handleScroll( scrollPos ) );
         }
     }, [ scrollPos ] );
 
