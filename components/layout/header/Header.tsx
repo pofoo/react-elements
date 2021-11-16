@@ -12,7 +12,7 @@ const Header: FC<Props> = ( {
 } ) => {
     
     const headerClasses = `
-        header-container
+        header-wrapper
         ${className}
     `;
 

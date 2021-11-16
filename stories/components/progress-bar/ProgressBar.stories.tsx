@@ -18,5 +18,3 @@ const ProgressBarComponent = () => {
 }
 const Template: ComponentStory<typeof ProgressBarComponent> = () => <ProgressBarComponent />;
 export const ProgressBar = Template.bind({});
-ProgressBar.args = {
-}

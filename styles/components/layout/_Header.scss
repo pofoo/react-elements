@@ -7,7 +7,7 @@
 # Styling
 --------------------------------------------------------------*/
 .header-wrapper {
-    background: white;
+    z-index: 99;
     height: 10rem;
     box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
 }
