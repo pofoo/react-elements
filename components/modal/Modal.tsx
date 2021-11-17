@@ -2,11 +2,6 @@
 import { FC } from 'react';
 // elements
 import { ToggleButton } from '../../elements';
-// installed hooks
-import useOnclickOutside from "react-cool-onclickoutside";
-// installed components
-import FocusTrap from 'focus-trap-react';
-
 
 
 /* TYPES */
@@ -40,28 +35,14 @@ const Modal: FC<Props> = ( {
     ariaDescribedBy
 } ) => {
 
-    /* HOOKS */
-    const ref = useOnclickOutside( toggleModal );
-
     const modalClasses = `
         modal-wrapper
         ${className}
         ${isActive ? 'active' : ''}
     `;
 
-    const focusTrapOptions = {
-        // does not focus anything in the modal by default
-        initialFocus: false,
-    }
-
-    // focus trap - is there going to be a problem if only one focus trap can be open at a time?
-    // if it takes up the whole screen, i don't think their will be any problems... yeah i dont think so
-    // wat is their are no tabbable elements in the Modal? 
-    // video popup?
-    // TO-DO - add backdrop styling
     return (
-        <FocusTrap focusTrapOptions={focusTrapOptions}>
-            <section id={id} ref={ref} className={modalClasses}
+            <section id={id} className={modalClasses}
                 role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
                     {
                         showX && (
@@ -78,7 +59,6 @@ const Modal: FC<Props> = ( {
                     )
                 }
             </section>
-        </FocusTrap>
     )
 }
 

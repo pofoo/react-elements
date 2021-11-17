@@ -1,3 +1,47 @@
+// dependencies
+@use 'sass:map';
+// constants
+@use '../constants/colors' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$modal--padding:                    1.5rem;
+
+$modal-x--size:                     1.5rem;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
 .modal-wrapper {
-    
+    position: absolute;
+    // position modal center horizontally, a little higher vertically
+    left: 50%;
+    top: 50%;
+    transform: translate( -50%, -80% );
+
+    padding: $modal--padding;
+    background: white;
+    box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+
+    visibility: hidden;
+    opacity: 0;
+
+    transition: opacity 0.3s ease;
+
+    .x-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: $modal-x--size;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    &.active {
+        visibility: visible;
+        opacity: 1;
+    }
 }

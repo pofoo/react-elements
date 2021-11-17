@@ -5,7 +5,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 // components
 import { Modal as Component } from '../../../components';
 // elements
-import { ToggleButton, FormButton } from '../../../elements';
+import { ToggleButton } from '../../../elements';
 
 
 export default {
@@ -17,11 +17,15 @@ const ModalComponent = ( args: any ) => {
 
     const [ isActive, setIsActive ] = useState<boolean>( false );
 
-    const ariaLabelledBy = 'modal-title';
-    const ariaDescribedBy = 'modal-description';
+    const ariaLabelledBy = 'modal title';
+    const ariaDescribedBy = 'modal description';
 
     return (
         <>
+            <ToggleButton isPressed={isActive} onClick={() => setIsActive( isActive => !isActive )}
+                ariaLabel='open modal'>
+                Open Modal
+            </ToggleButton>
             <Component isActive={isActive} toggleModal={ () => setIsActive( isActive => !isActive ) }
                 ariaLabelledBy={ariaLabelledBy} ariaDescribedBy={ariaDescribedBy}>
                 <h1 id={ariaLabelledBy}>Modal Title</h1>
