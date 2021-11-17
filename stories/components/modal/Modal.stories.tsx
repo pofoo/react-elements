@@ -9,10 +9,13 @@ export default {
   component: Component,
 } as ComponentMeta<typeof Component>;
 
-const ModalComponent = () => {
+const ModalComponent = ( args: { isActive: boolean } ) => {
     return (
-        <Component isActive={false}/>
+        <Component isActive={args.isActive}/>
     )
 }
-const Template: ComponentStory<typeof ModalComponent> = () => <ModalComponent />;
+const Template: ComponentStory<typeof ModalComponent> = ( args ) => <ModalComponent {...args} />;
 export const Modal = Template.bind({});
+Template.args = {
+    isActive: false,
+}
