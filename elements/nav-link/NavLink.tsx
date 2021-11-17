@@ -1,7 +1,7 @@
 // depdendencies
 import Link from 'next/link';
 // types
-import { Href } from 'types';
+import { Href, ConditionalProps } from 'types';
 // elements
 import SVG from '../svg';
 
@@ -15,6 +15,24 @@ interface Content {
     }
 }
 
+/* USE THIS TYPING IN PRODUCTION - DOSEN'T WORK IN STORYBOOK */
+// type Props = ConditionalProps<
+//     {
+//         // customization
+//         className?: string;
+//         content: Content;
+//         href: Href;
+//         // styling
+//         type?: 'main-header' | 'sub-header' | 'footer';
+//         // TO-DO - different animation types should be available for different types
+//         animation?: 'drop';
+//     }, 'isActive',
+//     {
+//         type: 'main-header';
+//         isActive?: boolean;
+//     }
+// >
+
 interface Props {
     // customization
     className?: string;
@@ -22,7 +40,6 @@ interface Props {
     href: Href;
     // styling
     type?: 'main-header' | 'sub-header' | 'footer';
-    // TO-DO - should only be present on type 'main-header'
     isAcive?: boolean;
     // TO-DO - different animation types should be available for different types
     animation?: 'drop';
