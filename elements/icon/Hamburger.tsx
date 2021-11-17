@@ -13,7 +13,6 @@ interface Props {
     isActive?: boolean;
     // accessibility
     ariaLabel: string;
-    isPresentation?: boolean;
 }
 
 /**
@@ -26,7 +25,6 @@ const Hamburger = ( {
     isRounded=true,
     isActive,
     ariaLabel,
-    isPresentation=false,
 }: Props ) => {
 
     const activeClass = isActive ? 'active': '';
@@ -45,7 +43,7 @@ const Hamburger = ( {
 
     return (
         <span id={id} className={hamburgerClasses}
-            role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel}>
+            role='presentation' aria-label={ariaLabel}>
             <Line id='hamburger-line' className={lineClasses} ariaLabel='hamburger-line'/>
             <Line id='hamburger-line' className={lineClasses} ariaLabel='hamburger-line'/>
             <Line id='hamburger-line' className={lineClasses} ariaLabel='hamburger-line'/>

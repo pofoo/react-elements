@@ -6,7 +6,6 @@ interface Props {
     isRounded?: boolean;
     // accessibility
     ariaLabel: string;
-    isPresentation?: boolean;
 }
 
 /**
@@ -17,7 +16,6 @@ const Line = ( {
     className,
     isRounded,
     ariaLabel,
-    isPresentation=true,
 }: Props ) => {
 
     const lineClasses = `
@@ -28,7 +26,7 @@ const Line = ( {
 
     return (
         <span id={id} className={lineClasses} 
-            role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
+            role='presentation' aria-label={ariaLabel} />
     )
 }
 

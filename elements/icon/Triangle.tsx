@@ -8,7 +8,6 @@ interface Props {
     isActive?: boolean;
     // accessibility
     ariaLabel: string;
-    isPresentation?: boolean;
 }
 
 /**
@@ -20,7 +19,6 @@ const Triangle = ( {
     direction='right',
     isActive,
     ariaLabel,
-    isPresentation=false,
 }: Props ) => {
 
     const triangleWrapperClasses = `
@@ -37,7 +35,7 @@ const Triangle = ( {
     return (
         <span id={id} className={triangleWrapperClasses}>
             <span className={triangleClasses} 
-                role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
+                role='presentation 'aria-label={ariaLabel} />
         </span>
     )
 }

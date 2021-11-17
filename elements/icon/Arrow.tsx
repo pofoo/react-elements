@@ -9,7 +9,6 @@ interface Props {
     isActive?: boolean;
     // accessibility
     ariaLabel: string;
-    isPresentation?: boolean;
 }
 
 /**
@@ -22,7 +21,6 @@ const Arrow = ( {
     type='pointed',
     isActive,
     ariaLabel,
-    isPresentation=false,
 }: Props ) => {
 
     const arrowWrapperClasses = `
@@ -40,7 +38,7 @@ const Arrow = ( {
     return (
         <span id={id} className={arrowWrapperClasses}>
             <span className={arrowClasses} 
-                role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
+                role='presentation' aria-label={ariaLabel} />
         </span>
     )
 }

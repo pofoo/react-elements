@@ -9,7 +9,6 @@ interface Props {
     isActive?: boolean;
     // accessibility
     ariaLabel: string;
-    isPresentation?: boolean;
 }
 
 /**
@@ -22,7 +21,6 @@ const Chevron = ( {
     background,
     isActive,
     ariaLabel,
-    isPresentation=false,
 }: Props ) => {
 
     const chevronWrapperClasses = `
@@ -40,7 +38,7 @@ const Chevron = ( {
     return (
         <span id={id} className={chevronWrapperClasses}>
             <span className={chevronClasses} 
-                role={isPresentation ? 'presentation' : ''} aria-label={ariaLabel} />
+                role='presentation' aria-label={ariaLabel} />
         </span>
     )
 }
