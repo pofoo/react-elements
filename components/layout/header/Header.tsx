@@ -25,7 +25,6 @@ const Header: FC<Props> = ( {
         ${scrollDirection === 'down' ? 'hide' : ''}
     `;
 
-    // TO-DO - fix this
     /* FUNCTIONS */
     const handleScroll = ( prevScrollPos: number ): void => {
         const currScrollPos = window.scrollY;
@@ -35,9 +34,6 @@ const Header: FC<Props> = ( {
         setScrollDirection( scrollDirection );
     }
 
-    // TO-DO - there should be a more efficient way to add event listener
-    // right now it renders on the smallest scroll amount
-    // the scroll amount can be bigger with useThrottleCallback maybe?
     useEffect( () => {
         document.addEventListener( 'scroll', () => handleScroll( scrollPos ) );
         return () => {

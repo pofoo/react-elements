@@ -15,8 +15,7 @@ interface Content {
     }
 }
 
-// TO-DO - create an :focus after click effect
-// USE THIS TYPING IN PRODUCTION - DOSEN'T WORK IN STORYBOOK
+/* USE THIS TYPING IN PRODUCTION - DOSEN'T WORK IN STORYBOOK */
 // type Props = ConditionalProps<
 //     {
 //         // customization
@@ -49,6 +48,7 @@ interface Props {
     isRounded?: boolean;
 }
 
+// TO-DO - create an :focus after click effect
 /**
  * Link Buttons redirect to another part of the website (internal).
  * Looks like a button.

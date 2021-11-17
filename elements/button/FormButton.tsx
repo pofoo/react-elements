@@ -55,8 +55,6 @@ const FormButton = ( {
     /* CONTENT */
     const { text, icon=null } = content;
 
-    // should button--color be the className?
-    // or should I have just the color className so it can be reused
     /* CLASSNAMES */
     const buttonClasses = `
         button-wrapper

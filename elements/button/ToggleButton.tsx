@@ -15,7 +15,7 @@ interface Props {
     // event handlers
     onClick: EventFunction;
     // accessibility
-    ariaLabel: AriaLabel;
+    ariaLabel: AriaLabel | string;
     ariaHasPopup?: boolean;
     isPressed: boolean;
 }   
@@ -29,13 +29,15 @@ const ToggleButton: FC<Props> = ( {
     children,
     className,
     onClick,
-    ariaLabel: {
-        pressedLabel,
-        notPressedLabel,
-    },
+    ariaLabel,
     ariaHasPopup=true,
     isPressed,
 } ) => {
+
+    let label;
+    if ( typeof ariaLabel !== 'string' ) {
+        label = isPressed ? ariaLabel.pressedLabel : ariaLabel.notPressedLabel;
+    }
 
     /* CLASSNAMES */
     const buttonClasses = `
@@ -45,7 +47,7 @@ const ToggleButton: FC<Props> = ( {
 
     return (
         <button className={buttonClasses} onClick={onClick} type='button'
-            aria-pressed={isPressed} aria-haspopup={ariaHasPopup} aria-label={isPressed ? pressedLabel : notPressedLabel}>
+            aria-pressed={isPressed} aria-haspopup={ariaHasPopup} aria-label={label}>
             {children}
         </button>
     );
