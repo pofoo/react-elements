@@ -13,12 +13,11 @@ export default {
   component: Component,
 } as ComponentMeta<typeof Component>;
 
-const ModalComponent = ( args: any ) => {
+const ModalComponent = ( args: { ariaLabelledBy: string, ariaDescribedBy: string } ) => {
 
     const [ isActive, setIsActive ] = useState<boolean>( false );
 
-    const ariaLabelledBy = 'modal title';
-    const ariaDescribedBy = 'modal description';
+    const { ariaLabelledBy, ariaDescribedBy } = args;
 
     return (
         <>
@@ -26,7 +25,7 @@ const ModalComponent = ( args: any ) => {
                 ariaLabel='open modal'>
                 Open Modal
             </ToggleButton>
-            <Component isActive={isActive} toggleModal={ () => setIsActive( isActive => !isActive ) }
+            <Component isActive={isActive} closeModal={ () => setIsActive( false ) }
                 ariaLabelledBy={ariaLabelledBy} ariaDescribedBy={ariaDescribedBy}>
                 <h1 id={ariaLabelledBy}>Modal Title</h1>
                 <p id={ariaDescribedBy}>I am a Modal Description!</p>
@@ -37,4 +36,6 @@ const ModalComponent = ( args: any ) => {
 const Template: ComponentStory<typeof ModalComponent> = ( args ) => <ModalComponent {...args} />;
 export const Modal = Template.bind({});
 Template.args = {
+    ariaLabelledBy: 'modal title',
+    ariaDescribedBy: 'modal description',
 }

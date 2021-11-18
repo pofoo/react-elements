@@ -16,6 +16,7 @@ interface Content {
 }
 
 /* USE THIS TYPING IN PRODUCTION - DOSEN'T WORK IN STORYBOOK */
+// this dosen't work lmao
 // type Props = ConditionalProps<
 //     {
 //         // customization
@@ -26,8 +27,10 @@ interface Content {
 //         type?: 'main-header' | 'sub-header' | 'footer';
 //         // TO-DO - different animation types should be available for different types
 //         animation?: 'drop';
-//     }, 'isActive',
+//     },
+//         'type',
 //     {
+//         // if type is main-header, isActive can be specified
 //         type: 'main-header';
 //         isActive?: boolean;
 //     }

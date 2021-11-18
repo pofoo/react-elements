@@ -1,17 +1,43 @@
 // dependencies
 import { FC } from 'react';
+// types
+import { ConditionalProps } from 'types';
 // elements
 import { ToggleButton } from '../../elements';
 
 
 /* TYPES */
+/* USE THIS TYPING IN PRODUCTION - DOSEN'T WORK IN STORYBOOK */
+// this dosen't work lmao
+// type Props = ConditionalProps<
+//     {
+//         // customization
+//         id?: string;
+//         className?: string;
+//         // states
+//         isActive: boolean;
+//         closeModal?: () => void;
+//         // styling
+//         showX?: boolean;
+//         showBackdrop?: boolean;
+//         // accessibility
+//         ariaLabelledBy: string;
+//         ariaDescribedBy: string;
+//     }, 
+//         'showX',
+//     {
+//         showX: true;
+//         closeModal: () => void;
+//     }
+// >
+
 interface Props {
     // customization
     id?: string;
     className?: string;
     // states
     isActive: boolean;
-    toggleModal: () => void;
+    closeModal: () => void;
     // styling
     showX?: boolean;
     showBackdrop?: boolean;
@@ -28,7 +54,7 @@ const Modal: FC<Props> = ( {
     id,
     className,
     isActive,
-    toggleModal,
+    closeModal,
     showX=true,
     showBackdrop=false,
     ariaLabelledBy,
@@ -46,7 +72,7 @@ const Modal: FC<Props> = ( {
                 role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
                     {
                         showX && (
-                            <ToggleButton className='x-close' onClick={toggleModal}
+                            <ToggleButton className='x-close' onClick={closeModal}
                                 ariaLabel='close modal' isPressed={isActive}>
                                 &times;
                             </ToggleButton>
