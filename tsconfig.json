@@ -18,10 +18,12 @@
       "paths": {
         "@components/*": ["components/*"],
         "@layout/*": ["layout/*"],
-        "@db/*": ["db/*"],
-        "@utils/*": ["utils/*"],
         "@types/*": ["types/*"],
         "@lib/*": ["lib/*"],
+        "@hooks/*": ["hooks/*"],
+        "@elements/*": ["elements/*"],
+        "@pages/*": ["pages/*"],
+        "@stories/*": ["stories/*"],
       }
     },
     "include": ["next-env.d.ts", "**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
