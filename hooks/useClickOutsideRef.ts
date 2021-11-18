@@ -1,17 +1,20 @@
 // dependencies
-import { useEffect, useRef, MouseEvent, RefObject } from 'react';
+import { useEffect, useRef, MouseEvent, TouchEvent, RefObject } from 'react';
+
+/* TYPES */
+type TapEvent = MouseEvent | TouchEvent;
 
 /**
  * Returns refs that calls an onClick function everytime a click is made outside of that HTML Element
  * Defaults to 1 ref returned - if greater than 1, the refs will be returned in an array
  */
 const useClickOutsideRef = ( 
-    onClick: ( event: MouseEvent ) => void, 
+    onClick: ( event: TapEvent ) => void, 
     numRefs: number=1
-) => {
+): void => {
 
     // clickOutside function that will attach the the click event listener to each ref
-    let clickOutsideFn: ( event: MouseEvent ) => void;
+    let clickOutsideFn: ( event: TapEvent ) => void;
     // either a single ref or a list of refs
     let refs: RefObject<HTMLElement>[] | RefObject<HTMLElement>;
 
@@ -28,7 +31,7 @@ const useClickOutsideRef = (
     }
 
     if ( Array.isArray( refs ) ) {
-        clickOutsideFn = ( event: MouseEvent ) => {
+        clickOutsideFn = ( event: TapEvent ) => {
             let isFocused: boolean = false;
             for ( const ref of refs ) {
                 // when you navigate to a new page, for some reason a nullish ref gets added to the beginning of the refs
@@ -39,7 +42,7 @@ const useClickOutsideRef = (
             if ( !isFocused ) onClick( event );
         }   
     } else {
-        clickOutsideFn = ( event: MouseEvent ) => {
+        clickOutsideFn = ( event: TapEvent ) => {
             if ( !refs.current ) return;
             if ( refs.current.contains( event.target ) ) return;
             onClick( event );

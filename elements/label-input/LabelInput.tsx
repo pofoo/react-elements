@@ -27,7 +27,7 @@ interface Props {
     onEnterKey?: OnKeyDown;
 }
 
-const LabelInput = forwardRef<RefObject<HTMLInputElement>, Props>( ( { 
+const LabelInput = forwardRef<ForwardedRef<HTMLInputElement>, Props>( ( { 
     className,
     label,
     input,
@@ -49,12 +49,9 @@ const LabelInput = forwardRef<RefObject<HTMLInputElement>, Props>( ( {
     `;
 
     useEffect( () => {
-        // @ts-ignore
         if ( ref?.current != null ) {
-            // @ts-ignore
             ref.current.addEventListener( 'keypress', ( event: KeyboardEvent ) => onEnterKey( event, ref ) );
             return () => {
-                    // @ts-ignore
                     ref.current.removeEventListener( 'keypress', ( event: KeyboardEvent ) => onEnterKey( event, ref ) );
                 }
         }
