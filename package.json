@@ -2,6 +2,7 @@
   "name": "react-element",
   "description": "Useful React Elements",
   "version": "0.1.0",
+  "author": "pofo",
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
