@@ -43,7 +43,7 @@ interface Props {
     href: Href;
     // styling
     type?: 'main-header' | 'sub-header' | 'footer';
-    isAcive?: boolean;
+    isActive?: boolean;
     // TO-DO - different animation types should be available for different types
     animation?: 'drop';
 }
