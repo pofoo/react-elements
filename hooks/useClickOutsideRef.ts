@@ -23,14 +23,18 @@ const useClickOutsideRef = <T extends HTMLElement>(
         }
 
         const clickOutsideFn = ( event: TapEvent ): void => {
-            let isFocused: boolean = false;
+            // if the HTMLElement ref is clicked, isClicked will be false
+            // by default, we assume the HTMLElement ref is clicked (false)
+            let isClicked: boolean = false;
+
             for ( const ref of refList ) {
                 // when you navigate to a new page, for some reason a nullish ref gets added to the beginning of the refs
                 if ( !ref.current ) continue;
-                if ( !ref.current ) isFocused = true;
-                if ( ref.current.contains( event.target as HTMLElement ) ) isFocused = true;
+                if ( !ref.current ) isClicked = true;
+                if ( ref.current.contains( event.target as HTMLElement ) ) isClicked = true;
             }
-            if ( !isFocused ) onClick( event );
+            // the HTMLElement was not clicked - call the onClick function
+            if ( !isClicked ) onClick( event );
         }   
         // attaching the clickOutsideFn to all the refs in the refList
         addRefEventListener( clickOutsideFn );
@@ -44,6 +48,7 @@ const useClickOutsideRef = <T extends HTMLElement>(
         const clickOutsideFn = ( event: TapEvent ): void => {
             if ( !ref.current ) return;
             if ( ref.current.contains( event.target as HTMLElement ) ) return;
+            // the HTMLElement was not clicked - call the onClick function
             onClick( event );
 
         }
@@ -60,11 +65,16 @@ const useClickOutsideRef = <T extends HTMLElement>(
 
 
 const addRefEventListener = ( clickOutsideFn: ( event: TapEvent ) => void ) => {
+    // TO-DO - find a typescript solution for this
     useEffect( () => {
+        // @ts-ignore
         document.addEventListener( 'mousedown', clickOutsideFn );
+        // @ts-ignore
         document.addEventListener( 'touchstart', clickOutsideFn );
         return () => {
+            // @ts-ignore
             document.removeEventListener( 'mousedown', clickOutsideFn );
+            // @ts-ignore
             document.removeEventListener( 'touchstart', clickOutsideFn );
         }
     }, [] );  
