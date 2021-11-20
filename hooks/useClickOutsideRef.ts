@@ -1,5 +1,5 @@
 // dependencies
-import { useEffect, useRef, MouseEvent, TouchEvent, RefObject } from 'react';
+import { useEffect, useRef, RefObject } from 'react';
 
 /* TYPES */
 type TapEvent = MouseEvent | TouchEvent;
@@ -31,7 +31,7 @@ const useClickOutsideRef = <T extends HTMLElement>(
                 // when you navigate to a new page, for some reason a nullish ref gets added to the beginning of the refs
                 if ( !ref.current ) continue;
                 if ( !ref.current ) isClicked = true;
-                if ( ref.current.contains( event.target as HTMLElement ) ) isClicked = true;
+                if ( ref.current.contains( event.target as T ) ) isClicked = true;
             }
             // the HTMLElement was not clicked - call the onClick function
             if ( !isClicked ) onClick( event );
@@ -47,7 +47,7 @@ const useClickOutsideRef = <T extends HTMLElement>(
         
         const clickOutsideFn = ( event: TapEvent ): void => {
             if ( !ref.current ) return;
-            if ( ref.current.contains( event.target as HTMLElement ) ) return;
+            if ( ref.current.contains( event.target as T ) ) return;
             // the HTMLElement was not clicked - call the onClick function
             onClick( event );
 
@@ -65,16 +65,11 @@ const useClickOutsideRef = <T extends HTMLElement>(
 
 
 const addRefEventListener = ( clickOutsideFn: ( event: TapEvent ) => void ) => {
-    // TO-DO - find a typescript solution for this
     useEffect( () => {
-        // @ts-ignore
         document.addEventListener( 'mousedown', clickOutsideFn );
-        // @ts-ignore
         document.addEventListener( 'touchstart', clickOutsideFn );
         return () => {
-            // @ts-ignore
             document.removeEventListener( 'mousedown', clickOutsideFn );
-            // @ts-ignore
             document.removeEventListener( 'touchstart', clickOutsideFn );
         }
     }, [] );  
