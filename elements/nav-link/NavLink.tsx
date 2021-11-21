@@ -25,14 +25,16 @@ interface Content {
 //         href: Href;
 //         // styling
 //         type?: 'main-header' | 'sub-header' | 'footer';
+//         isActive?: boolean | undefined;
 //         // TO-DO - different animation types should be available for different types
 //         animation?: 'drop';
 //     },
 //         'type',
 //     {
-//         // if type is main-header, isActive can be specified
+//         // if type is main-header, isActive must be specified as a boolean
+//         // TO-DO - i want this to be stricter
 //         type: 'main-header';
-//         isActive?: boolean;
+//         isActive: boolean;
 //     }
 // >
 
@@ -43,6 +45,7 @@ interface Props {
     href: Href;
     // styling
     type?: 'main-header' | 'sub-header' | 'footer';
+    // TO-DO - only have this prop available when type is main-header
     isActive?: boolean;
     // TO-DO - different animation types should be available for different types
     animation?: 'drop';
@@ -60,12 +63,23 @@ const NavLink = ( {
 }: Props ) => {
 
     const { text, icon=null } = content;
+    // let active;
+    // if ( typeof isActive === 'boolean' ) {
+    //     active = isActive === true ? 'active' : '';
+    // }
+    // else if ( isActive === undefined ) {
+    //     active = '';
+    // } 
+    // else {
+    //     throw( 'Incorrect prop type for isActive' )
+    // }
 
     const navLinkClasses = `
         nav-link-wrapper
         ${className}
         ${type}
     `;
+
     return (
         <Link href={href}>
         <a>

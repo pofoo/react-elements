@@ -28,7 +28,7 @@ interface Content {
 //         color?: 'ghost-white' | 'antique-white' | 'mint-cream' | 'alice-blue';
 //         isRounded?: boolean;
 //     }, 
-//     'type',
+//         'type',
 //     {
 //         // if type is sticky, isRounded must be false
 //         type: 'sticky';
