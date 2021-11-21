@@ -12,14 +12,15 @@ type TapEvent = MouseEvent | TouchEvent;
 const useClickOutsideRef = <T extends HTMLElement>( 
     onClick: ( event: TapEvent ) => void,
     numRefs: number=1 // this should only be a positive number
-): RefObject<T>[] | RefObject<T> => {
+    // TO-DO - the generic T right now assumes that all the of them are going to be the same kind of HTMLElement
+): RefObject<T>[] => {
 
     // creating an array of refs
     if ( numRefs > 1 ) {
         const refList: RefObject<T>[] = [];
 
         for ( let i=0; i < numRefs; i++ ) {
-            refList.push( useRef( null ) );
+            refList.push( useRef<T>( null ) );
         }
 
         const clickOutsideFn = ( event: TapEvent ): void => {
@@ -43,7 +44,7 @@ const useClickOutsideRef = <T extends HTMLElement>(
     } 
     // creating a single ref
     else if ( numRefs === 1 ) {
-        const ref: RefObject<T> = useRef( null );
+        const ref: RefObject<T> = useRef<T>( null );
         
         const clickOutsideFn = ( event: TapEvent ): void => {
             if ( !ref.current ) return;
@@ -55,7 +56,7 @@ const useClickOutsideRef = <T extends HTMLElement>(
         // attaching the clickOutsideFn to the ref
         addRefEventListener( clickOutsideFn );
 
-        return ref;
+        return [ ref ];
     }
     // numRefs specfifed as something other than a positive integer
     else {

@@ -1,7 +1,9 @@
 // dependencies
-import { FC } from 'react';
+import { FC, RefObject } from 'react';
 // types
 import { ConditionalProps } from 'types';
+// hooks
+import { useClickOutsideRef } from '../../hooks';
 // elements
 import { ToggleButton } from '../../elements';
 
@@ -61,6 +63,12 @@ const Modal: FC<Props> = ( {
     ariaDescribedBy
 } ) => {
 
+    /* HOOKS */
+    const [ ref ] = useClickOutsideRef( closeModal );
+    const [ anotherRef ] = useClickOutsideRef<HTMLDivElement>( closeModal );
+
+    const [ ref1, ref2 ] = useClickOutsideRef<HTMLDivElement | HTMLElement>(closeModal, 2 );
+
     const modalClasses = `
         modal-wrapper
         ${className}
@@ -68,7 +76,7 @@ const Modal: FC<Props> = ( {
     `;
 
     return (
-            <section id={id} className={modalClasses}
+            <section id={id} ref={ref} className={modalClasses}
                 role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
                     {
                         showX && (
@@ -84,6 +92,9 @@ const Modal: FC<Props> = ( {
                         <span className='backdrop' role='presentation' />
                     )
                 }
+                <div ref={anotherRef}></div>
+                <section ref={ref1}></section>
+                <div ref={ref2}></div>
             </section>
     )
 }
