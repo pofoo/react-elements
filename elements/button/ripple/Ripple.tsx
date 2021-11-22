@@ -1,6 +1,5 @@
 // dependencies
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
 // types
 import { MouseEvent } from 'react';
 // hooks
@@ -12,13 +11,12 @@ interface RippleProps {
     duration?: number;
 }
 
-// TO-DO - Fix ripple button effect
 /**
  * Ripple effect for FormButton OnClick
  */
 const Ripple = ( {
     className,
-    duration=750,
+    duration=450,
  }: RippleProps ) => {
    
     /* TYPES */
@@ -40,7 +38,7 @@ const Ripple = ( {
 
     /* FUNCTIONS */
     const handleRippleClick = ( event: MouseEvent<HTMLDivElement> ) => {
-        const target = event.target as HTMLDivElement;
+        const target = event.currentTarget as HTMLDivElement;
 
         const rippleContainer = target.getBoundingClientRect();
         const { width, height } = rippleContainer;
@@ -60,7 +58,7 @@ const Ripple = ( {
 
         // push new click onto the rippleStyles state
         setRippleStyles( ( rippleStyles ) => {
-            return [ newRippleStyles, ...rippleStyles ];
+            return [ ...rippleStyles, newRippleStyles ];
         } );
     }
 
@@ -70,13 +68,13 @@ const Ripple = ( {
     return (
         <div className={rippleClasses} 
             role='presentation' tabIndex={-1}
-            onClick={handleRippleClick}
-            onPointerUp={() => {}}>
+            onClick={handleRippleClick}>
             {
                 rippleStyles.length > 0 && (
-                    rippleStyles.map( ( style ) => {
+                    rippleStyles.map( ( style, index ) => {
                         return (
-                            <span key={nanoid(5)} className='ripple' 
+                            // DO NOT CHANGE THE KEY - having it as index is vital
+                            <span key={index} className='ripple' 
                                 style={style} />
                         )
                     } )

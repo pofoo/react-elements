@@ -47,23 +47,23 @@ const Modal: FC<Props> = ( {
     `;
 
     return (
-            <section id={id} ref={ref} className={modalClasses}
-                role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
-                    {
-                        showX && (
-                            <ToggleButton className='x-close' onClick={closeModal}
-                                ariaLabel='close modal' isPressed={isActive}>
-                                &times;
-                            </ToggleButton>
-                        )
-                    }
-                {children}
+        <section id={id} ref={ref} className={modalClasses}
+            role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
                 {
-                    showBackdrop && (
-                        <span className='backdrop' role='presentation' />
+                    showX && (
+                        <ToggleButton className='x-close' onClick={closeModal}
+                            ariaLabel='close modal' isPressed={isActive}>
+                            &times;
+                        </ToggleButton>
                     )
                 }
-            </section>
+            {children}
+            {
+                showBackdrop && (
+                    <span className='backdrop' role='presentation' />
+                )
+            }
+        </section>
     )
 }
 

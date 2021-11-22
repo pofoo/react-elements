@@ -49,7 +49,7 @@ const FormButton = ( {
     fill,
     isRounded=true,
     hover='lift',
-    click,
+    click='ripple',
 }: Props ) => {
 
     /* CONTENT */
