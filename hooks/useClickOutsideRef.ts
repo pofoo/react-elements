@@ -6,17 +6,17 @@ type TapEvent = MouseEvent | TouchEvent;
 
 /**
  * Returns refs that calls an onClick function everytime a click is made outside of that HTML Element
- * Defaults to 1 ref returned - if greater than 1, the refs will be returned in an array
+ * Defaults to 1 ref returned - all refs are returned in an array
  * numRefs only takes positive numbers
  */
 const useClickOutsideRef = <T extends HTMLElement>( 
     onClick: ( event: TapEvent ) => void,
     numRefs: number=1 // this should only be a positive number
-    // TO-DO - the generic T right now assumes that all the of them are going to be the same kind of HTMLElement
+    // TO-DO - the generic T right now assumes that all the refs are going to be the same kind of HTMLElement
 ): RefObject<T>[] => {
 
     // creating an array of refs
-    if ( numRefs > 1 ) {
+    if ( numRefs >= 1 ) {
         const refList: RefObject<T>[] = [];
 
         for ( let i=0; i < numRefs; i++ ) {
@@ -38,42 +38,21 @@ const useClickOutsideRef = <T extends HTMLElement>(
             if ( !isClicked ) onClick( event );
         }   
         // attaching the clickOutsideFn to all the refs in the refList
-        addRefEventListener( clickOutsideFn );
+        useEffect( () => {
+            document.addEventListener( 'mousedown', clickOutsideFn );
+            document.addEventListener( 'touchstart', clickOutsideFn );
+            return () => {
+                document.removeEventListener( 'mousedown', clickOutsideFn );
+                document.removeEventListener( 'touchstart', clickOutsideFn );
+            }
+        }, [] );  
 
         return refList;
     } 
-    // creating a single ref
-    else if ( numRefs === 1 ) {
-        const ref: RefObject<T> = useRef<T>( null );
-        
-        const clickOutsideFn = ( event: TapEvent ): void => {
-            if ( !ref.current ) return;
-            if ( ref.current.contains( event.target as T ) ) return;
-            // the HTMLElement was not clicked - call the onClick function
-            onClick( event );
-
-        }
-        // attaching the clickOutsideFn to the ref
-        addRefEventListener( clickOutsideFn );
-
-        return [ ref ];
-    }
     // numRefs specfifed as something other than a positive integer
     else {
         throw(`numRefs needs to be a positive number. You specified numRefs as ${numRefs}.`)
     }
-}
-
-
-const addRefEventListener = ( clickOutsideFn: ( event: TapEvent ) => void ) => {
-    useEffect( () => {
-        document.addEventListener( 'mousedown', clickOutsideFn );
-        document.addEventListener( 'touchstart', clickOutsideFn );
-        return () => {
-            document.removeEventListener( 'mousedown', clickOutsideFn );
-            document.removeEventListener( 'touchstart', clickOutsideFn );
-        }
-    }, [] );  
 }
 
 export default useClickOutsideRef;
