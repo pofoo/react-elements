@@ -17,6 +17,7 @@ interface Content {
 
 /* USE THIS TYPING IN PRODUCTION - DOSEN'T WORK IN STORYBOOK */
 // this dosen't work lmao
+// refactored to make it a partial solution
 // type Props = ConditionalProps<
 //     {
 //         // customization
@@ -25,6 +26,7 @@ interface Content {
 //         href: Href;
 //         // styling
 //         type?: 'main-header' | 'sub-header' | 'footer';
+//         // TO-DO - this should be able to be just undefined
 //         isActive?: boolean | undefined;
 //         // TO-DO - different animation types should be available for different types
 //         animation?: 'drop';
@@ -59,25 +61,28 @@ const NavLink = ( {
     className,
     content,
     href='/',
+    isActive,
     type='footer',
 }: Props ) => {
 
     const { text, icon=null } = content;
-    // let active;
-    // if ( typeof isActive === 'boolean' ) {
-    //     active = isActive === true ? 'active' : '';
-    // }
-    // else if ( isActive === undefined ) {
-    //     active = '';
-    // } 
-    // else {
-    //     throw( 'Incorrect prop type for isActive' )
-    // }
+    let active;
+    // TO-DO: haven't tested to see if this is the best way to check for undefined
+    if ( isActive === undefined ) {
+        active = '';
+    }
+    else if ( typeof isActive === 'boolean' ) {
+        active = isActive === true ? 'active' : '';
+    } 
+    else {
+        throw( 'Incorrect prop type for isActive' )
+    }
 
     const navLinkClasses = `
         nav-link-wrapper
         ${className}
         ${type}
+        ${active}
     `;
 
     return (

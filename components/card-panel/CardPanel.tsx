@@ -21,8 +21,8 @@ const CardPanel: FC<Props> = ( {
 } ) => {
 
     const cardPanelClasses = `
-        ${isCentered ? 'centered-card-panel' : 'card-panel'}
         ${className}
+        ${isCentered ? 'centered-card-panel' : 'card-panel'}
     `;
 
     return (

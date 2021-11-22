@@ -1,7 +1,5 @@
 // dependencies
 import { FC, RefObject } from 'react';
-// types
-import { ConditionalProps } from 'types';
 // hooks
 import { useClickOutsideRef } from '../../hooks';
 // elements
@@ -9,30 +7,6 @@ import { ToggleButton } from '../../elements';
 
 
 /* TYPES */
-/* USE THIS TYPING IN PRODUCTION - DOSEN'T WORK IN STORYBOOK */
-// this dosen't work lmao
-// type Props = ConditionalProps<
-//     {
-//         // customization
-//         id?: string;
-//         className?: string;
-//         // states
-//         isActive: boolean;
-//         closeModal?: () => void;
-//         // styling
-//         showX?: boolean;
-//         showBackdrop?: boolean;
-//         // accessibility
-//         ariaLabelledBy: string;
-//         ariaDescribedBy: string;
-//     }, 
-//         'showX',
-//     {
-//         showX: true;
-//         closeModal: () => void;
-//     }
-// >
-
 interface Props {
     // customization
     id?: string;
