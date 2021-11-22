@@ -13,7 +13,7 @@ interface Props {
  */
 const Header: FC<Props> = ( {
     children,
-    className,
+    className='',
 } ) => {
     
     /* HOOKS */

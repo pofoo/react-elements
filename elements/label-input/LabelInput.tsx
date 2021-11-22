@@ -28,7 +28,7 @@ interface Props {
 }
 
 const LabelInput = forwardRef<ForwardedRef<HTMLInputElement>, Props>( ( { 
-    className,
+    className='',
     label,
     input,
     onEnterKey=(() => {}), // this could save the input to the cache? kind of like the dribbble UI

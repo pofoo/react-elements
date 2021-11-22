@@ -26,7 +26,7 @@ interface Props {
  * Can be wrapped in a ToggleButton to enable navigation via a popup
  */
 const AccountTag = ( {
-    className,
+    className='',
     content,
     firstElem='image',
 }: Props ) => {

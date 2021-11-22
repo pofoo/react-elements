@@ -16,7 +16,7 @@ interface Props {
  */
 const Chevron = ( {
     id,
-    className,
+    className='',
     direction='right',
     background,
     isActive,

@@ -10,7 +10,7 @@ interface Props {
 };
 
 const SVG = ( {
-    className,
+    className='',
     data, // path to SVG
     alt,
     width,

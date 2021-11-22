@@ -27,7 +27,7 @@ interface Props {
  */
 const ToggleButton: FC<Props> = ( { 
     children,
-    className,
+    className='',
     onClick,
     ariaLabel,
     ariaHasPopup=true,

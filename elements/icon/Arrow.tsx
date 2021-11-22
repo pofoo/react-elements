@@ -16,7 +16,7 @@ interface Props {
  */
 const Arrow = ( {
     id,
-    className,
+    className='',
     direction='right',
     type='pointed',
     isActive,

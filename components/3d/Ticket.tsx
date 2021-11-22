@@ -11,7 +11,7 @@ interface Props {
 const Ticket: FC<Props> = ( {
     children,
     id,
-    className,
+    className='',
 } ) => {
 
     const ticketClasses = `

@@ -25,7 +25,7 @@ interface Props {
  * Tag to categorize a piece of content
  */
 const Tag = ( {
-    className,
+    className='',
     content,
     color='green',
     isRounded=true,

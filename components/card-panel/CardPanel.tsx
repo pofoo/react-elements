@@ -16,7 +16,7 @@ interface Props {
 const CardPanel: FC<Props> = ( {
     children,
     id,
-    className,
+    className='',
     isCentered=true,
 } ) => {
 

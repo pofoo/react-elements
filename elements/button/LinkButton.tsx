@@ -54,7 +54,7 @@ interface Props {
  * Looks like a button.
  */
 const LinkButton = ( {
-    className,
+    className='',
     content,
     href,
     type='CTA',

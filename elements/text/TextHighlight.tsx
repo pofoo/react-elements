@@ -16,7 +16,7 @@ interface Props {
  */
 const TextHighlight: FC<Props> = ( {
     children,
-    className,
+    className='',
     color='blue',
 } ) => {
 

@@ -38,7 +38,7 @@ interface Props {
  * Submit and Reset Button for Forms.
  */
 const FormButton = ( {
-    className,
+    className='',
     content,
     onClick,
     isDisabled=false,

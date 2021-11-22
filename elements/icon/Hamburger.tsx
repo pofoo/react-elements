@@ -20,7 +20,7 @@ interface Props {
  */
 const Hamburger = ( { 
     id,
-    className,
+    className='',
     xBorder,
     isRounded=true,
     isActive,

@@ -15,7 +15,7 @@ interface Props {
 const Card: FC<Props> = ( {
     children,
     id,
-    className,
+    className='',
     color='blue',
     isRounded=true,
 } ) => {

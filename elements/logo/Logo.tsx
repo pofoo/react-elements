@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Logo = ( { 
-    className,
+    className='',
     type,
     width,
     height,

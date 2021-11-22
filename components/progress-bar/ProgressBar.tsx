@@ -21,7 +21,7 @@ interface Props {
  * Useful for blog pages.
  */
 const ProgressBar = ( { 
-    className,
+    className='',
     styles: {
         progressColor='blue',
         backgroundColor='red',

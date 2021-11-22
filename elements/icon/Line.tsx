@@ -13,7 +13,7 @@ interface Props {
  */
 const Line = ( {
     id,
-    className,
+    className='',
     isRounded,
     ariaLabel,
 }: Props ) => {

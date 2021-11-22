@@ -58,7 +58,7 @@ interface Props {
  * If you want to have a sub navigation pop-up, use the ToggleButton component.
  */
 const NavLink = ( {
-    className,
+    className='',
     content,
     href='/',
     isActive,

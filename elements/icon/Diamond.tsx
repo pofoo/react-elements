@@ -14,7 +14,7 @@ interface Props {
  */
 const Diamond = ( { 
     id,
-    className,
+    className='',
     isActive,
     ariaLabel,
 }: Props ) => {
