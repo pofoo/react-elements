@@ -1,9 +1,8 @@
 // dependencies
 import { useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 // types
 import { MouseEvent } from 'react';
-// hooks
-import useRippleCleanUp from './useRippleCleanUp';
 
 /* TYPES */
 interface RippleProps {
@@ -16,7 +15,7 @@ interface RippleProps {
  */
 const Ripple = ( {
     className,
-    duration=450,
+    duration=500,
  }: RippleProps ) => {
    
     /* TYPES */
@@ -56,19 +55,23 @@ const Ripple = ( {
             animationDuration: duration + 'ms',
         };
 
+        console.log( rippleStyles );
         // push new click onto the rippleStyles state
         setRippleStyles( ( rippleStyles ) => {
             return [ ...rippleStyles, newRippleStyles ];
         } );
     }
 
-    // TO-DO - this does not work properly
-    useRippleCleanUp( rippleStyles.length, duration, () => setRippleStyles( [] ) );
+    const cleanupRipples = useDebouncedCallback( 
+        () => setRippleStyles( [] ),
+        duration * 1.5,
+    )
 
     return (
         <div className={rippleClasses} 
             role='presentation' tabIndex={-1}
-            onClick={handleRippleClick}>
+            onClick={handleRippleClick}
+            onPointerUp={cleanupRipples}>
             {
                 rippleStyles.length > 0 && (
                     rippleStyles.map( ( style, index ) => {
