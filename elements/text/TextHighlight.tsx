@@ -8,6 +8,7 @@ interface Props {
     color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
 }
 
+// FOR SOME REASON THIS SOMETIMES DOSEN'T RENDER IN GOOGLE CHROME
 /**
  * Cool text highlight effect.
  * Children rendered to allow user to alter text type.
