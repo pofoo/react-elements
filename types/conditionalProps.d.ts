@@ -14,20 +14,20 @@
 // 3: extended prop types that include the new altered key value pairs
 
 
-type RemoveCommonValues<T, TOmit> = {
+type RemoveCommonValues<T extends object, TOmit> = {
     [P in keyof T]: TOmit extends Record<P, infer U> ? Exclude<T[P], U> : T[P];
 };
   
 // not needed in 3.5
-type Omit<T, K extends PropertyKey> = Pick<T, Exclude<keyof T, K>>; 
+type Omit<T extends object, K extends PropertyKey> = Pick<T, Exclude<keyof T, K>>; 
 
 // flatens out the types to make them more readable can be removed
-type Id<T> = {} & { 
+type Id<T extends object> = {} & { 
     [P in keyof T]: T[P]; 
 }; 
 
-type ConditionalProps<T, TKey extends keyof TCase, TCase extends Partial<T>> =
-    Id<Omit<T, keyof TCase> & TCase>
-    | Id<RemoveCommonValues<T, Pick<TCase, TKey>>>;
+type ConditionalProps<T extends object, TKey extends keyof TCase, TCase extends Partial<T>> =
+    Id<Omit<T, keyof TCase> & TCase> | 
+    Id<RemoveCommonValues<T, Pick<TCase, TKey>>>;
 
 export default ConditionalProps;
