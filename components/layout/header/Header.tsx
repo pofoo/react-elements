@@ -1,6 +1,7 @@
 // dependencies
 import { useState, useEffect } from 'react';
 import { FC } from 'react';
+import { useThrottledCallback } from 'use-debounce';
 
 /* TYPES */
 interface Props {
@@ -34,10 +35,15 @@ const Header: FC<Props> = ( {
         setScrollDirection( scrollDirection );
     }
 
+    const throttleScroll = useThrottledCallback( 
+        () => handleScroll( scrollPos ), 
+        250,
+    );
+
     useEffect( () => {
-        document.addEventListener( 'scroll', () => handleScroll( scrollPos ) );
+        document.addEventListener( 'scroll', throttleScroll );
         return () => {
-            document.removeEventListener( 'scroll', () => handleScroll( scrollPos ) );
+            document.removeEventListener( 'scroll', throttleScroll );
         }
     }, [ scrollPos ] );
 

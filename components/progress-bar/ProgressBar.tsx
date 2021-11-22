@@ -1,5 +1,6 @@
 // dependencies
 import { useState, useEffect } from 'react';
+import { useThrottledCallback } from 'use-debounce';
 // utils
 import calcPagePosition from './calcPagePosition';
 
@@ -32,9 +33,10 @@ const ProgressBar = ( {
     const [ progress, setProgress ] = useState<number>( 0 );
 
     /* FUNCTIONS */
-    const handleScroll = ( () => {
-        setProgress( calcPagePosition() );
-    } );
+    const handleScroll = useThrottledCallback( 
+        () => setProgress( calcPagePosition() ),
+        15
+    );
 
     /* CLASSNAMES */
     const containerClasses = `
