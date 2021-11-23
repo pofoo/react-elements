@@ -33,6 +33,7 @@ const Ticket: FC<Props> = ( {
 
     /* HOOKS */
     const [ styles, setStyles ] = useState<Styles | {}>( {} );
+    const [ parentStyles, setParentStyles ] = useState( {} );
     const ref = useRef<HTMLElement>( null );
 
     /* FUNCTIONS */
@@ -85,6 +86,17 @@ const Ticket: FC<Props> = ( {
         setStyles( itemStyles );
     }
 
+    const initiateStyles = ( target: HTMLElement ) => {
+        const halfWidth = target.getBoundingClientRect().width / 2;
+        
+        const styles = {
+            perspective: `${halfWidth * 2}px`,
+        }
+
+        setParentStyles( styles );
+    }
+
+    /* CLASSNAMES */
     const ticketClasses = `
         ticket-wrapper
         ${className}
@@ -92,13 +104,14 @@ const Ticket: FC<Props> = ( {
         ${animate ? 'animate' : ''}
     `;
 
-
     useEffect( () => {
         const target = ref.current as HTMLElement;
 
         target.addEventListener( 'pointerenter', make3D );
         target.addEventListener( 'pointermove', make3D );
         target.addEventListener( 'pointerleave', reset );
+
+        initiateStyles( target );
         return () => {
             target.removeEventListener( 'pointerenter', make3D );
             target.removeEventListener( 'pointermove', make3D );
@@ -107,8 +120,8 @@ const Ticket: FC<Props> = ( {
     }, [] );
 
     return (
-        <section id={id} ref={ref} className={ticketClasses} style={styles}>
-            {children}
+        <section id={id} ref={ref} className={ticketClasses} style={parentStyles}>
+            <div style={styles}>{children}</div>
         </section>
     )
 }

@@ -1,12 +1,14 @@
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
+// button - PARENT
 .ticket-wrapper {
     
     width: max-content;
     background: transparent;
     transform-style: preserve-3d;
 
+    // span - ITEM
     > * {
 
         // remove after
