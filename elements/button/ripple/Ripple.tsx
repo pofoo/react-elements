@@ -19,7 +19,7 @@ const Ripple = ( {
  }: RippleProps ) => {
    
     /* TYPES */
-    interface RippleStyles {
+    interface Styles {
         top: string;
         left: string;
         width: string;
@@ -27,7 +27,7 @@ const Ripple = ( {
     };
 
     /* HOOKS */
-    const [ rippleStyles, setRippleStyles ] = useState<RippleStyles[]>( [] );
+    const [ styles, setStyles ] = useState<Styles[]>( [] );
 
     /* CLASSNAMES */
     const rippleClasses = `
@@ -47,7 +47,7 @@ const Ripple = ( {
         const xClick = event.pageX - rippleContainer.x - ( size / 2 );
         const yClick = event.pageY - rippleContainer.y - ( size / 2 );
 
-        const newRippleStyles = {
+        const newStyles = {
             top: yClick + 'px',
             left: xClick + 'px',
             width: size + 'px',
@@ -55,15 +55,14 @@ const Ripple = ( {
             animationDuration: duration + 'ms',
         };
 
-        console.log( rippleStyles );
-        // push new click onto the rippleStyles state
-        setRippleStyles( ( rippleStyles ) => {
-            return [ ...rippleStyles, newRippleStyles ];
+        // push new click onto the styles state
+        setStyles( ( styles ) => {
+            return [ ...styles, newStyles ];
         } );
     }
 
     const cleanupRipples = useDebouncedCallback( 
-        () => setRippleStyles( [] ),
+        () => setStyles( [] ),
         duration * 1.5,
     )
 
@@ -73,8 +72,8 @@ const Ripple = ( {
             onClick={handleRippleClick}
             onPointerUp={cleanupRipples}>
             {
-                rippleStyles.length > 0 && (
-                    rippleStyles.map( ( style, index ) => {
+                styles.length > 0 && (
+                    styles.map( ( style, index ) => {
                         return (
                             // DO NOT CHANGE THE KEY - having it as index is vital
                             <span key={index} className='ripple' 
