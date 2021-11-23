@@ -3,6 +3,7 @@
 --------------------------------------------------------------*/
 // includes both the mouse over and focus state
 // focus state is for mobile devices and tab focused elements
+// TO-DO - might be a better way to handle mobile devices
 @mixin hover {
     &:hover,
     &:focus {

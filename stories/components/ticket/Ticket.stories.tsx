@@ -12,7 +12,7 @@ export default {
 const TicketComponent = ( args: any ) => {
     return (
         <Component>
-            I am a 3D hoverable ticket!
+            <h2>I am a 3D hoverable ticket!</h2>
         </Component>
     )
 }
