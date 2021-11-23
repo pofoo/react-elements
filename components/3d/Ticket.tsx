@@ -43,13 +43,13 @@ const Ticket: FC<Props> = ( {
     useEffect( () => {
         const target = ref.current as HTMLElement;
 
-        target.addEventListener( 'mouseeenter', calcAngle );
-        target.addEventListener( 'mousemove', calcAngle );
-        target.addEventListener( 'mouseleave', () => {} );
+        target.addEventListener( 'pointerenter', calcAngle );
+        target.addEventListener( 'pointermove', calcAngle );
+        target.addEventListener( 'pointerleave', () => {} );
         return () => {
-            target.removeEventListener( 'mouseenter', calcAngle );
-            target.removeEventListener( 'mousemove', calcAngle );
-            target.removeEventListener( 'mouseleave', () => {} );
+            target.removeEventListener( 'pointerenter', calcAngle );
+            target.removeEventListener( 'pointermove', calcAngle );
+            target.removeEventListener( 'pointerleave', () => {} );
         }
     }, [] );
 
