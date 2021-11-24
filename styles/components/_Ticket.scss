@@ -19,6 +19,7 @@ $ticket--transition:                    0.1s ease-out;
 
         // regular black drop shadow
         filter: drop-shadow(0 15px 15px rgba(0,0,0,0.3));
+        transform: rotateX(0deg) rotateY(0deg) scale(1);
 
         // red / orange
         background: linear-gradient(180deg, #ff7147, #e0417f);

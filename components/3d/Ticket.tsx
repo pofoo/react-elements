@@ -1,5 +1,10 @@
 // dependencies
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState, PointerEvent } from 'react';
+// types
+import { TapEvent, ReactTapEvent } from 'types';
+// lib / events
+import { usePointerMove } from '../../hooks';
+
 
 /* TYPES */
 interface Props {
@@ -34,17 +39,21 @@ const Ticket: FC<Props> = ( {
     /* HOOKS */
     const [ styles, setStyles ] = useState<Styles | {}>( {} );
     const [ parentStyles, setParentStyles ] = useState( {} );
-    const ref = useRef<HTMLDivElement>( null );
+    const ref = useRef<HTMLElement>( null );
 
     /* FUNCTIONS */
     const make3D = ( 
-        event: PointerEvent,
+        event: ReactTapEvent | TapEvent | PointerEvent,
         distortX: number=6,
         distortY: number=4,
     ): void => {
         const target = ref.current as HTMLElement;
         const rect = target.getBoundingClientRect();
 
+        // TO-DO - take into account for both MouseEvent and TouchEvent
+        if ( event.nativeEvent instanceof TouchEvent ) {
+
+        }
         // position of user's pointer relative to ticket
         const x = Math.abs( rect.x - event.clientX );
         const y = Math.abs( rect.y - event.clientY );
@@ -71,7 +80,7 @@ const Ticket: FC<Props> = ( {
     }
 
     const reset = () => {
-        let dropShadowColor = `rgba(0, 0, 0, 0.3)`;
+        const dropShadowColor = `rgba(0, 0, 0, 0.3)`;
 
         setStyles( {
             transform: `rotateY(0deg) rotateX(0deg) scale(1)`,
@@ -99,19 +108,29 @@ const Ticket: FC<Props> = ( {
         const target = ref.current as HTMLDivElement;
 
         target.addEventListener( 'pointerenter', make3D );
-        target.addEventListener( 'pointermove', make3D );
         target.addEventListener( 'pointerleave', reset );
 
         initParentStyles( target );
         return () => {
             target.removeEventListener( 'pointerenter', make3D );
-            target.removeEventListener( 'pointermove', make3D );
             target.removeEventListener( 'pointerleave', reset );
         }
     }, [] );
 
+    // useEffect( () => {
+    //     const target = ref.current as HTMLElement;
+
+    //     initParentStyles( target );
+    //     target.addEventListener( 'pointerenter', make3D );
+    // }, [] );
+
+
+    // the default pointerMove does not work in Firefox - using more complete one
+    usePointerMove( ref, make3D );
+
     return (
-        <section id={id} ref={ref} className='ticket-container' style={parentStyles}>
+        <section id={id} ref={ref} className='ticket-container' style={parentStyles}
+            onPointerEnter={make3D} onPointerLeave={reset}>
             <div style={styles} className={ticketClasses}>{children}</div>
         </section>
     )

@@ -9,6 +9,7 @@ import { Colors, BackgroundColors } from './colors';
 import Image from './Image';
 import ObjectAtLeastOne from './objectAtLeastOne';
 import ConditionalProps from './conditionalProps';
+import { ReactTapEvent, TapEvent } from './tap-event';
 
 export type {
     Href,
@@ -23,4 +24,6 @@ export type {
     Image,
     ObjectAtLeastOne,
     ConditionalProps,
+    TapEvent,
+    ReactTapEvent,
 }
