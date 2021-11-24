@@ -12,7 +12,7 @@ interface Props {
 }
 
 /**
- * 3D ticket that follows mouse cursor on hover.
+ * 3D ticket that follows pointer cursor on hover.
  * If animate is set to true, then the Ticket will continuously animate.
  * Can pass buttons or any other element type in as children for this component.
  */
@@ -34,7 +34,7 @@ const Ticket: FC<Props> = ( {
     /* HOOKS */
     const [ styles, setStyles ] = useState<Styles | {}>( {} );
     const [ parentStyles, setParentStyles ] = useState( {} );
-    const ref = useRef<HTMLElement>( null );
+    const ref = useRef<HTMLDivElement>( null );
 
     /* FUNCTIONS */
     const make3D = ( 
@@ -45,9 +45,9 @@ const Ticket: FC<Props> = ( {
         const target = ref.current as HTMLElement;
         const rect = target.getBoundingClientRect();
 
-        // position of user mouse relative to ticket
-        const x = Math.abs( rect.y - event.clientY );
-        const y = Math.abs( rect.x - event.clientX );
+        // position of user's pointer relative to ticket
+        const x = Math.abs( rect.x - event.clientX );
+        const y = Math.abs( rect.y - event.clientY );
 
         // half dimensions of the ticket
         const halfWidth = rect.width / 2;
@@ -61,39 +61,30 @@ const Ticket: FC<Props> = ( {
         const xShadow = ( x - halfWidth ) / 3;
         const yShadow = ( y - halfHeight ) / 3;
 
-        let dropShadowColor = `rgba(0, 0, 0, 0.3)`
+        const dropShadowColor = `rgba(0, 0, 0, 0.3)`;
 
-        // parent.style.perspective = `${halfWidth * 2}px`
-
-        // styles
-        const itemStyles = {
+        setStyles( {
             transform: `rotateY(${angleX}deg) rotateX(${angleY}deg) scale(1.15)`,
             perspective: `${halfWidth * 3}px`,
             filter: `drop-shadow(${-xShadow}px ${yShadow}px 15px ${dropShadowColor})`,
-        }
-
-        setStyles( itemStyles );
+        } );
     }
 
-    const reset = ( event: PointerEvent ) => {
-        let dropShadowColor = `rgba(0, 0, 0, 0.3)`
+    const reset = () => {
+        let dropShadowColor = `rgba(0, 0, 0, 0.3)`;
 
-        const itemStyles = {
+        setStyles( {
             transform: `rotateY(0deg) rotateX(0deg) scale(1)`,
             filter: `drop-shadow(0 10px 15px ${dropShadowColor})`,
-        }
-
-        setStyles( itemStyles );
+        } );
     }
 
-    const initiateStyles = ( target: HTMLElement ) => {
+    const initParentStyles = ( target: HTMLElement ) => {
         const halfWidth = target.getBoundingClientRect().width / 2;
         
-        const styles = {
+        setParentStyles( {
             perspective: `${halfWidth * 2}px`,
-        }
-
-        setParentStyles( styles );
+        } );
     }
 
     /* CLASSNAMES */
@@ -105,13 +96,13 @@ const Ticket: FC<Props> = ( {
     `;
 
     useEffect( () => {
-        const target = ref.current as HTMLElement;
+        const target = ref.current as HTMLDivElement;
 
         target.addEventListener( 'pointerenter', make3D );
         target.addEventListener( 'pointermove', make3D );
         target.addEventListener( 'pointerleave', reset );
 
-        initiateStyles( target );
+        initParentStyles( target );
         return () => {
             target.removeEventListener( 'pointerenter', make3D );
             target.removeEventListener( 'pointermove', make3D );
@@ -120,8 +111,8 @@ const Ticket: FC<Props> = ( {
     }, [] );
 
     return (
-        <section id={id} ref={ref} className={ticketClasses} style={parentStyles}>
-            <div style={styles}>{children}</div>
+        <section id={id} ref={ref} className='ticket-container' style={parentStyles}>
+            <div style={styles} className={ticketClasses}>{children}</div>
         </section>
     )
 }

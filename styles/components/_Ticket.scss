@@ -1,23 +1,23 @@
 /*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$ticket--transition:                    0.1s ease-out;
+
+/*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
-// button - PARENT
-.ticket-wrapper {
-    
+.ticket-container {
     width: max-content;
-    background: transparent;
+    // do not remove this
     transform-style: preserve-3d;
 
-    // span - ITEM
-    > * {
-
-        // remove after
-        padding: 3rem;
-
+    .ticket-wrapper {
+        display: block;
+        padding: 2rem;
 
         color: white;
-        overflow: hidden;
-        transform: rotateX(0deg) rotateY(0deg) scale(1);
+
+        // regular black drop shadow
         filter: drop-shadow(0 15px 15px rgba(0,0,0,0.3));
 
         // red / orange
@@ -28,15 +28,14 @@
         background: linear-gradient(180deg, #e347ff, #7b41e0);
 
         // lighter drop shadow
-        filter: drop-shadow(0 15px 15px #00a1ff57);
-        // check if i need this
-        perspective-origin: 0 0;
+        // filter: drop-shadow(0 15px 15px #00a1ff57);
 
-        transition: all 0.15s ease-out;
+        transition: transform $ticket--transition,
+                    filter $ticket--transition;
     }
 
     &.animate {
-        > * {
+        .ticket-wrapper {
             content: '';
             position: absolute;
             top: 0;
@@ -49,7 +48,7 @@
         }
 
         &.another-one {
-            > * {
+            .ticket-wrapper {
                 width: 200%;
                 height: 100%;
                 animation: colorCycleExample 4s infinite alternate;
@@ -57,6 +56,7 @@
         }
     }
 }
+
 
 @keyframes colorCycle {
     0% {
