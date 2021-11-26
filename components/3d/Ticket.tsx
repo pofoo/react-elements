@@ -12,6 +12,7 @@ interface Props {
     id?: string;
     className?: string;
     // styling
+    isRounded?: boolean;
     moveColor?: boolean; // whether the background color should be continuously changing and blending
     animate?: boolean; // whether to continuously animate the ticket
 }
@@ -25,8 +26,9 @@ const Ticket: FC<Props> = ( {
     children,
     id,
     className='',
+    isRounded=true,
     moveColor=true,
-    animate=false,
+    animate=true,
 } ) => {
 
     /* TYPES */
@@ -70,6 +72,7 @@ const Ticket: FC<Props> = ( {
         const xShadow = ( x - halfWidth ) / 3;
         const yShadow = ( y - halfHeight ) / 3;
 
+        // by default its a black drop shadow
         const dropShadowColor = `rgba(0, 0, 0, 0.3)`;
 
         setStyles( {
@@ -80,6 +83,7 @@ const Ticket: FC<Props> = ( {
     }
 
     const reset = () => {
+        // by default its a black drop shadow
         const dropShadowColor = `rgba(0, 0, 0, 0.3)`;
 
         setStyles( {
@@ -96,12 +100,16 @@ const Ticket: FC<Props> = ( {
         } );
     }
 
+    const toggleOtherAnimation = true;
+
     /* CLASSNAMES */
     const ticketClasses = `
         ticket-wrapper
         ${className}
+        ${isRounded ? 'rounded ': ''}
         ${moveColor ? 'move-color' : ''}
         ${animate ? 'animate' : ''}
+        ${toggleOtherAnimation ? 'another-animation' : ''}
     `;
 
     useEffect( () => {
@@ -131,7 +139,7 @@ const Ticket: FC<Props> = ( {
     return (
         <section id={id} ref={ref} className='ticket-container' style={parentStyles}
             onPointerEnter={make3D} onPointerLeave={reset}>
-            <div style={styles} className={ticketClasses}>{children}</div>
+            <span style={styles} className={ticketClasses}>{children}</span>
         </section>
     )
 }

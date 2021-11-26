@@ -1,6 +1,7 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
+$ticket--border-radius:                 9px;
 $ticket--transition:                    0.1s ease-out;
 
 /*--------------------------------------------------------------
@@ -11,6 +12,42 @@ $ticket--transition:                    0.1s ease-out;
     // do not remove this
     transform-style: preserve-3d;
 
+
+    position: relative;
+    float: left;
+    background: transparent;
+
+    /* COLOR ANIMATIONS */
+    @keyframes colorCycle {
+        0% {
+            top: 0;
+            left: 0;
+            transform: scale(1);
+        }
+        50% {
+            top: -50%;
+            transform: scale(1.4);
+        }
+        100% {
+            top: 0;
+            left: -500%;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes colorCycleExample {
+        0% {
+            top: 0;
+            left: 0;
+            transform: scale(1);
+        }
+        100% {
+            top: 0;
+            left: -100%;
+            transform: scale(1);
+        }
+    }
+
     .ticket-wrapper {
         display: block;
         padding: 2rem;
@@ -18,6 +55,7 @@ $ticket--transition:                    0.1s ease-out;
         color: white;
 
         // regular black drop shadow
+        // TO-DO - this variable is already set in the js code
         filter: drop-shadow(0 15px 15px rgba(0,0,0,0.3));
         transform: rotateX(0deg) rotateY(0deg) scale(1);
 
@@ -33,58 +71,38 @@ $ticket--transition:                    0.1s ease-out;
 
         transition: transform $ticket--transition,
                     filter $ticket--transition;
-    }
 
-    &.animate {
-        .ticket-wrapper {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 600%;
-            height: 200%;
-            background: linear-gradient(90deg, #00a1ff, #af4ae6, #00a1ff, #2cefff);
-            animation: colorCycle 8s infinite alternate;
-            z-index: -1;
+        /* SHAPE */
+        &.rounded {
+            border-radius: $ticket--border-radius;
         }
 
-        &.another-one {
-            .ticket-wrapper {
-                width: 200%;
-                height: 100%;
-                animation: colorCycleExample 4s infinite alternate;
+        /* ANIMATION */
+        // continously move 
+        &.animate {
+
+        }
+        // background color continously changes and moves
+        &.move-color {
+            &:after {
+                content: '';
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 600%;
+                height: 200%;
+                background: linear-gradient(90deg, #00a1ff, #af4ae6, #00a1ff, #2cefff);
+                animation: colorCycle 8s infinite alternate;
+                z-index: -1;
+            }
+
+            &.another-animation {
+                &:after {
+                    // width: 200%;
+                    // height: 100%;
+                    animation: colorCycleExample 4s infinite alternate;
+                }
             }
         }
-    }
-}
-
-
-@keyframes colorCycle {
-    0% {
-        top: 0;
-        left: 0;
-        transform: scale(1);
-    }
-    50% {
-        top: -50%;
-        transform: scale(1.4);
-    }
-    100% {
-        top: 0;
-        left: -500%;
-        transform: scale(1);
-    }
-}
-
-@keyframes colorCycleExample {
-    0% {
-        top: 0;
-        left: 0;
-        transform: scale(1);
-    }
-    100% {
-        top: 0;
-        left: -100%;
-        transform: scale(1);
     }
 }
