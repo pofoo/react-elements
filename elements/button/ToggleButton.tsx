@@ -38,6 +38,9 @@ const ToggleButton: FC<Props> = ( {
     if ( typeof ariaLabel !== 'string' ) {
         label = isPressed ? ariaLabel.pressedLabel : ariaLabel.notPressedLabel;
     }
+    else {
+        label = ariaLabel;
+    }
 
     /* CLASSNAMES */
     const buttonClasses = `
