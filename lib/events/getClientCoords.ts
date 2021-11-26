@@ -7,7 +7,7 @@ import { ReactTapEvent, TapEvent } from 'types';
  */
 const getClientCoords = (
     event: ReactTapEvent | TapEvent,
-) => {
+): [ number, number ] => {
     let clientX;
     let clientY;
 

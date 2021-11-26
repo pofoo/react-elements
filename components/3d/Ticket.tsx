@@ -64,6 +64,7 @@ const Ticket: FC<Props> = ( {
         const rect = target.getBoundingClientRect();
 
         // get the client coordinates for either Mouse or Touch Event
+        // TO-DO - test this on a mobile device
         const [ clientX, clientY ] = getClientCoords( event );
         
         // position of user's pointer relative to ticket
