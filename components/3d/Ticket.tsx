@@ -1,5 +1,6 @@
 // dependencies
 import { FC, useEffect, useRef, useState } from 'react';
+import { useThrottledCallback } from 'use-debounce';
 // types
 import { TapEvent, ReactTapEvent } from 'types';
 // hooks
@@ -59,6 +60,7 @@ const Ticket: FC<Props> = ( {
         event: ReactTapEvent | TapEvent,
         distortX: number=6,
         distortY: number=4,
+        shadowDistort: number=3,
     ): void => {
         const target = ref.current as HTMLElement;
         const rect = target.getBoundingClientRect();
@@ -71,6 +73,13 @@ const Ticket: FC<Props> = ( {
         const x = Math.abs( rect.x - clientX );
         const y = Math.abs( rect.y - clientY );
 
+        console.log( 'HOVER' );
+        console.log( `x: ${x}`);
+        console.log( `y: ${y}`);
+        // coords around the center of ticket
+        // x: 143
+        // y: 85
+
         // half dimensions of the ticket
         const halfWidth = rect.width / 2;
         const halfHeight = rect.height / 2;
@@ -80,8 +89,8 @@ const Ticket: FC<Props> = ( {
         const angleY = ( y - halfHeight ) / distortY;
 
         // new shadows relative to cursor
-        const xShadow = ( x - halfWidth ) / 3;
-        const yShadow = ( y - halfHeight ) / 3;
+        const xShadow = ( x - halfWidth ) / shadowDistort;
+        const yShadow = ( y - halfHeight ) / shadowDistort;
 
         setStyles( {
             transform: `rotateY(${angleX}deg) rotateX(${angleY}deg) scale(1.15)`,
@@ -105,6 +114,81 @@ const Ticket: FC<Props> = ( {
         } );
     }
 
+    const animateTicket = (
+        speed: number=0.5,
+        distortX: number=18,
+        distortY: number=12,
+        shadowDistort: number=9,
+        scale: {
+            xScale: number,
+            yScale: number
+        }={
+            xScale: 5,
+            yScale: 5,
+        },
+    ) => {
+        const target = ref.current as HTMLElement;
+        const rect = target.getBoundingClientRect();
+
+        // slower movement of ticket
+        const transition = `transform ${speed}s ease-out, filter ${speed}s ease-out`;
+
+        // half dimensions of the ticket
+        const halfWidth = rect.width / 2;
+        const halfHeight = rect.height / 2;
+
+        console.log( `Half Width: ${halfWidth}` );
+        console.log( `Half Height: ${halfHeight}` );
+        // haldWidth: 142.625
+        // halfHeight: 65.5
+
+        // very bottom right coordinates
+        const x = rect.right - rect.left;
+        const y = rect.bottom - rect.top;
+
+        // subtract very bottom right coordinates with center coordinates -> thats ur max distance
+        // scale the max distance
+        // code the four distinct quadrants
+        // you know when to go to the next quadrant when x or y value is equal to center coordinate x or y value
+        
+        // when the ticket is not being hovered
+        // while ( !( 'perspective' in styles ) ) {
+        //     console.log( 'hello' );
+        // }
+        // center coordinates
+
+        // console.log( 'SELF ANIMATE' );
+        // console.log( `x: ${x}`);
+        // console.log( `y: ${y}`);
+        // x: 285.25
+        // y: 131
+        
+        // COUNTER-CLOCKWISE
+        // I
+        // -x, +y
+
+        // II
+        // +x, +y
+
+        // III
+        // +x, -y
+
+        // IV
+        // -x, -y
+
+        const angleX = ( x - halfWidth ) / distortX;
+        const angleY = ( y - halfHeight ) / distortY;
+
+        const xShadow = ( x - halfWidth ) / shadowDistort;
+        const yShadow = ( y - halfHeight ) / shadowDistort;
+
+        // setStyles( {
+        //     transform: `rotateY(${angleX}deg) rotateX(${angleY}deg) scale(1.15)`,
+        //     perspective: `${halfWidth * 3}px`,
+        //     filter: `drop-shadow(${-xShadow}px ${yShadow}px 15px ${DROP_SHADOW_COLOR})`,
+        // } );
+    }
+
     // TO-DO - remove this after testing out color animations
     const toggleOtherAnimation = false;
     /* CLASSNAMES */
@@ -122,6 +206,7 @@ const Ticket: FC<Props> = ( {
         // load initial styles on component render
         reset();
         initParentStyles( ref.current as HTMLElement );
+        animateTicket();
     }, [] );
 
     // the default pointerMove does not work in Firefox - using more complete one

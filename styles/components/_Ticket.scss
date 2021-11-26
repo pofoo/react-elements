@@ -11,6 +11,10 @@ $ticket--transition:                    0.1s ease-out;
     width: max-content;
     transform-style: preserve-3d;
 
+    // delete this
+    padding-top: 3rem;
+    margin: auto;
+
     /* COLOR ANIMATIONS */
     @keyframes colorCycle {
         0% {
