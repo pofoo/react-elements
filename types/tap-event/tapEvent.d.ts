@@ -1,4 +1,4 @@
-// Tap Event when using eventListeners
+// Tap Event when using eventListeners - supports built in default PointerEvent
 type TapEvent = MouseEvent | TouchEvent;
 
 export default TapEvent;

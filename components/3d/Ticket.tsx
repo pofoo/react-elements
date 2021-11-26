@@ -1,5 +1,5 @@
 // dependencies
-import { FC, useEffect, useRef, useState, PointerEvent } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 // types
 import { TapEvent, ReactTapEvent } from 'types';
 // lib / events
@@ -24,6 +24,7 @@ interface Props {
  * 3D ticket that follows pointer cursor on hover.
  * If animate is set to true, then the Ticket will continuously animate.
  * Can pass buttons or any other element type in as children for this component.
+ * THIS THIS COMPONENT DOES NOT WORK IN FIREFOX.
  */
 const Ticket: FC<Props> = ( {
     children,
@@ -32,7 +33,7 @@ const Ticket: FC<Props> = ( {
     isRounded=true,
     moveColor=false,
     animate=false,
-    color,
+    color='',
     shadow,
 } ) => {
 
@@ -50,21 +51,36 @@ const Ticket: FC<Props> = ( {
     /* HOOKS */
     const [ styles, setStyles ] = useState<Styles | {}>( {} );
     const [ parentStyles, setParentStyles ] = useState( {} );
-    const ref = useRef<HTMLElement>( null );
+    const ref = useRef<HTMLDivElement>( null );
 
     /* FUNCTIONS */
     const make3D = ( 
-        event: ReactTapEvent | TapEvent | PointerEvent,
+        event: ReactTapEvent | TapEvent,
+        // event: TouchEvent,
         distortX: number=6,
         distortY: number=4,
     ): void => {
         const target = ref.current as HTMLElement;
         const rect = target.getBoundingClientRect();
 
-        // TO-DO - take into account for both MouseEvent and TouchEvent
-        if ( event.nativeEvent instanceof TouchEvent ) {
+        // const { targetTouches=null } = event; 
+        // let clientX;
+        // let clientY;
+        // if ( targetTouches ) {
+        //     const lastIndex = targetTouches.length - 1;
+        //     clientX = targetTouches[ lastIndex ];
+        //     clientY = targetTouches[ lastIndex ]
+        // }
+        // else {
+        //     clientX = event.clientX;
+        //     clientY = event.clientY
+        // }
 
-        }
+        // // TO-DO - take into account for both MouseEvent and TouchEvent
+        // // this is only supported with React Tap Events
+        // if ( event.nativeEvent instanceof TouchEvent ) {
+
+        // }
         // position of user's pointer relative to ticket
         const x = Math.abs( rect.x - event.clientX );
         const y = Math.abs( rect.y - event.clientY );
@@ -113,16 +129,19 @@ const Ticket: FC<Props> = ( {
         ${moveColor ? 'move-color' : ''}
         ${animate ? 'animate' : ''}
         ${toggleOtherAnimation ? 'another-animation' : ''}
+        ${color}
     `;
 
+    // PointerEvent or TapEvent
     useEffect( () => {
         const target = ref.current as HTMLDivElement;
 
         target.addEventListener( 'pointerenter', make3D );
+        // target.addEventListener( 'pointermove', make3D );
         target.addEventListener( 'pointerleave', reset );
 
         // load initial styles on component render
-        reset();
+        // reset();
         initParentStyles( target );
         return () => {
             target.removeEventListener( 'pointerenter', make3D );
@@ -139,12 +158,14 @@ const Ticket: FC<Props> = ( {
 
 
     // the default pointerMove does not work in Firefox - using more complete one
-    usePointerMove( ref, make3D );
+    // TapEvent
+    // usePointerMove( ref, make3D );
 
     return (
-        <section id={id} ref={ref} className='ticket-container' style={parentStyles}
+        <section id={id} className='ticket-container' style={parentStyles}
+            // React import PointerEvent
             onPointerEnter={make3D} onPointerLeave={reset}>
-            <div style={styles} className={ticketClasses}>{children}</div>
+            <div ref={ref} className={ticketClasses} style={styles} >{children}</div>
         </section>
     )
 }
