@@ -51,7 +51,7 @@ const Ticket: FC<Props> = ( {
     /* HOOKS */
     const [ styles, setStyles ] = useState<Styles | {}>( {} );
     const [ parentStyles, setParentStyles ] = useState( {} );
-    const ref = useRef<HTMLDivElement>( null );
+    const ref = useRef<HTMLElement>( null );
 
     /* FUNCTIONS */
     const make3D = ( 
@@ -134,38 +134,20 @@ const Ticket: FC<Props> = ( {
 
     // PointerEvent or TapEvent
     useEffect( () => {
-        const target = ref.current as HTMLDivElement;
-
-        target.addEventListener( 'pointerenter', make3D );
-        // target.addEventListener( 'pointermove', make3D );
-        target.addEventListener( 'pointerleave', reset );
-
         // load initial styles on component render
-        // reset();
-        initParentStyles( target );
-        return () => {
-            target.removeEventListener( 'pointerenter', make3D );
-            target.removeEventListener( 'pointerleave', reset );
-        }
+        reset();
+        initParentStyles( ref.current as HTMLElement );
     }, [] );
-
-    // useEffect( () => {
-    //     const target = ref.current as HTMLElement;
-
-    //     initParentStyles( target );
-    //     target.addEventListener( 'pointerenter', make3D );
-    // }, [] );
-
 
     // the default pointerMove does not work in Firefox - using more complete one
     // TapEvent
-    // usePointerMove( ref, make3D );
+    usePointerMove( ref, make3D );
 
     return (
-        <section id={id} className='ticket-container' style={parentStyles}
+        <section id={id} ref={ref} className='ticket-container' style={parentStyles}
             // React import PointerEvent
             onPointerEnter={make3D} onPointerLeave={reset}>
-            <div ref={ref} className={ticketClasses} style={styles} >{children}</div>
+            <div className={ticketClasses} style={styles} >{children}</div>
         </section>
     )
 }
