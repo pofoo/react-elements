@@ -9,13 +9,7 @@ $ticket--transition:                    0.1s ease-out;
 --------------------------------------------------------------*/
 .ticket-container {
     width: max-content;
-    // do not remove this
     transform-style: preserve-3d;
-
-
-    position: relative;
-    float: left;
-    background: transparent;
 
     /* COLOR ANIMATIONS */
     @keyframes colorCycle {
@@ -50,14 +44,10 @@ $ticket--transition:                    0.1s ease-out;
 
     .ticket-wrapper {
         display: block;
+        overflow: hidden;
         padding: 2rem;
 
         color: white;
-
-        // regular black drop shadow
-        // TO-DO - this variable is already set in the js code
-        filter: drop-shadow(0 15px 15px rgba(0,0,0,0.3));
-        transform: rotateX(0deg) rotateY(0deg) scale(1);
 
         // red / orange
         background: linear-gradient(180deg, #ff7147, #e0417f);
@@ -86,20 +76,22 @@ $ticket--transition:                    0.1s ease-out;
         &.move-color {
             &:after {
                 content: '';
-                position: relative;
+                position: absolute;
                 top: 0;
                 left: 0;
                 width: 600%;
                 height: 200%;
+                // TO-DO - play around with the backgrounds
                 background: linear-gradient(90deg, #00a1ff, #af4ae6, #00a1ff, #2cefff);
+                // TO-DO - play around with the animation
                 animation: colorCycle 8s infinite alternate;
                 z-index: -1;
             }
 
             &.another-animation {
                 &:after {
-                    // width: 200%;
-                    // height: 100%;
+                    width: 200%;
+                    height: 100%;
                     animation: colorCycleExample 4s infinite alternate;
                 }
             }

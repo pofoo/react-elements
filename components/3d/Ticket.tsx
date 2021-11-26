@@ -15,6 +15,9 @@ interface Props {
     isRounded?: boolean;
     moveColor?: boolean; // whether the background color should be continuously changing and blending
     animate?: boolean; // whether to continuously animate the ticket
+    // TO-DO - implement different colors
+    color?: 'none' | string;
+    shadow?: 'match-color' | 'black';
 }
 
 /**
@@ -27,9 +30,15 @@ const Ticket: FC<Props> = ( {
     id,
     className='',
     isRounded=true,
-    moveColor=true,
-    animate=true,
+    moveColor=false,
+    animate=false,
+    color,
+    shadow,
 } ) => {
+
+    /* CONSTANTS */
+    // TO-DO - implement match color
+    const DROP_SHADOW_COLOR = shadow === 'black' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.3)';
 
     /* TYPES */
     interface Styles {
@@ -72,23 +81,17 @@ const Ticket: FC<Props> = ( {
         const xShadow = ( x - halfWidth ) / 3;
         const yShadow = ( y - halfHeight ) / 3;
 
-        // by default its a black drop shadow
-        const dropShadowColor = `rgba(0, 0, 0, 0.3)`;
-
         setStyles( {
             transform: `rotateY(${angleX}deg) rotateX(${angleY}deg) scale(1.15)`,
             perspective: `${halfWidth * 3}px`,
-            filter: `drop-shadow(${-xShadow}px ${yShadow}px 15px ${dropShadowColor})`,
+            filter: `drop-shadow(${-xShadow}px ${yShadow}px 15px ${DROP_SHADOW_COLOR})`,
         } );
     }
 
     const reset = () => {
-        // by default its a black drop shadow
-        const dropShadowColor = `rgba(0, 0, 0, 0.3)`;
-
-        setStyles( {
+     setStyles( {
             transform: `rotateY(0deg) rotateX(0deg) scale(1)`,
-            filter: `drop-shadow(0 10px 15px ${dropShadowColor})`,
+            filter: `drop-shadow(0 10px 15px ${DROP_SHADOW_COLOR})`,
         } );
     }
 
@@ -100,8 +103,8 @@ const Ticket: FC<Props> = ( {
         } );
     }
 
-    const toggleOtherAnimation = true;
-
+    // TO-DO - remove this after testing out color animations
+    const toggleOtherAnimation = false;
     /* CLASSNAMES */
     const ticketClasses = `
         ticket-wrapper
@@ -118,6 +121,8 @@ const Ticket: FC<Props> = ( {
         target.addEventListener( 'pointerenter', make3D );
         target.addEventListener( 'pointerleave', reset );
 
+        // load initial styles on component render
+        reset();
         initParentStyles( target );
         return () => {
             target.removeEventListener( 'pointerenter', make3D );
@@ -139,7 +144,7 @@ const Ticket: FC<Props> = ( {
     return (
         <section id={id} ref={ref} className='ticket-container' style={parentStyles}
             onPointerEnter={make3D} onPointerLeave={reset}>
-            <span style={styles} className={ticketClasses}>{children}</span>
+            <div style={styles} className={ticketClasses}>{children}</div>
         </section>
     )
 }
