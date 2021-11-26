@@ -2,8 +2,10 @@
 import { FC, useEffect, useRef, useState } from 'react';
 // types
 import { TapEvent, ReactTapEvent } from 'types';
-// lib / events
+// hooks
 import { usePointerMove } from '../../hooks';
+// lib
+import { getClientCoords } from '../../lib';
 
 
 /* TYPES */
@@ -24,7 +26,6 @@ interface Props {
  * 3D ticket that follows pointer cursor on hover.
  * If animate is set to true, then the Ticket will continuously animate.
  * Can pass buttons or any other element type in as children for this component.
- * THIS THIS COMPONENT DOES NOT WORK IN FIREFOX.
  */
 const Ticket: FC<Props> = ( {
     children,
@@ -56,34 +57,18 @@ const Ticket: FC<Props> = ( {
     /* FUNCTIONS */
     const make3D = ( 
         event: ReactTapEvent | TapEvent,
-        // event: TouchEvent,
         distortX: number=6,
         distortY: number=4,
     ): void => {
         const target = ref.current as HTMLElement;
         const rect = target.getBoundingClientRect();
 
-        // const { targetTouches=null } = event; 
-        // let clientX;
-        // let clientY;
-        // if ( targetTouches ) {
-        //     const lastIndex = targetTouches.length - 1;
-        //     clientX = targetTouches[ lastIndex ];
-        //     clientY = targetTouches[ lastIndex ]
-        // }
-        // else {
-        //     clientX = event.clientX;
-        //     clientY = event.clientY
-        // }
-
-        // // TO-DO - take into account for both MouseEvent and TouchEvent
-        // // this is only supported with React Tap Events
-        // if ( event.nativeEvent instanceof TouchEvent ) {
-
-        // }
+        // get the client coordinates for either Mouse or Touch Event
+        const [ clientX, clientY ] = getClientCoords( event );
+        
         // position of user's pointer relative to ticket
-        const x = Math.abs( rect.x - event.clientX );
-        const y = Math.abs( rect.y - event.clientY );
+        const x = Math.abs( rect.x - clientX );
+        const y = Math.abs( rect.y - clientY );
 
         // half dimensions of the ticket
         const halfWidth = rect.width / 2;
@@ -132,7 +117,6 @@ const Ticket: FC<Props> = ( {
         ${color}
     `;
 
-    // PointerEvent or TapEvent
     useEffect( () => {
         // load initial styles on component render
         reset();
@@ -140,12 +124,10 @@ const Ticket: FC<Props> = ( {
     }, [] );
 
     // the default pointerMove does not work in Firefox - using more complete one
-    // TapEvent
     usePointerMove( ref, make3D );
 
     return (
         <section id={id} ref={ref} className='ticket-container' style={parentStyles}
-            // React import PointerEvent
             onPointerEnter={make3D} onPointerLeave={reset}>
             <div className={ticketClasses} style={styles} >{children}</div>
         </section>
