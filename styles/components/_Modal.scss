@@ -14,11 +14,12 @@ $modal-x--size:                     1.5rem;
 # Styling
 --------------------------------------------------------------*/
 .modal-wrapper {
+    display: block;
     position: absolute;
     // position modal center horizontally, a little higher vertically
     left: 50%;
     top: 50%;
-    transform: translate( -50%, -80% );
+    transform: translate( -50%, -100% );
 
     padding: $modal--padding;
     background: white;

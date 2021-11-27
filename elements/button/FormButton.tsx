@@ -2,6 +2,8 @@
 import SVG from '../svg';
 // partials
 import Ripple from './ripple';
+// installed elements
+import { PuffLoader } from 'react-spinners';
 // types
 import { MouseEvent } from 'react';
 // import { Colors } from 'types';
@@ -70,7 +72,18 @@ const FormButton = ( {
         ${click !== 'ripple' && click}
     `;
 
+    const override = `
+        display: block;
+        margin: 0;
+        padding: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate( -50%, -70% );
+        border-color: red;
+    `;
+
     return (
+        <>
         <button className={buttonClasses} 
             onClick={onClick} disabled={isDisabled}
             type={type}>
@@ -88,7 +101,11 @@ const FormButton = ( {
                     <Ripple />
                 )
             }
+                
+        <PuffLoader css={override} loading={true} size={50}/>
         </button>
+
+        </>
     );
 }
 
