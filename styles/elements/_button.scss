@@ -40,9 +40,6 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
 }
 
 .form-button-wrapper {
-    width: max-content;
-    height: max-content;
-    
     /* SHAPE */
     &.rounded {
         border-radius: $button--border-radius;

@@ -73,13 +73,12 @@ const FormButton = ( {
     `;
 
     const override = `
-        display: block;
         margin: 0;
         padding: 0;
+        display: block;
         top: 50%;
         left: 50%;
         transform: translate( -50%, -70% );
-        border-color: red;
     `;
 
     return (
@@ -87,6 +86,9 @@ const FormButton = ( {
         <button className={buttonClasses} 
             onClick={onClick} disabled={isDisabled}
             type={type}>
+        <PuffLoader css={override} color='blue' loading={true} size={50}/>
+
+
             {
                 icon && (
                     // TO-DO - adjust width and height depending on button size
@@ -101,8 +103,9 @@ const FormButton = ( {
                     <Ripple />
                 )
             }
+
+
                 
-        <PuffLoader css={override} loading={true} size={50}/>
         </button>
 
         </>
