@@ -2,21 +2,23 @@
 import { useEffect, useRef, RefObject } from 'react';
 
 /* TYPES */
-type Options = {
+export type Options = {
     enableEscape?: boolean;
+    numRefs?: number;
 }
 
 /**
- * Returns refs that calls an onClick function everytime a click is made outside of that HTML Element
- * Defaults to 1 ref returned - all refs are returned in an array
- * numRefs only takes positive numbers
+ * Returns refs that calls an onClick function everytime a click is made outside of that HTML Element.
+ * Defaults to 1 ref returned - all refs are returned in an array.
+ * numRefs only takes positive numbers.
  */
 const useClickOutsideRef = <T extends HTMLElement>( 
     onClick: () => void,
     options: Options={},
-    numRefs: number=1, // this should only be a positive number
-    // TO-DO - the generic T right now assumes that all the refs are going to be the same kind of HTMLElement
 ): RefObject<T>[] => {
+
+    /* CONTENT */
+    const { enableEscape=true, numRefs=1 } = options;
 
     // creating an array of refs
     if ( numRefs >= 1 ) {
@@ -49,8 +51,6 @@ const useClickOutsideRef = <T extends HTMLElement>(
             }
         }, [] );
 
-        // options
-        const { enableEscape=true } = options;
         // call onClick when user presses the escape key
         if ( enableEscape ) {
             const handleEscape = ( event: KeyboardEvent ) => {
