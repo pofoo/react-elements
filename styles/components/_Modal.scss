@@ -39,6 +39,10 @@ $modal-x--size:                     1.5rem;
         &:hover {
             opacity: 0.8;
         }
+
+        &:focus {
+            border: 2px solid black;
+        }
     }
 
     &.active {

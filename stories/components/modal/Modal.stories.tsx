@@ -1,5 +1,5 @@
 // dependencies
-import { useState, MouseEvent } from 'react';
+import { useState } from 'react';
 // types
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 // components
@@ -19,15 +19,9 @@ const ModalComponent = ( args: { ariaLabelledBy: string, ariaDescribedBy: string
 
     const { ariaLabelledBy, ariaDescribedBy } = args;
 
-    const toggleActive = ( event: MouseEvent ) => {
-        event.preventDefault();
-
-        setIsActive( isActive => !isActive );
-    }
-
     return (
         <>
-            <ToggleButton isPressed={isActive} onClick={toggleActive}
+            <ToggleButton isPressed={isActive} onClick={ () => setIsActive( isActive => !isActive ) }
                 ariaLabel='open modal'>
                 Open Modal
             </ToggleButton>
