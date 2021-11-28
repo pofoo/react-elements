@@ -2,7 +2,12 @@
 import { useEffect, RefObject, useRef } from 'react';
 
 /* TYPES */
-export type InitialFocus = 'first' | 'custom' | 'none';
+export type InitialFocus = 'first' | 'none' | number;
+
+export interface Options {
+    initialFocus?: InitialFocus;     // HTML Element we should draw focus to first
+    tabbableElems?: string;          // additional tabbable elements to be added
+}
 
 /**
  * Adds focus trap effect to a given ref.
@@ -10,10 +15,12 @@ export type InitialFocus = 'first' | 'custom' | 'none';
 const useFocusTrap = <T extends HTMLElement>(
     ref: RefObject<T>,
     isActive: boolean, // isActive state of target pop up
-    initialFocus: InitialFocus='none', // HTML Element we should draw focus to first
-    tabbableElems: string='', // additional tabbable elements to be added
+    options: Options={},
 ) => {
 
+    /* CONTENT */
+    const { initialFocus='custom', tabbableElems='' } = options;
+    
     /* HOOKS */
     const lastFocusedElem = useRef<HTMLElement | null>( null );
 
@@ -40,12 +47,18 @@ const useFocusTrap = <T extends HTMLElement>(
 
              // elements on the target
             const firstElement = focusableElems[ 0 ] as HTMLElement;
-            const lastElement = focusableElems[ numFocusableElems - 1 ] as HTMLElement
+            const lastElement = focusableElems[ numFocusableElems - 1 ] as HTMLElement;
 
             // focus the first focusable element wthin the target
             if ( initialFocus === 'first' ) firstElement.focus();
             // focus the custom element on the target
-            else if ( initialFocus === 'custom' ) {}
+            else if ( typeof initialFocus === 'number' ) {
+                if ( initialFocus < 0 ) throw( `initialFocus cannot be a negative number: you entered ${initialFocus}` );
+                if ( initialFocus >= numFocusableElems ) throw( `initialFocus cannot be greater than or equal to the total number of focusable elements within the target: you entered ${initialFocus}` );
+                
+                const elem = focusableElems[ initialFocus ] as HTMLElement;
+                elem.focus();
+            }
     
             const handleTab = ( event: KeyboardEvent ) => {
                 if ( event.key === 'Tab' ) {
