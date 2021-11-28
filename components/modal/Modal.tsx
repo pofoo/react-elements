@@ -1,7 +1,7 @@
 // dependencies
 import { FC } from 'react';
 // hooks
-import { useClickOutsideRef } from '../../hooks';
+import { useClickOutsideRef, useFocusTrap } from '../../hooks';
 // elements
 import { ToggleButton } from '../../elements';
 
@@ -46,7 +46,16 @@ const Modal: FC<Props> = ( {
         ${isActive ? 'active' : ''}
     `;
 
+    // this dosent work witout a tabbable element within the dialog box
+    // which makes sense, since a user using a keyboard will need to be able to exit out of the dialog box
+    // hmmmmmm
+    useFocusTrap( 
+        ref, 
+        isActive,
+    )
+
     return (
+        <>
         <section id={id} ref={ref} className={modalClasses}
             role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
                 {
@@ -64,6 +73,8 @@ const Modal: FC<Props> = ( {
                 )
             }
         </section>
+        <button>ccas</button>
+        </>
     )
 }
 

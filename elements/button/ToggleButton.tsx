@@ -1,5 +1,5 @@
 // dependencies
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 // types
 import { EventFunction } from 'types';
 
@@ -13,7 +13,7 @@ interface Props {
     // customization
     className?: string;
     // event handlers
-    onClick: EventFunction;
+    onClick: ( event: MouseEvent<HTMLButtonElement> ) => void;
     // accessibility
     ariaLabel: AriaLabel | string;
     ariaHasPopup?: boolean;
