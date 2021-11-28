@@ -19,14 +19,13 @@ const useFocusTrap = <T extends HTMLElement>(
 ) => {
 
     /* CONTENT */
-    const { initialFocus='custom', tabbableElems='' } = options;
+    const { initialFocus='none', tabbableElems='' } = options;
     
     /* HOOKS */
     const lastFocusedElem = useRef<HTMLElement | null>( null );
 
     /* CONSTANTS */
-    const TABBABLE_ELEMS = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), area[href], [tabindex="0"]';
-    // const maybe = 'audio[controls], video[controls]';
+    const TABBABLE_ELEMS = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), area[href], form, audio[controls], video[controls], [tabindex="0"]';
 
     useEffect( () => {
         if ( isActive ) {
@@ -55,7 +54,7 @@ const useFocusTrap = <T extends HTMLElement>(
             else if ( typeof initialFocus === 'number' ) {
                 if ( initialFocus < 0 ) throw( `initialFocus cannot be a negative number: you entered ${initialFocus}` );
                 if ( initialFocus >= numFocusableElems ) throw( `initialFocus cannot be greater than or equal to the total number of focusable elements within the target: you entered ${initialFocus}` );
-                
+
                 const elem = focusableElems[ initialFocus ] as HTMLElement;
                 elem.focus();
             }
