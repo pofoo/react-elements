@@ -52,6 +52,12 @@ const Modal: FC<Props> = ( {
     return (
         <section id={id} ref={ref} className={modalClasses}
             role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
+                {children}
+                {
+                    showBackdrop && (
+                        <span className='backdrop' role='presentation' />
+                    )
+                }
                 {
                     showX && (
                         <ToggleButton className='x-close' onClick={closeModal}
@@ -60,12 +66,6 @@ const Modal: FC<Props> = ( {
                         </ToggleButton>
                     )
                 }
-            {children}
-            {
-                showBackdrop && (
-                    <span className='backdrop' role='presentation' />
-                )
-            }
         </section>
     )
 }
