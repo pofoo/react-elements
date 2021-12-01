@@ -38,10 +38,9 @@ const Modal: FC<Props> = ( {
     /* HOOKS */
     const [ ref ] = useClickOutsideRef<HTMLDivElement>( closeModal );
 
-    /* CLASSNAMES */
     const modalContainerClasses = `
         modal-container
-        ${isActive ? 'active' : ''}
+        ${isActive ? 'active' : 'not-active'}
     `;
 
     const modalWrapperClasses = `

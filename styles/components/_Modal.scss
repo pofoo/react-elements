@@ -16,10 +16,22 @@ $modal-x--size:                     1.7rem;
 # Styling
 --------------------------------------------------------------*/
 .modal-container {
-    visibility: hidden;
+    transition: visibility 0.5s ease;
+
+    &.not-active {
+        visibility: hidden;
+
+        .modal-wrapper {
+            opacity: 0;
+        }
+    }
 
     &.active {
         visibility: visible;
+
+        .modal-wrapper {
+            opacity: 1;
+        }
 
         .backdrop {
             opacity: 0.4;
@@ -38,6 +50,16 @@ $modal-x--size:                     1.7rem;
     
         background: #fff;
         box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+
+        transition: opacity 0.3s ease;
+
+        &.active {
+            opacity: 1;
+        }
+
+        &.not-active {
+            opacity: 0;
+        }
         
         .x-close {
             position: absolute;
@@ -84,6 +106,6 @@ $modal-x--size:                     1.7rem;
         transition: opacity 0.25s ease-out;
 
         background: map.get( $colors, 'brand-blue', 1 );
-        mix-blend-mode: hard-light;
+        // mix-blend-mode: hard-light;
     }
 }
