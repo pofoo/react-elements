@@ -2,14 +2,15 @@
 @use 'sass:map';
 // constants
 @use '../constants/colors' as *;
+// utils
+@use '../utils/states' as *;
 
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$modal--padding:                    1.5rem;
+$modal--padding:                    2rem;
 
 $modal-x--size:                     1.7rem;
-$modal--transition:                 0.3s ease;
 
 /*--------------------------------------------------------------
 # Styling
@@ -40,34 +41,33 @@ $modal--transition:                 0.3s ease;
         
         .x-close {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 0.7rem;
+            right: 0.9rem;
             font-size: $modal-x--size;
-            border-radius: 100%;
-    
-            transition: transform 0.3s ease;
 
-            &:after {
-                content: " ";
-                position: relative;
+            // background on hover and focus
+            &:before {
+                content: "";
+                position: absolute;
                 width: 100%;
                 height: 100%;
-                top: 0;
-                left: 0;
-                background: grey;
+                right: 0rem;
+                background: map.get( $colors, 'yellow', 2 );
+                mix-blend-mode: multiply;
+                border-radius: 100%;
+                
+                opacity: 0;
+                transform: scale( 0.65 );
+
+                $transition: 0.22s ease;
+                transition: opacity $transition, transform $transition;
             }
     
-            &:hover {
-                transform: scale( 1.1 );
-                opacity: 1.1;
-    
+            @include hover {
                 &:before {
                     opacity: 1;
+                    transform: scale( 1 );
                 }
-            }
-    
-            &:focus {
-                border: 2px solid black;
             }
         }
     }
@@ -81,7 +81,7 @@ $modal--transition:                 0.3s ease;
         height: 100%;
 
         opacity: 0;
-        transition: opacity 0.23s ease-out;
+        transition: opacity 0.25s ease-out;
 
         background: map.get( $colors, 'brand-blue', 1 );
         mix-blend-mode: hard-light;
