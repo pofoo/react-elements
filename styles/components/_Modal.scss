@@ -8,45 +8,82 @@
 --------------------------------------------------------------*/
 $modal--padding:                    1.5rem;
 
-$modal-x--size:                     1.5rem;
+$modal-x--size:                     1.7rem;
+$modal--transition:                 0.3s ease;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
-.modal-wrapper {
-    display: block;
-    position: absolute;
-    // position modal center horizontally, a little higher vertically
-    left: 50%;
-    top: 50%;
-    transform: translate( -50%, -90% );
-
-    padding: $modal--padding;
-    background: white;
-    box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
-
+.modal-container {
     visibility: hidden;
-    opacity: 0;
-
-    transition: opacity 0.3s ease;
-
-    .x-close {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        font-size: $modal-x--size;
-
-        &:hover {
-            opacity: 0.8;
-        }
-
-        &:focus {
-            border: 2px solid black;
-        }
-    }
 
     &.active {
         visibility: visible;
-        opacity: 1;
+
+        .backdrop {
+            opacity: 0.4;
+        }
+    }
+    
+    .modal-wrapper {
+        display: block;
+        position: absolute;
+        z-index: 5;
+        // position modal center horizontally, a little higher vertically
+        left: 50%;
+        top: 50%;
+        transform: translate( -50%, -90% );
+        padding: $modal--padding;
+    
+        background: #fff;
+        box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+        
+        .x-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: $modal-x--size;
+            border-radius: 100%;
+    
+            transition: transform 0.3s ease;
+
+            &:after {
+                content: " ";
+                position: relative;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background: grey;
+            }
+    
+            &:hover {
+                transform: scale( 1.1 );
+                opacity: 1.1;
+    
+                &:before {
+                    opacity: 1;
+                }
+            }
+    
+            &:focus {
+                border: 2px solid black;
+            }
+        }
+    }
+
+    .backdrop {
+        position: absolute;
+        display: block;  
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        opacity: 0;
+        transition: opacity 0.23s ease-out;
+
+        background: map.get( $colors, 'brand-blue', 1 );
+        mix-blend-mode: hard-light;
     }
 }

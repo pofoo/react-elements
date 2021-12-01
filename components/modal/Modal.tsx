@@ -15,7 +15,6 @@ interface Props {
     isActive: boolean;
     closeModal: () => void;
     // styling
-    showX?: boolean;
     showBackdrop?: boolean;
     // accessibility
     ariaLabelledBy: string;
@@ -31,42 +30,44 @@ const Modal: FC<Props> = ( {
     className='',
     isActive,
     closeModal,
-    showX=true,
-    showBackdrop=false,
+    showBackdrop=true,
     ariaLabelledBy,
     ariaDescribedBy
 } ) => {
 
     /* HOOKS */
-    const [ ref ] = useClickOutsideRef<HTMLElement>( closeModal );
+    const [ ref ] = useClickOutsideRef<HTMLDivElement>( closeModal );
 
-    const modalClasses = `
+    /* CLASSNAMES */
+    const modalContainerClasses = `
+        modal-container
+        ${isActive ? 'active' : ''}
+    `;
+
+    const modalWrapperClasses = `
         modal-wrapper
         ${className}
-        ${isActive ? 'active' : ''}
     `;
 
     // attach focus trap to modal
     useFocusTrap( ref, isActive )
 
     return (
-        <section id={id} ref={ref} className={modalClasses}
-            role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
+        <div id={id} className={modalContainerClasses}>
+            <div ref={ref} className={modalWrapperClasses}
+                role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
                 {children}
-                {
-                    showBackdrop && (
-                        <span className='backdrop' role='presentation' />
-                    )
-                }
-                {
-                    showX && (
-                        <ToggleButton className='x-close' onClick={closeModal}
-                            ariaLabel='close modal' isPressed={isActive}>
-                            &times;
-                        </ToggleButton>
-                    )
-                }
-        </section>
+                <ToggleButton className='x-close' onClick={closeModal}
+                    ariaLabel='close modal' isPressed={isActive}>
+                    &times;
+                </ToggleButton>
+            </div>
+            {
+                showBackdrop && (
+                    <span className='backdrop' role='presentation' />
+                )
+            }
+        </div>
     )
 }
 
