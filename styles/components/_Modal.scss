@@ -11,18 +11,20 @@
 $modal--padding:                    2rem;
 
 $modal-x--size:                     1.7rem;
+$modal--transition:                 0.27s ease;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
 .modal-container {
-    transition: visibility 0.5s ease;
+    transition: visibility 0.15s ease;
 
     &.not-active {
         visibility: hidden;
 
         .modal-wrapper {
-            opacity: 0;
+            transform: translate( -50%, -90% ) 
+                        scaleX( 0.9 ) scaleY( 0.7 );
         }
     }
 
@@ -30,7 +32,8 @@ $modal-x--size:                     1.7rem;
         visibility: visible;
 
         .modal-wrapper {
-            opacity: 1;
+            transform: translate( -50%, -90% ) 
+                        scale( 1 );
         }
 
         .backdrop {
@@ -42,25 +45,16 @@ $modal-x--size:                     1.7rem;
         display: block;
         position: absolute;
         z-index: 5;
-        // position modal center horizontally, a little higher vertically
         left: 50%;
         top: 50%;
-        transform: translate( -50%, -90% );
         padding: $modal--padding;
     
         background: #fff;
         box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
 
-        transition: opacity 0.3s ease;
+        transition: opacity $modal--transition, 
+                    transform $modal--transition;
 
-        &.active {
-            opacity: 1;
-        }
-
-        &.not-active {
-            opacity: 0;
-        }
-        
         .x-close {
             position: absolute;
             top: 0.7rem;
@@ -82,7 +76,8 @@ $modal-x--size:                     1.7rem;
                 transform: scale( 0.65 );
 
                 $transition: 0.22s ease;
-                transition: opacity $transition, transform $transition;
+                transition: opacity $transition, 
+                            transform $transition;
             }
     
             @include hover {
@@ -96,16 +91,16 @@ $modal-x--size:                     1.7rem;
 
     .backdrop {
         position: absolute;
-        display: block;  
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        background: map.get( $colors, 'brand-blue', 1 );
+        background-size: cover;
+        // THIS DOSEN'T WORK IN SAFARI FOR SOME REASON
+        // mix-blend-mode: hard-light;
 
         opacity: 0;
         transition: opacity 0.25s ease-out;
-
-        background: map.get( $colors, 'brand-blue', 1 );
-        // mix-blend-mode: hard-light;
     }
 }
