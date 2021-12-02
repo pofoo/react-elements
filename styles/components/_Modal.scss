@@ -17,12 +17,13 @@ $modal--transition:                 0.27s ease;
 # Styling
 --------------------------------------------------------------*/
 .modal-container {
-    transition: visibility 0.15s ease;
+    transition: visibility $modal--transition;
 
     &.not-active {
         visibility: hidden;
 
         .modal-wrapper {
+            opacity: 0;
             transform: translate( -50%, -90% ) 
                         scaleX( 0.9 ) scaleY( 0.7 );
         }
@@ -32,6 +33,7 @@ $modal--transition:                 0.27s ease;
         visibility: visible;
 
         .modal-wrapper {
+            opacity: 1;
             transform: translate( -50%, -90% ) 
                         scale( 1 );
         }
