@@ -1,9 +1,8 @@
 // elements
 import SVG from '../svg';
+import { Puff } from '../loader';
 // partials
 import Ripple from './ripple';
-// installed elements
-import { PuffLoader } from 'react-spinners';
 // types
 import { MouseEvent } from 'react';
 // import { Colors } from 'types';
@@ -44,7 +43,7 @@ const FormButton = ( {
     content,
     onClick,
     isDisabled=false,
-    isLoading=false,
+    isLoading=true,
     type='submit',
     size='md',
     color='green',
@@ -62,33 +61,20 @@ const FormButton = ( {
         button-wrapper
         form-button-wrapper
         ${className}
-        ${isLoading && 'loading'}
+        ${isLoading ? 'loading' : ''}
         ${color}
         button--${size}
-        ${isDisabled && 'disabled'}
+        ${isDisabled ? 'disabled' : ''}
         ${fill}
         ${isRounded ? 'rounded' : ''}
         ${hover}
         ${click !== 'ripple' && click}
     `;
 
-    const override = `
-        margin: 0;
-        padding: 0;
-        display: block;
-        top: 50%;
-        left: 50%;
-        transform: translate( -50%, -70% );
-    `;
-
     return (
-        <>
         <button className={buttonClasses} 
             onClick={onClick} disabled={isDisabled}
             type={type}>
-        <PuffLoader css={override} color='blue' loading={true} size={50}/>
-
-
             {
                 icon && (
                     // TO-DO - adjust width and height depending on button size
@@ -99,16 +85,16 @@ const FormButton = ( {
             }
             <span className='form-button-text'>{text}</span>
             {
+                isLoading && (
+                    <Puff />
+                )
+            }
+            {
                 click === 'ripple' && (
                     <Ripple />
                 )
             }
-
-
-                
         </button>
-
-        </>
     );
 }
 

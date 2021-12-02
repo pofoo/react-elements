@@ -39,6 +39,7 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     text-shadow: white 0 0 10px;
 }
 
+/* SEPERATE */
 .form-button-wrapper {
     /* SHAPE */
     &.rounded {
@@ -70,6 +71,46 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
         }
     }
 
+    /* HOVER TYPES */
+    // moves button up and adds spread-radius to box-shadow
+    &.lift {
+        transition: transform $button--transition,
+                    box-shadow $button--transition;
+         @include hover {
+            transform: translateY( -2.5px );
+         }
+    }
+    // real world button-press effect
+    &.press {
+        transition: box-shadow 0.35s ease;
+    }
+    // pulsing outward effect
+    &.pulse {
+        transition: box-shadow 0.37s ease;
+    }
+    // subtle color glimmer shift effect
+    &.glimmer {
+        // line that creates the glimmer effect
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            width: 30px;
+            height: 100%;
+            top: 0;
+            filter: blur( 5px );
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+        @include hover {                
+            &::after {
+                transition: transform 0.7s ease;
+                // move the line over the button
+                transform: translateX(150px) skewX(-15deg);
+            }
+        }
+    }
 
     /* COLORS */
     @each $color, $color-map in $colors {
@@ -102,57 +143,23 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
             }
 
             /* HOVER TYPES */
-            // moves button up and adds spread-radius to box-shadow
             &.lift {
-                transition: transform $button--transition,
-                            box-shadow $button--transition;
-
                 @include hover {
-                    transform: translateY( -2.5px );
                     box-shadow: $button--box-shadow--size2 map.get( $shadow-colors, 2 ),
                                 1px 1px 6px 1.5px map.get( $shadow-colors, 1 );
                 }
             }
-            // real world button-press effect
             &.press {
-                transition: box-shadow 0.35s ease;
-
                 @include hover {
                     box-shadow: $box-shadow,
                                 inset 1px 1px 6px map.get( $shadow-colors, 2 ),
                                 inset 1px 1px 4px map.get( $shadow-colors, 1 );
                 }
             }
-            // pulsing outward effect
             &.pulse {
-                transition: box-shadow 0.37s ease;
-
                 @include hover {
-                    box-shadow: 1px 1px 2px 0.3px map.get( $shadow-colors, 2),
+                    box-shadow: 1px 1px 2px 0.3px map.get( $shadow-colors, 2 ),
                                 1px 1px 4px 3px map.get( $shadow-colors, 1 );
-                }
-            }
-            // subtle color glimmer shift effect
-            &.glimmer {
-                // line that creates the glimmer effect
-                &::after {
-                    content: '';
-                    display: block;
-                    position: absolute;
-                    background: rgba(255, 255, 255, 0.5);
-                    width: 30px;
-                    height: 100%;
-                    top: 0;
-                    filter: blur( 5px );
-                    transform: translateX(-100px) skewX(-15deg);
-                }
-
-                @include hover {                
-                    &::after {
-                        transition: transform 0.7s ease;
-                        // move the line over the button
-                        transform: translateX(150px) skewX(-15deg);
-                    }
                 }
             }
         }
@@ -161,9 +168,6 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     /* STATES */
     &.loading {
         opacity: 0.75;
-    }
-
-    .loader {
     }
 
     &.disabled {

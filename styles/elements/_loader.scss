@@ -1,0 +1,49 @@
+ // dependencies
+ @use 'sass:map';
+ // constants
+ @use '../constants/colors' as *;
+ // utils
+ @use '../utils/position' as *;
+
+ /* PUFF */
+ .puff-wrapper {   
+    @keyframes puff {
+        0% {
+            transform: scale( 0 );
+            opacity: 1;
+        }
+        100% {
+            transform: scale( 1 );
+            opacity: 0;
+        }
+    }
+
+    @include center-absolute;
+    width: 45%;
+    height: 100%;
+    background: black;
+
+    // i might wanna do different size puffs
+    @mixin puff-size {
+        width: 100%;
+        height: 100%;
+        border: 5px solid;
+    }
+
+    @each $color, $color-map in $colors {
+        .puff-1 {
+            
+        }
+    }
+
+    .puff-1 {
+        @include center-absolute;
+        @include puff-size;
+
+    }
+
+    .puff-2 {
+        @include center-absolute;
+        @include puff-size;
+    }
+}
