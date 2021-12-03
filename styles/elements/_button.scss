@@ -21,6 +21,8 @@ $link-button--border-radius:        15px;
 
 $button--transition:                0.24s ease;
 
+$button--text-color:                #000;
+
 // DARKER box-shadow size
 $button--box-shadow--size2: 1px 1px 2px;
 // LIGHTER box-shadow size
@@ -35,10 +37,14 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     overflow: hidden;
     padding: $button--default-padding;
     text-shadow: white 0 0 10px;
+    color: $button--text-color;
 }
 
 /* SEPERATE */
 .form-button-wrapper {
+    transition: color $button--transition,
+                background $button--transition;
+
     /* SHAPE */
     &.rounded {
         border-radius: $button--border-radius;
@@ -127,11 +133,12 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
             box-shadow: $box-shadow;
 
             /* STATES */
-            &.loading {
+            &.disabled {
                 $alpha-adjust: -0.5;
                 $box-shadow-color--2: color.adjust( map.get( $shadow-colors, 2 ), $alpha: $alpha-adjust );
                 $box-shadow-color--1: color.adjust( map.get( $shadow-colors, 1 ), $alpha: $alpha-adjust );
                 
+                color: color.adjust( $button--text-color, $alpha: $alpha-adjust );
                 background: color.adjust( $background, $alpha: $alpha-adjust );
                 box-shadow: $button--box-shadow--size2 $box-shadow-color--2,
                             $button--box-shadow--size1 $box-shadow-color--1;
@@ -176,12 +183,6 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
                 }
             }
         }
-    }
-
-    /* STATES */
-    // this might not be neccessary since we are going to be applying the disabled styling anyways
-    &.loading {
-        // opacity: 0.75;
     }
 }
 

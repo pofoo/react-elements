@@ -58,8 +58,8 @@ const FormButton = ( {
     /* CONTENT */
     const { text, icon=null } = content;
 
-    // if ( isLoading ) isDisabled = true;
-    // if ( isDisabled ) isLoading = true;
+    // everything that isLoading must be disabled
+    const disabled = isLoading === true ? true : isDisabled;
 
     /* CLASSNAMES */
     const buttonClasses = `
@@ -69,7 +69,7 @@ const FormButton = ( {
         ${isLoading ? 'loading' : ''}
         ${color}
         button--${size}
-        ${isDisabled ? 'disabled' : ''}
+        ${disabled ? 'disabled' : ''}
         ${fill}
         ${isRounded ? 'rounded' : ''}
         ${hover}
@@ -78,7 +78,7 @@ const FormButton = ( {
 
     return (
         <button className={buttonClasses} 
-            onClick={onClick} disabled={isDisabled}
+            onClick={onClick} disabled={disabled}
             type={type}>
             {
                 icon && (
