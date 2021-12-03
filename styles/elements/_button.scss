@@ -185,79 +185,84 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     }
 }
 
-.link-button-wrapper {
-    width: max-content;
-    box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
-
-    transition: background $button--transition;
-
-    // TO-DO - create an :focus after click effect
-    // &:focus {
-    // }
-
-    /* TYPES */
-    // main navigation button that you want people to click
-    &.CTA {
-        .link-button-text {
-            display: flex;
-            flex-flow: row wrap;
-
+.link-button-container {
+    @include hover {
+        .CTA {
+            box-shadow: 0 6px 6px map.get( $shadow, 'gray' );
+    
+            .link-button-text {
                 .arrow {
-                    padding-left: 0.4rem;
-
-                    transition: transform $button--transition,
-                                color $button--transition;
+                    color: map.get( $colors, 'brand-blue', 5 );
+                    transform: translateX( 1.5px );
                 }
             }
-
-            @include hover {
-                .link-button-text {
-                    .arrow {
-                        color: map.get( $colors, 'brand-blue', 5 );
-                        transform: translateX( 1.5px );
-                    }
-                }
-            }
-
-            /* SHAPE */
-            &.rounded {
-                border-radius: $link-button--border-radius;
-            }
         }
-        
-    // peel away sticky note
-    &.sticky {
-        transition: border-radius $button--transition,
-                    box-shadow $button--transition;
+    }
 
-        &:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: -5%;
-            width: 1rem;
-            height: 1rem;
-            background: black;
-
-            transform: rotate( 45deg );
-        }
-
-        @include hover {
+    @include hover {
+        .sticky {
             border-radius: 0 50% 0 0;
             box-shadow: 0 3px 3px map.get( $shadow, 'gray' ),
                         0 0 1px black;
         }
     }
 
-    /* COLORS */
-    @each $color-name, $color in $background {
-        &.#{$color-name} {
-            $shadow-colors: getShadowColors( $color );
+    .link-button-wrapper {
+        width: max-content;
+        box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+    
+        transition: background $button--transition,
+                    box-shadow $button--transition;
 
-            background: $color;
-
-            @include hover {
-                background: color.adjust( $color, $alpha: -0.22 );                
+        /* TYPES */
+        // main navigation button that you want people to click
+        &.CTA {
+            .link-button-text {
+                display: flex;
+                flex-flow: row wrap;
+    
+                    .arrow {
+                        padding-left: 0.4rem;
+    
+                        transition: transform $button--transition,
+                                    color $button--transition;
+                    }
+                }
+    
+                /* SHAPE */
+                &.rounded {
+                    border-radius: $link-button--border-radius;
+                }
+            }
+            
+        // peel away sticky note
+        &.sticky {
+            transition: border-radius $button--transition,
+                        box-shadow $button--transition;
+    
+            &:after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: -5%;
+                width: 1rem;
+                height: 1rem;
+                background: black;
+    
+                transform: rotate( 45deg );
+            }
+        }
+    
+        /* COLORS */
+        @each $color-name, $color in $background {
+            &.#{$color-name} {
+                $shadow-colors: getShadowColors( $color );
+    
+                background: $color;
+    
+                @include hover {
+                    background: color.adjust( $color, $alpha: -0.22 );                
+                }
             }
         }
     }
