@@ -25,6 +25,7 @@ interface Props {
     // button states / accessibility
     isDisabled?: boolean;
     isLoading?: boolean;
+    loaderAriaLabel?: string;
     // styling
     type?: 'submit' | 'reset';
     size?: 'sm' | 'md' | 'lg';
@@ -44,6 +45,7 @@ const FormButton = ( {
     onClick,
     isDisabled=false,
     isLoading=true,
+    loaderAriaLabel='form button loader',
     type='submit',
     size='md',
     color='green',
@@ -55,6 +57,9 @@ const FormButton = ( {
 
     /* CONTENT */
     const { text, icon=null } = content;
+
+    // if ( isLoading ) isDisabled = true;
+    // if ( isDisabled ) isLoading = true;
 
     /* CLASSNAMES */
     const buttonClasses = `
@@ -86,7 +91,7 @@ const FormButton = ( {
             <span className='form-button-text'>{text}</span>
             {
                 isLoading && (
-                    <Puff />
+                    <Puff color={color} ariaLabel={loaderAriaLabel} />
                 )
             }
             {

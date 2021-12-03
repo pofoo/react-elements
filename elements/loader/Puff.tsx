@@ -8,13 +8,19 @@ interface Props {
 }
 
 const Puff =( {
+    color,
     ariaLabel
 }: Props ) => {
 
+    const puffClasses = `
+        puff-wrapper
+        ${color}
+    `;
+
     return (
-        <span className='puff-wrapper' role='presentation' aria-label={ariaLabel}>
-            <span className='puff-1' role='presentation' aria-label={`${ariaLabel} puff animation 1`}/>
-            <span className='puff-2' role='presentation' aria-label={`${ariaLabel} puff animation 1`}/>
+        <span className={puffClasses} role='presentation' aria-label={ariaLabel}>
+            <span className='puff puff-1' role='presentation' aria-label={`${ariaLabel} puff animation 1`}/>
+            <span className='puff puff-2' role='presentation' aria-label={`${ariaLabel} puff animation 2`}/>
         </span>
     )
 }
