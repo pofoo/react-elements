@@ -135,8 +135,10 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
             /* STATES */
             &.disabled {
                 $alpha-adjust: -0.5;
-                $box-shadow-color--2: color.adjust( map.get( $shadow-colors, 2 ), $alpha: $alpha-adjust );
-                $box-shadow-color--1: color.adjust( map.get( $shadow-colors, 1 ), $alpha: $alpha-adjust );
+                $box-shadow-color--2: color.adjust( 
+                                    map.get( $shadow-colors, 2 ), $alpha: $alpha-adjust );
+                $box-shadow-color--1: color.adjust( 
+                                    map.get( $shadow-colors, 1 ), $alpha: $alpha-adjust );
                 
                 color: color.adjust( $button--text-color, $alpha: $alpha-adjust );
                 background: color.adjust( $background, $alpha: $alpha-adjust );

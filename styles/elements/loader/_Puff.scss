@@ -2,19 +2,22 @@
  @use 'sass:map';
  @use 'sass:color';
  // constants
- @use '../constants/colors' as *;
+ @use '../../constants/colors' as *;
  // utils
- @use '../utils/position' as *;
+ @use '../../utils/position' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$puff--size:                    5px;
+$puff--animation-duration:      1.4s;
+$puff--animation-delay:         0.3s;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
  /* PUFF */
  .puff-wrapper { 
-    $puff-size:                 5px;
-    $animation-duration:        1.4s;
-    $animation-delay:           0.3s;
-
     @keyframes make-big {
         0% {
             transform: translate( -50%, -50% ) 
@@ -43,7 +46,7 @@
         @include center-absolute;
 
         animation: make-big, fade;
-        animation-delay: $animation-delay;
+        animation-delay: $puff--animation-delay;
     }
 
     .puff-2 {
@@ -55,11 +58,11 @@
     .puff {
         width: 100%;
         height: 100%;
-        border: $puff-size solid;
+        border: $puff--size solid;
         border-radius: 50%;
 
         animation-fill-mode: both;
-        animation-duration: $animation-duration;
+        animation-duration: $puff--animation-duration;
         animation-iteration-count: infinite;
         animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1), 
                                     cubic-bezier(0.3, 0.61, 0.355, 1);
