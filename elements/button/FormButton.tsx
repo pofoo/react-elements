@@ -1,6 +1,6 @@
 // elements
 import SVG from '../svg';
-import { Puff } from '../loader';
+import { Puff, Success, Fail } from '../loader';
 // partials
 import Ripple from './ripple';
 // types
@@ -25,7 +25,11 @@ interface Props {
     // button states / accessibility
     isDisabled?: boolean;
     isLoading?: boolean;
+    isSuccess?: boolean;
+    isFail?: boolean;
     loaderAriaLabel?: string;
+    successAriaLabel?: string;
+    failAriaLabel?: string;
     // styling
     type?: 'submit' | 'reset';
     size?: 'sm' | 'md' | 'lg';
@@ -44,8 +48,12 @@ const FormButton = ( {
     content,
     onClick,
     isDisabled=false,
-    isLoading=true,
+    isLoading=false,
+    isSuccess=true,
+    isFail=false,
     loaderAriaLabel='form button loader',
+    successAriaLabel='form successfully sumbitted',
+    failAriaLabel='form failed to submit',
     type='submit',
     size='md',
     color='green',
@@ -67,6 +75,8 @@ const FormButton = ( {
         form-button-wrapper
         ${className}
         ${isLoading ? 'loading' : ''}
+        ${isSuccess ? 'success' : ''}
+        ${isFail ? 'fail' : ''}
         ${color}
         button--${size}
         ${disabled ? 'disabled' : ''}
@@ -90,13 +100,23 @@ const FormButton = ( {
             }
             <span className='form-button-text'>{text}</span>
             {
+                click === 'ripple' && (
+                    <Ripple />
+                )
+            }
+            {
                 isLoading && (
                     <Puff color={color} ariaLabel={loaderAriaLabel} />
                 )
             }
             {
-                click === 'ripple' && (
-                    <Ripple />
+                isSuccess && (
+                    <Success ariaLabel={successAriaLabel} />
+                )
+            }
+            {
+                isFail && (
+                    <Fail />
                 )
             }
         </button>

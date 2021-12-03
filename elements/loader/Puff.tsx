@@ -19,8 +19,8 @@ const Puff =( {
 
     return (
         <span className={puffClasses} role='presentation' aria-label={ariaLabel}>
-            <span className='puff puff-1' role='presentation' aria-label={`${ariaLabel} puff animation 1`}/>
-            <span className='puff puff-2' role='presentation' aria-label={`${ariaLabel} puff animation 2`}/>
+            <span className='puff puff-1' role='presentation'/>
+            <span className='puff puff-2' role='presentation'/>
         </span>
     )
 }

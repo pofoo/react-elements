@@ -186,6 +186,16 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
             }
         }
     }
+
+    /* STATES */
+    &.success,
+    &.fail {
+        .form-button-text {
+            opacity: 0;
+
+            transition: opacity $button--transition;
+        }
+    }
 }
 
 .link-button-container {
