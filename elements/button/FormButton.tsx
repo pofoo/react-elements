@@ -66,8 +66,8 @@ const FormButton = ( {
     /* CONTENT */
     const { text, icon=null } = content;
 
-    // everything that isLoading must be disabled
-    const disabled = isLoading === true ? true : isDisabled;
+    // everything that is loading or animating must be disabled
+    const disabled = isLoading || isSuccess || isFail ? true : isDisabled;
 
     /* CLASSNAMES */
     const buttonClasses = `
