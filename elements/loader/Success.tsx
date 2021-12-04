@@ -12,7 +12,6 @@ const Success = ( {
         <span className='success-wrapper' aria-label={ariaLabel} role='presentation'>
             <span className='check-line line-tip' role='presentation' />
             <span className='check-line line-long' role='presentation' />
-            <span className='circle' role='presenation' />
         </span>
     )
 }
