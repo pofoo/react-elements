@@ -13,6 +13,9 @@
 // 2: prop key in string notation that will be extended - i.e 'style'
 // 3: extended prop types that include the new altered key value pairs
 
+// FOR MORE INFRO
+// https://stackoverflow.com/questions/56437759/typescript-utility-type-for-conditional-props-based-on-entered-value-of-other-p
+
 
 type RemoveCommonValues<T extends object, TOmit> = {
     [P in keyof T]: TOmit extends Record<P, infer U> ? Exclude<T[P], U> : T[P];
@@ -21,7 +24,7 @@ type RemoveCommonValues<T extends object, TOmit> = {
 // not needed in 3.5
 type Omit<T extends object, K extends PropertyKey> = Pick<T, Exclude<keyof T, K>>; 
 
-// flatens out the types to make them more readable can be removed
+// flattens out the types to make them more readable can be removed
 type Id<T extends object> = {} & { 
     [P in keyof T]: T[P]; 
 }; 
