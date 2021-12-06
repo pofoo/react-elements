@@ -13,7 +13,7 @@
 // 2: prop key in string notation that will be extended - i.e 'style'
 // 3: extended prop types that include the new altered key value pairs
 
-// FOR MORE INFRO
+// FOR MORE INFO:
 // https://stackoverflow.com/questions/56437759/typescript-utility-type-for-conditional-props-based-on-entered-value-of-other-p
 
 
