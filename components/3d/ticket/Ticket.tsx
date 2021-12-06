@@ -115,6 +115,10 @@ const Ticket: FC<Props> = ( {
         const xShadow = ( x - halfWidth ) / shadowDistort;
         const yShadow = ( y - halfHeight ) / shadowDistort;
 
+        console.log( `SHADOW` );
+        console.log( `xShadow: ${xShadow}` );
+        console.log( `yShadow: ${yShadow}` );
+
         setStyles( {
             transform: `rotateY(${angleX}deg) rotateX(${angleY}deg) scale(1.15)`,
             perspective: `${halfWidth * 3}px`,
