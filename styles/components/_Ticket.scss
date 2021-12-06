@@ -52,6 +52,7 @@ $ticket--transition:                    0.1s ease-out;
         padding: 2rem;
 
         color: white;
+        filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
 
         // red / orange
         background: linear-gradient(180deg, #ff7147, #e0417f);

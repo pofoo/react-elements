@@ -46,11 +46,10 @@ const Ticket: FC<Props> = ( {
 
     /* HOOKS */
     const ref = useRef<HTMLElement>( null );
-
+    
     const [ styles, setStyles ] = useState<Styles | {}>( {} );
     const [ parentStyles, setParentStyles ] = useState<ParentStyles | {}>( {} );
 
-    const [ rect, setRect ] = useState<DOMRect | null>( null );
     const [ xAnimate, setXAnimate ] = useState<number | null>( null );
     const [ yAnimate, setYAnimate ] = useState<number | null>( null );
     const [ xStartAnimate, setXStartAnimate ] = useState<number | null>( null );
@@ -70,8 +69,7 @@ const Ticket: FC<Props> = ( {
    
     const initTicket = ( target: HTMLElement ) => {
         const rect = target.getBoundingClientRect();
-        
-        setRect( rect );
+
         setParentStyles( {
             perspective: `${rect.width}px`,
         } );
@@ -81,6 +79,9 @@ const Ticket: FC<Props> = ( {
         event: ReactTapEvent | TapEvent,
         distort: Distort={},
     ): void => {
+
+        const target = event.target as HTMLElement;
+        const rect = target.getBoundingClientRect();
 
         /* CONTENT */
         const {
@@ -92,10 +93,12 @@ const Ticket: FC<Props> = ( {
         // get the client coordinates for either Mouse or Touch Event
         // TO-DO - test this on a mobile device
         const [ clientX, clientY ] = getClientCoords( event );
+        // half dimensions of the ticket
+        const [ halfWidth, halfHeight ] = getHalfSizes( rect );
         
         // position of user's pointer relative to ticket
-        const x = Math.abs( rect!.x - clientX );
-        const y = Math.abs( rect!.y - clientY );
+        const x = Math.abs( rect.x - clientX );
+        const y = Math.abs( rect.y - clientY );
 
         console.log( 'HOVER' );
         console.log( `x: ${x}`);
@@ -103,9 +106,6 @@ const Ticket: FC<Props> = ( {
         // coords around the center of ticket
         // x: 143
         // y: 85
-
-        // half dimensions of the ticket
-        const [ halfWidth, halfHeight ] = getHalfSizes( rect! );
 
         // angles to distort the ticket
         const angleX = ( x - halfWidth ) / xDistort;
@@ -123,14 +123,18 @@ const Ticket: FC<Props> = ( {
     }
 
     const calcInitialAnimate = (
+        target: HTMLElement,
         scale: Scale={},
         animateStart: AnimateStart='right',
     ) => {
+
+        const rect = target.getBoundingClientRect();
+
         /* CONTENT */
         const { xScale=5, yScale=5 } = scale;
 
         // half dimensions of the ticket
-        const [ halfWidth, halfHeight ] = getHalfSizes( rect! );
+        const [ halfWidth, halfHeight ] = getHalfSizes( rect );
 
         // haldWidth: 142.625
         // halfHeight: 65.5
@@ -142,8 +146,8 @@ const Ticket: FC<Props> = ( {
         const xCenter = 142.625;
         const yCenter = 65.5;
         // very bottom right coordinates
-        const xRight = rect!.right - rect!.left;
-        const yRight = rect!.bottom - rect!.top;
+        const xRight = rect.right - rect!.left;
+        const yRight = rect.bottom - rect!.top;
 
         // subtract very center coordinates from very bottom right coordinates -> thats the max distance we can animate
         const xMax = xRight - xCenter;
@@ -177,10 +181,13 @@ const Ticket: FC<Props> = ( {
     }
 
     const animateTicket = (
+        target: HTMLElement,
         speed: number=0.5,
         increment: number=20, // how often the angles are going to change
         distort: Distort={},
     ) => {
+
+        const rect = target.getBoundingClientRect();
 
         /* CONTENT */
         const {
@@ -193,11 +200,11 @@ const Ticket: FC<Props> = ( {
         const transition = `transform ${speed}s ease-out, filter ${speed}s ease-out`;
 
         if ( !xAnimate || !yAnimate ) {
-            calcInitialAnimate();
+            calcInitialAnimate( target );
         }
 
         // half dimensions of the ticket
-        const [ halfWidth, halfHeight ] = getHalfSizes( rect! );
+        const [ halfWidth, halfHeight ] = getHalfSizes( rect );
 
         // angle of ticket distort
         let angleX = ( xAnimate! - halfWidth ) / xDistort;
@@ -208,11 +215,12 @@ const Ticket: FC<Props> = ( {
 
         // code the four distinct quadrants
         // you know when to go to the next quadrant when x or y value is equal to center coordinate x or y value
+        // go counter clockwise by default
         
         // when the ticket is not being hovered
-        // while ( !( 'perspective' in styles ) ) {
-        //     console.log( 'hello' );
-        // }
+        while ( !( 'perspective' in styles ) ) {
+            console.log( 'hello' );
+        }
         // center coordinates
 
         // console.log( 'SELF ANIMATE' );
@@ -266,7 +274,7 @@ const Ticket: FC<Props> = ( {
         // load initial styles and target rect
         initTicket( target );
         // animate the ticket
-        if ( animate ) animateTicket();
+        if ( animate ) animateTicket( target );
     }, [] );
 
     // the default pointerMove does not work in Firefox - using more complete one
