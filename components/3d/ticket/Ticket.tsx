@@ -56,12 +56,9 @@ const Ticket: FC<Props> = ( {
 
     /* FUNCTIONS */
     const animateTicket = () => {
-        const { animation, ...styles } = getTicketAnimation( ref.current as HTMLElement, DROP_SHADOW_COLOR );
-
-        setTicketAnimation( animation );
-        setStyles( styles );
-
-        animation.play();
+        setStyles( animationStyles );
+        // @ts-ignore
+        ticketAnimation.play();
     }
 
     const reset = () => {
@@ -79,7 +76,12 @@ const Ticket: FC<Props> = ( {
             perspective: `${rect.width}px`,
         } );
 
-        if ( animate ) animateTicket();
+        if ( animate ) {
+            const { animation, ...styles } = getTicketAnimation( ref.current as HTMLElement, DROP_SHADOW_COLOR );
+            
+            setTicketAnimation( animation );
+            setAnimationStyles( styles );
+        }
     }
 
     const make3D = ( 
@@ -89,6 +91,7 @@ const Ticket: FC<Props> = ( {
     ): void => {
 
         // pause the animation
+        // @ts-ignore
         if ( type === 'enter' && animate ) ticketAnimation.pause();
 
         const target = event.target as HTMLElement;
