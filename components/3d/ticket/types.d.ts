@@ -15,8 +15,8 @@ export interface Displace {
 }
 
 export interface Animation {
-    animation?: string;
-    perspective?: string;
+    animation: AnimationTimeline;
+    perspective: string;
 }
 
 export interface Styles {        
@@ -25,6 +25,10 @@ export interface Styles {
     perspective?: string;
 }
 
-export type ParentStyles = {
+export interface ParentStyles {
+    perspective: string;
+}
+
+export interface AnimationStyles {
     perspective: string;
 }

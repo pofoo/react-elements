@@ -50,7 +50,7 @@ $ticket--transition:                    0.1s ease-out;
         display: block;
         overflow: hidden;
         padding: 2rem;
-        will-change: transform, filter;
+        will-change: transform, filter, perspective;
 
         color: white;
         filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
@@ -66,7 +66,8 @@ $ticket--transition:                    0.1s ease-out;
         // filter: drop-shadow(0 15px 15px #00a1ff57);
 
         transition: transform $ticket--transition,
-                    filter $ticket--transition;
+                    filter $ticket--transition,
+                    perspective $ticket--transition;
 
         /* SHAPE */
         &.rounded {

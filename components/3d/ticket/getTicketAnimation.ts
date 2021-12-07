@@ -8,7 +8,7 @@ import { getHalfSizes } from '../../../lib';
 const getTicketAnimation = (
     target: HTMLElement,
     shadowColor: string,
-    animationDuration: number=3, // number in seconds it will take the ticket to make one full circular rotation
+    animationDuration: number=8000, // number in milliseconds it will take the ticket to make one full circular rotation
     distort: Distort={},
 ): Animation => {
 
@@ -16,8 +16,8 @@ const getTicketAnimation = (
 
     /* CONTENT */
     const {
-        xDistort=18,
-        yDistort=12,
+        xDistort=6,
+        yDistort=4,
         shadowDistort=3,
     } = distort;
 
@@ -46,58 +46,40 @@ const getTicketAnimation = (
         else throw( `Incorrect type specified: ${type}` );
     }
 
-    /**
-     *             transform: `rotateY(${angleX}deg) rotateX(${angleY}deg) scale(1.15)`,
-            perspective: `${halfWidth * 3}px`,
-            filter: `drop-shadow(${-xShadow}px ${yShadow}px 15px ${DROP_SHADOW_COLOR})`,
-     */
+    const keyframes = [
+        // I -> -x, +y
+        {
+            transform: `rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15)`,
+            filter: `drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor})`,
+        },
+         // II -> +x, +y
+        {
+            transform: `rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15)`,
+            filter: `drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor})`,
+        },
+        // III -> +x, -y
+        {
+            transform: `rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15)`,
+            filter: `drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor})`,
+        },
+        // IV -> -x, -y
+        {
+            transform: `rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15)`,
+            filter: `drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor})`,
+        },
+    ];
 
-    const animationName = 'circle-ticket';
-    // keyframes to rotate the ticket in a counter clockwise direction
-    // const keyframes = 
-    // `@keyframes ${animationName} {
-    //     0% {
-    //         transform: rotateY(${getAngle( 'angle' ).x}deg) rotateX(${getAngle( 'angle' ).y}deg) scale(1.15),
-    //         filter: drop-shadow(${-getAngle( 'shadow' ).x}px ${getAngle( 'angle' ).y}px 15px ${shadowColor})
-    //     }
-    //     3% {
-    //         transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15),
-    //         filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor})
-    //     }
-    //     47% {
-    //         transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15),
-    //         filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor})
-    //     }
-    //     73% {
-    //         transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15),
-    //         filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor})
-    //     }
-    //     97% {
-    //         transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15),
-    //         filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor})
-    //     }
-    // }`;
+    const animation: AnimationTimeline = target.animate( keyframes, {
+        duration: animationDuration,
+        iterations: Infinity,
+        direction: 'alternate',
+        fill: 'both',
+    } );
 
-    const keyframes = 
-    `@keyframes ${animationName} {
-        from {opacity: 0}
-    }`;
-    
-    const styleSheet = document.styleSheets[0];
-    styleSheet.insertRule( keyframes, styleSheet.cssRules.length );
-
-    console.log( 'animated' );
     return {
-        animation: `${animationName} ${animationDuration}`,
-        // perspective: `${halfWidth * 3}px`,
+        animation,
+        perspective: `${halfWidth}px`,
     }
-
-    // angle of ticket distort
-    // let angleX = ( xAnimate! - halfWidth ) / xDistort;
-    // let angleY = ( yAnimate! - halfHeight ) / yDistort;
-    // // angle of shadow distort
-    // let xShadow = ( xAnimate! - halfWidth ) / shadowDistort;
-    // let yShadow = ( xAnimate! - halfHeight ) / shadowDistort;
 }
 
 // calculates the animation depth for both x and y directions
@@ -109,7 +91,7 @@ const calcAnimations = (
     const rect = target.getBoundingClientRect();
 
     /* CONTENT */
-    const { xScale=5, yScale=5 } = scale;
+    const { xScale=1.5, yScale=1.5 } = scale;
 
     // very bottom right coordinates
     const xRight = rect.right - rect.left;
@@ -128,29 +110,6 @@ const calcAnimations = (
         center: [ xCenter, yCenter ],
         animate: [ xAnimate, yAnimate ],
     };
-    
-    // setXAnimate( xAnimate );
-    // setYAnimate( yAnimate );
-
-    // if ( animateStart === 'right' ) {
-    //     setXStartAnimate( xCenter + xAnimate );
-    //     setYStartAnimate( yCenter );
-    // }
-    // else if ( animateStart === 'up' ) {
-    //     setXStartAnimate( xCenter );
-    //     setYStartAnimate( yCenter + yAnimate );
-    // }
-    // else if ( animateStart === 'left' ) {
-    //     setXStartAnimate( xCenter - xAnimate );
-    //     setYStartAnimate( yCenter );
-    // }
-    // else if ( animateStart === 'down' ) {
-    //     setXStartAnimate( xCenter );
-    //     setYStartAnimate( yCenter - yAnimate );
-    // }
-    // else {
-    //     throw( `Incorrect animateStart specified: you entered ${animateStart} -> values can be 'left', 'right' 'up', or 'down'`);
-    // }
 }
 
 export default getTicketAnimation;

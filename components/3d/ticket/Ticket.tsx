@@ -2,7 +2,7 @@
 import { FC, useEffect, useRef, useState } from 'react';
 // types
 import { TapEvent, ReactTapEvent } from 'types';
-import { Distort, Styles, ParentStyles } from './types';
+import { Distort, Styles, ParentStyles, AnimationStyles } from './types';
 // hooks
 import { usePointerMove } from '../../../hooks';
 // lib
@@ -50,26 +50,27 @@ const Ticket: FC<Props> = ( {
     
     const [ styles, setStyles ] = useState<Styles | {}>( {} );
     const [ parentStyles, setParentStyles ] = useState<ParentStyles | {}>( {} );
+    const [ animationStyles, setAnimationStyles ] = useState<AnimationStyles | {}>( {} );
+    const [ ticketAnimation, setTicketAnimation ] = useState<AnimationTimeline | null>( null );
 
-    // const [ keyframes, setKeyFrames ] = useState<string>( '' );
-    // const [ xAnimate, setXAnimate ] = useState<number | null>( null );
-    // const [ yAnimate, setYAnimate ] = useState<number | null>( null );
-    // const [ xStartAnimate, setXStartAnimate ] = useState<number | null>( null );
-    // const [ yStartAnimate, setYStartAnimate ] = useState<number | null>( null );
 
     /* FUNCTIONS */
     const animateTicket = () => {
-        const animation = getTicketAnimation( ref.current as HTMLElement, DROP_SHADOW_COLOR );
-            
-        setStyles( animation );
+        const { animation, ...styles } = getTicketAnimation( ref.current as HTMLElement, DROP_SHADOW_COLOR );
+
+        setTicketAnimation( animation );
+        setStyles( styles );
+
+        animation.play();
     }
+
     const reset = () => {
         if ( animate ) animateTicket();
         else setStyles( {
                transform: `rotateY(0deg) rotateX(0deg) scale(1)`,
                filter: `drop-shadow(0 10px 15px ${DROP_SHADOW_COLOR})`,
            } );
-       }
+    }
    
     const initTicket = ( target: HTMLElement ) => {
         const rect = target.getBoundingClientRect();
@@ -83,8 +84,12 @@ const Ticket: FC<Props> = ( {
 
     const make3D = ( 
         event: ReactTapEvent | TapEvent,
+        type: ( 'enter' | null )=null,
         distort: Distort={},
     ): void => {
+
+        // pause the animation
+        if ( type === 'enter' && animate ) ticketAnimation.pause();
 
         const target = event.target as HTMLElement;
         const rect = target.getBoundingClientRect();
@@ -105,18 +110,6 @@ const Ticket: FC<Props> = ( {
         // position of user's pointer relative to ticket
         const x = Math.abs( rect.x - clientX );
         const y = Math.abs( rect.y - clientY );
-
-        // coords around the center of ticket
-        // x: 166
-        // y: 48
-        // console.log( 'HOVER' );
-        // console.log( `x: ${x}`);
-        // console.log( `y: ${y}`);
-
-        // haldWidth: 142.625
-        // halfHeight: 65.5
-        // console.log( `Half Width: ${halfWidth}` );
-        // console.log( `Half Height: ${halfHeight}` );
 
         // angles to distort the ticket
         const angleX = ( x - halfWidth ) / xDistort;
@@ -158,7 +151,7 @@ const Ticket: FC<Props> = ( {
 
     return (
         <section id={id} ref={ref} className='ticket-container' style={parentStyles}
-            onPointerEnter={make3D} onPointerLeave={reset}>
+            onPointerEnter={( event ) => make3D( event, 'enter' )} onPointerLeave={reset}>
             <div className={ticketClasses} style={styles} >{children}</div>
         </section>
     )
