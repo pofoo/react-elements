@@ -54,41 +54,42 @@ const getTicketAnimation = (
 
     const animationName = 'circle-ticket';
     // keyframes to rotate the ticket in a counter clockwise direction
+    // const keyframes = 
+    // `@keyframes ${animationName} {
+    //     0% {
+    //         transform: rotateY(${getAngle( 'angle' ).x}deg) rotateX(${getAngle( 'angle' ).y}deg) scale(1.15),
+    //         filter: drop-shadow(${-getAngle( 'shadow' ).x}px ${getAngle( 'angle' ).y}px 15px ${shadowColor})
+    //     }
+    //     3% {
+    //         transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15),
+    //         filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor})
+    //     }
+    //     47% {
+    //         transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15),
+    //         filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor})
+    //     }
+    //     73% {
+    //         transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15),
+    //         filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor})
+    //     }
+    //     97% {
+    //         transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15),
+    //         filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor})
+    //     }
+    // }`;
+
     const keyframes = 
     `@keyframes ${animationName} {
-        // 0 -> center
-        0% {
-            transform: rotateY(${getAngle( 'angle' ).x}deg) rotateX(${getAngle( 'angle' ).y}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow' ).x}px ${getAngle( 'angle' ).y}px 15px ${shadowColor});
-        }
-        // I -> -x, +y
-        3% {
-            transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor});
-        }
-        // II -> +x, +y
-        47% {
-            transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor});
-        }
-        // III -> +x, -y
-        73% {
-            transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor});
-        }
-        // IV -> -x, -y
-        97% {
-            transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor});
-        }
+        from {opacity: 0}
     }`;
     
     const styleSheet = document.styleSheets[0];
     styleSheet.insertRule( keyframes, styleSheet.cssRules.length );
 
+    console.log( 'animated' );
     return {
         animation: `${animationName} ${animationDuration}`,
-        perspective: `${halfWidth * 3}px`,
+        // perspective: `${halfWidth * 3}px`,
     }
 
     // angle of ticket distort
