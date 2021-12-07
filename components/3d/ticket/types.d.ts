@@ -9,7 +9,10 @@ export interface Scale {
     yScale?: number;
 }
 
-export type AnimateStart = 'right' | 'left' | 'up' | 'down';
+export interface Displace {
+    xDisplace?: number;
+    yDisplace?: number;
+}
 
 export interface Styles {        
     transform: string;
