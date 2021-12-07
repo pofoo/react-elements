@@ -1,5 +1,5 @@
 // types
-import { Distort, Scale, Displace } from './types';
+import { Distort, Scale, Displace, Animation } from './types';
 // lib
 import { getHalfSizes } from '../../../lib';
 
@@ -10,7 +10,7 @@ const getTicketAnimation = (
     shadowColor: string,
     animationDuration: number=3, // number in seconds it will take the ticket to make one full circular rotation
     distort: Distort={},
-): string => {
+): Animation => {
 
     const rect = target.getBoundingClientRect();
 
@@ -18,7 +18,7 @@ const getTicketAnimation = (
     const {
         xDistort=18,
         yDistort=12,
-        shadowDistort=9,
+        shadowDistort=3,
     } = distort;
 
     // half dimensions of the ticket
@@ -31,18 +31,18 @@ const getTicketAnimation = (
     const getAngle = ( 
         type: 'angle' | 'shadow',
         displace: Displace={}
-    ): number[] => {
+    ): { [ key: string ] : number } => {
         /* CONTENT */
         const { xDisplace=0, yDisplace=0 } = displace;
 
-        if ( type === 'angle' ) return [
-            ( xCenter + xDisplace - halfWidth ) / xDistort,
-            ( yCenter + yDisplace - halfHeight) / yDistort,
-        ]
-        else if ( type === 'shadow' ) return [
-            ( xCenter + xDisplace - halfWidth ) / shadowDistort,
-            ( yCenter + yDisplace - halfHeight ) / shadowDistort,
-        ]
+        if ( type === 'angle' ) return {
+            x: ( xCenter + xDisplace - halfWidth ) / xDistort,
+            y: ( yCenter + yDisplace - halfHeight) / yDistort,
+        }
+        else if ( type === 'shadow' ) return {
+            x: ( xCenter + xDisplace - halfWidth ) / shadowDistort,
+            y: ( yCenter + yDisplace - halfHeight ) / shadowDistort,
+        }
         else throw( `Incorrect type specified: ${type}` );
     }
 
@@ -51,38 +51,45 @@ const getTicketAnimation = (
             perspective: `${halfWidth * 3}px`,
             filter: `drop-shadow(${-xShadow}px ${yShadow}px 15px ${DROP_SHADOW_COLOR})`,
      */
+
+    const animationName = 'circle-ticket';
     // keyframes to rotate the ticket in a counter clockwise direction
-    const keyframes = `
-    @keyframes circle-ticket {
+    const keyframes = 
+    `@keyframes ${animationName} {
         // 0 -> center
         0% {
-            transform: rotateY(${getAngle( 'angle' )}deg) rotateX(${getAngle( 'angle' )}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow' )}px ${getAngle( 'angle' )}px 15px ${shadowColor});
+            transform: rotateY(${getAngle( 'angle' ).x}deg) rotateX(${getAngle( 'angle' ).y}deg) scale(1.15);
+            filter: drop-shadow(${-getAngle( 'shadow' ).x}px ${getAngle( 'angle' ).y}px 15px ${shadowColor});
         }
         // I -> -x, +y
         3% {
-            transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } )}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } )}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } )}px ${getAngle( 'angle', { yDisplace: yAnimate } )}px 15px ${shadowColor});
+            transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15);
+            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor});
         }
         // II -> +x, +y
         47% {
-            transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } )}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } )}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } )}px ${getAngle( 'angle', { yDisplace: yAnimate } )}px 15px ${shadowColor});
+            transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15);
+            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor});
         }
         // III -> +x, -y
         73% {
-            transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } )}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } )}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } )}px ${getAngle( 'angle', { yDisplace: -yAnimate } )}px 15px ${shadowColor});
+            transform: rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15);
+            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor});
         }
         // IV -> -x, -y
         97% {
-            transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } )}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } )}deg) scale(1.15);
-            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } )}px ${getAngle( 'angle', { yDisplace: -yAnimate } )}px 15px ${shadowColor});
+            transform: rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15);
+            filter: drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor});
         }
-    }
-    `;
+    }`;
+    
+    const styleSheet = document.styleSheets[0];
+    styleSheet.insertRule( keyframes, styleSheet.cssRules.length );
 
-    return keyframes;
+    return {
+        animation: `${animationName} ${animationDuration}`,
+        perspective: `${halfWidth * 3}px`,
+    }
 
     // angle of ticket distort
     // let angleX = ( xAnimate! - halfWidth ) / xDistort;

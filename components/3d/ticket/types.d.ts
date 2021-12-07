@@ -14,6 +14,11 @@ export interface Displace {
     yDisplace?: number;
 }
 
+export interface Animation {
+    animation?: string;
+    perspective?: string;
+}
+
 export interface Styles {        
     transform: string;
     filter: string;

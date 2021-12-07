@@ -36,7 +36,7 @@ const Ticket: FC<Props> = ( {
     className='',
     isRounded=true,
     moveColor=false,
-    animate=false,
+    animate=true,
     color='',
     shadow='black',
 } ) => {
@@ -58,15 +58,13 @@ const Ticket: FC<Props> = ( {
     // const [ yStartAnimate, setYStartAnimate ] = useState<number | null>( null );
 
     /* FUNCTIONS */
-    const reset = () => {
-        // TO-DO - add default animation for styling
-        if ( animate ) {
-            // animation keyframes
-            const keyframes = getTicketAnimation( ref.current as HTMLElement, DROP_SHADOW_COLOR );
+    const animateTicket = () => {
+        const animation = getTicketAnimation( ref.current as HTMLElement, DROP_SHADOW_COLOR );
             
-            setStyles( {
-            } );
-        }
+        setStyles( animation );
+    }
+    const reset = () => {
+        if ( animate ) animateTicket();
         else setStyles( {
                transform: `rotateY(0deg) rotateX(0deg) scale(1)`,
                filter: `drop-shadow(0 10px 15px ${DROP_SHADOW_COLOR})`,
@@ -80,15 +78,7 @@ const Ticket: FC<Props> = ( {
             perspective: `${rect.width}px`,
         } );
 
-        // get animation keyframes
-        // set ticket animtion
-        if ( animate ) {
-            const keyframes = getTicketAnimation( ref.current as HTMLElement, DROP_SHADOW_COLOR );
-            
-            setStyles( {
-
-            } );
-        }
+        if ( animate ) animateTicket();
     }
 
     const make3D = ( 
