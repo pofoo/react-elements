@@ -9,6 +9,8 @@ import { usePointerMove } from '../../../hooks';
 import { getClientCoords, getHalfSizes } from '../../../lib';
 // partial functions
 import getTicketAnimation from './getTicketAnimation';
+// constants
+import { colors } from '../../../lib/constants';
 
 
 /* TYPES */
@@ -18,11 +20,8 @@ interface Props {
     className?: string;
     // styling
     isRounded?: boolean;
-    moveColor?: boolean; // whether the background color should be continuously changing and blending
     animate?: boolean; // whether to continuously animate the ticket
-    // TO-DO - implement different colors
-    color?: 'none' | string;
-    shadow?: 'matchColor' | 'black';
+    shadow?: 'brandBlue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
 }
 
 /**
@@ -35,15 +34,12 @@ const Ticket: FC<Props> = ( {
     id,
     className='',
     isRounded=true,
-    moveColor=false,
     animate=true,
-    color='',
-    shadow='black',
+    shadow='orange',
 } ) => {
 
     /* CONSTANTS */
-    // TO-DO - implement match color
-    const DROP_SHADOW_COLOR = shadow === 'black' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.3)';
+    const DROP_SHADOW_COLOR = colors[ shadow ][ 2 ];
 
     /* HOOKS */
     const ref = useRef<HTMLElement>( null );
@@ -51,14 +47,13 @@ const Ticket: FC<Props> = ( {
     const [ styles, setStyles ] = useState<Styles | {}>( {} );
     const [ parentStyles, setParentStyles ] = useState<ParentStyles | {}>( {} );
     const [ animationStyles, setAnimationStyles ] = useState<AnimationStyles | {}>( {} );
-    const [ ticketAnimation, setTicketAnimation ] = useState<AnimationTimeline | null>( null );
-
+    const [ ticketAnimation, setTicketAnimation ] = useState<Animation | null>( null );
 
     /* FUNCTIONS */
     const animateTicket = () => {
         setStyles( animationStyles );
-        // @ts-ignore
-        ticketAnimation.play();
+
+        ticketAnimation!.play();
     }
 
     const reset = () => {
@@ -89,10 +84,9 @@ const Ticket: FC<Props> = ( {
         type: ( 'enter' | null )=null,
         distort: Distort={},
     ): void => {
-
+        
         // pause the animation
-        // @ts-ignore
-        if ( type === 'enter' && animate ) ticketAnimation.pause();
+        if ( type === 'enter' && animate ) ticketAnimation!.pause();
 
         const target = event.target as HTMLElement;
         const rect = target.getBoundingClientRect();
@@ -129,17 +123,12 @@ const Ticket: FC<Props> = ( {
         } );
     }
 
-    // TO-DO - remove this after testing out color animations
-    const toggleOtherAnimation = false;
     /* CLASSNAMES */
     const ticketClasses = `
         ticket-wrapper
         ${className}
         ${isRounded ? 'rounded ': ''}
-        ${moveColor ? 'move-color' : ''}
         ${animate ? 'animate' : ''}
-        ${toggleOtherAnimation ? 'another-animation' : ''}
-        ${color}
     `;
 
     useEffect( () => {

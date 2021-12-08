@@ -4,18 +4,18 @@ export interface Distort {
     shadowDistort?: number;
 }
 
-export interface Scale {
-    xScale?: number;
-    yScale?: number;
-}
-
 export interface Displace {
     xDisplace?: number;
     yDisplace?: number;
 }
 
-export interface Animation {
-    animation: AnimationTimeline;
+export interface Scale {
+    xScale: number;
+    yScale: number;
+}
+
+export interface TicketAnimation {
+    animation: Animation;
     perspective: string;
 }
 

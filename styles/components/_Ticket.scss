@@ -11,40 +11,9 @@ $ticket--transition:                    0.1s ease-out;
     width: max-content;
     transform-style: preserve-3d;
 
-    // delete this
+    // DELETE
     padding-top: 3rem;
     margin: auto;
-
-    /* COLOR ANIMATIONS */
-    @keyframes colorCycle {
-        0% {
-            top: 0;
-            left: 0;
-            transform: scale(1);
-        }
-        50% {
-            top: -50%;
-            transform: scale(1.4);
-        }
-        100% {
-            top: 0;
-            left: -500%;
-            transform: scale(1);
-        }
-    }
-
-    @keyframes colorCycleExample {
-        0% {
-            top: 0;
-            left: 0;
-            transform: scale(1);
-        }
-        100% {
-            top: 0;
-            left: -100%;
-            transform: scale(1);
-        }
-    }
 
     .ticket-wrapper {
         display: block;
@@ -55,15 +24,8 @@ $ticket--transition:                    0.1s ease-out;
         color: white;
         filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
 
-        // red / orange
+        // DELETE - red / orange
         background: linear-gradient(180deg, #ff7147, #e0417f);
-        // green / blue
-        background: linear-gradient(180deg, #47ff6f, #417ce0);
-        // violet / purple
-        background: linear-gradient(180deg, #e347ff, #7b41e0);
-
-        // lighter drop shadow
-        // filter: drop-shadow(0 15px 15px #00a1ff57);
 
         transition: transform $ticket--transition,
                     filter $ticket--transition,
@@ -72,36 +34,6 @@ $ticket--transition:                    0.1s ease-out;
         /* SHAPE */
         &.rounded {
             border-radius: $ticket--border-radius;
-        }
-
-        /* ANIMATION */
-        // continously move 
-        &.animate {
-
-        }
-        // background color continously changes and moves
-        &.move-color {
-            &:after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 600%;
-                height: 200%;
-                // TO-DO - play around with the backgrounds
-                background: linear-gradient(90deg, #00a1ff, #af4ae6, #00a1ff, #2cefff);
-                // TO-DO - play around with the animation
-                animation: colorCycle 8s infinite alternate;
-                z-index: -1;
-            }
-
-            &.another-animation {
-                &:after {
-                    width: 200%;
-                    height: 100%;
-                    animation: colorCycleExample 4s infinite alternate;
-                }
-            }
         }
     }
 }

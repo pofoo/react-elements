@@ -1,5 +1,5 @@
 // types
-import { Distort, Scale, Displace, Animation } from './types';
+import { Distort, Scale, Displace, TicketAnimation } from './types';
 // lib
 import { getHalfSizes } from '../../../lib';
 
@@ -8,9 +8,13 @@ import { getHalfSizes } from '../../../lib';
 const getTicketAnimation = (
     target: HTMLElement,
     shadowColor: string,
-    animationDuration: number=8000, // number in milliseconds it will take the ticket to make one full circular rotation
+    animationDuration: number=6000, // number in milliseconds it will take the ticket to make one full circular rotation
     distort: Distort={},
-): Animation => {
+    scale: Scale={
+        xScale: 1.5,
+        yScale: 1.5,
+    },
+): TicketAnimation => {
 
     const rect = target.getBoundingClientRect();
 
@@ -24,7 +28,7 @@ const getTicketAnimation = (
     // half dimensions of the ticket
     const [ halfWidth, halfHeight ] = getHalfSizes( rect );
     // getting animation depth
-    const { center, animate } = calcAnimations( target );
+    const { center, animate } = calcAnimations( target, scale );
     const [ xCenter, yCenter ] = center;
     const [ xAnimate, yAnimate ] = animate;
 
@@ -43,7 +47,7 @@ const getTicketAnimation = (
             x: ( xCenter + xDisplace - halfWidth ) / shadowDistort,
             y: ( yCenter + yDisplace - halfHeight ) / shadowDistort,
         }
-        else throw( `Incorrect type specified: ${type}` );
+        else throw( TypeError(`Incorrect type specified: ${type}`) );
     }
 
     const keyframes = [
@@ -69,7 +73,7 @@ const getTicketAnimation = (
         },
     ];
 
-    const animation: AnimationTimeline = target.animate( keyframes, {
+    const animation = target.animate( keyframes, {
         duration: animationDuration,
         iterations: Infinity,
         direction: 'alternate',
@@ -82,16 +86,16 @@ const getTicketAnimation = (
     }
 }
 
-// calculates the animation depth for both x and y directions
+// calculates the animation depth for the x and y directions
 const calcAnimations = (
     target: HTMLElement,
-    scale: Scale={},
+    scale: Scale,
 ): { [ key: string ]: number[] } => {
 
     const rect = target.getBoundingClientRect();
 
     /* CONTENT */
-    const { xScale=1.5, yScale=1.5 } = scale;
+    const { xScale, yScale } = scale;
 
     // very bottom right coordinates
     const xRight = rect.right - rect.left;
