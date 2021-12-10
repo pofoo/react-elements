@@ -50,6 +50,12 @@ export const colors = {
         2:                          '#FAD2E1',
         1:                          '#FDE2E4',
     },
+    shadow: {
+        4:                          'rgba( 0, 0, 0, 0.3 )',
+        3:                          'rgba( 0, 0, 0, 0.25 )',
+        2:                          'rgba( 0, 0, 0, 0.2 )',
+        1:                          'rgba( 0, 0, 0, 0.15 )',
+    }
 };
 
 /*--------------------------------------------------------------
@@ -60,8 +66,4 @@ export const background = {
     antiqueWhite:                '#FFEEDD',
     mintCream:                   '#DBE7E4',
     aliceBlue:                   '#D6E2E9',
-};
-
-export const shadow = {
-    gray:                         'rgb( 0, 0, 0, 0.2 )',
 };

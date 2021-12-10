@@ -4,11 +4,13 @@ import { Distort, Scale, Displace, TicketAnimation } from './types';
 import { getHalfSizes } from '../../../lib';
 
 
-// returns keyframes ticket animation
+/**
+ * Returns the keyframes ticket animation
+ */
 const getTicketAnimation = (
     target: HTMLElement,
     shadowColor: string,
-    animationDuration: number=6000, // number in milliseconds it will take the ticket to make one full circular rotation
+    animationDuration: number=5000, // number in milliseconds it will take the ticket to make one full circular rotation
     distort: Distort={},
     scale: Scale={
         xScale: 1.5,
@@ -53,22 +55,22 @@ const getTicketAnimation = (
     const keyframes = [
         // I -> -x, +y
         {
-            transform: `rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15)`,
+            transform: `rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg)`,
             filter: `drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor})`,
         },
          // II -> +x, +y
         {
-            transform: `rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg) scale(1.15)`,
+            transform: `rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: yAnimate } ).y}deg)`,
             filter: `drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: yAnimate } ).y}px 15px ${shadowColor})`,
         },
         // III -> +x, -y
         {
-            transform: `rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15)`,
+            transform: `rotateY(${getAngle( 'angle', { xDisplace: xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg)`,
             filter: `drop-shadow(${-getAngle( 'shadow', { xDisplace: xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor})`,
         },
         // IV -> -x, -y
         {
-            transform: `rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg) scale(1.15)`,
+            transform: `rotateY(${getAngle( 'angle', { xDisplace: -xAnimate } ).x}deg) rotateX(${getAngle( 'angle', { yDisplace: -yAnimate } ).y}deg)`,
             filter: `drop-shadow(${-getAngle( 'shadow', { xDisplace: -xAnimate } ).x}px ${getAngle( 'angle', { yDisplace: -yAnimate } ).y}px 15px ${shadowColor})`,
         },
     ];
@@ -82,7 +84,7 @@ const getTicketAnimation = (
 
     return {
         animation,
-        perspective: `${halfWidth}px`,
+        perspective: `${halfWidth * 3}px`,
     }
 }
 

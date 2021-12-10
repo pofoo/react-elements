@@ -5,7 +5,7 @@ import { Ticket as Component } from '../../../components';
 
 
 export default {
-  title: 'Components/Ticket',
+  title: 'Components/3D/Ticket',
   component: Component,
 } as ComponentMeta<typeof Component>;
 

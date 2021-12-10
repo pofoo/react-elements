@@ -1,7 +1,6 @@
-import { colors, shadow, background } from './colors';
+import { colors, background } from './colors';
 
 export {
     colors,
-    shadow,
     background,
 }
