@@ -14,7 +14,7 @@ export interface Scale {
     yScale: number;
 }
 
-export interface TicketAnimation {
+export interface SmoothAnimation {
     animation: Animation;
     perspective: string;
 }
@@ -29,6 +29,6 @@ export interface ParentStyles {
     perspective: string;
 }
 
-export interface AnimationStyles {
+export interface SmoothAnimationStyles {
     perspective: string;
 }

@@ -1,13 +1,13 @@
 // types
-import { Distort, Scale, Displace, TicketAnimation } from './types';
+import { Distort, Scale, Displace, SmoothAnimation } from './types';
 // lib
 import { getHalfSizes } from '../../../lib';
 
 
 /**
- * Returns the keyframes ticket animation
+ * Returns styling for smooth animation
  */
-const getTicketAnimation = (
+const getSmoothAnimation = (
     target: HTMLElement,
     shadowColor: string,
     animationDuration: number=5000, // number in milliseconds it will take the ticket to make one full circular rotation
@@ -16,7 +16,7 @@ const getTicketAnimation = (
         xScale: 1.5,
         yScale: 1.5,
     },
-): TicketAnimation => {
+): SmoothAnimation => {
 
     const rect = target.getBoundingClientRect();
 
@@ -118,4 +118,4 @@ const calcAnimations = (
     };
 }
 
-export default getTicketAnimation;
+export default getSmoothAnimation;

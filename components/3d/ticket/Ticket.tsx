@@ -3,13 +3,13 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 // types
 import { TapEvent, ReactTapEvent, ConditionalProps } from 'types';
-import { Distort, Styles, ParentStyles, AnimationStyles } from './types';
+import { Distort, Styles, ParentStyles, SmoothAnimationStyles } from './types';
 // hooks
 import { usePointerMove } from '../../../hooks';
 // lib
 import { getClientCoords, getHalfSizes } from '../../../lib';
 // partial functions
-import getTicketAnimation from './getTicketAnimation';
+import getSmoothAnimation from './getSmoothAnimation';
 // constants
 import { colors } from '../../../lib/constants';
 
@@ -51,14 +51,14 @@ interface Props {
     scale?: number; // how much to scale the ticke on hover
     smoothAnimate?: boolean; // whether to continuously animate the ticket with the smooth animation effect
     showAnimate?: boolean; // whether to continuously animate the ticket with the show off animation effect
+    animateInterval?: number; // how long to wait before making the next show animation
     sparkle?: boolean; // adds a sparkle effect to the ticket
     sparkleHover?: boolean; // adds sparkle effect on hover
     shadow?: 'brandBlue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink' | 'shadow';
 }
 
 /**
- * 3D ticket that follows pointer cursor on hover.
- * If animate is set to true, then the Ticket will continuously animate.
+ * 3D ticket that follows pointer cursor on hover and has the option to continuously animate.
  * Can pass buttons or any other element type in as children for this component.
  */
 const Ticket: FC<Props> = ( {
@@ -70,6 +70,7 @@ const Ticket: FC<Props> = ( {
     scale=1.15,
     smoothAnimate=false,
     showAnimate=true,
+    animateInterval=7500,
     sparkle=true,
     sparkleHover=false,
     shadow='orange',
@@ -81,29 +82,52 @@ const Ticket: FC<Props> = ( {
 
     /* CONSTANTS */
     const DROP_SHADOW_COLOR = colors[ shadow ][ 2 ];
+    const DEBOUNCE_TIME = 1500;
 
     /* HOOKS */
     const ref = useRef<HTMLElement>( null );
     
+    // styling
     const [ styles, setStyles ] = useState<Styles | {}>( {} );
     const [ parentStyles, setParentStyles ] = useState<ParentStyles | {}>( {} );
-    const [ animationStyles, setAnimationStyles ] = useState<AnimationStyles | {}>( {} );
-    const [ ticketAnimation, setTicketAnimation ] = useState<Animation | null>( null );
-    const [ isShowAnimate, setIsShowAnimate ] = useState<boolean>( showAnimate ); 
+    // smooth animation
+    const [ smoothAnimationStyles, setSmoothAnimationStyles ] = useState<SmoothAnimationStyles | {}>( {} );
+    const [ smoothAnimation, setSmoothAnimtion ] = useState<Animation | null>( null );
+    // show off animation
+    const [ isShowAnimate, setIsShowAnimate ] = useState<boolean>( showAnimate );
+    const [ animateIntervalID, setAnimateIntervalID ] = useState<NodeJS.Timer | null>( null )
 
     /* FUNCTIONS */
-    const animateTicket = () => {
-        setStyles( animationStyles );
+    const smoothAnimateTicket = () => {
+        setStyles( smoothAnimationStyles );
 
-        ticketAnimation!.play();
+        smoothAnimation!.play();
+    }
+
+    // animate the ticket after 1.5 seconds of interacting with it
+    const debounceShowAnimate = useDebouncedCallback( () => {
+        setIsShowAnimate( true );
+    }, DEBOUNCE_TIME );
+
+    const startShowAnimationInterval = ( delay: number=0 ) => {
+        const animationInterval = setInterval( () => {
+            setIsShowAnimate( false );
+            setTimeout( () => setIsShowAnimate( true ), 100 );
+        }, animateInterval + delay );
+
+        setAnimateIntervalID( animationInterval );
     }
 
     const reset = () => {
-        if ( smoothAnimate ) animateTicket();
+        if ( smoothAnimate ) smoothAnimateTicket();
         else setStyles( {
                transform: `rotateX(0deg) rotateY(0deg) scale(1)`,
                filter: `drop-shadow(0 10px 15px ${DROP_SHADOW_COLOR})`,
            } );
+        if ( showAnimate ) {
+            debounceShowAnimate();
+            startShowAnimationInterval( DEBOUNCE_TIME );
+        }
     }
    
     const initTicket = ( target: HTMLElement ) => {
@@ -117,11 +141,14 @@ const Ticket: FC<Props> = ( {
         } );
 
         if ( smoothAnimate ) {
-            const { animation, ...styles } = getTicketAnimation( ref.current as HTMLElement, DROP_SHADOW_COLOR );
+            const { animation, ...styles } = getSmoothAnimation( ref.current as HTMLElement, DROP_SHADOW_COLOR );
             
-            setTicketAnimation( animation );
-            setAnimationStyles( styles );
+            setSmoothAnimtion( animation );
+            setSmoothAnimationStyles( styles );
         }
+
+        if ( showAnimate )
+            startShowAnimationInterval();
     }
 
     const make3D = ( 
@@ -129,13 +156,16 @@ const Ticket: FC<Props> = ( {
         distort: Distort,
         type: ( 'enter' | null )=null,
     ): void => {
-        // TO-DO implement debounce once the use pointer leaves
-        // stop the show off animation
-        setIsShowAnimate( false );
+        if ( showAnimate ) {
+            setIsShowAnimate( false );
+
+            if ( animateIntervalID )
+                clearInterval( animateIntervalID );
+        }
 
         // pause the animation
         if ( type === 'enter' && smoothAnimate ) 
-            ticketAnimation!.pause();
+            smoothAnimation!.pause();
 
         const target = event.target as HTMLElement;
         const rect = target.getBoundingClientRect();
