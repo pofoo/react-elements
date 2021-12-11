@@ -1,5 +1,6 @@
 // dependencies
 @use 'sass:map';
+@use 'sass:math';
 // constants
 @use '../constants/colors' as *;
 // utils
@@ -89,12 +90,16 @@ $ticket--sparkle-image-url:             "/public/static/images/sparkles.webp";
 
         // TO-DO - try using math.random
         &.show-animate {
+            // sometimes make these negative and sometimes make them positive
+            $transform-angle-1: math.random( $limit: 10 ) + 4deg;
+            $transform-angle-2: math.random( $limit: 10 ) + 4deg;
+
             @keyframes show-animate {
                 0%, 100% {
-                    transform: rotateX(0deg) rotateY(0deg);
+                    transform: rotateZ(0deg) rotateX(0deg) rotateY(0deg);
                 }
                 70% {
-                    transform: rotateX(10deg) rotateY(-15deg);
+                    transform: rotateX($transform-angle-1) rotateY($transform-angle-2);
                 }
             }
 
