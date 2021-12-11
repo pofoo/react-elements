@@ -2,7 +2,7 @@
 @use 'sass:color';
 
 /*--------------------------------------------------------------
-# Useful Color Functions
+# Useful Color Adjustment Functions
 --------------------------------------------------------------*/
 // returns shadow color - 2 = darker, 1 = lighter
 @function getShadowColors( $color ) {

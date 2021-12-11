@@ -5,7 +5,7 @@
 @use '../constants/colors' as *;
 // utils
 @use '../utils/position' as *;
-@use '../utils/states' as *;
+@use '../utils/selectors' as *;
 
 /*--------------------------------------------------------------
 # Variables
@@ -52,8 +52,7 @@ $ticket--sparkle-image-url:             "/public/static/images/sparkles.webp";
             $shine-color-1: map.get( $colors, 'blue', 3 );
             $shine-color-2: map.get( $colors, 'pink', 4 );
 
-            &:before,
-            &:after {
+            @include adjacent {
                 content: "";
                 @include zero-absolute;
                 mix-blend-mode: color-dodge;

@@ -5,7 +5,7 @@
 // constants
 @use '../constants/colors' as *;
 // utils
-@use '../utils/states' as *;
+@use '../utils/selectors' as *;
 @use '../utils/colors' as *;
 
 /*--------------------------------------------------------------
@@ -201,7 +201,7 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
 .link-button-container {
     @include hover {
         .CTA {
-            box-shadow: 0 6px 6px map.get( $shadow, 'gray' );
+            box-shadow: 0 6px 6px map.get( $shadow, 2 );
     
             .link-button-text {
                 .arrow {
@@ -215,14 +215,14 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     @include hover {
         .sticky {
             border-radius: 0 50% 0 0;
-            box-shadow: 0 3px 3px map.get( $shadow, 'gray' ),
+            box-shadow: 0 3px 3px map.get( $shadow, 2 ),
                         0 0 1px black;
         }
     }
 
     .link-button-wrapper {
         width: max-content;
-        box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+        box-shadow: 0 3px 3px map.get( $shadow, 2 );
     
         transition: background $button--transition,
                     box-shadow $button--transition;

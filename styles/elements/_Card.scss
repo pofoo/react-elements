@@ -36,8 +36,8 @@ $card--box-shadow:                   0 1.5px 10px;
         }
     }
 
-    &.gray {
-        $shadow-colors: getShadowColors( map.get( $shadow, 'gray' ) );
+    &.shadow {
+        $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
 
         box-shadow: $card--box-shadow 1px map.get( $shadow-colors, 2 ),
                     $card--box-shadow 1.5px map.get( $shadow-colors, 1 );

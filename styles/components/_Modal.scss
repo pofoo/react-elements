@@ -3,7 +3,7 @@
 // constants
 @use '../constants/colors' as *;
 // utils
-@use '../utils/states' as *;
+@use '../utils/selectors' as *;
 
 /*--------------------------------------------------------------
 # Variables
@@ -52,7 +52,7 @@ $modal--transition:                 0.27s ease;
         padding: $modal--padding;
     
         background: #fff;
-        box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
+        box-shadow: 0 3px 3px map.get( $shadow, 2 );
 
         transition: opacity $modal--transition, 
                     transform $modal--transition;

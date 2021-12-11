@@ -1,4 +1,7 @@
-// useful frequently used position techniques
+/*--------------------------------------------------------------
+# Frequently Used Position Techniques
+--------------------------------------------------------------*/
+// center an absolute positioned element in the center of the screen
 @mixin center-absolute {
     position: absolute;
     top: 50%;
@@ -6,6 +9,7 @@
     transform: translate( -50%, -50% );
 }
 
+// stretch an absolute positioned element to the width and height of the parent containter
 @mixin zero-absolute {
     position: absolute;
     top: 0;
