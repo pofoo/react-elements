@@ -3,15 +3,14 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 // types
 import { TapEvent, ReactTapEvent, ConditionalProps } from 'types';
-import { Distort, Styles, ParentStyles, SmoothAnimationStyles } from './types';
+import { Distort, Styles, ParentStyles, SmoothAnimationStyles, Shadow } from './types';
 // hooks
 import { usePointerMove } from '../../../hooks';
 // lib
 import { getClientCoords, getHalfSizes } from '../../../lib';
 // partial functions
 import getSmoothAnimation from './getSmoothAnimation';
-// constants
-import { colors } from '../../../lib/constants';
+import getShadowColor from './getShadowColor';
 
 
 /* TYPES */
@@ -54,7 +53,7 @@ interface Props {
     animateInterval?: number; // how long to wait before making the next show animation
     sparkle?: boolean; // adds a sparkle effect to the ticket
     sparkleHover?: boolean; // adds sparkle effect on hover
-    shadow?: 'brandBlue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink' | 'shadow';
+    shadow?: Shadow;
 }
 
 /**
@@ -81,8 +80,8 @@ const Ticket: FC<Props> = ( {
         throw( TypeError('smoothAnimate and showAnimate cannot be both set to true at the same time') );
 
     /* CONSTANTS */
-    const DROP_SHADOW_COLOR = colors[ shadow ][ 2 ];
     const DEBOUNCE_TIME = 1500;
+    const DROP_SHADOW_COLOR = getShadowColor( shadow );
 
     /* HOOKS */
     const ref = useRef<HTMLElement>( null );

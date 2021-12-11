@@ -32,3 +32,5 @@ export interface ParentStyles {
 export interface SmoothAnimationStyles {
     perspective: string;
 }
+
+export type Shadow = 'brandBlue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink' | 'shadow';
