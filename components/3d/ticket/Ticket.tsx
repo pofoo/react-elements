@@ -70,7 +70,7 @@ const Ticket: FC<Props> = ( {
     scale=1.15,
     smoothAnimate=false,
     showAnimate=true,
-    animateInterval=7500,
+    animateInterval=6000,
     sparkle=true,
     sparkleHover=false,
     shadow='orange',
@@ -206,7 +206,14 @@ const Ticket: FC<Props> = ( {
         // TO-DO: add sparkle hover
         // sparkle hover should only be active when sparkle is active
         // DO NOT CHANGE TRANSFORM OR DROP SHADOW FUNCTIONALITY
-        if ( sparkleHover ) {}
+        if ( sparkleHover ) {
+
+            // css to apply for active card
+            // var grad_pos = `background-position: ${lp}% ${tp}%;`
+            // var sprk_pos = `background-position: ${px_spark}% ${py_spark}%;`
+            // var opc = `opacity: ${p_opc/100};`
+            // var tf = `transform: rotateX(${ty}deg) rotateY(${tx}deg)`
+        }
 
         setStyles( styles );
     }
