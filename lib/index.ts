@@ -1,10 +1,10 @@
 import { getClientCoords } from './events';
-import { getHalfSizes } from './rect';
+import { getRectSize } from './rect';
 import { colors, shadow, background } from './constants';
 
 export {
     getClientCoords,
-    getHalfSizes,
+    getRectSize,
     colors,
     shadow,
     background,

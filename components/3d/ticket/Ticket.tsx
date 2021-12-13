@@ -7,7 +7,7 @@ import { Distort, Styles, ParentStyles, SmoothAnimationStyles, Shadow } from './
 // hooks
 import { usePointerMove } from '../../../hooks';
 // lib
-import { getClientCoords, getHalfSizes } from '../../../lib';
+import { getClientCoords, getRectSize } from '../../../lib';
 // partial functions
 import getSmoothAnimation from './getSmoothAnimation';
 import getShadowColor from './getShadowColor';
@@ -181,8 +181,11 @@ const Ticket: FC<Props> = ( {
         // TO-DO - test this on a mobile device
         // get the client coordinates for either Mouse or Touch Event
         const [ clientX, clientY ] = getClientCoords( event );
+        // dimensions of the ticket
+        const [ width, height ] = getRectSize( rect );
         // half dimensions of the ticket
-        const [ halfWidth, halfHeight ] = getHalfSizes( rect );
+        const halfWidth = width / 2;
+        const halfHeight = height / 2;
         
         // position of user's pointer relative to ticket
         const x = Math.abs( rect.x - clientX );

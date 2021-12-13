@@ -1,5 +1,5 @@
-import getHalfSizes from './getHalfSizes';
+import getRectSize from './getRectSize';
 
 export {
-    getHalfSizes,
+    getRectSize,
 }

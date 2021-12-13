@@ -1,7 +1,7 @@
 // types
 import { Distort, Scale, Displace, SmoothAnimation } from './types';
 // lib
-import { getHalfSizes } from '../../../lib';
+import { getRectSize } from '../../../lib';
 
 
 /**
@@ -27,8 +27,11 @@ const getSmoothAnimation = (
         shadowDistort=3,
     } = distort;
 
+    // dimensions of the ticket
+    const [ width, height ] = getRectSize( rect );
     // half dimensions of the ticket
-    const [ halfWidth, halfHeight ] = getHalfSizes( rect );
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
     // getting animation depth
     const { center, animate } = calcAnimations( target, scale );
     const [ xCenter, yCenter ] = center;
