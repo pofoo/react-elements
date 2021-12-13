@@ -21,13 +21,16 @@ import getShadowColor from './getShadowColor';
 //         id?: string;
 //         className?: string;
 //         // styling
+//         distort?: Distort;
 //         isRounded?: boolean;
+//         scale?: number; // how much to scale the ticke on hover
 //         smoothAnimate?: boolean; // whether to continuously animate the ticket with the smooth animation effect
 //         showAnimate?: boolean; // whether to continuously animate the ticket with the show off animation effect
+//         animateInterval?: number; // how long to wait before making the next show animation
 //         sparkle?: boolean; // adds a sparkle effect to the ticket
-//         shadow?: 'brandBlue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
+//         shadow?: Shadow;
 //     }, 
-//         'smoothAnimate', 'sp
+//         'smoothAnimate',
 //     {
 //         // if smoothAnimate is set to true, showAnimate cannot be true
 //         smoothAnimate: true;
@@ -52,7 +55,6 @@ interface Props {
     showAnimate?: boolean; // whether to continuously animate the ticket with the show off animation effect
     animateInterval?: number; // how long to wait before making the next show animation
     sparkle?: boolean; // adds a sparkle effect to the ticket
-    sparkleHover?: boolean; // adds sparkle effect on hover
     shadow?: Shadow;
 }
 
@@ -71,7 +73,6 @@ const Ticket: FC<Props> = ( {
     showAnimate=true,
     animateInterval=6000,
     sparkle=true,
-    sparkleHover=false,
     shadow='orange',
 } ) => {
 
@@ -204,18 +205,6 @@ const Ticket: FC<Props> = ( {
             perspective: `${halfWidth * 3}px`,
             filter: `drop-shadow(${-xShadow}px ${yShadow}px 15px ${DROP_SHADOW_COLOR})`,
         };
-
-        // TO-DO: add sparkle hover
-        // sparkle hover should only be active when sparkle is active
-        // DO NOT CHANGE TRANSFORM OR DROP SHADOW FUNCTIONALITY
-        if ( sparkleHover ) {
-
-            // css to apply for active card
-            // var grad_pos = `background-position: ${lp}% ${tp}%;`
-            // var sprk_pos = `background-position: ${px_spark}% ${py_spark}%;`
-            // var opc = `opacity: ${p_opc/100};`
-            // var tf = `transform: rotateX(${ty}deg) rotateY(${tx}deg)`
-        }
 
         setStyles( styles );
     }
