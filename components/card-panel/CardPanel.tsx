@@ -1,17 +1,20 @@
 // types
 import { FC } from 'react';
+// elements
+import { Card } from '../../elements';
 
 /* TYPES */
 interface Props {
     // customization
     id?: string;
     className?: string;
+    numCards: number; // number of cards to render
     // styling
     isCentered?: boolean;
 }
 
 /**
- * Card Panel.
+ * Card Panel - collection of card elements.
  */
 const CardPanel: FC<Props> = ( {
     children,

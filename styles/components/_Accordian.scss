@@ -1,0 +1,57 @@
+// utils
+@use '../utils/selectors' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$accordian--transition:              0.22s ease;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.accordian-panel-wrapper {
+
+}
+
+.accordian-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-direction: flex-start;
+    text-align: left;
+    
+    .toggle {
+        border: 3px solid black;
+
+        @include hover {
+            background: blue;
+        }
+
+        .label {
+
+        }
+
+        .toggle-icon {
+
+        }
+    }
+
+    .dropdown {
+        padding: 0.5rem;
+
+        transition: transform $accordian--transition,
+                    visibility $accordian--transition;
+
+        border: 3px solid yellow;
+
+        &.active {
+            visibility: visible;
+            transform: scaleY( 1 );
+        }
+
+        &.not-active {
+            visibility: hidden;
+            transform: scaleY( 0 );
+        }
+    }
+}

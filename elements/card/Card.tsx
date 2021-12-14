@@ -12,6 +12,10 @@ interface Props {
     isRounded?: boolean;
 }
 
+/**
+ * Individual card able with different style box shadows.
+ * Renders any children passed into card.
+ */
 const Card: FC<Props> = ( {
     children,
     id,

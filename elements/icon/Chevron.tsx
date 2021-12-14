@@ -4,7 +4,6 @@ interface Props {
     id?: string;
     className?: string;
     direction?: 'left' | 'right' | 'up' | 'down';
-    background?: 'square' | 'circle';
     // states
     isActive?: boolean;
     // accessibility
@@ -18,7 +17,6 @@ const Chevron = ( {
     id,
     className='',
     direction='right',
-    background,
     isActive,
     ariaLabel,
 }: Props ) => {
@@ -26,7 +24,6 @@ const Chevron = ( {
     const chevronWrapperClasses = `
         chevron-wrapper
         ${className}
-        ${background}
     `;
 
     const chevronClasses = `
@@ -36,10 +33,10 @@ const Chevron = ( {
     `;
 
     return (
-        <span id={id} className={chevronWrapperClasses}>
+        <div id={id} className={chevronWrapperClasses}>
             <span className={chevronClasses} 
                 role='presentation' aria-label={ariaLabel} />
-        </span>
+        </div>
     )
 }
 
