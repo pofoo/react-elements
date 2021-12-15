@@ -61,21 +61,21 @@ $chevron--normalize:            math.div( $chevron--length, 3 );
                 content: "";
                 position: absolute;
                 width: 60%;
-                height: $chevron--length / 5;
+                height: math.div( $chevron--length, 5 );
                 background: $chevron--color;
 
-                transition: transform 0.17s ease;
+                transition: transform 0.17s ease-in-out;
             }
 
             &:before {
-                top: $chevron--length / 2;
+                top: math.div( $chevron--length, 2 );
                 left: 0;
                 transform: translate( -50%, -50% ) rotate( 40deg );
             }
 
             &:after {
-                top: $chevron--length / 2;
-                left: $height / 2.5 ;
+                top: math.div( $chevron--length, 2 );
+                left: math.div( $height, 2.5 );
                 transform: translate( -50%, -50% ) rotate(140deg);
 
             }
@@ -83,13 +83,13 @@ $chevron--normalize:            math.div( $chevron--length, 3 );
             &.active {
                 &:before {
                     width: $height;
-                    left: $chevron--length / 25;
+                    left: math.div( $chevron--length, 25 );
                     transform: translate( -35%, -50% ) rotate(225deg);
                 }
     
                 &:after {
                     width: $height;
-                    left: $chevron--length / 25;
+                    left: math.div( $chevron--length, 25 );
                     transform: translate( -35%, -50% ) rotate( 320deg );
                 }
             }
