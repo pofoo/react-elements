@@ -1,7 +1,7 @@
 // dependencies
 import { useState, ReactNode } from 'react';
 // elements
-import { ToggleButton } from '../../elements';
+import { ToggleButton, Chevron } from '../../elements';
 
 /* TYPES */
 interface Content {
@@ -62,7 +62,8 @@ const Accordian = ( {
                 ariaLabel={toggleAriaLabel} isPressed={isAccordianActive}
                 aria-expanded={isAccordianActive} aria-controls={dropdownID}>
                 <span className='label'>{label}</span>
-                <span className='toggle-icon' aria-label='toggle icon' />
+                <Chevron className='toggle-icon' transition='x-out' direction='down'
+                    ariaLabel={`toggle ${label} icon`} isActive={isAccordianActive} />
             </ToggleButton>
             <div id={dropdownID} role='region' className='dropdown'
                 aria-labelledby={`${id}-label-${index}`}>

@@ -2,12 +2,16 @@
 @use 'sass:math';
 // mixins
 @use './direction' as *;
+// utils
+@use '../../utils/selectors' as *;
+@use '../../utils/position' as *;
 
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
 $chevron--thickness:            0.19em;
 $chevron--length:               1em;
+$chevron--border-radius:        10px;
 $chevron--color:                black;
  // normalize left and right chevron to look cleaner
 $chevron--normalize:            math.div( $chevron--length, 3 ); 
@@ -17,20 +21,79 @@ $chevron--normalize:            math.div( $chevron--length, 3 );
 --------------------------------------------------------------*/
 .chevron-wrapper {
     .chevron {
-        display: block;
-        border-style: solid;
-        border-width: $chevron--thickness $chevron--thickness 0 0;
-        height: $chevron--length;
         width: $chevron--length;
-        border-color: $chevron--color;
+        height: $chevron--length;
 
         transition: transform 0.22s ease;
-    
-        @include direction( $normalize-horizontal: $chevron--normalize,
-                            $start-angle: 45deg );
 
-        &.active {
-            transform: rotate( -45deg );
+        /* TRANSITION */
+        &.flip {
+            display: block;
+            border-style: solid;
+            border-width: $chevron--thickness $chevron--thickness 0 0;
+            border-color: $chevron--color;
+
+            @include direction( $normalize-horizontal: $chevron--normalize,
+                                $start-angle: 45deg );
+
+            // flip chevron direction to up
+            &.active {
+                transform: rotate( -45deg );
+            }
+        }
+
+        &.x-out {
+            display: block;
+            position: relative;
+
+            width: 50px;
+            height: 45px;
+
+            /* STYLING */
+            &.rounded {
+                @include adjacent {
+                    border-radius: $chevron--border-radius;
+                }
+            }
+
+            @include adjacent {
+                position: absolute;
+
+                background: $chevron--color;
+
+                content: "";
+                height: 9px; // 45 / 9
+                width: 60%;
+
+                transition: transform 0.23s ease;
+            }
+
+            &:before {
+                top: 25px;
+                left: 0px;
+                transform: translate( -50%, -50% ) rotate( 40deg );
+            }
+
+            &:after {
+                top: 25px;
+                left: 18px;
+                transform: translate( -50%, -50% ) rotate(140deg);
+
+            }
+
+            &.active {
+                &:before {
+                    width: 45px;
+                    left: 2px;
+                    transform: translate( -35%, -50% ) rotate(225deg);
+                }
+    
+                &:after {
+                    width: 45px;
+                    left: 2px;
+                    transform: translate( -35%, -50% ) rotate( 320deg );
+                }
+            }
         }
     }
 }

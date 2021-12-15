@@ -30,7 +30,7 @@ $card--width:                       15rem;
     flex-flow: row wrap;
     place-content: center;
     
-    // using ids to avoid any potential conflict with className styling
+    // using ids to avoid any potential conflict with className styling for higher priority styling
     #card-panel-card {
         margin: 0 $card-panel--gap $card-panel--gap $card-panel--gap;
 
