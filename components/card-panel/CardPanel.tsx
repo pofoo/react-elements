@@ -1,14 +1,11 @@
 // types
 import { FC } from 'react';
-// elements
-import { Card } from '../../elements';
 
 /* TYPES */
 interface Props {
     // customization
     id?: string;
     className?: string;
-    numCards: number; // number of cards to render
     // styling
     isCentered?: boolean;
 }
