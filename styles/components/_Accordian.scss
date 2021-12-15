@@ -1,55 +1,77 @@
+// dependencies
+@use 'sass:color';
+@use 'sass:map';
+// constant
+@use '../constants/colors' as *;
 // utils
 @use '../utils/selectors' as *;
 
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$accordian--transition:              0.22s ease;
+$accordian--border-color:            rgba( 0, 0, 0, 0.7 );
+$accordian--active-color:            map.get( $colors, 'orange', 1 );
+
+$accordian--transition:              0.17s ease;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
 .accordian-panel-wrapper {
-
+    // override the border styles with first of and last of selectors
 }
 
 .accordian-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex-direction: flex-start;
-    text-align: left;
-    
     .toggle {
-        border: 3px solid black;
+        width: 100%;
+        text-align: start;
+        padding: 0.5rem;
+        border: 2px solid $accordian--border-color;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+
+        transition: background $accordian--transition;
 
         @include hover {
-            background: blue;
+            background: color.adjust( $accordian--active-color, $alpha: -0.35 );
         }
 
         .label {
-
+            font-size: 110%;
         }
 
+        // TO-DO - toggle icon
         .toggle-icon {
-
         }
     }
 
     .dropdown {
-        padding: 0.5rem;
+        padding: 0.6rem 0.4rem;
 
+        transform-origin: top;
         transition: transform $accordian--transition,
                     visibility $accordian--transition;
 
-        border: 3px solid yellow;
+        border: 2px solid 
+            color.adjust( $accordian--border-color, $alpha: -0.17 );
+            
+        border-top: none;
+    }
 
-        &.active {
+    &.active {
+        .toggle {
+            // TO-DO
+            background: $accordian--active-color;
+        }
+
+        .dropdown {
             visibility: visible;
             transform: scaleY( 1 );
         }
-
-        &.not-active {
+    }
+    
+    &.not-active {
+        .dropdown {
             visibility: hidden;
             transform: scaleY( 0 );
         }

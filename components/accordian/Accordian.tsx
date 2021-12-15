@@ -1,5 +1,7 @@
 // dependencies
 import { useState, ReactNode } from 'react';
+// elements
+import { ToggleButton } from '../../elements';
 
 /* TYPES */
 interface Content {
@@ -31,6 +33,8 @@ const Accordian = ( {
     index=0,
 }: Props ) => {
 
+    // toggle icon
+
     /* CONTENT */
     const labelID = `${id}-label-${index}`;
     const dropdownID = `${id}-dropdown-${index}`;
@@ -42,22 +46,25 @@ const Accordian = ( {
     const accordianClasses = `
         accordian-wrapper
         ${className}
-    `;
-
-    const dropdownClasses = `
-        dropdown
         ${isAccordianActive ? 'active' : 'not-active'}
     `;
 
+    /* ACCESSIBILITY */
+    const toggleAriaLabel = {
+        pressedLabel: `close ${label} content`,
+        notPressedLabel: `open ${label} content`,
+    }
+
     return (
         <section className={accordianClasses}>
-            <button id={labelID} className='toggle'
-                aria-expanded={isAccordianActive} aria-controls={dropdownID}
-                onClick={() => setIsAccordianActive( state => !state )}>
+            <ToggleButton id={labelID} className='toggle'
+                onClick={() => setIsAccordianActive( state => !state )}
+                ariaLabel={toggleAriaLabel} isPressed={isAccordianActive}
+                aria-expanded={isAccordianActive} aria-controls={dropdownID}>
                 <span className='label'>{label}</span>
-                <span className='toggle-icon'></span>
-            </button>
-            <div id={dropdownID} role='region' className={dropdownClasses}
+                <span className='toggle-icon' aria-label='toggle icon' />
+            </ToggleButton>
+            <div id={dropdownID} role='region' className='dropdown'
                 aria-labelledby={`${id}-label-${index}`}>
                 {dropdown}
             </div>

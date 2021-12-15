@@ -18,8 +18,8 @@ const HamburgerToggle = () => {
   const [ isActive, setIsActive ] = useState<boolean>( false );
 
   const ariaLabel = {
-    pressedLabel: 'open hamburger icon',
-    notPressedLabel: 'close hamburger icon',
+    pressedLabel: 'close hamburger icon',
+    notPressedLabel: 'open hamburger icon',
   }
 
   return (
@@ -38,8 +38,8 @@ const ChevronToggle = () => {
   const [ isActive, setIsActive ] = useState<boolean>( false );
 
   const ariaLabel = {
-    pressedLabel: 'open chevron icon',
-    notPressedLabel: 'close chevron icon',
+    pressedLabel: 'close chevron icon',
+    notPressedLabel: 'open chevron icon',
   }
 
   return (
@@ -57,8 +57,8 @@ const DiamongToggle = () => {
 
   const [ isActive, setIsActive ] = useState<boolean>( false );
   const ariaLabel = {
-    pressedLabel: 'open diamond icon',
-    notPressedLabel: 'close diamond icon',
+    pressedLabel: 'close diamond icon',
+    notPressedLabel: 'open diamond icon',
   }
 
   return (
