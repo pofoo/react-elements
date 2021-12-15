@@ -33,8 +33,6 @@ const Accordian = ( {
     index=0,
 }: Props ) => {
 
-    // toggle icon
-
     /* CONTENT */
     const labelID = `${id}-label-${index}`;
     const dropdownID = `${id}-dropdown-${index}`;
