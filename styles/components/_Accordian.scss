@@ -22,6 +22,24 @@ $accordian--transition:              0.17s ease;
 }
 
 .accordian-wrapper {
+    &.active {
+        .toggle {
+            background: color.adjust( $accordian--active-color, $alpha: -0.33 );
+        }
+
+        .dropdown {
+            visibility: visible;
+            transform: scaleY( 1 );
+        }
+    }
+    
+    &.not-active {
+        .dropdown {
+            visibility: hidden;
+            transform: scaleY( 0 );
+        }
+    }
+
     .toggle {
         width: 100%;
         text-align: start;
@@ -33,7 +51,7 @@ $accordian--transition:              0.17s ease;
         transition: background $accordian--transition;
 
         @include hover {
-            background: color.adjust( $accordian--active-color, $alpha: -0.35 );
+            background: $accordian--active-color;
         }
 
         .label {
@@ -56,24 +74,5 @@ $accordian--transition:              0.17s ease;
             color.adjust( $accordian--border-color, $alpha: -0.17 );
             
         border-top: none;
-    }
-
-    &.active {
-        .toggle {
-            // TO-DO
-            background: $accordian--active-color;
-        }
-
-        .dropdown {
-            visibility: visible;
-            transform: scaleY( 1 );
-        }
-    }
-    
-    &.not-active {
-        .dropdown {
-            visibility: hidden;
-            transform: scaleY( 0 );
-        }
     }
 }
