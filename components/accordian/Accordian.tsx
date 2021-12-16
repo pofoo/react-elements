@@ -23,7 +23,7 @@ interface Props {
  */
 const Accordian: FC<Props> = ( {
     children,
-    id,
+    id='',
     className='',
     content: {
         label,
@@ -53,7 +53,7 @@ const Accordian: FC<Props> = ( {
     }
 
     return (
-        <section className={accordianClasses}>
+        <section id={id} className={accordianClasses}>
             <ToggleButton id={labelID} className='toggle'
                 onClick={() => setIsAccordianActive( state => !state )}
                 ariaLabel={toggleAriaLabel} isPressed={isAccordianActive}
@@ -63,7 +63,7 @@ const Accordian: FC<Props> = ( {
                     ariaLabel={`toggle ${label} icon`} isActive={isAccordianActive} />
             </ToggleButton>
             <div id={dropdownID} role='region' className='dropdown'
-                aria-labelledby={`${id}-label-${index}`}>
+                aria-labelledby={labelID}>
                 {children}
             </div>
         </section>

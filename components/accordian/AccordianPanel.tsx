@@ -1,24 +1,13 @@
 // dependencies
-import { useState, ReactNode } from 'react';
-// partials
-import Accordian from './Accordian';
-
-/* TYPES */
-type Content = {
-    label: string;
-    dropdown: ReactNode;
-}[];
+import { useState } from 'react';
 
 interface Props {
     // customization
-    id: string;
+    id?: string;
     className?: string;
-    accordianClassName: string;
-    content: Content;
     // states
     onlyOne?: boolean; // only show one accordian at a time
     startActive?: number; // if specified, the corresponding number accordian will be active on render
-    
 }
 
 /**
@@ -37,7 +26,6 @@ const AccordianPanel = ( {
     // keep track of all accordian active states
     // render children rather than individual accordian
 
-
     /* STATES */
     const [ activeAccordian, setActiveAccordian ] = useState<number | undefined>( startActive );
 
@@ -48,7 +36,7 @@ const AccordianPanel = ( {
     `;
 
     return (
-        <section className={accordianClasses}>
+        <section id={id} className={accordianClasses}>
             {
                 content.map( ( content, index ) => {
                     const isActive = activeAccordian === index ? true : false;

@@ -17,6 +17,7 @@ $tag--border-radius:        0.6rem;
     padding: $tag--padding;
     border: $tag--border;
     width: max-content;
+    box-shadow: 0 3px 3px map.get( $shadow, 2 );
 
     &.rounded {
         border-radius: $tag--border-radius;
@@ -24,7 +25,6 @@ $tag--border-radius:        0.6rem;
 
     @each $color, $color-map in $colors {
         &.#{$color} {
-            box-shadow: 0 3px 3px map.get( $shadow, 'gray' );
             background: map.get( $color-map, 2 );
         }
     }
