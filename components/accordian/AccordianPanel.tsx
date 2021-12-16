@@ -18,6 +18,7 @@ interface Props {
     // states
     onlyOne?: boolean; // only show one accordian at a time
     startActive?: number; // if specified, the corresponding number accordian will be active on render
+    
 }
 
 /**
@@ -33,6 +34,10 @@ const AccordianPanel = ( {
     startActive,
 }: Props ) => {
     
+    // keep track of all accordian active states
+    // render children rather than individual accordian
+
+
     /* STATES */
     const [ activeAccordian, setActiveAccordian ] = useState<number | undefined>( startActive );
 

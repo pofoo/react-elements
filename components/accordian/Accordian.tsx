@@ -1,37 +1,36 @@
 // dependencies
-import { useState, ReactNode } from 'react';
+import { useState, FC } from 'react';
 // elements
 import { ToggleButton, Chevron } from '../../elements';
 
 /* TYPES */
 interface Content {
     label?: string;
-    dropdown: ReactNode;
 };
 
 interface Props {
     // customization
-    id: string;
+    id?: string;
     className?: string;
     content: Content;
     // states
     isActive?: boolean;
-    index: number; // used in case Accordian is placed within AccordianPanel
+    index?: number; // used in case Accordian is placed within AccordianPanel
 };
 
 /**
  * Accordian that toggles information.
  */
-const Accordian = ( {
+const Accordian: FC<Props> = ( {
+    children,
     id,
     className='',
     content: {
         label,
-        dropdown,
     },
     isActive=false,
     index=0,
-}: Props ) => {
+} ) => {
 
     /* CONTENT */
     const labelID = `${id}-label-${index}`;
@@ -65,7 +64,7 @@ const Accordian = ( {
             </ToggleButton>
             <div id={dropdownID} role='region' className='dropdown'
                 aria-labelledby={`${id}-label-${index}`}>
-                {dropdown}
+                {children}
             </div>
         </section>
     )

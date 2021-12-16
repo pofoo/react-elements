@@ -76,7 +76,7 @@ $chevron--normalize:            math.div( $chevron--length, 3 );
             &:after {
                 top: math.div( $chevron--length, 2 );
                 left: math.div( $height, 2.5 );
-                transform: translate( -50%, -50% ) rotate(140deg);
+                transform: translate( -50%, -50% ) rotate( 140deg );
 
             }
 
@@ -84,7 +84,7 @@ $chevron--normalize:            math.div( $chevron--length, 3 );
                 &:before {
                     width: $height;
                     left: math.div( $chevron--length, 25 );
-                    transform: translate( -35%, -50% ) rotate(225deg);
+                    transform: translate( -35%, -50% ) rotate( 225deg );
                 }
     
                 &:after {

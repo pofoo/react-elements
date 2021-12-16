@@ -9,11 +9,18 @@ export default {
   component: Component,
 } as ComponentMeta<typeof Component>;
 
-const Template: ComponentStory<typeof Component> = ( args ) => <Component {...args} />;
+const AccoridanComponent = ( args: any ) => {
+
+  return (
+    <Component content={{label: 'Click Me!'}} >
+        <i>Hello! I am the Content!</i>
+    </Component>
+  )
+}
+const Template: ComponentStory<typeof Component> = ( args ) => <AccoridanComponent {...args} />;
 export const Accordian = Template.bind({});
 Accordian.args = {
-    content: {
-        label: 'Click Me!',
-        dropdown: <i>Hello! I am the accordian content</i>,
-    },
+  content: {
+    label: 'Click Me!'
+  }
 }

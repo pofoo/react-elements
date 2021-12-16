@@ -15,7 +15,7 @@ AccordianPanel.args = {
     content: [ 
         {
             label: 'Click Me!',
-            description: 'Hello!',
+            dropdown: 'Hello!',
         } 
     ]
 }
