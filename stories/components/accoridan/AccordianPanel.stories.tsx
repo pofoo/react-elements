@@ -14,10 +14,11 @@ export default {
 const AccordianPanelComponent = ( args: any ) => {
 
     return (
-        <Component>
+        <Component id='accordian-panel'>
             {
-                [ ...Array(7)].map( () => 
-                    <Accordian id='card-panel-card' content={{label: 'Click Me!'}} key={nanoid(5)} >
+                [ ...Array(7)].map( ( index ) => 
+                    <Accordian key={nanoid(5)} id={`accordian-${index}`} 
+                        content={{label: 'Click Me!'}} index={index}>
                         <i>Hello! I am an accordian!</i>
                     </Accordian>
                  )
@@ -27,13 +28,5 @@ const AccordianPanelComponent = ( args: any ) => {
     )
 }
 
-const Template: ComponentStory<typeof Component> = ( args ) => <Component {...args} />;
+const Template: ComponentStory<typeof AccordianPanelComponent> = ( args ) => <AccordianPanelComponent {...args} />;
 export const AccordianPanel = Template.bind({});
-AccordianPanel.args = {
-    content: [ 
-        {
-            label: 'Click Me!',
-            dropdown: 'Hello!',
-        } 
-    ]
-}

@@ -17,10 +17,6 @@ $accordian--transition:              0.17s ease-in-out;
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
-.accordian-panel-wrapper {
-    // override the border styles with first of and last of selectors
-}
-
 .accordian-wrapper {
     &.active {
         .toggle {
@@ -78,4 +74,13 @@ $accordian--transition:              0.17s ease-in-out;
             
         border-top: none;
     }
+}
+
+.accordian-panel-wrapper {
+    // all the accordian labels should be stacked on top of each other
+    // override the border styles with first of and last of selectors
+    .accordian-wrapper {
+
+    }
+
 }

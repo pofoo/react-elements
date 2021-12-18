@@ -1,5 +1,5 @@
 // dependencies
-import { useState } from 'react';
+import { FC, Children, cloneElement } from 'react';
 
 interface Props {
     // customization
@@ -14,20 +14,21 @@ interface Props {
  * Accordian Panel that makes up multiple accordians.
  * Can toggle certain options to change functionality of Accordian Panel.
  */
-const AccordianPanel = ( {
-    id,
+const AccordianPanel: FC<Props> = ( {
+    children,
+    id='',
     className='',
-    accordianClassName='',
-    content,
-    onlyOne=false,
-    startActive,
-}: Props ) => {
+    onlyOne=false, // useObjectState and rerender every accordian with an updated isActive
+    startActive, // i can do this by changing the isActive state of the corresponding index
+} ) => {
     
     // keep track of all accordian active states
     // render children rather than individual accordian
 
-    /* STATES */
-    const [ activeAccordian, setActiveAccordian ] = useState<number | undefined>( startActive );
+    // i am not going to have access to the children....
+
+    // console.log( Children.count( children ) );
+    Children.map( children, ( child, index ) => console.log( child, index ) );
 
     /* CLASSNAMES */
     const accordianClasses = `
@@ -38,6 +39,16 @@ const AccordianPanel = ( {
     return (
         <section id={id} className={accordianClasses}>
             {
+                Children.map( children, ( child, index ) => {
+                    if ( startActive === index )
+                        return cloneElement( child, {
+
+                        } )
+                    else
+                        return child;
+                } )
+            }
+            {/* {
                 content.map( ( content, index ) => {
                     const isActive = activeAccordian === index ? true : false;
                     return (
@@ -45,7 +56,7 @@ const AccordianPanel = ( {
                             content={content} isActive={isActive} index={index}/>
                 ) } )
             }
-           
+            */}
         </section>
     )
 }
