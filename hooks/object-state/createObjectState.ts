@@ -58,19 +58,18 @@ const createObjectState = <T extends any>(
         setObjectState( ( currObject: ObjectState ) => {
             const newObject: ObjectState={};
 
-            Object.keys( currObject ).forEach( 
-                ( currKey: string, index: number ) => {
-                    if ( index in uniqueValues )
-                        newObject[ currKey ] = uniqueValues[ index ];
-                    else
-                        newObject[ currKey ] = initialState;
+            Object.keys( currObject ).forEach( ( currKey, index ) => {
+                if ( index in uniqueValues )
+                    newObject[ currKey ] = uniqueValues[ index ];
+                else
+                    newObject[ currKey ] = initialState;
             } );
 
             return newObject;
         } );
     }
 
-    return createObjectState;
+    return useObjectState;
 }
 
 export default createObjectState;

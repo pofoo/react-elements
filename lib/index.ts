@@ -1,6 +1,6 @@
-import { getClientCoords } from './events';
-import { getRectSize } from './rect';
+import { getClientCoords, getRectSize } from './events';
 import { colors, shadow, background } from './constants';
+import { mapArrayToObject } from './data';
 
 export {
     getClientCoords,
@@ -8,4 +8,5 @@ export {
     colors,
     shadow,
     background,
+    mapArrayToObject,
 }
