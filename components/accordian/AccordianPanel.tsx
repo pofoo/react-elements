@@ -46,7 +46,7 @@ const AccordianPanel: FC<Props> = ( {
     /* FUNCTIONS */
     const closeOtherAccordians = ( index: number ) => {
         createAccordianStates.toggle( setAccordianStates, {
-            [index]: true,
+            [ index ]: !accordianStates[ index ],
         } );
     }
 

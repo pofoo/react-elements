@@ -27,6 +27,7 @@ import { ConditionalProps } from 'types';
 interface Props {
     // customization
     id?: string;
+    wrapperClassName?: string;
     className?: string;
     // styling
     isRounded?: boolean;
@@ -43,6 +44,7 @@ interface Props {
  */
 const Chevron = ( {
     id,
+    wrapperClassName='',
     className='',
     isRounded=true,
     transition='flip',
@@ -53,7 +55,7 @@ const Chevron = ( {
 
     const chevronWrapperClasses = `
         chevron-wrapper
-        ${className}
+        ${wrapperClassName}
     `;
 
     const chevronClasses = `
@@ -62,6 +64,7 @@ const Chevron = ( {
         ${transition}
         ${direction}
         ${isActive ? 'active': 'not-active'}
+        ${className}
     `;
 
     return (

@@ -50,18 +50,14 @@ const Accordian: FC<Props> = ( {
     /* FUNCTIONS */
     const toggleAccordian = ( index: number ) => {
         setIsAccordianActive( state => !state );
-        if ( onClick ) {
-            onClick( index );
-        }
+        if ( onClick ) onClick( index );
     }
 
-    let actualActive = isAccordianActive;
     // if an onClick function is provided, the accordian is part of an accordian panel
     // the classNames should be toggled accordingly
     // this is OK because we know the accordian is going to rerender every time in the toggleAccordian function
-    if ( onClick ) {
-        actualActive = isActive;
-    }
+    let actualActive = isAccordianActive;
+    if ( onClick ) actualActive = isActive;
     
     /* CLASSNAMES */
     const accordianClasses = `
@@ -77,8 +73,9 @@ const Accordian: FC<Props> = ( {
                 ariaLabel={toggleAriaLabel} isPressed={isAccordianActive}
                 aria-expanded={isAccordianActive} aria-controls={dropdownID}>
                 <span className='label'>{label}</span>
-                <Chevron className='toggle-icon' transition='x-out' direction='down'
-                    ariaLabel={`toggle ${label} icon`} isActive={isAccordianActive} />
+                <Chevron wrapperClassName='toggle-icon' className='icon' 
+                    transition='x-out' direction='down'
+                    ariaLabel={`toggle ${label} icon`} isActive={actualActive} />
             </ToggleButton>
             <div id={dropdownID} role='region' className='dropdown'
                 aria-labelledby={labelID}>

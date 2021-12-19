@@ -11,6 +11,8 @@
 --------------------------------------------------------------*/
 $accordian--border-color:            rgba( 0, 0, 0, 0.7 );
 $accordian--active-color:            map.get( $colors, 'orange', 1 );
+$accordian--icon-active-color:       color.adjust( 
+    map.get( $colors, 'brand-blue', 5 ), $saturation: 100% );
 
 $accordian--transition:              0.17s ease-in-out;
 
@@ -18,7 +20,6 @@ $accordian--transition:              0.17s ease-in-out;
 # Styling
 --------------------------------------------------------------*/
 .accordian-wrapper {
-
     @keyframes slide-in {
         from {
             transform: scaleY( 0 );
@@ -28,15 +29,34 @@ $accordian--transition:              0.17s ease-in-out;
         }
     }
 
+    @keyframes slide-out  {
+        from {
+            transform: scaleY( 1 );
+        }
+        to {
+            transform: scaleY( 0 );
+        }
+    }
+
     &.active {
         .toggle {
             background: color.adjust( $accordian--active-color, $alpha: -0.33 );
+
+            .toggle-icon {
+                .icon {
+                    @include adjacent {
+                        background: $accordian--icon-active-color;
+                    }
+                }
+            }
         }
 
         .dropdown {
             max-height: 100%;
             visibility: visible;
             transform: scaleY( 1 );
+
+            animation: slide-in $accordian--transition;
         }
     }
     
@@ -45,6 +65,8 @@ $accordian--transition:              0.17s ease-in-out;
             display: none;
             visibility: collapse;
             transform: scaleY( 0 );
+
+            animation: slide-out $accordian--transition;
         }
     }
 
@@ -57,6 +79,7 @@ $accordian--transition:              0.17s ease-in-out;
         border: 2px solid $accordian--border-color;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
+        box-shadow: 0px 0px 5px map.get( $shadow, 4 );
 
         transition: background $accordian--transition;
 
@@ -68,7 +91,6 @@ $accordian--transition:              0.17s ease-in-out;
             font-size: 110%;
         }
 
-        // TO-DO - toggle icon
         .toggle-icon {
             padding-right: 1rem;
         }
@@ -76,24 +98,15 @@ $accordian--transition:              0.17s ease-in-out;
 
     .dropdown {
         padding: 0.6rem 0.4rem;
+        box-shadow: 0px 3px 6px map.get( $shadow, 3 );
 
         transform-origin: top;
         transition: transform $accordian--transition,
-                    visibility $accordian--transition,
-                    max-height $accordian--transition;
+                    visibility $accordian--transition;
 
         border: 2px solid 
             color.adjust( $accordian--border-color, $alpha: -0.07 );
             
         border-top: none;
     }
-}
-
-.accordian-panel-wrapper {
-    // all the accordian labels should be stacked on top of each other
-    // override the border styles with first of and last of selectors
-    .accordian-wrapper {
-
-    }
-
 }
