@@ -51,13 +51,13 @@ const AccordianPanel: FC<Props> = ( {
     }
 
     /* CLASSNAMES */
-    const accordianClasses = `
-        accordian-wrapper
+    const accordianPanelClasses = `
+        accordian-panel-wrapper
         ${className}
     `;
 
     return (
-        <section id={id} className={accordianClasses}>
+        <section id={id} className={accordianPanelClasses}>
             {
                 Children.map( children, ( child, index ) => {              
                     const config: Config = {

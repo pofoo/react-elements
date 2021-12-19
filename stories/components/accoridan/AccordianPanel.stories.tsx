@@ -33,6 +33,6 @@ const AccordianPanelComponent = ( args: { onlyOne: boolean, startActiveList: num
 const Template: ComponentStory<typeof AccordianPanelComponent> = ( args ) => <AccordianPanelComponent {...args} />;
 export const AccordianPanel = Template.bind({});
 AccordianPanel.args = {
-    onlyOne: true,
+    onlyOne: false,
     startActiveList: [ 0 ],
 }
