@@ -82,7 +82,7 @@ $modal--transition:                 0.27s ease;
                             transform $transition;
             }
     
-            @include hover {
+            @include pointer {
                 &:before {
                     opacity: 1;
                     transform: scale( 1 );

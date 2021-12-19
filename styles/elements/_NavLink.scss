@@ -40,7 +40,7 @@ $nav-link--transition:                      0.22s ease;
         //     border-radius: 50%;
         // }
 
-        @include hover {
+        @include pointer {
             &:before {
                 transform: scaleX(1);
             }
@@ -65,7 +65,7 @@ $nav-link--transition:                      0.22s ease;
             transition: opacity $nav-link--transition;
         }
 
-        @include hover {
+        @include pointer {
             background: #d7e4f7;
 
             &:after {
@@ -84,7 +84,7 @@ $nav-link--transition:                      0.22s ease;
             transition: color $nav-link--transition;
         }
 
-        @include hover {
+        @include pointer {
             .nav-link-text {
                 color: black;
             }

@@ -18,8 +18,15 @@ $accordian--transition:              0.17s ease-in-out;
 # Styling
 --------------------------------------------------------------*/
 .accordian-wrapper {
-    display: flex;
-    flex-direction: column;
+
+    @keyframes slide-in {
+        from {
+            transform: scaleY( 0 );
+        }
+        to {
+            transform: scaleY( 1 );
+        }
+    }
 
     &.active {
         .toggle {
@@ -53,7 +60,7 @@ $accordian--transition:              0.17s ease-in-out;
 
         transition: background $accordian--transition;
 
-        @include hover {
+        @include pointer {
             background: $accordian--active-color;
         }
 
@@ -68,7 +75,6 @@ $accordian--transition:              0.17s ease-in-out;
     }
 
     .dropdown {
-        display: flex;
         padding: 0.6rem 0.4rem;
 
         transform-origin: top;

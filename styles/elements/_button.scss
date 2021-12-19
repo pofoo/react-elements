@@ -80,7 +80,7 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     &.lift {
         transition: transform $button--transition,
                     box-shadow $button--transition;
-         @include hover {
+         @include pointer {
             transform: translateY( -2.5px );
          }
     }
@@ -112,7 +112,7 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
             transform: translateX(-100px) skewX(-15deg);
         }
 
-         @include hover {                
+         @include pointer {                
             &::after {
                 transition: transform 0.7s ease;
                 // move the line over the button
@@ -159,20 +159,20 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
 
             /* HOVER TYPES */
             &.lift {
-                @include hover {
+                @include pointer {
                     box-shadow: $button--box-shadow--size2 map.get( $shadow-colors, 2 ),
                                 1px 1px 6px 1.5px map.get( $shadow-colors, 1 );
                 }
             }
             &.press {
-                @include hover {
+                @include pointer {
                     box-shadow: $box-shadow,
                                 inset 1px 1px 6px map.get( $shadow-colors, 2 ),
                                 inset 1px 1px 4px map.get( $shadow-colors, 1 );
                 }
             }
             &.pulse {
-                @include hover {
+                @include pointer {
                     box-shadow: 1px 1px 2px 0.3px map.get( $shadow-colors, 2 ),
                                 1px 1px 4px 3px map.get( $shadow-colors, 1 );
                 }
@@ -199,7 +199,7 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
 }
 
 .link-button-container {
-    @include hover {
+    @include pointer {
         .CTA {
             box-shadow: 0 6px 6px map.get( $shadow, 2 );
     
@@ -212,7 +212,7 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
         }
     }
 
-    @include hover {
+    @include pointer {
         .sticky {
             border-radius: 0 50% 0 0;
             box-shadow: 0 3px 3px map.get( $shadow, 2 ),
@@ -273,7 +273,7 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     
                 background: $color;
     
-                @include hover {
+                @include pointer {
                     background: color.adjust( $color, $alpha: -0.22 );                
                 }
             }
