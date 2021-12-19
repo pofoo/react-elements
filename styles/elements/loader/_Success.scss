@@ -1,3 +1,5 @@
+// dependencies
+@use 'sass:math';
 // animations
 @use '../../animations/fadeIn' as *;
 // utils
@@ -8,9 +10,9 @@
 --------------------------------------------------------------*/
 $success--size:                 36px;
 
-$check--size:                   $success--size / 9;
-$check--border-radius:          $success--size / 18;
-$check--circle-size:            $success--size / 12;
+$check--size:                   math.div( $success--size, 9 );
+$check--border-radius:          math.div( $success--size, 18 );
+$check--circle-size:            math.div( $success--size, 12 );
 
 $check--color:                  #4CAF50;
 $check--circle-color:           #4CAF50;

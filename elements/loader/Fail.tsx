@@ -18,7 +18,8 @@ const Fail = ( {
 
     return (
         <span className={failClasses} aria-label={ariaLabel} role='presentation'>
-            <Line ariaLabel='' />
+            <Line className='x-line' ariaLabel='fail line' />
+            <Line className='x-line' ariaLabel='fail line' />
         </span>
     )
 }

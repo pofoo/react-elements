@@ -1,8 +1,8 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$line--width:                   3em;
-$line--height:                  0.4em;
+$line--length:                   3em;
+$line--thickness:                0.4em;
 $line--color:                   black;
 
 /*--------------------------------------------------------------
@@ -10,11 +10,11 @@ $line--color:                   black;
 --------------------------------------------------------------*/
 .line {
     display: block;
-    width: $line--width;
-    height: $line--height;
+    width: $line--length;
+    height: $line--thickness;
     background: $line--color;
 
     &.rounded {
-        border-radius: $line--width;
+        border-radius: $line--length;
     }
 }

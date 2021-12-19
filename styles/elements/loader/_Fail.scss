@@ -1,3 +1,56 @@
+// positioning
+@use '../../utils/position' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$fail--x-length:                      2rem;
+$fail--x-thickness:                   0.22rem;
+$fail--x-color:                      #D06079;
+
+$fail--animation-timing:             0.3s ease-in-out;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+// TO-DO
+// draw circle
 .fail-wrapper {
+    @keyframes x-enter-1 {
+        from {
+            transform: translateX( -50% ) rotate( 45deg ) 
+                        scale( 0 );
+        }
+        to {
+            transform: translateX( -50% ) rotate( 45deg ) 
+                        scale( 1 );
+        }
+    }
+
+    @keyframes x-enter-2 {
+        from {
+            transform: translateX( -50% ) rotate( 135deg ) 
+                        scale( 0 );
+        }
+        to {
+            transform: translateX( -50% ) rotate( 135deg ) 
+                        scale( 1 );
+        }
+    }
     
+    .x-line {
+        @include center-absolute;
+        width: $fail--x-length;
+        height: $fail--x-thickness;
+
+        background: $fail--x-color;
+
+        &:nth-child( 1 ) {
+            animation: x-enter-1 $fail--animation-timing forwards;
+        }
+
+        &:nth-child( 2 ) {
+            animation: x-enter-2 $fail--animation-timing forwards;
+        }
+    }
 }

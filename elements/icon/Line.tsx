@@ -14,7 +14,7 @@ interface Props {
 const Line = ( {
     id,
     className='',
-    isRounded,
+    isRounded=true,
     ariaLabel,
 }: Props ) => {
 
