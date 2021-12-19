@@ -90,7 +90,7 @@ const FormButton = ( {
     isDisabled=false,
     isLoading=false,
     isSuccess=false,
-    isFail=false,
+    isFail=true,
     ariaLabel='form button',
     type='submit',
     size='md',
@@ -100,6 +100,11 @@ const FormButton = ( {
     hover='lift',
     click='ripple',
 }: Props ) => {
+
+    /* ERRORS */
+    // isFail and isSuccess can't be set to true at the same time
+    if ( isSuccess && isFail ) 
+        throw( SyntaxError( 'isSuccess and isFail cannot be both be set to true at the same time' ) );
 
     /* CONTENT */
     const { text, icon=null } = content;
@@ -111,8 +116,6 @@ const FormButton = ( {
 
     // everything that is loading or animating must be disabled
     const disabled = isLoading || isSuccess || isFail ? true : isDisabled;
-    // isFail and isSuccess can't be set to true at the same time
-    if ( isSuccess && isFail ) throw( SyntaxError( 'isSuccess and isFail cannot be both be set to true at the same time' ) );
 
     /* CLASSNAMES */
     const buttonClasses = `

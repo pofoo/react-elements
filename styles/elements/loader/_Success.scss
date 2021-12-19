@@ -6,11 +6,14 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$success--size:                36px;
+$success--size:                 36px;
 
-$check--size:                   4px;
-$check--border-radius:          2px;
-$check--circle-size:            3px;
+$check--size:                   $success--size / 9;
+$check--border-radius:          $success--size / 18;
+$check--circle-size:            $success--size / 12;
+
+$check--color:                  #4CAF50;
+$check--circle-color:           #4CAF50;
 
 $animation-duration:            0.7s;
 
@@ -18,7 +21,7 @@ $animation-duration:            0.7s;
 # Styling
 --------------------------------------------------------------*/
 .success-wrapper {
-    @keyframes icon-line-tip {
+    @keyframes draw-line-tip {
         0% {
             width: 0;
             left: $success--size * 0.0125;
@@ -46,7 +49,7 @@ $animation-duration:            0.7s;
         }
     }
     
-    @keyframes icon-line-long {
+    @keyframes draw-line-long {
         0% {
             width: 0;
             right: $success--size * 0.575;
@@ -74,7 +77,7 @@ $animation-duration:            0.7s;
     height: $success--size;
     border-radius: 50%;
     box-sizing: content-box;
-    border: $check--circle-size solid #4CAF50;
+    border: $check--circle-size solid $check--color;
     
     animation: fade-in ( $animation-duration * 1.15 ) ease;
 
@@ -83,14 +86,14 @@ $animation-duration:            0.7s;
         position: absolute;
         height: $check--size;
         border-radius: $check--border-radius;
-        background: #4CAF50;
+        background: $check--circle-color;
         
         &.line-tip {
             top: $success--size * 0.575;
             left: $success--size * 0.175;
             width: $success--size * 0.3125;
             transform: rotate(45deg);
-            animation: icon-line-tip $animation-duration;
+            animation: draw-line-tip $animation-duration;
         }
         
         &.line-long {
@@ -98,7 +101,7 @@ $animation-duration:            0.7s;
             right: $success--size * 0.1;
             width: $success--size * 0.5875;
             transform: rotate(-45deg);
-            animation: icon-line-long $animation-duration;
+            animation: draw-line-long $animation-duration;
         }
     }
 }
