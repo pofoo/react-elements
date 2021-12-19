@@ -1,5 +1,5 @@
 // dependencies
-import { useState, SetStateAction } from 'react';
+import { useState, SetStateAction, Dispatch } from 'react';
 
 /* CONSTANTS */
 const POPUP_NAME = 'param';
@@ -52,7 +52,7 @@ const createObjectState = <T extends any>(
      * If a unique values object is specified, the key:value pair is updated according to the specified number
      */
     useObjectState.toggle = (
-        setObjectState: SetStateAction<T | any>,
+        setObjectState: Dispatch<SetStateAction<T | any>>,
         uniqueValues: { [ key: number ]: T }={},
     ) => {
         setObjectState( ( currObject: ObjectState ) => {

@@ -1,7 +1,7 @@
 // dependencies
-import { useEffect, FC, Children, cloneElement } from 'react';
+import { FC, Children, cloneElement } from 'react';
 // hooks
-import { createObjectState } from '../../hooks';
+import { createListState } from '../../hooks';
 // lib
 import { mapArrayToObject } from '../../lib';
 
@@ -13,6 +13,12 @@ interface Props {
     // states
     onlyOne?: boolean; // only show one accordian at a time
     startActiveList?: number[]; // if specified, the corresponding number accordians will be active on render
+}
+
+interface Config {
+    index: number;
+    isActive: boolean;
+    onClick?: ( index: number ) => void;
 }
 
 /**
@@ -32,8 +38,17 @@ const AccordianPanel: FC<Props> = ( {
         throw( SyntaxError( 'Only one accordian can be open at a time - please only specify one index value in the startActiveList' ) );
 
     /* HOOKS */
-    const createAccordianStates = createObjectState<boolean>( Children.count( children ) )
+    const createAccordianStates = createListState<boolean>( Children.count( children ), {
+        uniqueValues: mapArrayToObject( startActiveList, true ),
+    } );
     const [ accordianStates, setAccordianStates ] = createAccordianStates();
+
+    /* FUNCTIONS */
+    const closeOtherAccordians = ( index: number ) => {
+        createAccordianStates.toggle( setAccordianStates, {
+            [index]: true,
+        } );
+    }
 
     /* CLASSNAMES */
     const accordianClasses = `
@@ -41,23 +56,19 @@ const AccordianPanel: FC<Props> = ( {
         ${className}
     `;
 
-    useEffect( () => {
-        createAccordianStates.toggle( setAccordianStates, 
-            mapArrayToObject( startActiveList, false ),
-        );
-    }, [] );
-
     return (
         <section id={id} className={accordianClasses}>
             {
-                Children.map( children, ( child, index ) => {
-                    if ( startActiveList.includes( index ) )
-                        // TO-DO - figure out if this is the right way to do this
-                        return cloneElement( child as JSX.Element, {
-                            isActive: true,
-                        } );
-                    else
-                        return child;
+                Children.map( children, ( child, index ) => {              
+                    const config: Config = {
+                        index,
+                        isActive: accordianStates[ index ],
+                    };
+
+                    if ( onlyOne )
+                        config.onClick = closeOtherAccordians;
+                    
+                    return cloneElement( child as JSX.Element, config );
                 } )
             }
         </section>

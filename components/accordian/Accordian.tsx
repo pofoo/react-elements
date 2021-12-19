@@ -14,6 +14,7 @@ interface Props {
     className?: string;
     content: Content;
     // states
+    onClick?: ( index: number ) => void;
     isActive?: boolean;
     index?: number; // used in case Accordian is placed within AccordianPanel
 };
@@ -28,6 +29,7 @@ const Accordian: FC<Props> = ( {
     content: {
         label,
     },
+    onClick,
     isActive=false,
     index=0,
 } ) => {
@@ -36,26 +38,42 @@ const Accordian: FC<Props> = ( {
     const labelID = `${id}-label-${index}`;
     const dropdownID = `${id}-dropdown-${index}`;
 
-    /* STATES */
-    const [ isAccordianActive, setIsAccordianActive ] = useState<boolean>( isActive );
-
-    /* CLASSNAMES */
-    const accordianClasses = `
-        accordian-wrapper
-        ${className}
-        ${isAccordianActive ? 'active' : 'not-active'}
-    `;
-
     /* ACCESSIBILITY */
     const toggleAriaLabel = {
         pressedLabel: `close ${label} content`,
         notPressedLabel: `open ${label} content`,
     }
 
+    /* STATES */
+    const [ isAccordianActive, setIsAccordianActive ] = useState<boolean>( isActive );
+
+    /* FUNCTIONS */
+    const toggleAccordian = ( index: number ) => {
+        setIsAccordianActive( state => !state );
+        if ( onClick ) {
+            onClick( index );
+        }
+    }
+
+    let actualActive = isAccordianActive;
+    // if an onClick function is provided, the accordian is part of an accordian panel
+    // the classNames should be toggled accordingly
+    // this is OK because we know the accordian is going to rerender every time in the toggleAccordian function
+    if ( onClick ) {
+        actualActive = isActive;
+    }
+    
+    /* CLASSNAMES */
+    const accordianClasses = `
+        accordian-wrapper
+        ${className}
+        ${actualActive ? 'active' : 'not-active'}
+    `;
+
     return (
         <section id={id} className={accordianClasses}>
             <ToggleButton id={labelID} className='toggle'
-                onClick={() => setIsAccordianActive( state => !state )}
+                onClick={() => toggleAccordian( index )}
                 ariaLabel={toggleAriaLabel} isPressed={isAccordianActive}
                 aria-expanded={isAccordianActive} aria-controls={dropdownID}>
                 <span className='label'>{label}</span>
