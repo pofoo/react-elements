@@ -63,7 +63,7 @@ $accordian--transition:              0.17s ease-in-out;
 
         transition: background $accordian--transition;
 
-        @include pointer {
+        @include tap {
             background: $accordian--active-color;
         }
 

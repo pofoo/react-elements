@@ -61,14 +61,14 @@ interface Props {
     content: Content;
     // event handlers
     onClick: ( event: MouseEvent<HTMLButtonElement> ) => void;
-    // button states / accessibility
+    // button state
     isDisabled?: boolean;
     isLoading?: boolean;
     isSuccess?: boolean;
     isFail?: boolean;
-    loaderAriaLabel?: string;
-    successAriaLabel?: string;
-    failAriaLabel?: string;
+    // TO-DO - if type is submit, ariaLabel must be provided
+    // accessibility
+    ariaLabel?: string;
     // styling
     type?: 'submit' | 'reset';
     size?: 'sm' | 'md' | 'lg';
@@ -90,10 +90,8 @@ const FormButton = ( {
     isDisabled=false,
     isLoading=false,
     isSuccess=false,
-    isFail=true,
-    loaderAriaLabel='form button loader',
-    successAriaLabel='form successfully sumbitted',
-    failAriaLabel='form failed to submit',
+    isFail=false,
+    ariaLabel='form button',
     type='submit',
     size='md',
     color='green',
@@ -106,10 +104,15 @@ const FormButton = ( {
     /* CONTENT */
     const { text, icon=null } = content;
 
+    /* ACCESSIBILITY */
+    const loaderAriaLabel = `${ariaLabel} loader`;
+    const successAriaLabel = `${ariaLabel} submitted`;
+    const failAriaLabel = `${ariaLabel} failed to submit`;
+
     // everything that is loading or animating must be disabled
     const disabled = isLoading || isSuccess || isFail ? true : isDisabled;
     // isFail and isSuccess can't be set to true at the same time
-    if ( isSuccess && isFail ) throw( 'isSuccess and isFail cannot be both be set to true at the same time' );
+    if ( isSuccess && isFail ) throw( SyntaxError( 'isSuccess and isFail cannot be both be set to true at the same time' ) );
 
     /* CLASSNAMES */
     const buttonClasses = `

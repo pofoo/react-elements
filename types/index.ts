@@ -10,6 +10,7 @@ import Image from './Image';
 import ObjectAtLeastOne from './objectAtLeastOne';
 import ConditionalProps from './conditionalProps';
 import { ReactTapEvent, TapEvent } from './tap-event';
+import SetState from './setState';
 
 export type {
     Href,
@@ -26,4 +27,5 @@ export type {
     ConditionalProps,
     TapEvent,
     ReactTapEvent,
+    SetState,
 }

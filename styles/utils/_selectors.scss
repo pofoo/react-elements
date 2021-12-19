@@ -3,7 +3,7 @@
 --------------------------------------------------------------*/
 // includes both the mouse over and focus state
 // focus state is for mobile devices and tab focused elements
-@mixin pointer {
+@mixin tap {
     &:hover,
     &:focus {
         @content;

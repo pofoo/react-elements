@@ -24,6 +24,7 @@ SVGFormButton.args = {
     icon: {
       data: '/favicon.svg',
       alt: 'button SVG'
-    }
-  }
+    },
+  },
+  ariaLabel: 'form button',
 }

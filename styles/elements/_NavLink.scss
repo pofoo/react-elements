@@ -40,7 +40,7 @@ $nav-link--transition:                      0.22s ease;
         //     border-radius: 50%;
         // }
 
-        @include pointer {
+        @include tap {
             &:before {
                 transform: scaleX(1);
             }
@@ -65,7 +65,7 @@ $nav-link--transition:                      0.22s ease;
             transition: opacity $nav-link--transition;
         }
 
-        @include pointer {
+        @include tap {
             background: #d7e4f7;
 
             &:after {
@@ -84,7 +84,7 @@ $nav-link--transition:                      0.22s ease;
             transition: color $nav-link--transition;
         }
 
-        @include pointer {
+        @include tap {
             .nav-link-text {
                 color: black;
             }
