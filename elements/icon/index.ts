@@ -4,6 +4,7 @@ import Hamburger from './Hamburger';
 import Triangle from './Triangle';
 import Diamond from './Diamond';
 import Line from './Line';
+import CircleOutline from './CircleOutline';
 
 export {
     Arrow,
@@ -12,4 +13,5 @@ export {
     Triangle,
     Diamond,
     Line,
+    CircleOutline,
 };

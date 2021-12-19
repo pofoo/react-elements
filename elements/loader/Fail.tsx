@@ -1,4 +1,5 @@
-import { Line } from '../icon';
+// elements / icons
+import { Line, CircleOutline} from '../icon';
 
 /* TYPES */
 interface Props {
@@ -20,6 +21,9 @@ const Fail = ( {
         <span className={failClasses} aria-label={ariaLabel} role='presentation'>
             <Line className='x-line' ariaLabel='fail line' />
             <Line className='x-line' ariaLabel='fail line' />
+            <span className='circle-wrapper'>
+                <span className='circle' />
+            </span>
         </span>
     )
 }

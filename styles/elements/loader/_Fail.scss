@@ -6,7 +6,10 @@
 --------------------------------------------------------------*/
 $fail--x-length:                      2rem;
 $fail--x-thickness:                   0.22rem;
+$fail--circle-size:                   1rem;
+
 $fail--x-color:                      #D06079;
+$fail--circle-color:                 #D06079;
 
 $fail--animation-timing:             0.3s ease-in-out;
 
@@ -51,6 +54,33 @@ $fail--animation-timing:             0.3s ease-in-out;
 
         &:nth-child( 2 ) {
             animation: x-enter-2 $fail--animation-timing forwards;
+        }
+    }
+
+    .circle-wrapper {
+        @keyframes draw-circle {
+            from {
+                transform: rotate( 0deg );
+            }
+            to {
+                transform: rotate( 360deg );
+            }
+        }
+
+        width: $fail--circle-size;
+        height: $fail--circle-size;
+
+        .circle {
+            @include center-absolute;
+            box-sizing: border-box;
+            width: 50%;
+            border: 3px solid black;
+            border-radius: 50%;
+            
+            border-top-color: black;
+            border-left-color: black;
+
+            transform-origin: left center;
         }
     }
 }
