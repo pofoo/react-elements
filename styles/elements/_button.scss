@@ -7,6 +7,7 @@
 // utils
 @use '../utils/selectors' as *;
 @use '../utils/colors' as *;
+@use '../utils/position' as *;
 
 /*--------------------------------------------------------------
 # Variables
@@ -43,7 +44,12 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
 /* SEPERATE */
 .form-button-wrapper {
     transition: color $button--transition,
-                background $button--transition;
+                background $button--transition,
+                box-shadow $button--transition;
+
+    .form-button-text {
+        transition: opacity $button--transition;
+    }
 
     /* SHAPE */
     &.rounded {
@@ -52,11 +58,7 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
 
     /* PARTIALS */
     .ripple-wrapper {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        @include zero-absolute;
 
         .ripple {
             @keyframes ripple {
@@ -192,8 +194,6 @@ $button--box-shadow--size1: 1px 1px 4px 0.35px;
     &.fail {
         .form-button-text {
             opacity: 0;
-
-            transition: opacity $button--transition;
         }
     }
 }
