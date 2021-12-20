@@ -3,7 +3,7 @@ import { FC, Children, cloneElement } from 'react';
 // hooks
 import { createListState } from '../../hooks';
 // lib
-import { mapArrayToObject } from '../../lib';
+import { mapArrayToObject, validateChildren } from '../../lib';
 
 /* TYPES */
 interface Props {
@@ -32,8 +32,11 @@ const AccordianPanel: FC<Props> = ( {
     onlyOne=false, // useObjectState and rerender every accordian with an updated isActive
     startActiveList=[], // i can do this by changing the isActive state of the corresponding index
 } ) => {
-    
+
     /* ERRORS */
+    if ( !validateChildren( children, { elementName: 'Accordian'} ) )
+        throw( SyntaxError( 'Inproper children: please specify at least one child that is an Accordian') );
+
     if ( startActiveList.length > 1 && onlyOne === true )
         throw( SyntaxError( 'Only one accordian can be open at a time - please only specify one index value in the startActiveList' ) );
 
@@ -59,7 +62,7 @@ const AccordianPanel: FC<Props> = ( {
     return (
         <section id={id} className={accordianPanelClasses}>
             {
-                Children.map( children, ( child, index ) => {              
+                Children.map( children, ( child, index ) => {  
                     const config: Config = {
                         index,
                         isActive: accordianStates[ index ],

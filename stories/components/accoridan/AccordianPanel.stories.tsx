@@ -19,7 +19,7 @@ const AccordianPanelComponent = ( args: { onlyOne: boolean, startActiveList: num
     return (
         <Component id='accordian-panel' onlyOne={onlyOne} startActiveList={startActiveList}>
             {
-                [ ...Array(7)].map( ( index ) => 
+                [ ...Array(7)].map( ( _, index ) => 
                     <Accordian key={nanoid(5)} id={`accordian-${index}`} 
                         content={{label: 'Click Me!'}} index={index}>
                         <i>Hello! I am an accordian!</i>
