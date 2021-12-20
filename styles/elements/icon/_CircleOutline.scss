@@ -1,0 +1,17 @@
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$circle-outline--size:                  3rem;
+$circle-outline--color:                 #000;
+$circle-outline--thickness:             3.5px;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.circle-outline-wrapper {
+    width: $circle-outline--size;
+    height: $circle-outline--size;
+
+    border: $circle-outline--thickness solid $circle-outline--color;
+    border-radius: 50%;
+}

@@ -1,5 +1,9 @@
+// dependencies
+@use 'sass:color';
 // positioning
 @use '../../utils/position' as *;
+// animations
+@use '../../animations/fadeIn' as *;
 
 /*--------------------------------------------------------------
 # Variables
@@ -21,22 +25,22 @@ $fail--animation-timing:             0.3s ease-in-out;
 .fail-wrapper {
     @keyframes x-enter-1 {
         from {
-            transform: translateX( -50% ) rotate( 45deg ) 
+            transform: translate( -50%, -50% ) rotate( 45deg ) 
                         scale( 0 );
         }
         to {
-            transform: translateX( -50% ) rotate( 45deg ) 
+            transform: translate( -50%, -50% ) rotate( 45deg ) 
                         scale( 1 );
         }
     }
 
     @keyframes x-enter-2 {
         from {
-            transform: translateX( -50% ) rotate( 135deg ) 
+            transform: translate( -50%, -50% ) rotate( 135deg ) 
                         scale( 0 );
         }
         to {
-            transform: translateX( -50% ) rotate( 135deg ) 
+            transform: translate( -50%, -50% ) rotate( 135deg ) 
                         scale( 1 );
         }
     }
@@ -57,30 +61,14 @@ $fail--animation-timing:             0.3s ease-in-out;
         }
     }
 
-    .circle-wrapper {
-        @keyframes draw-circle {
-            from {
-                transform: rotate( 0deg );
-            }
-            to {
-                transform: rotate( 360deg );
-            }
-        }
+    .circle {
+        $size: 2.7rem;
 
-        width: $fail--circle-size;
-        height: $fail--circle-size;
-
-        .circle {
-            @include center-absolute;
-            box-sizing: border-box;
-            width: 50%;
-            border: 3px solid black;
-            border-radius: 50%;
-            
-            border-top-color: black;
-            border-left-color: black;
-
-            transform-origin: left center;
-        }
+        @include center-absolute;
+        width: $size;
+        height: $size;
+        border-color: $fail--circle-color;
+        
+        animation: fade-in $fail--animation-timing;
     }
 }

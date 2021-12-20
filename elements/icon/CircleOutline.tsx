@@ -2,24 +2,22 @@
 /* TYPES */
 interface Props {
     className?: string;
+    ariaLabel: string;
 }
 
 const CircleOutline = ( {
     className='',
+    ariaLabel,
 }: Props ) => {
 
-    const circleClasses = `
-        circle-wrapper
+    const circleOutlineClasses = `
+        circle-outline-wrapper
         ${className}
     `;
 
     return (
-        <span className={circleClasses}>
-            <span className='half-cirlce'>
-                <span className='border clip' />
-            </span>
-            <span className='border fixed' />
-        </span>
+        <span className={circleOutlineClasses} 
+            role='presentation' aria-label={ariaLabel} />
     )
 }
 
