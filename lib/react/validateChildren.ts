@@ -25,8 +25,19 @@ const validateChildren = (
     // typescript not allowing me to index child.type for some reason
     const { elementName=null } = options;
     if ( elementName ) {
-        Children.toArray( children ).forEach( ( child ) => {
-        } );
+        // children is a custom JSX Element
+        if ( typeof children === 'function' ) {
+            Children.toArray( children ).forEach( ( child ) => {
+                const JSXChild = child as JSX.Element;
+                if ( JSXChild.type.displayName !== elementName )
+                    isChildrenValid = false;
+            } );
+        }
+        // children is a built in HTML element
+        if ( true ) {}
+        // children is something else
+        else
+            isChildrenValid = false;
     }
 
     return isChildrenValid;

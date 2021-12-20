@@ -34,8 +34,8 @@ const AccordianPanel: FC<Props> = ( {
 } ) => {
 
     /* ERRORS */
-    if ( !validateChildren( children, { elementName: 'Accordian'} ) )
-        throw( SyntaxError( 'Inproper children: please specify at least one child that is an Accordian') );
+    if ( !validateChildren( children, { elementName: 'Accordian' } ) )
+        throw( SyntaxError( 'Improper children: please specify at least one child that is an Accordian') );
 
     if ( startActiveList.length > 1 && onlyOne === true )
         throw( SyntaxError( 'Only one accordian can be open at a time - please only specify one index value in the startActiveList' ) );
