@@ -67,6 +67,11 @@ const LinkButton = ( {
     const { text, icon=null } = content;
     
     /* CLASSNAMES */
+    const linkButtonContainerClasses = `
+        link-button-container
+        ${className}
+    `;
+    
     const linkButtonClasses = `
         button-wrapper
         link-button-wrapper
@@ -79,7 +84,7 @@ const LinkButton = ( {
 
     return (
         <Link href={href}> 
-        <a className='link-button-container'>
+        <a className={linkButtonContainerClasses} target='_blank'>
             <div className={linkButtonClasses}>
                 {
                     icon && (
