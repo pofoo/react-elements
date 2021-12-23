@@ -1,6 +1,10 @@
 // dependencies
 import { useRef, useEffect } from 'react';
 
+/* CONSTANTS */
+const EMAIL_VALIDATION = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const PHONE_VALIDATION = /^/;
+
 /* TYPES */
 interface Props {
     className?: string;

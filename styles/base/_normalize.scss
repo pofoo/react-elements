@@ -1,3 +1,6 @@
+/*--------------------------------------------------------------
+# Elements
+--------------------------------------------------------------*/
 * {
     box-sizing: border-box;
 }
@@ -15,6 +18,23 @@ object {
     pointer-events: none;
 }
 
+button {
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    &:disabled {
+        pointer-events: none;
+        color: inherit;
+    }
+}
+
+/*--------------------------------------------------------------
+# Forms
+--------------------------------------------------------------*/
 button,
 input,
 optgroup,
@@ -28,19 +48,25 @@ fieldset {
 }
 
 label {
-    cursor: text;
+    cursor: pointer;
 }
 
-button {
+input[ type='search' ],
+input[ type='checkbox' ],
+input[ type='radio' ],
+input[ type='range' ],
+select {
+    appearance: none;
+}
+
+input[ type='checkbox' ],
+input[ type='radio' ],
+input[ type='range' ] {
     cursor: pointer;
+}
 
-    &:focus {
-        outline: none;
-        box-shadow: none;
-    }
-
-    &:disabled {
-        pointer-events: none;
-        color: inherit;
-    }
+input[ type='file' ] {
+    height: 0;
+    padding: 0;
+    opacity: 0;
 }

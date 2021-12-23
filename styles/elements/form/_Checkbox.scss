@@ -1,10 +1,45 @@
-.checkbox {
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$checkbox--size:                    1rem;
 
-    &:checked{
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.checkbox-wrapper {
+    display: flex;
 
+    /* POSITIONING */
+    &.right {
+        .label {
+            order: 2;
+        }
     }
 
-    &:disabled {
+    &.above {
+        flex-direction: column;
         
+        .checkbox {
+            margin-left: 0;
+            margin-top: 0.25rem;
+        }
+    }
+
+    .checkbox {
+        width: $checkbox--size;
+        height: $checkbox--size;
+        border: 1px solid black;
+    
+        &:checked{
+            background: gray;
+        }
+    
+        &:disabled {
+    
+        }
+
+        &:hover {
+            background: black;
+        }
     }
 }

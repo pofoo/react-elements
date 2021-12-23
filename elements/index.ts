@@ -7,6 +7,7 @@ import { TextHighlight } from './text';
 import Card from './card';
 import AccountTag from './account-tag';
 import NavLink from './nav-link';
+import { Checkbox, FileInput, Radio, Search, Select, TextInput } from './form';
 
 export {
     FormButton,
@@ -25,4 +26,10 @@ export {
     Card,
     AccountTag,
     NavLink,
+    Checkbox,
+    FileInput,
+    Radio,
+    Search,
+    Select,
+    TextInput,
 }
