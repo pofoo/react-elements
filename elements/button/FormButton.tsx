@@ -4,7 +4,6 @@ import { Puff, Success, Fail } from '../loader';
 // partials
 import Ripple from './ripple';
 // types
-import { MouseEvent } from 'react';
 import { ConditionalProps } from 'types';
 // import { Colors } from 'types';
 
@@ -23,8 +22,6 @@ interface Content {
 //         // customization
 //         className?: string;
 //         content: Content;
-//         // event handlers
-//         onClick: ( event: MouseEvent<HTMLButtonElement> ) => void;
 //         // button states / accessibility
 //         isDisabled?: boolean;
 //         isLoading?: boolean;
@@ -59,8 +56,6 @@ interface Props {
     // customization
     className?: string;
     content: Content;
-    // event handlers
-    onClick: ( event: MouseEvent<HTMLButtonElement> ) => void;
     // button state
     isDisabled?: boolean;
     isLoading?: boolean;
@@ -68,7 +63,7 @@ interface Props {
     isFail?: boolean;
     // TO-DO - if type is submit, ariaLabel must be provided
     // accessibility
-    ariaLabel?: string;
+    ariaLabel: string;
     // styling
     type?: 'submit' | 'reset';
     size?: 'sm' | 'md' | 'lg';
@@ -86,12 +81,11 @@ interface Props {
 const FormButton = ( {
     className='',
     content,
-    onClick,
     isDisabled=false,
     isLoading=false,
     isSuccess=false,
     isFail=false,
-    ariaLabel='form button',
+    ariaLabel,
     type='submit',
     size='md',
     color='green',
@@ -135,9 +129,8 @@ const FormButton = ( {
     `;
 
     return (
-        <button className={buttonClasses} 
-            onClick={onClick} disabled={disabled}
-            type={type}>
+        <button className={buttonClasses} aria-label={ariaLabel}
+            type={type} disabled={disabled}>
             {
                 icon && (
                     // TO-DO - adjust width and height depending on button size

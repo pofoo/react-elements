@@ -9,6 +9,8 @@ interface Props {
     id: string;
     className?: string;
     content: Content;
+    // states
+    checked?: boolean;
     // styling
     labelPosition?: 'right' | 'left' | 'above';
     isSwitch?: boolean; // whether the checkbox is a toggle switch - maybe I can do this with classNames instead?
@@ -22,6 +24,7 @@ const Checkbox = ( {
     id,
     className='',
     content,
+    checked=false,
     labelPosition='left',
     isSwitch=false,
 }: Props ) => {
@@ -44,7 +47,8 @@ const Checkbox = ( {
     return (
         <div className={checkboxWrapperClasses}>
             <label className='lable' htmlFor={id}>{label}</label>
-            <input id={id} className={checkboxClasses} type='checkbox' />
+            <input id={id} className={checkboxClasses} type='checkbox'
+                checked={checked} />
         </div>
     )
 }

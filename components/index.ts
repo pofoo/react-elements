@@ -5,6 +5,7 @@ import ProgressBar from './progress-bar';
 import Modal from './modal';
 import { Ticket } from './3d';
 import { Accordian, AccordianPanel } from './accordian';
+import { Form, FieldSet } from './form';
 
 export {
     Hello,
@@ -15,4 +16,6 @@ export {
     Ticket,
     Accordian,
     AccordianPanel,
+    Form,
+    FieldSet
 }
