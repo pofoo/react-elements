@@ -1,6 +1,6 @@
 import { getClientCoords, getRectSize } from './events';
 import { colors, shadow, background } from './constants';
-import { mapArrayToObject } from './data';
+import { mapArrayToObject, isObjectEmpty } from './data';
 import { validateChildren } from './react';
 
 export {
@@ -11,4 +11,5 @@ export {
     background,
     mapArrayToObject,
     validateChildren,
+    isObjectEmpty,
 }

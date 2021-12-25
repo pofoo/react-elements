@@ -1,10 +1,13 @@
 // dependencies
-import { FC, FormEventHandler, FormEvent, 
+import { FC, FormEventHandler, FormEvent,
     Children, cloneElement, useState, useEffect } from 'react';
 // elements
 import { FormButton } from '../../elements';
+// data
+import { isObjectEmpty } from '../../lib';
 // types
 import type { FormData } from 'types';
+import type { InputProps } from './types';
 
 /* TYPES */
 // type FormEvent = FormEventHandler<HTMLFormElement>;
@@ -25,7 +28,7 @@ interface ButtonProps {
 
 // key represents the parent input element that other input elements rely on
 // the value is what the parent input element SHOULD be in order for the child elements to NOT be disabled
-// disabledElements are all the child input elements
+// disabledElements are all the child input elements and MUST BE greater than the key specified (parent)
 // number is in reference to the DOM strcture of the input elements
 interface ConditionalDisabled {
     [ key: number ]: {
@@ -63,11 +66,11 @@ const Form: FC<Props> = ( {
     children,
     id,
     className='',
-    onSubmit, // this should just collect all the inputs, convert to json, and post to api url
+    onSubmit,
     buttonProps,
-    conditionalDisabled,
+    conditionalDisabled={},
 } ) => {
-    
+
     /* CONTENT */
     const { buttonContent, 
         buttonAriaLabel, 
@@ -76,9 +79,14 @@ const Form: FC<Props> = ( {
     } = buttonProps;
 
     /* HOOKS */
+    // form states
     const [ formData, setFormData ] = useState<FormData>( {} );
-    // check isFormComplete everytime there is a CHANGE in on the isValid states
     const [ isFormComplete, setIsFormComplete ] = useState<boolean>( false );
+    // these are only conditionally disabled inputs
+    // will not effect prespecified disabled inputs in children
+    // TO-DO - make sure these values are unique
+    const [ disabledInputs, setDisabledInputs ] = useState<number[]>( [] );
+    // submitting states
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
     const [ isSuccess, setIsSuccess ] = useState<boolean | null>( null );
     const [ isFail, setIsFail ] = useState<boolean | null>( null );
@@ -87,16 +95,21 @@ const Form: FC<Props> = ( {
     const onFormSubmit = ( event: FormEvent, data: FormData ) => {
         event.preventDefault();
         // setIsSubmitting( true );
+        // disabled all form elements
         // call the onSubmit function - might want to do this asynchronously and see result to the the states
         onSubmit( transformData( data ) );
         // set isSuccess or isFail depending on result
+        // show notification
+        // clear form data
     }
 
     const initFormData = () => {
         const emptyFormData: FormData = {};
         let canFormSubmit: boolean = true;
+        const IS_CONDITIONAL = !isObjectEmpty( conditionalDisabled );
+        let disabledInputs: number[] = [];
 
-        Children.forEach( children, ( child ) => {
+        Children.forEach( children, ( child, index ) => {
             try {
                 let name: string;
                 let value: string;
@@ -104,10 +117,10 @@ const Form: FC<Props> = ( {
 
                 // @ts-ignore
                 if ( child.type?.displayName === 'FieldSet' ) {
-                    // handle this recursively since FieldSets can be nested
+                    // TO-DO - handle this recursively since FieldSets can be nested
                 }
                 // @ts-ignore
-                name = child.props.content.name;
+                name = child.props.name;
                 // @ts-ignore
                 value = child.props.content?.value || '';
                 // @ts-ignore
@@ -119,17 +132,52 @@ const Form: FC<Props> = ( {
                     value,
                     isValid,
                 };
+
+                if ( IS_CONDITIONAL ) {
+                    const parentInput = conditionalDisabled[ index ];
+                    if ( parentInput && parentInput.value !== value ) {
+                        disabledInputs.push( ...parentInput.disabledElements );
+                    }
+                }
             } catch {
                 console.warn( `An invalid child was specified: ${child}`)
             }
         } );
 
-        setIsFormComplete( canFormSubmit );
         setFormData( emptyFormData );
+        setIsFormComplete( canFormSubmit );
+        if ( IS_CONDITIONAL ) 
+            setDisabledInputs( disabledInputs );
     }
 
-    // check can form submit everytime form data changes
-    const canFormSubmit = () => {
+    // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
+    const updateDisabledValues = () => {
+        let disabledInputs: number[] = [];
+
+        if ( !isObjectEmpty( conditionalDisabled ) ) {
+            Children.forEach( children, ( child, index ) => {
+                const parentInput = conditionalDisabled[ index ];
+                // @ts-ignore
+                const value = child.props.content?.value || '';
+
+                if ( parentInput && parentInput.value !== value ) {
+                    disabledInputs.push( ...conditionalDisabled[ index ].disabledElements );
+                }
+            } );
+
+            setDisabledInputs( disabledInputs );
+        }
+    }
+
+    // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
+    const updateIsFormComplete = () => {
+        let canSubmit = true;
+        ( Object.entries( formData ) ).forEach( ( [ _, rawInput ] ) => {
+            if ( rawInput.isValid === false ) 
+                canSubmit = false; 
+        } );
+
+        setIsFormComplete( canSubmit );
     }
 
     /* CLASSNAMES */
@@ -142,17 +190,34 @@ const Form: FC<Props> = ( {
         initFormData();
     }, [] );
 
-    return (
-        <form id={id} className={formClasses} onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
-            {
-                Children.map( children, ( child ) => {
-                    // child.type.displayName
-                    const JSXChild = child as JSX.Element;
-                    // TO-DO - handle disabled
-                    if ( conditionalDisabled ) {
+    console.log( formData );
 
+    return (
+        <form id={id} className={formClasses} 
+            onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
+            {
+                Children.map( children, ( child, index ) => {
+                    try {
+                        // @ts-ignore
+                        const prevContent = child.props.content;
+                        // @ts-ignore
+                        const name = child.props.name;
+
+                        const config: InputProps = {
+                            onChange: setFormData,
+                            content: {
+                                ...prevContent,
+                                value: formData[ name ].value,
+                            },
+                            updateIsFormComplete,
+                        }
+                        if ( disabledInputs.includes( index ) )
+                            config[ 'disabled' ] = true;
+    
+                        return cloneElement( child as JSX.Element, config );
+                    } catch {
+                        console.warn( `An invalid child was specified: ${child}`)
                     }
-                    return cloneElement( child as JSX.Element );
                 } )
             }
             <FormButton className={buttonClassName} content={buttonContent} 

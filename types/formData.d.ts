@@ -1,3 +1,6 @@
+// types
+import SetState from './setState';
+
 type FormData = {
     [ key: string ]: {
         value: string;
@@ -5,4 +8,9 @@ type FormData = {
     }
 }
 
-export default FormData;
+type SetFormData = SetState<FormData>;
+
+export type {
+    FormData,
+    SetFormData,
+} 

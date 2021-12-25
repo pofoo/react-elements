@@ -1,19 +1,17 @@
 // dependencies
-import { useEffect, useState, ChangeEventHandler, ChangeEvent, useCallback } from 'react';
+import { useState, ChangeEventHandler, ChangeEvent } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 // types
-import { SetState, FormData } from 'types';
+import type { SetFormData } from 'types';
 
 /* CONSTANTS */
 const EMAIL_VALIDATION = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-const PHONE_VALIDATION = /^/;
 
 /* TYPES */
 type OnChange = ChangeEventHandler<HTMLInputElement>;
 
 interface Content {
     label: string;
-    name: string;
     value?: string;
     placeholder?: string;
 }
@@ -22,22 +20,21 @@ interface Props {
     // customization
     id: string;
     className?: string;
+    name: string;
     content: Content;
     type: 'email' | 'username' | 'text';
     // event handlers
-    onChange: SetState<FormData>;
-
+    onChange: SetFormData;
+    // TO-DO - test required vs. not required from cloning the element
+    updateIsFormComplete?: any;
+    handleDisabledValues?: any;
     // states
     required?: boolean;
     disabled?: boolean;
     autoFocus?: boolean;
     // limitations
+    pattern?: RegExp; // will override default pattern checking from type specification
     maxLength?: number;
-}
-
-/* FUNCTIONS */
-const checkValid = () => {
-    return false;
 }
 
 /**
@@ -47,24 +44,27 @@ const TextInput = ( {
     id,
     className='',
     content,
+    name,
     type,
     onChange,
+    updateIsFormComplete,
+    handleDisabledValues,
     required=false,
     disabled=false,
     autoFocus=false,
     // TO-DO - find an appropriate maxLength
+    pattern,
     maxLength=1000,
     ...rest
 }: Props ) => {
 
-    // check is type is username
+    // check if type is username
     // look into datalist
 
     /* CONTENT */
-    const { label, name, value='', placeholder='', } = content;
+    const { label, value='', placeholder='', } = content;
 
     /* HOOKS */
-    const [ input, setInput ] = useState<string>( value );
     const [ touched, setTouched ] = useState<boolean>( false ); 
     const [ isValid, setIsValid ] = useState<boolean>( !required );
 
@@ -72,7 +72,7 @@ const TextInput = ( {
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
         const value = event.target.value;
         // set TextInput value
-        setInput( value );
+        // setInput( value );
         // TO-DO - debounce this call - ONLY DEBOUNCE THE CLASSNAME ADDING
         // update the isValid state based off the user input
         checkValid();
@@ -88,8 +88,22 @@ const TextInput = ( {
         } );
     }
 
-    const init = () => {
+    /* FUNCTIONS */
+    const checkValid = () => {
+        let newValid = true;
 
+        if ( pattern ) 
+            newValid = pattern.test( value );
+        else if ( type === 'email' ) 
+            newValid = EMAIL_VALIDATION.test( value );
+        else if ( required )
+            newValid = value !== '';
+        
+        // POTENTIAL BUG
+        if ( newValid !== isValid ) {
+            updateIsFormComplete();
+            setIsValid( newValid );
+        }
     }
 
     /* CLASSNAMES */
@@ -104,17 +118,12 @@ const TextInput = ( {
         ${className}
     `;
 
-    // CHECK VALIDITIY
-    useEffect( () => {
-        init();
-    }, [] );
-
     return (
         <div className={textInputWrapperClasses}>
             <label className='label' htmlFor={id}>{label}</label>
             <input id={id} className={textInputClasses} type='text' 
                 onChange={handleChange} onBlur={() => setTouched( true )}
-                name={name} value={input} placeholder={placeholder}
+                name={name} value={value} placeholder={placeholder}
                 required={required} disabled={disabled} autoFocus={autoFocus}
                 maxLength={maxLength} {...rest} />
         </div>

@@ -1,6 +1,9 @@
 // dependencies
 import { useState } from 'react';
 
+/* CONSTANTS */
+const PHONE_VALIDATION = /^/;
+
 /* TYPES */
 interface Content {
     label: string;

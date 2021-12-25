@@ -9,6 +9,7 @@ export default {
   component: Component,
 } as ComponentMeta<typeof Component>;
 
+/* TYPES */
 interface Props {
     id: string;
     onSubmit: ( input: { [ key: string ]: string } ) => void;
@@ -17,30 +18,35 @@ interface Props {
             text: string;
         };
         buttonAriaLabel: string;
+    },
+    conditionalDisabled: {
+        [ key: number ]: {
+            value: string;
+            disabledElements: number[];
+        }
     }
 }
 
 const FormComponent = ( args: Props ) => {
 
     /* CONTENT */
-    const { id, onSubmit, buttonProps } = args;
+    const { id, onSubmit, buttonProps, conditionalDisabled={} } = args;
     const textInputContent1 = {
         label: 'Text Input',
-        name: 'name1',
-        placeholder: 'placeholder'
+        placeholder: 'placeholder1'
     }
     const textInputContent2 = {
         label: 'Text Input',
-        name: 'name2',
-        placeholder: 'placeholder'
+        placeholder: 'placeholder2'
     }
 
     return (
-        <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} >
+        <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} 
+            conditionalDisabled={conditionalDisabled}>
             <TextInput id='text-input-1' content={textInputContent1} 
-                type='text' onChange={() => {}} />
+                name='name1' type='text' onChange={() => {}} />
             <TextInput id='text-input-2' content={textInputContent2} 
-                type='text' onChange={() => {}} />
+                name='name2' type='text' onChange={() => {}} />
             <div id='div1'>
                 <div id='div2'>
                     <span id='span1'>I am a span</span>
@@ -59,5 +65,11 @@ Form.args = {
             text: 'submit',
         },
         buttonAriaLabel: 'sample form'
-    }
+    },
+    // conditionalDisabled: {
+    //     0: {
+    //         value: 'hello',
+    //         disabledElements: [ 1 ],
+    //     },
+    // },
 }
