@@ -1,16 +1,17 @@
-import Href from './href';
-import OnClick from './onClick';
-import OnKeyDown from './onKeyDown';
-import EventFunction from './eventFunction';
-import OnChange from './onChange';
-import OnSubmit from './onSubmit';
-import OnInput from './onInput';
-import { Colors, BackgroundColors } from './colors';
-import Image from './Image';
-import ObjectAtLeastOne from './objectAtLeastOne';
-import ConditionalProps from './conditionalProps';
-import { ReactTapEvent, TapEvent } from './tap-event';
-import SetState from './setState';
+import type Href from './href';
+import type OnClick from './onClick';
+import type OnKeyDown from './onKeyDown';
+import type EventFunction from './eventFunction';
+import type OnChange from './onChange';
+import type OnSubmit from './onSubmit';
+import type OnInput from './onInput';
+import type { Colors, BackgroundColors } from './colors';
+import type Image from './Image';
+import type ObjectAtLeastOne from './objectAtLeastOne';
+import type ConditionalProps from './conditionalProps';
+import type { ReactTapEvent, TapEvent } from './tap-event';
+import type SetState from './setState';
+import type FormData from './formData';
 
 export type {
     Href,
@@ -28,4 +29,5 @@ export type {
     TapEvent,
     ReactTapEvent,
     SetState,
+    FormData,
 }

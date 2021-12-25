@@ -19,7 +19,9 @@ const Select = ( {
     `;
 
     return (
-        <select className={selectClasses} name='some-name' id={id}></select>
+        <select className={selectClasses} name='some-name' id={id}>
+            <option value=''></option>
+        </select>
     )
 }
 

@@ -23,10 +23,7 @@ const FieldSet: FC<Props> = ( {
     className='',
     content,
     name,
-    ...rest
 } ) => {
-
-    // TO-DO - pass props to the fieldset in order to pass onto the children
 
     /* CONTENT */
     const { legend } = content;
