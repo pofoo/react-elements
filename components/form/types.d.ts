@@ -10,8 +10,9 @@ type Content = {
 type InputProps = {
     onChange: SetFormData;
     content: Content;
-    updateIsFormComplete?: any;
+    updateIsFormComplete?: ( checkDisabled: boolean ) => void;
     disabled?: boolean;
+    isParentDisabled?: boolean;
 }
 
 export {

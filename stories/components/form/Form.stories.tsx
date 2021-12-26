@@ -20,15 +20,11 @@ interface Props {
         buttonAriaLabel: string;
     },
     conditionalDisabled: {
-        [ key: number ]: {
-            value: string;
-            disabledElements: number[];
-        }
+        [ key: number ]: number[];
     }
 }
 
 const FormComponent = ( args: Props ) => {
-
     /* CONTENT */
     const { id, onSubmit, buttonProps, conditionalDisabled={} } = args;
     const textInputContent1 = {
@@ -44,9 +40,11 @@ const FormComponent = ( args: Props ) => {
         <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} 
             conditionalDisabled={conditionalDisabled}>
             <TextInput id='text-input-1' content={textInputContent1} 
-                name='name1' type='text' onChange={() => {}} />
+                name='name1' type='text' onChange={() => {}}
+                updateIsFormComplete={() => {}} />
             <TextInput id='text-input-2' content={textInputContent2} 
-                name='name2' type='text' onChange={() => {}} />
+                name='name2' type='text' onChange={() => {}}
+                updateIsFormComplete={() => {}} />
             <div id='div1'>
                 <div id='div2'>
                     <span id='span1'>I am a span</span>
@@ -67,9 +65,6 @@ Form.args = {
         buttonAriaLabel: 'sample form'
     },
     // conditionalDisabled: {
-    //     0: {
-    //         value: 'hello',
-    //         disabledElements: [ 1 ],
-    //     },
+    //     0: [ 1 ]
     // },
 }

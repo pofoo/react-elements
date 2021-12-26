@@ -27,14 +27,11 @@ interface ButtonProps {
 }
 
 // key represents the parent input element that other input elements rely on
-// the value is what the parent input element SHOULD be in order for the child elements to NOT be disabled
-// disabledElements are all the child input elements and MUST BE greater than the key specified (parent)
+// the value represents an array of disabled elements
+// all disabled elements are considered child inputs and MUST BE greater than the key specified (parent)
 // number is in reference to the DOM strcture of the input elements
 interface ConditionalDisabled {
-    [ key: number ]: {
-        value: string;
-        disabledElements: number[];
-    }
+    [ key: number ]: number[];
 }
 
 interface Props {
@@ -135,8 +132,8 @@ const Form: FC<Props> = ( {
 
                 if ( IS_CONDITIONAL ) {
                     const parentInput = conditionalDisabled[ index ];
-                    if ( parentInput && parentInput.value !== value ) {
-                        disabledInputs.push( ...parentInput.disabledElements );
+                    if ( parentInput && !isValid ) {
+                        disabledInputs.push( ...parentInput );
                     }
                 }
             } catch {
@@ -151,33 +148,42 @@ const Form: FC<Props> = ( {
     }
 
     // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
-    const updateDisabledValues = () => {
-        let disabledInputs: number[] = [];
+    // const updateDisabledValues = () => {
+    //     let disabledInputs: number[] = [];
 
-        if ( !isObjectEmpty( conditionalDisabled ) ) {
-            Children.forEach( children, ( child, index ) => {
-                const parentInput = conditionalDisabled[ index ];
-                // @ts-ignore
-                const value = child.props.content?.value || '';
+    //     if ( !isObjectEmpty( conditionalDisabled ) ) {
+    //         Children.forEach( children, ( child, index ) => {
+    //             const parentInput = conditionalDisabled[ index ];
+    //             // @ts-ignore
+    //             const value = child.props.content?.value || '';
 
-                if ( parentInput && parentInput.value !== value ) {
-                    disabledInputs.push( ...conditionalDisabled[ index ].disabledElements );
-                }
-            } );
+    //             if ( parentInput && parentInput.value !== value ) {
+    //                 disabledInputs.push( ...conditionalDisabled[ index ].disabledElements );
+    //             }
+    //         } );
 
-            setDisabledInputs( disabledInputs );
-        }
-    }
+    //         setDisabledInputs( disabledInputs );
+    //     }
+    // }
 
     // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
-    const updateIsFormComplete = () => {
+    const updateIsFormComplete = ( checkDisabled: boolean ) => {
         let canSubmit = true;
-        ( Object.entries( formData ) ).forEach( ( [ _, rawInput ] ) => {
-            if ( rawInput.isValid === false ) 
+        ( Object.entries( formData ) ).forEach( ( [ _, rawInput ], index ) => {
+            const isInputValid = rawInput.isValid;
+
+            if ( !isInputValid ) 
                 canSubmit = false; 
+            if ( checkDisabled && conditionalDisabled[ index ] ) {
+                if ( isInputValid ) {
+                    // remove the disabledElements associated with the parent input   
+                }
+            }
         } );
 
         setIsFormComplete( canSubmit );
+        if ( checkDisabled )
+            setDisabledInputs( [] );
     }
 
     /* CLASSNAMES */
@@ -211,8 +217,11 @@ const Form: FC<Props> = ( {
                             },
                             updateIsFormComplete,
                         }
+
                         if ( disabledInputs.includes( index ) )
                             config[ 'disabled' ] = true;
+                        if ( conditionalDisabled[ index ] )
+                            config[ 'isParentDisabled' ] = true;
     
                         return cloneElement( child as JSX.Element, config );
                     } catch {

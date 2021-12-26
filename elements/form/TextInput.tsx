@@ -2,12 +2,14 @@
 import { useState, ChangeEventHandler, ChangeEvent } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 // types
-import type { SetFormData } from 'types';
+import type { SetFormData, ConditionalProps } from 'types';
 
 /* CONSTANTS */
 const EMAIL_VALIDATION = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 /* TYPES */
+// TO-DO - implement Conditional Props
+
 type OnChange = ChangeEventHandler<HTMLInputElement>;
 
 interface Content {
@@ -26,12 +28,13 @@ interface Props {
     // event handlers
     onChange: SetFormData;
     // TO-DO - test required vs. not required from cloning the element
-    updateIsFormComplete?: any;
-    handleDisabledValues?: any;
+    updateIsFormComplete: ( checkDisabled: boolean ) => void;
+    // handleDisabledValues?: any;
     // states
     required?: boolean;
     disabled?: boolean;
     autoFocus?: boolean;
+    isParentDisabled?: boolean;
     // limitations
     pattern?: RegExp; // will override default pattern checking from type specification
     maxLength?: number;
@@ -48,10 +51,11 @@ const TextInput = ( {
     type,
     onChange,
     updateIsFormComplete,
-    handleDisabledValues,
+    // handleDisabledValues,
     required=false,
     disabled=false,
     autoFocus=false,
+    isParentDisabled,
     // TO-DO - find an appropriate maxLength
     pattern,
     maxLength=1000,
@@ -101,7 +105,7 @@ const TextInput = ( {
         
         // POTENTIAL BUG
         if ( newValid !== isValid ) {
-            updateIsFormComplete();
+            updateIsFormComplete( isParentDisabled ? isParentDisabled : false );
             setIsValid( newValid );
         }
     }
