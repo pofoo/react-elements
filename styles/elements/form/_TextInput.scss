@@ -1,33 +1,45 @@
-.text-input {
+.text-input-wrapper {
+    margin-bottom: 0.5rem;
 
-    &:required {
-    }
-
-    &:optional {
-
-    }
+    .text-input {
+        border: 2px solid blue;
+        margin-left: 0.7rem;
     
-    &:valid {
+        transition: border 0.3s ease;
 
-    }
-
-    &:invalid {
-
-    }
-
-    &:disabled {
-
-    }
-
-    &:in-range {
-
-    }
-
-    &:out-of-range {
-
-    }
-
-    &::placeholder {
-
+        &.not-valid {
+            
+        }
+    
+        &:required {
+        }
+    
+        &:optional {
+    
+        }
+        
+        &:valid {
+    
+        }
+    
+        &:invalid {
+    
+        }
+    
+        &:disabled {
+            border: 2px solid red;
+        }
+    
+        &:in-range {
+    
+        }
+    
+        &:out-of-range {
+    
+        }
+    
+        &::placeholder {
+    
+        }
     }
 }

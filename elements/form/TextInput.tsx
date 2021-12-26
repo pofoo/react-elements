@@ -22,13 +22,13 @@ interface Props {
     // customization
     id: string;
     className?: string;
-    name: string;
+    name?: string;
     content: Content;
     type: 'email' | 'username' | 'text';
     // event handlers
     onChange: SetFormData;
     // TO-DO - test required vs. not required from cloning the element
-    checkIsFormComplete: ( checkDisabled: boolean ) => void;
+    checkFormStatus: ( checkDisabled: boolean ) => void;
     // handleDisabledValues?: any;
     // states
     required?: boolean;
@@ -50,7 +50,7 @@ const TextInput = ( {
     name,
     type,
     onChange,
-    checkIsFormComplete,
+    checkFormStatus,
     // handleDisabledValues,
     required=false,
     disabled=false,
@@ -62,21 +62,28 @@ const TextInput = ( {
     ...rest
 }: Props ) => {
 
-    // check if type is username
     // look into datalist
 
     /* CONTENT */
+    let inputName = name === 'email' || name ==='username' 
+        ? type : name;
     const { label, value='', placeholder='', } = content;
 
+    /* ERRORS */
+    if( typeof inputName !== 'string' )
+        throw( SyntaxError( 'If type is text, a name must be provided as an input' ) );
+        
     /* HOOKS */
     const [ touched, setTouched ] = useState<boolean>( false ); 
     const [ isValid, setIsValid ] = useState<boolean>( !required );
 
     /* FUNCTIONS */
+    // POTENTIAL BUG
+    const debounceValid = useDebouncedCallback( 
+        ( state: boolean ) => setIsValid( state ), 100 );
+    
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
         const value = event.target.value;
-        // set TextInput value
-        // setInput( value );
         // TO-DO - debounce this call - ONLY DEBOUNCE THE CLASSNAME ADDING
         // update the isValid state based off the user input
         checkValid();
@@ -92,7 +99,6 @@ const TextInput = ( {
         } );
     }
 
-    /* FUNCTIONS */
     const checkValid = () => {
         let newValid = true;
 
@@ -105,8 +111,9 @@ const TextInput = ( {
         
         // POTENTIAL BUG
         if ( newValid !== isValid ) {
-            checkIsFormComplete( isParentDisabled ? isParentDisabled : false );
-            setIsValid( newValid );
+            checkFormStatus( isParentDisabled ? isParentDisabled : false );
+            debounceValid( newValid );
+            // setIsValid( newValid );
         }
     }
 
@@ -127,7 +134,7 @@ const TextInput = ( {
             <label className='label' htmlFor={id}>{label}</label>
             <input id={id} className={textInputClasses} type='text' 
                 onChange={handleChange} onBlur={() => setTouched( true )}
-                name={name} value={value} placeholder={placeholder}
+                name={inputName} value={value} placeholder={placeholder}
                 required={required} disabled={disabled} autoFocus={autoFocus}
                 maxLength={maxLength} {...rest} />
         </div>

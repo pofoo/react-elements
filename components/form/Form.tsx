@@ -45,13 +45,12 @@ interface Props {
 
 /* FUNCTIONS */
 /**
- * Cleans up the raw form data input to only have name:value pairs.
- * This is data that will be stored.
+ * Cleans up the raw form input data to only have name:value pairs.
+ * This is data that will be stored in a database.
  */
 const transformData = ( data: FormData ) => {
     const input: { [ key: string ]: string } = {};
 
-    // cleaning up the input to only have name:value pairs
     ( Object.entries( data ) ).forEach( ( [ name, rawInput ] ) => {
         input[ name ] = rawInput.value;
     } );
@@ -79,10 +78,7 @@ const Form: FC<Props> = ( {
     // form states
     const [ formData, setFormData ] = useState<FormData>( {} );
     const [ isFormComplete, setIsFormComplete ] = useState<boolean>( false );
-    // these are only conditionally disabled inputs
-    // will not effect prespecified disabled inputs in children
-    // TO-DO - make sure these values are unique
-    const [ disabledInputs, setDisabledInputs ] = useState<number[]>( [] );
+    const [ disabledInputs, setDisabledInputs ] = useState<Set<number>>( new Set() );
     // submitting states
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
     const [ isSuccess, setIsSuccess ] = useState<boolean | null>( null );
@@ -91,8 +87,12 @@ const Form: FC<Props> = ( {
     /* FUNCTIONS */
     const onFormSubmit = ( event: FormEvent, data: FormData ) => {
         event.preventDefault();
-        // setIsSubmitting( true );
-        // disabled all form elements
+        setIsSubmitting( true );
+        // getting the number of form elements in array form -> i.e [ 0, 1, 2 ]
+        // numbers represent each input elements order in the dom tree
+        const formElementsArray = [ ...Array( 
+            Object.keys( formData ).length ).keys() ];
+        setDisabledInputs( new Set( formElementsArray ) );
         // call the onSubmit function - might want to do this asynchronously and see result to the the states
         onSubmit( transformData( data ) );
         // set isSuccess or isFail depending on result
@@ -104,10 +104,12 @@ const Form: FC<Props> = ( {
         const emptyFormData: FormData = {};
         let canFormSubmit: boolean = true;
         const IS_CONDITIONAL = !isObjectEmpty( conditionalDisabled );
-        let disabledInputs: number[] = [];
+        let disabledInputs: Set<number> = new Set();
 
         Children.forEach( children, ( child, index ) => {
+            // TO-DO - check why non form elements are not getting an error
             try {
+                console.log( child );
                 let name: string;
                 let value: string;
                 let isValid: boolean;
@@ -116,6 +118,7 @@ const Form: FC<Props> = ( {
                 if ( child.type?.displayName === 'FieldSet' ) {
                     // TO-DO - handle this recursively since FieldSets can be nested
                 }
+
                 // @ts-ignore
                 name = child.props.name;
                 // @ts-ignore
@@ -131,11 +134,11 @@ const Form: FC<Props> = ( {
                 };
 
                 if ( IS_CONDITIONAL ) {
-                    const parentInput = conditionalDisabled[ index ];
-                    if ( parentInput && !isValid ) {
-                        disabledInputs.push( ...parentInput );
-                    }
+                    const childInputs = conditionalDisabled[ index ];
+                    if ( childInputs && !isValid )
+                        childInputs.forEach( input => disabledInputs.add( input ) );
                 }
+                // TO-DO - figure out how to handle custom input elements
             } catch {
                 console.warn( `An invalid child was specified: ${child}`)
             }
@@ -148,23 +151,25 @@ const Form: FC<Props> = ( {
     }
 
     // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
+    // TO-DO - check if this function works
     const checkFormStatus = ( checkDisabled: boolean ) => {
         let canSubmit = true;
+        let newDisabledInputs: Set<number> = new Set();
+
         ( Object.entries( formData ) ).forEach( ( [ _, rawInput ], index ) => {
             const isInputValid = rawInput.isValid;
+            const childInputs = conditionalDisabled[ index ];
 
-            if ( !isInputValid ) 
+            if ( !isInputValid ) {
                 canSubmit = false; 
-            if ( checkDisabled && conditionalDisabled[ index ] ) {
-                if ( isInputValid ) {
-                    // remove the disabledElements associated with the parent input   
-                }
+                if ( checkDisabled && childInputs )
+                    childInputs.forEach( input => newDisabledInputs.add( input ) );
             }
         } );
 
         setIsFormComplete( canSubmit );
         if ( checkDisabled )
-            setDisabledInputs( [] );
+            setDisabledInputs( newDisabledInputs );
     }
 
     /* CLASSNAMES */
@@ -199,7 +204,7 @@ const Form: FC<Props> = ( {
                             checkFormStatus,
                         }
 
-                        if ( disabledInputs.includes( index ) )
+                        if ( disabledInputs.has( index ) )
                             config[ 'disabled' ] = true;
                         if ( conditionalDisabled[ index ] )
                             config[ 'isParentDisabled' ] = true;
@@ -210,10 +215,18 @@ const Form: FC<Props> = ( {
                     }
                 } )
             }
-            <FormButton className={buttonClassName} content={buttonContent} 
-                ariaLabel={buttonAriaLabel} isDisabled={isSubmitting || !isFormComplete ? true : false}
-                isSuccess={isSuccess ? true : false} isFail={isFail ? true : false}
-                {...restButtonProps} />
+            <div className='submit-button-wrapper'>
+                <FormButton className={buttonClassName} content={buttonContent}
+                    ariaLabel={buttonAriaLabel} isDisabled={isSubmitting || !isFormComplete ? true : false}
+                    isSuccess={isSuccess ? true : false} isFail={isFail ? true : false}
+                    {...restButtonProps} />
+            </div>
+            {
+                // TO-DO - add overall form loader
+                isSubmitting && (
+                    <span className='loader' role='presentation' />
+                )
+            }
         </form>
     )
 }

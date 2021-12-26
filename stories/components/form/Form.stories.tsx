@@ -41,10 +41,10 @@ const FormComponent = ( args: Props ) => {
             conditionalDisabled={conditionalDisabled}>
             <TextInput id='text-input-1' content={textInputContent1} 
                 name='name1' type='text' onChange={() => {}}
-                checkIsFormComplete={() => {}} />
+                checkFormStatus={() => {}} />
             <TextInput id='text-input-2' content={textInputContent2} 
                 name='name2' type='text' onChange={() => {}}
-                checkIsFormComplete={() => {}} />
+                checkFormStatus={() => {}} />
             <div id='div1'>
                 <div id='div2'>
                     <span id='span1'>I am a span</span>
@@ -57,7 +57,7 @@ const Template: ComponentStory<typeof FormComponent> = ( args ) => <FormComponen
 export const Form = Template.bind({});
 Form.args = {
     id: 'sample-form',
-    onSubmit: ( input ) => alert( input ),
+    onSubmit: ( input ) => alert( JSON.stringify( input ) ),
     buttonProps: {
         buttonContent: {
             text: 'submit',
