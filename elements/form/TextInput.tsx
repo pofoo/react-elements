@@ -28,7 +28,7 @@ interface Props {
     // event handlers
     onChange: SetFormData;
     // TO-DO - test required vs. not required from cloning the element
-    updateIsFormComplete: ( checkDisabled: boolean ) => void;
+    checkIsFormComplete: ( checkDisabled: boolean ) => void;
     // handleDisabledValues?: any;
     // states
     required?: boolean;
@@ -50,7 +50,7 @@ const TextInput = ( {
     name,
     type,
     onChange,
-    updateIsFormComplete,
+    checkIsFormComplete,
     // handleDisabledValues,
     required=false,
     disabled=false,
@@ -105,7 +105,7 @@ const TextInput = ( {
         
         // POTENTIAL BUG
         if ( newValid !== isValid ) {
-            updateIsFormComplete( isParentDisabled ? isParentDisabled : false );
+            checkIsFormComplete( isParentDisabled ? isParentDisabled : false );
             setIsValid( newValid );
         }
     }

@@ -148,26 +148,7 @@ const Form: FC<Props> = ( {
     }
 
     // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
-    // const updateDisabledValues = () => {
-    //     let disabledInputs: number[] = [];
-
-    //     if ( !isObjectEmpty( conditionalDisabled ) ) {
-    //         Children.forEach( children, ( child, index ) => {
-    //             const parentInput = conditionalDisabled[ index ];
-    //             // @ts-ignore
-    //             const value = child.props.content?.value || '';
-
-    //             if ( parentInput && parentInput.value !== value ) {
-    //                 disabledInputs.push( ...conditionalDisabled[ index ].disabledElements );
-    //             }
-    //         } );
-
-    //         setDisabledInputs( disabledInputs );
-    //     }
-    // }
-
-    // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
-    const updateIsFormComplete = ( checkDisabled: boolean ) => {
+    const checkFormStatus = ( checkDisabled: boolean ) => {
         let canSubmit = true;
         ( Object.entries( formData ) ).forEach( ( [ _, rawInput ], index ) => {
             const isInputValid = rawInput.isValid;
@@ -215,7 +196,7 @@ const Form: FC<Props> = ( {
                                 ...prevContent,
                                 value: formData[ name ].value,
                             },
-                            updateIsFormComplete,
+                            checkFormStatus,
                         }
 
                         if ( disabledInputs.includes( index ) )

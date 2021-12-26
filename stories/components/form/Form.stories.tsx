@@ -41,10 +41,10 @@ const FormComponent = ( args: Props ) => {
             conditionalDisabled={conditionalDisabled}>
             <TextInput id='text-input-1' content={textInputContent1} 
                 name='name1' type='text' onChange={() => {}}
-                updateIsFormComplete={() => {}} />
+                checkIsFormComplete={() => {}} />
             <TextInput id='text-input-2' content={textInputContent2} 
                 name='name2' type='text' onChange={() => {}}
-                updateIsFormComplete={() => {}} />
+                checkIsFormComplete={() => {}} />
             <div id='div1'>
                 <div id='div2'>
                     <span id='span1'>I am a span</span>
