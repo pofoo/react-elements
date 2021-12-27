@@ -74,6 +74,10 @@ const Form: FC<Props> = ( {
         ...restButtonProps
     } = buttonProps;
 
+    /* ERRORS */
+    // TO-DO - implement conditionalDisabled errors check
+    // should not have the key within the disabled input array -> i.e: { 0: [ 0, 1 ] }
+
     /* HOOKS */
     // form states
     const [ formData, setFormData ] = useState<FormData>( {} );
@@ -85,16 +89,29 @@ const Form: FC<Props> = ( {
     const [ isFail, setIsFail ] = useState<boolean | null>( null );
 
     /* FUNCTIONS */
-    const onFormSubmit = ( event: FormEvent, data: FormData ) => {
-        event.preventDefault();
-        setIsSubmitting( true );
+    const disableAllInputs = () => {
         // getting the number of form elements in array form -> i.e [ 0, 1, 2 ]
         // numbers represent each input elements order in the dom tree
         const formElementsArray = [ ...Array( 
             Object.keys( formData ).length ).keys() ];
+
         setDisabledInputs( new Set( formElementsArray ) );
+    }
+
+    const onFormSubmit = ( event: FormEvent, data: FormData ) => {
+        event.preventDefault();
+        setIsSubmitting( true );
+        disableAllInputs();
         // call the onSubmit function - might want to do this asynchronously and see result to the the states
         onSubmit( transformData( data ) );
+        setTimeout( () => {
+            setIsSubmitting( false );
+            setDisabledInputs( new Set() );
+            // setIsSuccess( true );
+            // setTimeout( () => setIsSuccess( false ), 1500 );
+            setIsFail( true );
+            setTimeout( () => setIsFail( false ), 1500 );
+        }, 1000 )
         // set isSuccess or isFail depending on result
         // show notification
         // clear form data
@@ -109,7 +126,6 @@ const Form: FC<Props> = ( {
         Children.forEach( children, ( child, index ) => {
             // TO-DO - check why non form elements are not getting an error
             try {
-                console.log( child );
                 let name: string;
                 let value: string;
                 let isValid: boolean;
@@ -120,7 +136,7 @@ const Form: FC<Props> = ( {
                 }
 
                 // @ts-ignore
-                name = child.props.name;
+                name = child.props.name || child.props.type;
                 // @ts-ignore
                 value = child.props.content?.value || '';
                 // @ts-ignore
@@ -183,7 +199,8 @@ const Form: FC<Props> = ( {
     }, [] );
 
     console.log( formData );
-
+    console.log( disabledInputs );
+    
     return (
         <form id={id} className={formClasses} 
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
@@ -193,7 +210,7 @@ const Form: FC<Props> = ( {
                         // @ts-ignore
                         const prevContent = child.props.content;
                         // @ts-ignore
-                        const name = child.props.name;
+                        const name = child.props.name || child.props.type;
 
                         const config: InputProps = {
                             onChange: setFormData,

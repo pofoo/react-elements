@@ -8,9 +8,14 @@
         transition: border 0.3s ease;
 
         &.not-valid {
-            
+            border: 2px solid red;
         }
-    
+
+        &:disabled {
+            border: 5px solid gray;
+        }
+
+        
         &:required {
         }
     
@@ -19,15 +24,11 @@
         }
         
         &:valid {
-    
+
         }
     
         &:invalid {
     
-        }
-    
-        &:disabled {
-            border: 2px solid red;
         }
     
         &:in-range {

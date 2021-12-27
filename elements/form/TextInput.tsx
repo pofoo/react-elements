@@ -26,9 +26,9 @@ interface Props {
     content: Content;
     type: 'email' | 'username' | 'text';
     // event handlers
-    onChange: SetFormData;
+    onChange?: SetFormData;
     // TO-DO - test required vs. not required from cloning the element
-    checkFormStatus: ( checkDisabled: boolean ) => void;
+    checkFormStatus?: ( checkDisabled: boolean ) => void;
     // handleDisabledValues?: any;
     // states
     required?: boolean;
@@ -63,16 +63,19 @@ const TextInput = ( {
 }: Props ) => {
 
     // look into datalist
-
     /* CONTENT */
-    let inputName = name === 'email' || name ==='username' 
-        ? type : name;
+    let inputName = ( type === 'email' || type ==='username' ) 
+        && typeof name !== undefined ? type : name;
     const { label, value='', placeholder='', } = content;
 
     /* ERRORS */
-    if( typeof inputName !== 'string' )
+    if ( typeof inputName !== 'string' )
         throw( SyntaxError( 'If type is text, a name must be provided as an input' ) );
-        
+    if ( typeof onChange !== 'function' )
+        throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
+    if ( typeof checkFormStatus !== 'function' )
+        throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
+
     /* HOOKS */
     const [ touched, setTouched ] = useState<boolean>( false ); 
     const [ isValid, setIsValid ] = useState<boolean>( !required );
@@ -80,7 +83,7 @@ const TextInput = ( {
     /* FUNCTIONS */
     // POTENTIAL BUG
     const debounceValid = useDebouncedCallback( 
-        ( state: boolean ) => setIsValid( state ), 100 );
+        ( state: boolean ) => setIsValid( state ), 2000 );
     
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
         const value = event.target.value;
@@ -111,6 +114,7 @@ const TextInput = ( {
         
         // POTENTIAL BUG
         if ( newValid !== isValid ) {
+            // THIS IS NOT WORKING
             checkFormStatus( isParentDisabled ? isParentDisabled : false );
             debounceValid( newValid );
             // setIsValid( newValid );
@@ -125,7 +129,7 @@ const TextInput = ( {
 
     const textInputClasses = `
         text-input
-        ${touched && !isValid ? 'not-valid' : 'valid'}
+        ${!isValid && touched ? 'not-valid' : 'valid'}
         ${className}
     `;
 

@@ -2,8 +2,9 @@
 /* TYPES */
 interface Props {
     className?: string;
-
+    accept?: File;
 }
+
 const FileInput = ( {
     className=''
 }: Props ) => {

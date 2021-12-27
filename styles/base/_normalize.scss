@@ -47,6 +47,13 @@ fieldset {
     background: none;
 }
 
+input {
+    &:focus {
+        appearance: none;
+        border: none;
+    }
+}
+
 label {
     cursor: pointer;
 }

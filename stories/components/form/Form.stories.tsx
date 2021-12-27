@@ -27,24 +27,28 @@ interface Props {
 const FormComponent = ( args: Props ) => {
     /* CONTENT */
     const { id, onSubmit, buttonProps, conditionalDisabled={} } = args;
-    const textInputContent1 = {
-        label: 'Text Input',
-        placeholder: 'placeholder1'
+    const emailContent = {
+        label: 'Email',
+        placeholder: 'Email'
     }
-    const textInputContent2 = {
-        label: 'Text Input',
-        placeholder: 'placeholder2'
+    const usernameContent = {
+        label: 'Username',
+        placeholder: 'Username'
+    }
+    const textContent = {
+        label: 'Text',
+        placeholder: 'Text',
     }
 
     return (
         <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} 
             conditionalDisabled={conditionalDisabled}>
-            <TextInput id='text-input-1' content={textInputContent1} 
-                name='name1' type='text' onChange={() => {}}
-                checkFormStatus={() => {}} />
-            <TextInput id='text-input-2' content={textInputContent2} 
-                name='name2' type='text' onChange={() => {}}
-                checkFormStatus={() => {}} />
+            <TextInput id='email' content={emailContent} 
+                type='email' required />
+            <TextInput id='username' content={usernameContent} 
+                type='username' required />
+            <TextInput id='text' content={textContent}
+                name='text' type='text' />
             <div id='div1'>
                 <div id='div2'>
                     <span id='span1'>I am a span</span>
@@ -64,7 +68,7 @@ Form.args = {
         },
         buttonAriaLabel: 'sample form'
     },
-    // conditionalDisabled: {
-    //     0: [ 1 ]
-    // },
+    conditionalDisabled: {
+        0: [ 1 ]
+    },
 }
