@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 const _uniqueChild = (
     child: ReactNode,
 ) => {
-    console.warn( `An custom input child was specified: ${child}`)
+    console.warn( `An custom input child was specified: ${child}` );
 }
 
 export {

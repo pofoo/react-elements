@@ -1,6 +1,5 @@
 // dependencies
-import { useState, ChangeEventHandler, ChangeEvent } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
+import { useEffect, useState, ChangeEventHandler, ChangeEvent } from 'react';
 // types
 import type { SetFormData, ConditionalProps } from 'types';
 
@@ -27,9 +26,7 @@ interface Props {
     type: 'email' | 'username' | 'text';
     // event handlers
     onChange?: SetFormData;
-    // TO-DO - test required vs. not required from cloning the element
     checkFormStatus?: ( checkDisabled: boolean ) => void;
-    // handleDisabledValues?: any;
     // states
     required?: boolean;
     disabled?: boolean;
@@ -51,7 +48,6 @@ const TextInput = ( {
     type,
     onChange,
     checkFormStatus,
-    // handleDisabledValues,
     required=false,
     disabled=false,
     autoFocus=false,
@@ -64,15 +60,18 @@ const TextInput = ( {
 
     // look into datalist
     /* CONTENT */
-    let inputName = ( type === 'email' || type ==='username' ) 
+    const inputName = ( type === 'email' || type ==='username' ) 
         && typeof name !== undefined ? type : name;
+
     const { label, value='', placeholder='', } = content;
 
     /* ERRORS */
     if ( typeof inputName !== 'string' )
         throw( SyntaxError( 'If type is text, a name must be provided as an input' ) );
+
     if ( typeof onChange !== 'function' )
         throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
+
     if ( typeof checkFormStatus !== 'function' )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
 
@@ -81,48 +80,32 @@ const TextInput = ( {
     const [ isValid, setIsValid ] = useState<boolean>( !required );
 
     /* FUNCTIONS */
-    // POTENTIAL BUG
-    const debounceValid = useDebouncedCallback( 
-        ( state: boolean ) => setIsValid( state ), 2000 );
-    
+    // POTENTIAL BUG    
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
         const value = event.target.value;
-        // TO-DO - debounce this call - ONLY DEBOUNCE THE CLASSNAME ADDING
-        // update the isValid state based off the user input
-        if ( required ) checkValid();
-        // set the parent forms state
+        const newValid = required ? checkValid( value ) : true;
+
         onChange( ( state ) => {
             return {
                 ...state,
                 [ event.target.name ]: {
                     value,
-                    isValid,
+                    isValid: newValid,
                 },
             }
         } );
-        checkFormStatus( isParentDisabled ? isParentDisabled : false );
+        
+        setIsValid( newValid );
     }
 
     // assumes the input is required
-    const checkValid = () => {
-        let newValid: boolean;
-
+    const checkValid = ( value: string ) => {
         if ( pattern ) 
-            newValid = pattern.test( value );
+            return pattern.test( value );
         else if ( type === 'email' ) 
-            newValid = EMAIL_VALIDATION.test( value );
+            return EMAIL_VALIDATION.test( value );
         else
-            newValid = value !== '';
-        
-        // POTENTIAL BUG
-        if ( newValid !== isValid ) {
-            // THIS IS NOT WORKING
-            const check = isParentDisabled ? isParentDisabled : false;
-            console.log( check );
-            setIsValid( newValid );
-            checkFormStatus( isParentDisabled ? isParentDisabled : false );
-            // debounceValid( newValid );
-        }
+            return value !== '';
     }
 
     /* CLASSNAMES */
@@ -136,6 +119,11 @@ const TextInput = ( {
         ${touched && !isValid ? 'not-valid' : 'valid'}
         ${className}
     `;
+
+    // check the form status everytime isValid changes
+    useEffect( () => {
+        checkFormStatus( isParentDisabled ? isParentDisabled : false );
+    }, [ isValid ] );
 
     return (
         <div className={textInputWrapperClasses}>
