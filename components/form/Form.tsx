@@ -3,11 +3,15 @@ import { FC, FormEventHandler, FormEvent,
     Children, cloneElement, useState, useEffect } from 'react';
 // elements
 import { FormButton } from '../../elements';
-// data
-import { isObjectEmpty } from '../../lib';
 // types
 import type { FormData } from 'types';
-import type { InputProps } from './types';
+import type { InputProps, ConditionalDisabled } from './types';
+// partial functions
+import initForm from './initForm';
+import transformData from './transformData';
+// errors
+import { _uniqueChild } from './errors';
+
 
 /* TYPES */
 // type FormEvent = FormEventHandler<HTMLFormElement>;
@@ -26,14 +30,6 @@ interface ButtonProps {
     click?: 'ripple';
 }
 
-// key represents the parent input element that other input elements rely on
-// the value represents an array of disabled elements
-// all disabled elements are considered child inputs and MUST BE greater than the key specified (parent)
-// number is in reference to the DOM strcture of the input elements
-interface ConditionalDisabled {
-    [ key: number ]: number[];
-}
-
 interface Props {
     id: string;
     className?: string;
@@ -43,20 +39,6 @@ interface Props {
     conditionalDisabled?: ConditionalDisabled;
 }
 
-/* FUNCTIONS */
-/**
- * Cleans up the raw form input data to only have name:value pairs.
- * This is data that will be stored in a database.
- */
-const transformData = ( data: FormData ) => {
-    const input: { [ key: string ]: string } = {};
-
-    ( Object.entries( data ) ).forEach( ( [ name, rawInput ] ) => {
-        input[ name ] = rawInput.value;
-    } );
-
-    return input;
-}
 
 const Form: FC<Props> = ( {
     children,
@@ -74,15 +56,20 @@ const Form: FC<Props> = ( {
         ...restButtonProps
     } = buttonProps;
 
+    const [ emptyFormData, 
+        canFormSubmit, 
+        initialDisabled 
+    ] = initForm( children, conditionalDisabled );
+
     /* ERRORS */
     // TO-DO - implement conditionalDisabled errors check
     // should not have the key within the disabled input array -> i.e: { 0: [ 0, 1 ] }
 
     /* HOOKS */
     // form states
-    const [ formData, setFormData ] = useState<FormData>( {} );
-    const [ isFormComplete, setIsFormComplete ] = useState<boolean>( false );
-    const [ disabledInputs, setDisabledInputs ] = useState<Set<number>>( new Set() );
+    const [ formData, setFormData ] = useState<FormData>( emptyFormData );
+    const [ isFormComplete, setIsFormComplete ] = useState<boolean>( canFormSubmit );
+    const [ disabledInputs, setDisabledInputs ] = useState<Set<number>>( initialDisabled );
     // submitting states
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
     // TO-DO - make this one state object
@@ -120,57 +107,6 @@ const Form: FC<Props> = ( {
         // clear form data
     }
 
-    const initFormData = () => {
-        const emptyFormData: FormData = {};
-        let canFormSubmit: boolean = true;
-        const IS_CONDITIONAL = !isObjectEmpty( conditionalDisabled );
-        let disabledInputs: Set<number> = new Set();
-
-        Children.forEach( children, ( child, index ) => {
-            // TO-DO - check why non form elements are not getting an error
-            try {
-                let name: string;
-                let value: string;
-                let isValid: boolean;
-
-                // @ts-ignore
-                if ( child.type?.displayName === 'FieldSet' ) {
-                    // TO-DO - handle this recursively since FieldSets can be nested
-                }
-
-                // @ts-ignore
-                name = child.props.name || child.props.type;
-                // @ts-ignore
-                value = child.props.content?.value || '';
-                // @ts-ignore
-                isValid = !child.props?.required || false;
-
-                if ( !isValid ) canFormSubmit = false;
-
-                emptyFormData[ name ] = {
-                    value,
-                    isValid,
-                };
-
-                if ( IS_CONDITIONAL ) {
-                    const childInputs = conditionalDisabled[ index ];
-                    if ( childInputs && !isValid )
-                        childInputs.forEach( input => disabledInputs.add( input ) );
-                }
-                // TO-DO - figure out how to handle custom input elements
-            } catch {
-                console.warn( `An invalid child was specified: ${child}`)
-            }
-        } );
-
-        setFormData( emptyFormData );
-        setIsFormComplete( canFormSubmit );
-        if ( IS_CONDITIONAL ) 
-            setDisabledInputs( disabledInputs );
-        
-        return [ emptyFormData, canFormSubmit, disabledInputs ];
-    }
-
     // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
     // TO-DO - check if this function works
     const checkFormStatus = ( checkDisabled: boolean ) => {
@@ -200,10 +136,9 @@ const Form: FC<Props> = ( {
     `;
 
     useEffect( () => {
-        initFormData();
     }, [] );
 
-    // console.log( formData );
+    console.log( formData );
     // console.log( disabledInputs );
     
     return (
@@ -233,7 +168,7 @@ const Form: FC<Props> = ( {
     
                         return cloneElement( child as JSX.Element, config );
                     } catch {
-                        console.warn( `An invalid child was specified: ${child}`)
+                        _uniqueChild( child );
                     }
                 } )
             }
