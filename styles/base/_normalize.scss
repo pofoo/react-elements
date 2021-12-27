@@ -49,8 +49,7 @@ fieldset {
 
 input {
     &:focus {
-        appearance: none;
-        border: none;
+        outline: none;
     }
 }
 

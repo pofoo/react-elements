@@ -50,15 +50,15 @@ const Accordian: FC<Props> = ( {
     /* FUNCTIONS */
     const toggleAccordian = ( index: number ) => {
         setIsAccordianActive( state => !state );
+        // parent accordian panel onClick function
         if ( onClick ) onClick( index );
     }
 
     // if an onClick function is provided, the accordian is part of an accordian panel
     // the classNames should be toggled accordingly
     // this is OK because we know the accordian is going to rerender every time in the toggleAccordian function
-    let actualActive = isAccordianActive;
-    if ( onClick ) actualActive = isActive;
-    
+    let actualActive = onClick ? isActive : isAccordianActive;
+
     /* CLASSNAMES */
     const accordianClasses = `
         accordian-wrapper

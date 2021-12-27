@@ -85,6 +85,9 @@ const Form: FC<Props> = ( {
     const [ disabledInputs, setDisabledInputs ] = useState<Set<number>>( new Set() );
     // submitting states
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
+    // TO-DO - make this one state object
+    // TO-DO - render these as side effects when isSubmitting changes
+    const [ formReturn, setFormReturn ] = useState<'success' | 'fail' | null>( null );
     const [ isSuccess, setIsSuccess ] = useState<boolean | null>( null );
     const [ isFail, setIsFail ] = useState<boolean | null>( null );
 
@@ -164,6 +167,8 @@ const Form: FC<Props> = ( {
         setIsFormComplete( canFormSubmit );
         if ( IS_CONDITIONAL ) 
             setDisabledInputs( disabledInputs );
+        
+        return [ emptyFormData, canFormSubmit, disabledInputs ];
     }
 
     // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
@@ -198,8 +203,8 @@ const Form: FC<Props> = ( {
         initFormData();
     }, [] );
 
-    console.log( formData );
-    console.log( disabledInputs );
+    // console.log( formData );
+    // console.log( disabledInputs );
     
     return (
         <form id={id} className={formClasses} 

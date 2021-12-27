@@ -89,7 +89,7 @@ const TextInput = ( {
         const value = event.target.value;
         // TO-DO - debounce this call - ONLY DEBOUNCE THE CLASSNAME ADDING
         // update the isValid state based off the user input
-        checkValid();
+        if ( required ) checkValid();
         // set the parent forms state
         onChange( ( state ) => {
             return {
@@ -100,24 +100,28 @@ const TextInput = ( {
                 },
             }
         } );
+        checkFormStatus( isParentDisabled ? isParentDisabled : false );
     }
 
+    // assumes the input is required
     const checkValid = () => {
-        let newValid = true;
+        let newValid: boolean;
 
         if ( pattern ) 
             newValid = pattern.test( value );
         else if ( type === 'email' ) 
             newValid = EMAIL_VALIDATION.test( value );
-        else if ( required )
+        else
             newValid = value !== '';
         
         // POTENTIAL BUG
         if ( newValid !== isValid ) {
             // THIS IS NOT WORKING
+            const check = isParentDisabled ? isParentDisabled : false;
+            console.log( check );
+            setIsValid( newValid );
             checkFormStatus( isParentDisabled ? isParentDisabled : false );
-            debounceValid( newValid );
-            // setIsValid( newValid );
+            // debounceValid( newValid );
         }
     }
 
@@ -129,7 +133,7 @@ const TextInput = ( {
 
     const textInputClasses = `
         text-input
-        ${!isValid && touched ? 'not-valid' : 'valid'}
+        ${touched && !isValid ? 'not-valid' : 'valid'}
         ${className}
     `;
 
