@@ -101,12 +101,12 @@ const TextInput = ( {
 
     /* HOOKS */
     const [ touched, setTouched ] = useState<boolean>( false ); 
-    const [ isValid, setIsValid ] = useState<boolean>( !required );
+    const [ isValid, setIsValid ] = useState<boolean>( !inputRequired );
 
     /* FUNCTIONS */  
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
         const value = event.target.value;
-        const newValid = required ? checkValid( value ) : true;
+        const newValid = inputRequired ? checkValid( value ) : true;
 
         onChange( ( state ) => {
             return {
@@ -125,7 +125,7 @@ const TextInput = ( {
     const checkValid = ( value: string ) => {
         if ( pattern ) 
             return pattern.test( value );
-        else if ( type === 'email' ) 
+        else if ( inputType === 'email' ) 
             return EMAIL_VALIDATION.test( value );
         else
             return value !== '';

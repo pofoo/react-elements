@@ -7,12 +7,15 @@ import { ConditionalDisabled } from './types';
 import type { FormData } from 'types';
 // errors
 import { _uniqueChild } from './_errors';
+// constants
+import { REQUIRED_TYPES } from './constants';
 
 /**
  * Initializes data for form wrapper component.
  * Returns empty form data, whether the form can submit, and disabled inputs.
  * Data returned dependent on specified children.
  */
+// TO-DO - this is getting called on every render - stop that
 const initForm = ( 
     children: ReactNode,
     conditionalDisabled: ConditionalDisabled={},
@@ -36,11 +39,19 @@ const initForm = (
             }
 
             // @ts-ignore
+            const required: boolean = child.props?.required;
+            // @ts-ignore
+            const type: string = child.props.type;
+
+            // @ts-ignore
             name = child.props.name || child.props.type;
             // @ts-ignore
             value = child.props.content?.value || '';
-            // @ts-ignore
-            isValid = !child.props?.required || true;
+
+            if ( required === undefined && REQUIRED_TYPES.includes( type ) ) 
+                isValid = false;
+            else 
+                isValid = required ? false : true;
 
             if ( !isValid ) canFormSubmit = false;
 

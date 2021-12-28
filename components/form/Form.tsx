@@ -48,6 +48,7 @@ const Form: FC<Props> = ( {
     onSubmit,
     buttonProps,
     conditionalDisabled={},
+    autoFocus,
 } ) => {
 
     /* CONTENT */
@@ -61,6 +62,8 @@ const Form: FC<Props> = ( {
         canFormSubmit, 
         initialDisabled 
     ] = initForm( children, conditionalDisabled );
+
+    const focusInput = autoFocus === 'first' ? 0 : autoFocus;
 
     /* ERRORS */
     // TO-DO - implement conditionalDisabled errors check
@@ -108,8 +111,6 @@ const Form: FC<Props> = ( {
         // clear form data
     }
 
-    // ONLY CALL THIS FUNCTION WHEN ONE OF THE CHILD INPUTS ISVALID STATES CHANGES
-    // TO-DO - check if this function works
     const checkFormStatus = ( checkDisabled: boolean ) => {
         let canSubmit = true;
         let newDisabledInputs: Set<number> = new Set();
@@ -136,11 +137,13 @@ const Form: FC<Props> = ( {
         ${className}
     `;
 
+    // submit the form
     useEffect( () => {
-    }, [] );
 
-    // console.log( formData );
-    // console.log( disabledInputs );
+    }, [ isSubmitting] );
+
+    console.log( formData );
+    console.log( disabledInputs );
     
     return (
         <form id={id} className={formClasses} 
@@ -166,6 +169,8 @@ const Form: FC<Props> = ( {
                             config[ 'disabled' ] = true;
                         if ( conditionalDisabled[ index ] )
                             config[ 'isParentDisabled' ] = true;
+                        if ( focusInput === index )
+                            config[ 'autoFocus' ] = true;
     
                         return cloneElement( child as JSX.Element, config );
                     } catch {

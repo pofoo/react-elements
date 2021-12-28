@@ -27,14 +27,7 @@ interface Props {
 const FormComponent = ( args: Props ) => {
     /* CONTENT */
     const { id, onSubmit, buttonProps, conditionalDisabled={} } = args;
-    const emailContent = {
-        label: 'Email',
-        placeholder: 'Email'
-    }
-    const usernameContent = {
-        label: 'Username',
-        placeholder: 'Username'
-    }
+
     const textContent = {
         label: 'Text',
         placeholder: 'Text',

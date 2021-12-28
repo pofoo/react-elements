@@ -13,6 +13,7 @@ type InputProps = {
     checkFormStatus?: ( checkDisabled: boolean ) => void;
     disabled?: boolean;
     isParentDisabled?: boolean;
+    autoFocus?: boolean;
 }
 
 // key represents the parent input element that other input elements rely on
