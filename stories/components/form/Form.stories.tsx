@@ -43,10 +43,8 @@ const FormComponent = ( args: Props ) => {
     return (
         <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} 
             conditionalDisabled={conditionalDisabled}>
-            <TextInput id='email' content={emailContent} 
-                type='email' required />
-            <TextInput id='username' content={usernameContent} 
-                type='username' required />
+            <TextInput type='email' />
+            <TextInput type='username' />
             <TextInput id='text' content={textContent}
                 name='text' type='text' />
             <div id='div1'>

@@ -10,7 +10,7 @@ import type { InputProps, ConditionalDisabled } from './types';
 import initForm from './initForm';
 import transformData from './transformData';
 // errors
-import { _uniqueChild } from './errors';
+import { _uniqueChild } from './_errors';
 
 
 /* TYPES */
@@ -37,6 +37,7 @@ interface Props {
     onSubmit: ( input: { [ key: string ]: string } ) => void;
     buttonProps: ButtonProps;
     conditionalDisabled?: ConditionalDisabled;
+    autoFocus?: 'first' | number; // which input element to focus (based off DOM structure)
 }
 
 
@@ -138,7 +139,7 @@ const Form: FC<Props> = ( {
     useEffect( () => {
     }, [] );
 
-    console.log( formData );
+    // console.log( formData );
     // console.log( disabledInputs );
     
     return (

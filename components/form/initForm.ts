@@ -6,7 +6,7 @@ import { isObjectEmpty } from '../../lib';
 import { ConditionalDisabled } from './types';
 import type { FormData } from 'types';
 // errors
-import { _uniqueChild } from './errors';
+import { _uniqueChild } from './_errors';
 
 /**
  * Initializes data for form wrapper component.
@@ -17,6 +17,7 @@ const initForm = (
     children: ReactNode,
     conditionalDisabled: ConditionalDisabled={},
 ): [ FormData, boolean, Set<number> ] => {
+
     const emptyFormData: FormData = {};
     let canFormSubmit: boolean = true;
     const IS_CONDITIONAL = !isObjectEmpty( conditionalDisabled );
@@ -39,7 +40,7 @@ const initForm = (
             // @ts-ignore
             value = child.props.content?.value || '';
             // @ts-ignore
-            isValid = !child.props?.required || false;
+            isValid = !child.props?.required || true;
 
             if ( !isValid ) canFormSubmit = false;
 
