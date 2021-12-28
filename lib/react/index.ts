@@ -1,5 +1,5 @@
-import validateChildren from './validateChildren';
+import validateChild from './validateChild';
 
 export {
-    validateChildren,
+    validateChild,
 }

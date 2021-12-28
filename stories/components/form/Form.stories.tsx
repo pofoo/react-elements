@@ -24,6 +24,7 @@ interface Props {
     }
 }
 
+
 const FormComponent = ( args: Props ) => {
     /* CONTENT */
     const { id, onSubmit, buttonProps, conditionalDisabled={} } = args;
@@ -38,11 +39,12 @@ const FormComponent = ( args: Props ) => {
             conditionalDisabled={conditionalDisabled}>
             <TextInput type='email' />
             <TextInput type='username' />
+            <TextInput type='password' />
             <TextInput id='text' content={textContent}
                 name='text' type='text' />
             <div id='div1'>
                 <div id='div2'>
-                    <span id='span1'>I am a span</span>
+                    <span id='span1'>I am a nested span</span>
                 </div>
             </div>
         </Component>
@@ -60,6 +62,6 @@ Form.args = {
         buttonAriaLabel: 'sample form'
     },
     conditionalDisabled: {
-        0: [ 1 ]
+        // 0: [ 1, 2, 3 ]
     },
 }

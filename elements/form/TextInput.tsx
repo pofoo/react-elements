@@ -1,19 +1,17 @@
 // dependencies
-import { useEffect, useState, ChangeEventHandler, ChangeEvent } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 // lib
 import { toTitleCase } from '../../lib';
 // types
 import type { SetFormData, ConditionalProps } from 'types';
 
-
 /* CONSTANTS */
 const EMAIL_VALIDATION = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+// TO-DO - come up with password validation
+const PASSWORD_VALIDATION = /^/;
 
 /* TYPES */
 // TO-DO - implement Conditional Props
-
-type OnChange = ChangeEventHandler<HTMLInputElement>;
-
 interface Content {
     label?: string;
     placeholder?: string;
@@ -26,7 +24,7 @@ interface Props {
     className?: string;
     name?: string;
     content?: Content;
-    type: 'email' | 'username' | 'text';
+    type: 'email' | 'username' | 'text' | 'password';
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: ( checkDisabled: boolean ) => void;
@@ -73,7 +71,7 @@ const TextInput = ( {
     let inputPlaceholder = placeholder;
     let inputRequired: boolean = type === 'text' && false;
 
-    if ( type === 'username' || type === 'email' ) {
+    if ( type === 'username' || type === 'email' || type ==='password' ) {
         inputID = id !== undefined ? id : type;
         inputType = type === 'username' ? 'text' : type;
         inputName = name !== undefined ? name : type;
@@ -127,6 +125,8 @@ const TextInput = ( {
             return pattern.test( value );
         else if ( inputType === 'email' ) 
             return EMAIL_VALIDATION.test( value );
+        else if ( inputType === 'password' )
+            return PASSWORD_VALIDATION.test( value );
         else
             return value !== '';
     }
@@ -140,6 +140,7 @@ const TextInput = ( {
     const textInputClasses = `
         text-input
         ${touched && !isValid ? 'not-valid' : 'valid'}
+        ${inputType}
         ${className}
     `;
 

@@ -3,7 +3,7 @@ import { FC, Children, cloneElement } from 'react';
 // hooks
 import { createListState } from '../../hooks';
 // lib
-import { mapArrayToObject, validateChildren } from '../../lib';
+import { mapArrayToObject, validateChild } from '../../lib';
 
 /* TYPES */
 interface Props {
@@ -34,9 +34,6 @@ const AccordianPanel: FC<Props> = ( {
 } ) => {
 
     /* ERRORS */
-    if ( !validateChildren( children, { elementName: 'Accordian' } ) )
-        throw( SyntaxError( 'Improper children: please specify at least one child that is an Accordian') );
-
     if ( startActiveList.length > 1 && onlyOne === true )
         throw( SyntaxError( 'Only one accordian can be open at a time - please only specify one index value in the startActiveList' ) );
 
@@ -63,15 +60,25 @@ const AccordianPanel: FC<Props> = ( {
         <section id={id} className={accordianPanelClasses}>
             {
                 Children.map( children, ( child, index ) => {  
-                    const config: Config = {
-                        index,
-                        isActive: accordianStates[ index ],
-                    };
+                    const validation = validateChild( child, {
+                        elementName: 'Accordian',
+                    } );
 
-                    if ( onlyOne )
-                        config.onClick = closeOtherAccordians;
+                    if ( validation === 'match' ) {
+                        const config: Config = {
+                            index,
+                            isActive: accordianStates[ index ],
+                        };
+    
+                        if ( onlyOne )
+                            config.onClick = closeOtherAccordians;
+                        
+                        return cloneElement( child as JSX.Element, config );
+                    }
                     
-                    return cloneElement( child as JSX.Element, config );
+                    if ( validation === true ) {
+                        return child;
+                    }
                 } )
             }
         </section>

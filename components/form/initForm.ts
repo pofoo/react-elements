@@ -1,14 +1,12 @@
 // dependencies
 import { ReactNode, Children } from 'react';
 // lib
-import { isObjectEmpty } from '../../lib';
+import { isObjectEmpty, validateChild } from '../../lib';
 // types
 import { ConditionalDisabled } from './types';
 import type { FormData } from 'types';
-// errors
-import { _uniqueChild } from './_errors';
 // constants
-import { REQUIRED_TYPES } from './constants';
+import { REQUIRED_TYPES, CHILD_NAME } from './constants';
 
 /**
  * Initializes data for form wrapper component.
@@ -27,8 +25,11 @@ const initForm = (
     const initialDisabled: Set<number> = new Set();
 
     Children.forEach( children, ( child, index ) => {
-        // TO-DO - check why non form elements are not getting an error
-        try {
+        const validation = validateChild( child, {
+            elementName: CHILD_NAME,
+        } );
+
+        if ( validation === 'match' ) {
             let name: string;
             let value: string;
             let isValid: boolean;
@@ -65,9 +66,6 @@ const initForm = (
                 if ( childInputs && !isValid )
                     childInputs.forEach( input => initialDisabled.add( input ) );
             }
-            // TO-DO - figure out how to handle custom input elements
-        } catch {
-            _uniqueChild( child );
         }
     } );
 

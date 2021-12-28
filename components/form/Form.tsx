@@ -1,21 +1,21 @@
 // dependencies
-import { FC, FormEventHandler, FormEvent,
-    Children, cloneElement, useState, useEffect } from 'react';
+import { FC, FormEvent, Children, cloneElement, ReactElement,
+        useState, useEffect } from 'react';
 // elements
 import { FormButton } from '../../elements';
+// lib
+import { validateChild } from '../../lib';
 // types
 import type { FormData } from 'types';
 import type { InputProps, ConditionalDisabled } from './types';
 // partial functions
 import initForm from './initForm';
 import transformData from './transformData';
-// errors
-import { _uniqueChild } from './_errors';
+// constants
+import { CHILD_NAME } from './constants';
 
 
 /* TYPES */
-// type FormEvent = FormEventHandler<HTMLFormElement>;
-
 interface ButtonProps {
     buttonContent: {
         text: string;
@@ -150,11 +150,16 @@ const Form: FC<Props> = ( {
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
             {
                 Children.map( children, ( child, index ) => {
-                    try {
-                        // @ts-ignore
-                        const prevContent = child.props.content;
+                    const validation = validateChild( child, {
+                        elementName: CHILD_NAME,
+                    } );
+
+                    if ( validation === 'match' ) {
                         // @ts-ignore
                         const name = child.props.name || child.props.type;
+                        if ( !name ) throw( 'Custom Element' );
+                        // @ts-ignore
+                        const prevContent = child.props.content;
 
                         const config: InputProps = {
                             onChange: setFormData,
@@ -171,11 +176,12 @@ const Form: FC<Props> = ( {
                             config[ 'isParentDisabled' ] = true;
                         if ( focusInput === index )
                             config[ 'autoFocus' ] = true;
-    
+
                         return cloneElement( child as JSX.Element, config );
-                    } catch {
-                        _uniqueChild( child );
                     }
+
+                    if ( validation === true )
+                        return child;
                 } )
             }
             <div className='submit-button-wrapper'>
