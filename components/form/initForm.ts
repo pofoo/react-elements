@@ -3,9 +3,10 @@ import { ReactNode, Children, ReactElement } from 'react';
 // lib
 import { isObjectEmpty, validateChild } from '../../lib';
 // types
-import { ConditionalDisabled } from './types';
+import { ConditionalDisabled, SharedConfig } from './types';
 import type { FormData } from 'types';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
+import type { Props as FieldSetProps } from './FieldSet';
 // constants
 import { REQUIRED_TYPES, CHILD_NAMES_LIST } from './constants';
 
@@ -31,8 +32,28 @@ const initForm = (
                 elementNames: CHILD_NAMES_LIST,
             } );
 
+            const config: SharedConfig = {
+            }
+
+            let isValid: boolean;
+            const required: boolean | undefined = child.props.required;
+            if ( required === undefined && REQUIRED_TYPES.includes( type ) ) 
+                isValid = false;
+            else 
+                isValid = required ? false : true;
+                
+            if ( IS_CONDITIONAL ) {
+                const childInputs = conditionalDisabled[ index ];
+                if ( childInputs && !isValid )
+                    childInputs.forEach( input => initialDisabled.add( input ) );
+            }
+
             if ( validation === 'FieldSet' ) {
-                const fieldSetChild = child as JSX.Element;
+                const fieldSetChild = child as ReactElement<FieldSetProps>;
+
+                const config = {
+                    d
+                }
 
                 initChildren( fieldSetChild.props.children );
             }

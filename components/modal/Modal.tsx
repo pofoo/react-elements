@@ -26,7 +26,7 @@ interface Props {
  */
 const Modal: FC<Props> = ( {
     children,
-    id,
+    id='',
     className='',
     isActive,
     closeModal,

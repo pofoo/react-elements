@@ -9,6 +9,10 @@ type Content = {
 
 type CheckFormStatus = ( checkDisabled: boolean ) => void;
 
+type SharedConfig = {
+    disabled?: boolean;
+}
+
 type TextInputConfig = {
     onChange: SetFormData;
     content: Content;
@@ -35,8 +39,9 @@ type ConditionalDisabled = {
 }
 
 export {
-    TextInputConfig,
-    ConditionalDisabled,
     CheckFormStatus,
+    SharedConfig,
+    TextInputConfig,
     FieldSetConfig,
+    ConditionalDisabled,
 }

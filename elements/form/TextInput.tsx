@@ -137,13 +137,13 @@ const TextInput = ( {
     const textInputWrapperClasses = `
         text-input-wrapper
         ${type}
+        ${className}
     `;
 
     const textInputClasses = `
         text-input
         ${touched && !isValid ? 'not-valid' : 'valid'}
         ${inputType}
-        ${className}
     `;
 
     // check the form status everytime isValid changes

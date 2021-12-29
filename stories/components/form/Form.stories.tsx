@@ -46,15 +46,15 @@ const FormComponent = ( args: Props ) => {
     return (
         <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} 
             conditionalDisabled={conditionalDisabled}>
+            <FieldSet id='auth' name='auth' content={fieldSetContent} >
+                <TextInput id='address' content={addressContent}
+                    name='address' type='text' />
+            </FieldSet>
             <TextInput type='email' />
             <TextInput type='username' />
             <TextInput type='password' />
             <TextInput id='text' content={textContent}
                 name='text' type='text' />
-            <FieldSet id='auth' name='auth' content={fieldSetContent} >
-                <TextInput id='address' content={addressContent}
-                    name='address' type='text' />
-            </FieldSet>
         </Component>
     )
 }
@@ -71,6 +71,6 @@ Form.args = {
     },
     conditionalDisabled: {
         // TO-DO - test conditioal disabled
-        // 0: [ 1, 2, 3 ]
+        0: [ 1, 2, 3 ]
     },
 }

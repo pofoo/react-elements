@@ -81,7 +81,7 @@ const FieldSet: FC<Props> = ( {
                 
                 return fieldSetChild;
             }
-
+            
             if ( validation === 'TextInput' ) {
                 const inputChild = child as ReactElement<TextInputProps>;
 

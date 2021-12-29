@@ -17,8 +17,8 @@ const CardPanelComponent = ( args: { isCentered: boolean } ) => {
     return (
         <Component isCentered={args.isCentered}>
             {
-                [ ...Array(7)]
-                    .map( () => <Card id='card-panel-card' key={nanoid(5)} /> )
+                [ ...Array(7) ]
+                    .map( () => <Card className='card-panel-card' key={nanoid(5)} /> )
             }
         </Component>
     )

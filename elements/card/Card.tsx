@@ -5,7 +5,6 @@ import { FC } from 'react';
 /* TYPES */
 interface Props {
     // customization
-    id?: string;
     className?: string;
     // styling
     color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink' | 'shadow';
@@ -18,7 +17,6 @@ interface Props {
  */
 const Card: FC<Props> = ( {
     children,
-    id,
     className='',
     color='blue',
     isRounded=true,
@@ -32,7 +30,7 @@ const Card: FC<Props> = ( {
     `;
 
     return (
-        <div id={id} className={cardClasses}>{children}</div>
+        <div className={cardClasses}>{children}</div>
     )
 }
 
