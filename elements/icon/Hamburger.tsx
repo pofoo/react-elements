@@ -4,7 +4,6 @@ import Line from './Line';
 /* TYPES */
 interface Props {
     // customization
-    id?: string;
     className?: string;
     // TO-DO - implement xBorder
     xBorder?: 'circle' | 'square';
@@ -19,7 +18,6 @@ interface Props {
  * Hamburger Icon
  */
 const Hamburger = ( { 
-    id,
     className='',
     xBorder,
     isRounded=true,
@@ -27,8 +25,10 @@ const Hamburger = ( {
     ariaLabel,
 }: Props ) => {
 
+    /* CONTENT */
     const activeClass = isActive ? 'active': '';
 
+    /* CLASSNAMES */
     const hamburgerClasses = `
         hamburger
         ${className}
@@ -37,16 +37,17 @@ const Hamburger = ( {
     `;
 
     const lineClasses = `
+        hamburger-line
         ${activeClass}
         ${isRounded ? 'rounded' : ''}
     `;
 
     return (
-        <span id={id} className={hamburgerClasses}
+        <span className={hamburgerClasses}
             role='presentation' aria-label={ariaLabel}>
-            <Line id='hamburger-line' className={lineClasses} ariaLabel='hamburger-line'/>
-            <Line id='hamburger-line' className={lineClasses} ariaLabel='hamburger-line'/>
-            <Line id='hamburger-line' className={lineClasses} ariaLabel='hamburger-line'/>
+            <Line className={lineClasses} ariaLabel='hamburger-line'/>
+            <Line className={lineClasses} ariaLabel='hamburger-line'/>
+            <Line className={lineClasses} ariaLabel='hamburger-line'/>
         </span>
     )
 }

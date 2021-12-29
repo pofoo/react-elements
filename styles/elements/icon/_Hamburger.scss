@@ -51,7 +51,7 @@ $hamburger--transition:                 0.33s ease-out;
     //     }
     // }
 
-    #hamburger-line {
+    .hamburger-line {
         width: $hamburger-line--width;
         height: $hamburger-line--height;
         margin: $hamburger--spacing;

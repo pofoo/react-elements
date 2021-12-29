@@ -1,7 +1,6 @@
 /* TYPES */
 interface Props {
     // customization
-    id?: string;
     className?: string;
     direction?: 'left' | 'right' | 'up' | 'down';
     type?: 'pointed' | 'triangle';
@@ -15,7 +14,6 @@ interface Props {
  * Arrow Icon
  */
 const Arrow = ( {
-    id,
     className='',
     direction='right',
     type='pointed',
@@ -36,7 +34,7 @@ const Arrow = ( {
     `;
 
     return (
-        <span id={id} className={arrowWrapperClasses}>
+        <span className={arrowWrapperClasses}>
             <span className={arrowClasses} 
                 role='presentation' aria-label={ariaLabel} />
         </span>

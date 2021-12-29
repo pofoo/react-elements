@@ -1,7 +1,6 @@
 /* TYPES */
 interface Props {
     // customization
-    id?: string;
     className?: string;
     isRounded?: boolean;
     // accessibility
@@ -12,7 +11,6 @@ interface Props {
  * Line Icon
  */
 const Line = ( {
-    id,
     className='',
     isRounded=true,
     ariaLabel,
@@ -25,7 +23,7 @@ const Line = ( {
     `;
 
     return (
-        <span id={id} className={lineClasses} 
+        <span className={lineClasses} 
             role='presentation' aria-label={ariaLabel} />
     )
 }

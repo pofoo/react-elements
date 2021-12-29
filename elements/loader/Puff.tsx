@@ -1,13 +1,13 @@
 
 /* TYPES */
 interface Props {
-    // styling
+    className?: string;
     color: string
-    // accessibility
     ariaLabel: string;
 }
 
 const Puff =( {
+    className='',
     color,
     ariaLabel
 }: Props ) => {
@@ -15,6 +15,7 @@ const Puff =( {
     const puffClasses = `
         puff-wrapper
         ${color}
+        ${className}
     `;
 
     return (

@@ -6,7 +6,6 @@ import { ConditionalProps } from 'types';
 // type Props = ConditionalProps<
 //     {
 //         // customization
-//         id?: string;
 //         className?: string;
 //         // styling
 //         transition?: 'flip' | 'x-out';
@@ -26,7 +25,6 @@ import { ConditionalProps } from 'types';
 
 interface Props {
     // customization
-    id?: string;
     wrapperClassName?: string;
     className?: string;
     // styling
@@ -43,7 +41,6 @@ interface Props {
  * Chevron Icon
  */
 const Chevron = ( {
-    id,
     wrapperClassName='',
     className='',
     isRounded=true,
@@ -68,7 +65,7 @@ const Chevron = ( {
     `;
 
     return (
-        <div id={id} className={chevronWrapperClasses}>
+        <div className={chevronWrapperClasses}>
             <span className={chevronClasses} 
                 role='presentation' aria-label={ariaLabel} />
         </div>

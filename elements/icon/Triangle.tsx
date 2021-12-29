@@ -1,7 +1,6 @@
 /* TYPES */
 interface Props {
     // customization
-    id?: string;
     className?: string;
     direction?: 'left' | 'right' | 'up' | 'down';
     // states
@@ -14,7 +13,6 @@ interface Props {
  * Triangle Icon
  */
 const Triangle = ( { 
-    id,
     className='align-left',
     direction='right',
     isActive,
@@ -33,7 +31,7 @@ const Triangle = ( {
     `;
 
     return (
-        <span id={id} className={triangleWrapperClasses}>
+        <span className={triangleWrapperClasses}>
             <span className={triangleClasses} 
                 role='presentation 'aria-label={ariaLabel} />
         </span>
