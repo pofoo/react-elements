@@ -84,19 +84,19 @@ const TextInput = ( {
 
     /* ERRORS */
     // TO-DO - factor this out to another function
-    if ( typeof inputID !== 'string' )
+    if ( inputID === undefined )
         throw( SyntaxError( 'If type is text, an ID must be provided for the input' ) );
 
-    if ( typeof inputName !== 'string' )
+    if ( inputName === undefined )
         throw( SyntaxError( 'If type is text, a name must be provided for the input' ) );
 
-    if ( typeof inputLabel !== 'string' || inputPlaceholder == 'string' )
+    if ( inputLabel === undefined || inputPlaceholder == undefined )
         throw( SyntaxError( 'If type is text, a label and placeholder within the content prop must be provided for the input' ) );
 
-    if ( typeof onChange !== 'function' )
+    if ( onChange === undefined )
         throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
 
-    if ( typeof checkFormStatus !== 'function' )
+    if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
 
     /* HOOKS */
