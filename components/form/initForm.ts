@@ -5,10 +5,9 @@ import { isObjectEmpty, validateChild } from '../../lib';
 // types
 import { ConditionalDisabled } from './types';
 import type { FormData } from 'types';
-// TO-DO - this might be better as gerneral Props for inputs
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
 // constants
-import { REQUIRED_TYPES, CHILD_NAME } from './constants';
+import { REQUIRED_TYPES, CHILD_NAMES_LIST } from './constants';
 
 /**
  * Initializes data for form wrapper component.
@@ -26,49 +25,54 @@ const initForm = (
     const IS_CONDITIONAL = !isObjectEmpty( conditionalDisabled );
     const initialDisabled: Set<number> = new Set();
 
-    Children.forEach( children, ( child, index ) => {
-        const validation = validateChild( child, {
-            // check for FieldSet
-            elementName: CHILD_NAME,
-        } );
+    const initChildren = ( children: ReactNode ) => {
+        Children.forEach( children, ( child, index ) => {
+            const validation = validateChild( child, {
+                elementNames: CHILD_NAMES_LIST,
+            } );
 
-        // if ( inputChild.type.name === 'FieldSet' ) {
-        //     // TO-DO - handle this recursively since FieldSets can be nested
-        // }
+            if ( validation === 'FieldSet' ) {
+                const fieldSetChild = child as JSX.Element;
 
-        if ( validation === 'match' ) {
-            let name: string;
-            let value: string;
-            let isValid: boolean;
-            const inputChild = child as ReactElement<TextInputProps>;
-
-            const required: boolean | undefined = inputChild.props.required;
-            const type: string = inputChild.props.type;
-
-            name = inputChild.props.name || inputChild.props.type;
-            value = inputChild.props.content?.value || '';
-
-            if ( required === undefined && REQUIRED_TYPES.includes( type ) ) 
-                isValid = false;
-            else 
-                isValid = required ? false : true;
-
-            if ( !isValid ) canFormSubmit = false;
-
-            emptyFormData[ name ] = {
-                value,
-                isValid,
-            };
-
-            if ( IS_CONDITIONAL ) {
-                const childInputs = conditionalDisabled[ index ];
-                if ( childInputs && !isValid )
-                    childInputs.forEach( input => initialDisabled.add( input ) );
+                initChildren( fieldSetChild.props.children );
             }
-        }
-    } );
 
+            if ( validation === 'TextInput' ) {
+                let name: string;
+                let value: string;
+                let isValid: boolean;
+                const inputChild = child as ReactElement<TextInputProps>;
     
+                const required: boolean | undefined = inputChild.props.required;
+                const type: string = inputChild.props.type;
+    
+                name = inputChild.props.name || inputChild.props.type;
+                value = inputChild.props.content?.value || '';
+    
+                if ( required === undefined && REQUIRED_TYPES.includes( type ) ) 
+                    isValid = false;
+                else 
+                    isValid = required ? false : true;
+    
+                if ( !isValid ) canFormSubmit = false;
+    
+                emptyFormData[ name ] = {
+                    value,
+                    isValid,
+                };
+    
+                if ( IS_CONDITIONAL ) {
+                    const childInputs = conditionalDisabled[ index ];
+                    if ( childInputs && !isValid )
+                        childInputs.forEach( input => initialDisabled.add( input ) );
+                }
+            }
+        } );    
+    }
+
+
+    initChildren( children );
+
     return [ emptyFormData, canFormSubmit, initialDisabled ];
 }
 

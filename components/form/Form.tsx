@@ -1,21 +1,20 @@
 // dependencies
 import { FC, FormEvent, Children, cloneElement, ReactElement,
-        useState, useEffect } from 'react';
+        ReactNode, useState, useEffect } from 'react';
 // elements
 import { FormButton } from '../../elements';
 // lib
 import { validateChild } from '../../lib';
 // types
 import type { FormData } from 'types';
-import type { InputProps, ConditionalDisabled } from './types';
-// TO-DO - this might be better as gerneral Props for inputs
+import type { TextInputConfig, FieldSetConfig, ConditionalDisabled } from './types';
+import type { Props as FieldSetProps } from './FieldSet';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
 // partial functions
 import initForm from './initForm';
 import transformData from './transformData';
 // constants
-import { CHILD_NAME } from './constants';
-
+import { CHILD_NAMES_LIST } from './constants';
 
 /* TYPES */
 interface ButtonProps {
@@ -133,6 +132,58 @@ const Form: FC<Props> = ( {
             setDisabledInputs( newDisabledInputs );
     }
 
+    const renderForm = ( children: ReactNode ) => {
+        return Children.map( children, ( child, index ) => {
+            const validation = validateChild( child, {
+                elementNames: CHILD_NAMES_LIST,
+            } );
+
+            if ( validation === 'FieldSet' ) {
+                const fieldSetChild = child as ReactElement<FieldSetProps>;
+
+                const config: FieldSetConfig =  {
+                    formData,
+                    onChange: setFormData,
+                    checkFormStatus,
+                }
+
+                if ( disabledInputs.has( index ) )
+                    config[ 'disabled' ] = true;
+                if ( conditionalDisabled[ index ] )
+                    config[ 'isParentDisabled' ] = true;
+                
+                return cloneElement( fieldSetChild, config );
+            }
+            if ( validation === 'TextInput' ) {
+                const inputChild = child as ReactElement<TextInputProps>;
+
+                const name = inputChild.props.name || inputChild.props.type;
+                const prevContent = inputChild.props.content;
+
+                const config: TextInputConfig = {
+                    onChange: setFormData,
+                    content: {
+                        ...prevContent,
+                        value: formData[ name ].value,
+                    },
+                    checkFormStatus,
+                }
+
+                if ( disabledInputs.has( index ) )
+                    config[ 'disabled' ] = true;
+                if ( conditionalDisabled[ index ] )
+                    config[ 'isParentDisabled' ] = true;
+                if ( focusInput === index )
+                    config[ 'autoFocus' ] = true;
+
+                return cloneElement( inputChild, config );
+            }
+
+            if ( validation === true )
+                return child;
+        } )
+    }
+
     /* CLASSNAMES */
     const formClasses = `
         form
@@ -144,47 +195,13 @@ const Form: FC<Props> = ( {
 
     }, [ isSubmitting] );
 
-    console.log( formData );
-    console.log( disabledInputs );
+    // console.log( formData );
+    // console.log( disabledInputs );
     
     return (
         <form id={id} className={formClasses} 
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
-            {
-                Children.map( children, ( child, index ) => {
-                    const validation = validateChild( child, {
-                        elementName: CHILD_NAME,
-                    } );
-
-                    if ( validation === 'match' ) {
-                        const inputChild = child as ReactElement<TextInputProps>;
-
-                        const name = inputChild.props.name || inputChild.props.type;
-                        const prevContent = inputChild.props.content;
-
-                        const config: InputProps = {
-                            onChange: setFormData,
-                            content: {
-                                ...prevContent,
-                                value: formData[ name ].value,
-                            },
-                            checkFormStatus,
-                        }
-
-                        if ( disabledInputs.has( index ) )
-                            config[ 'disabled' ] = true;
-                        if ( conditionalDisabled[ index ] )
-                            config[ 'isParentDisabled' ] = true;
-                        if ( focusInput === index )
-                            config[ 'autoFocus' ] = true;
-
-                        return cloneElement( inputChild, config );
-                    }
-
-                    if ( validation === true )
-                        return child;
-                } )
-            }
+            {renderForm( children )}
             <div className='submit-button-wrapper'>
                 <FormButton className={buttonClassName} content={buttonContent}
                     ariaLabel={buttonAriaLabel} isDisabled={isSubmitting || !isFormComplete ? true : false}

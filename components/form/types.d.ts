@@ -1,5 +1,5 @@
 // types
-import type { SetFormData } from '../../types';
+import type { SetFormData, FormData } from '../../types';
 
 type Content = {
     label?: string;
@@ -7,13 +7,23 @@ type Content = {
     placeholder?: string;
 }
 
-type InputProps = {
+type CheckFormStatus = ( checkDisabled: boolean ) => void;
+
+type TextInputConfig = {
     onChange: SetFormData;
     content: Content;
-    checkFormStatus?: ( checkDisabled: boolean ) => void;
+    checkFormStatus: CheckFormStatus;
     disabled?: boolean;
     isParentDisabled?: boolean;
     autoFocus?: boolean;
+}
+
+type FieldSetConfig = {
+    formData: FormData;
+    onChange: SetFormData;
+    checkFormStatus?: CheckFormStatus;
+    disabled?: boolean;
+    isParentDisabled?: boolean;
 }
 
 // key represents the parent input element that other input elements rely on
@@ -25,6 +35,8 @@ type ConditionalDisabled = {
 }
 
 export {
-    InputProps,
+    TextInputConfig,
     ConditionalDisabled,
+    CheckFormStatus,
+    FieldSetConfig,
 }

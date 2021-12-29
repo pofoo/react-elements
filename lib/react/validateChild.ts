@@ -5,26 +5,25 @@ import { ReactNode, isValidElement } from 'react';
 export type Element = 'primitive' | 'HTMLElement' | 'JSXElement';
 
 export interface Options {
-    // when provided, the HTML tag of the child is checked to match the elementName
-    // if same, 'match' is returned
+    // when provided, the HTML tag of the child is checked to match the element names array
+    // if a match is found, the element name will be returned
     // overrides match Element array
-    // TO-DO - make this into an array of elementNames
-    elementName?: string;
+    elementNames?: string[];
     // array of potential element children that are allowed to be rendered
     match?: Element[];
 }
 
 /**
  * Validates that a child is valid.
- * Ensures that a configuration object can be passed to a custom JSX Element when elementName is provided.
+ * Ensures that a configuration object can be passed to a custom JSX Element when elementNames is provided.
  */
 const validateChild = (
     child: ReactNode,
     options: Options={},
-): ( boolean | 'match' ) => {
+): ( boolean | string ) => {
 
     /* CONTENT */
-    const { elementName, match=[ 'HTMLElement', 'JSXElement' ] } = options;
+    const { elementNames, match=[ 'HTMLElement', 'JSXElement' ] } = options;
 
     /* PRIMITIVES */
     if ( typeof child === 'string' || typeof child === 'number' )
@@ -41,8 +40,8 @@ const validateChild = (
         if ( typeof type === 'function' ) {
             const displayName = type.name;
             
-            if ( elementName && displayName === elementName )
-                return 'match'
+            if ( elementNames && elementNames.includes( displayName ) )
+                return displayName;
             
             return match.includes( 'JSXElement' ) ? true : false;
         }

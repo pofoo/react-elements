@@ -69,7 +69,7 @@ const TextInput = ( {
     let inputName = name;
     let inputLabel = label;
     let inputPlaceholder = placeholder;
-    let inputRequired: boolean = type === 'text' && false;
+    let inputRequired = required;
 
     if ( type === 'username' || type === 'email' || type ==='password' ) {
         inputID = id !== undefined ? id : type;
@@ -79,6 +79,8 @@ const TextInput = ( {
         inputPlaceholder = placeholder !== undefined ? placeholder : toTitleCase( type );
         inputRequired = required !== undefined ? required : true;
     }
+    if ( type === 'text' )
+        inputRequired = required !== undefined ? required : false;
 
     /* ERRORS */
     // TO-DO - factor this out to another function
@@ -152,7 +154,7 @@ const TextInput = ( {
     return (
         <div className={textInputWrapperClasses}>
             <label className='label' htmlFor={inputID}>{inputLabel}</label>
-            <input id={inputID} className={textInputClasses} type={inputType} 
+            <input id={inputID} className={textInputClasses} type={inputType}
                 onChange={handleChange} onBlur={() => setTouched( true )}
                 name={inputName} value={value} placeholder={inputPlaceholder}
                 required={inputRequired} disabled={disabled} autoFocus={autoFocus}

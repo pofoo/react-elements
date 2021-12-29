@@ -1,2 +1,2 @@
 export const REQUIRED_TYPES = [ 'email', 'username', 'password' ];
-export const CHILD_NAME = 'TextInput';
+export const CHILD_NAMES_LIST = [ 'TextInput', 'FieldSet' ];

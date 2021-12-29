@@ -1,7 +1,7 @@
 // types
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 // components
-import { Form as Component } from '../../../components';
+import { Form as Component, FieldSet } from '../../../components';
 import { TextInput } from '../../../elements';
 
 export default {
@@ -34,6 +34,15 @@ const FormComponent = ( args: Props ) => {
         placeholder: 'Text',
     }
 
+    const fieldSetContent = {
+        legend: 'auth',
+    }
+
+    const addressContent = {
+        label: 'Address',
+        placeholder: 'Address',
+    }
+
     return (
         <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} 
             conditionalDisabled={conditionalDisabled}>
@@ -42,11 +51,10 @@ const FormComponent = ( args: Props ) => {
             <TextInput type='password' />
             <TextInput id='text' content={textContent}
                 name='text' type='text' />
-            <div id='div1'>
-                <div id='div2'>
-                    <span id='span1'>I am a nested span</span>
-                </div>
-            </div>
+            <FieldSet id='auth' name='auth' content={fieldSetContent} >
+                <TextInput id='address' content={addressContent}
+                    name='address' type='text' />
+            </FieldSet>
         </Component>
     )
 }
@@ -62,6 +70,7 @@ Form.args = {
         buttonAriaLabel: 'sample form'
     },
     conditionalDisabled: {
+        // TO-DO - test conditioal disabled
         // 0: [ 1, 2, 3 ]
     },
 }

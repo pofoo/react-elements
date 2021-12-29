@@ -1,0 +1,1 @@
+export const CHILD_NAMES_LIST = [ 'Accordian' ];

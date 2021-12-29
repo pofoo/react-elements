@@ -4,6 +4,8 @@ import { FC, Children, cloneElement } from 'react';
 import { createListState } from '../../hooks';
 // lib
 import { mapArrayToObject, validateChild } from '../../lib';
+// constants
+import { CHILD_NAMES_LIST } from './constants';
 
 /* TYPES */
 interface Props {
@@ -61,10 +63,10 @@ const AccordianPanel: FC<Props> = ( {
             {
                 Children.map( children, ( child, index ) => {  
                     const validation = validateChild( child, {
-                        elementName: 'Accordian',
+                        elementNames: CHILD_NAMES_LIST,
                     } );
 
-                    if ( validation === 'match' ) {
+                    if ( validation === 'Accordian' ) {
                         const config: Config = {
                             index,
                             isActive: accordianStates[ index ],
