@@ -8,6 +8,8 @@ import { validateChild } from '../../lib';
 // types
 import type { FormData } from 'types';
 import type { InputProps, ConditionalDisabled } from './types';
+// TO-DO - this might be better as gerneral Props for inputs
+import type { Props as TextInputProps } from '../../elements/form/TextInput';
 // partial functions
 import initForm from './initForm';
 import transformData from './transformData';
@@ -30,7 +32,7 @@ interface ButtonProps {
     click?: 'ripple';
 }
 
-interface Props {
+export interface Props {
     id: string;
     className?: string;
     // TO-DO - find a better way to typecheck this
@@ -155,11 +157,10 @@ const Form: FC<Props> = ( {
                     } );
 
                     if ( validation === 'match' ) {
-                        // @ts-ignore
-                        const name = child.props.name || child.props.type;
-                        if ( !name ) throw( 'Custom Element' );
-                        // @ts-ignore
-                        const prevContent = child.props.content;
+                        const inputChild = child as ReactElement<TextInputProps>;
+
+                        const name = inputChild.props.name || inputChild.props.type;
+                        const prevContent = inputChild.props.content;
 
                         const config: InputProps = {
                             onChange: setFormData,
@@ -177,7 +178,7 @@ const Form: FC<Props> = ( {
                         if ( focusInput === index )
                             config[ 'autoFocus' ] = true;
 
-                        return cloneElement( child as JSX.Element, config );
+                        return cloneElement( inputChild, config );
                     }
 
                     if ( validation === true )

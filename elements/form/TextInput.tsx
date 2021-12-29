@@ -18,7 +18,7 @@ interface Content {
     value?: string;
 }
 
-interface Props {
+export interface Props {
     // customization
     id?: string;
     className?: string;

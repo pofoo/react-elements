@@ -1,10 +1,12 @@
 // dependencies
-import { ReactNode, Children } from 'react';
+import { ReactNode, Children, ReactElement } from 'react';
 // lib
 import { isObjectEmpty, validateChild } from '../../lib';
 // types
 import { ConditionalDisabled } from './types';
 import type { FormData } from 'types';
+// TO-DO - this might be better as gerneral Props for inputs
+import type { Props as TextInputProps } from '../../elements/form/TextInput';
 // constants
 import { REQUIRED_TYPES, CHILD_NAME } from './constants';
 
@@ -26,28 +28,25 @@ const initForm = (
 
     Children.forEach( children, ( child, index ) => {
         const validation = validateChild( child, {
+            // check for FieldSet
             elementName: CHILD_NAME,
         } );
+
+        // if ( inputChild.type.name === 'FieldSet' ) {
+        //     // TO-DO - handle this recursively since FieldSets can be nested
+        // }
 
         if ( validation === 'match' ) {
             let name: string;
             let value: string;
             let isValid: boolean;
+            const inputChild = child as ReactElement<TextInputProps>;
 
-            // @ts-ignore
-            if ( child.type?.displayName === 'FieldSet' ) {
-                // TO-DO - handle this recursively since FieldSets can be nested
-            }
+            const required: boolean | undefined = inputChild.props.required;
+            const type: string = inputChild.props.type;
 
-            // @ts-ignore
-            const required: boolean = child.props?.required;
-            // @ts-ignore
-            const type: string = child.props.type;
-
-            // @ts-ignore
-            name = child.props.name || child.props.type;
-            // @ts-ignore
-            value = child.props.content?.value || '';
+            name = inputChild.props.name || inputChild.props.type;
+            value = inputChild.props.content?.value || '';
 
             if ( required === undefined && REQUIRED_TYPES.includes( type ) ) 
                 isValid = false;

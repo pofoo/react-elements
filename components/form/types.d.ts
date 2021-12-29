@@ -2,7 +2,7 @@
 import type { SetFormData } from '../../types';
 
 type Content = {
-    label: string;
+    label?: string;
     value?: string;
     placeholder?: string;
 }
