@@ -8,7 +8,7 @@ import type { FormData } from 'types';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
 import type { Props as FieldSetProps } from './FieldSet';
 // constants
-import { REQUIRED_TYPES, CHILD_NAMES_LIST } from './constants';
+import { REQUIRED_TYPES, CHILD_NAMES_LIST, UNIQUE_INPUTS } from './constants';
 
 /**
  * Initializes data for form wrapper component.
@@ -32,6 +32,8 @@ const initForm = (
                 elementNames: CHILD_NAMES_LIST,
             } );
 
+            // what about nested conditional disabled?
+
             const config: SharedConfig = {
             }
 
@@ -49,10 +51,10 @@ const initForm = (
             }
 
             if ( validation === 'FieldSet' ) {
-                const fieldSetChild = child as ReactElement<FieldSetProps>;
+                const fieldSetChild = child as FC<FieldSetProps>;
 
                 const config = {
-                    d
+
                 }
 
                 initChildren( fieldSetChild.props.children );

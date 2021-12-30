@@ -59,6 +59,7 @@ const Form: FC<Props> = ( {
         ...restButtonProps
     } = buttonProps;
 
+    // wrap this in a useCallback or useMemo
     const [ emptyFormData, 
         canFormSubmit, 
         initialDisabled 

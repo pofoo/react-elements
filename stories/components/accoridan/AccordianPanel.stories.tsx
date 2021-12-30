@@ -11,7 +11,7 @@ export default {
   component: Component,
 } as ComponentMeta<typeof Component>;
 
-const AccordianPanelComponent = ( args: { onlyOne: boolean, startActiveList: number[] } ) => {
+const AccordianPanelComponent = ( args: { onlyOne: boolean, startActiveList: string[] } ) => {
 
     /* CONTENT */
     const { onlyOne=false, startActiveList=[] } = args;
@@ -21,7 +21,7 @@ const AccordianPanelComponent = ( args: { onlyOne: boolean, startActiveList: num
             {
                 [ ...Array(7)].map( ( _, index ) => 
                     <Accordian key={nanoid(5)} id={`accordian-${index}`} 
-                        content={{label: 'Click Me!'}} index={index}>
+                        content={{label: 'Click Me!'}}>
                         <i>Hello! I am an accordian!</i>
                     </Accordian>
                  )
@@ -34,5 +34,5 @@ const Template: ComponentStory<typeof AccordianPanelComponent> = ( args ) => <Ac
 export const AccordianPanel = Template.bind({});
 AccordianPanel.args = {
     onlyOne: false,
-    startActiveList: [ 0 ],
+    startActiveList: [ 'accordian-0', 'accordian-3' ],
 }
