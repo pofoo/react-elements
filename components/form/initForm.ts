@@ -41,15 +41,14 @@ const initForm = (
     
     /* MAIN FUNCTION */
     const initChildren = ( children: ReactNode ) => {
-        Children.forEach( children, ( child, index ) => {
+        Children.forEach( children, ( child ) => {
             const validation = validateChild( child, {
                 elementNames: CHILD_NAMES_LIST,
             } );
 
             const sharedChild = child as ReactElement<SharedProps>;
-            
-            const name = sharedChild.props.name || sharedChild.props.type;
             let childInputs: ( string[] | null ) = null;
+            const name = sharedChild.props.name || sharedChild.props.type;
 
             if ( IS_CONDITIONAL )
                 childInputs = conditionalDisabled[ name ];
@@ -61,21 +60,19 @@ const initForm = (
                 if ( childInputs )
                     addChildInputs( childInputs );
 
-                initChildren( fieldSetChild.props.children,  );
+                initChildren( fieldSetChild.props.children );
             }
 
             if ( validation === 'TextInput' ) {
-                let name: string;
+                const inputChild = child as ReactElement<TextInputProps>;
                 let value: string;
                 let isValid: boolean;
-                const inputChild = child as ReactElement<TextInputProps>;
-    
                 const required: ( boolean | undefined ) = inputChild.props.required;
                 const type: string = inputChild.props.type;
     
-                name = inputChild.props.name || inputChild.props.type;
                 value = inputChild.props.content?.value || '';
     
+                // TO-DO - account for initial value being provided
                 if ( required === undefined && REQUIRED_TYPES.includes( type ) ) 
                     isValid = false;
                 else 
@@ -93,7 +90,6 @@ const initForm = (
             }
         } );    
     }
-
 
     initChildren( children );
 

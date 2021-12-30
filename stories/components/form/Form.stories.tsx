@@ -35,7 +35,7 @@ const FormComponent = ( args: Props ) => {
         placeholder: 'Text',
     }
 
-    const fieldSetContent = {
+    const fieldSet1Content = {
         legend: 'auth',
     }
 
@@ -44,10 +44,24 @@ const FormComponent = ( args: Props ) => {
         placeholder: 'Address',
     }
 
+    const fieldSet2Content = {
+        legend: 'bop',
+    }
+
+    const mooContent = {
+        label: 'Moo',
+        placeholder: 'Moo',
+    }
+
+    const quackContent = {
+        label: 'Quack',
+        placeholder: 'Quack',
+    }
+
     return (
         <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} 
             conditionalDisabled={conditionalDisabled}>
-            <FieldSet name='auth' content={fieldSetContent} >
+            <FieldSet name='auth' content={fieldSet1Content} >
                 <TextInput content={addressContent}
                     name='address' type='text' />
             </FieldSet>
@@ -55,7 +69,13 @@ const FormComponent = ( args: Props ) => {
             <TextInput type='username' />
             <TextInput type='password' />
             <TextInput content={textContent}
-                name='text' type='text' />
+                name='text' type='text' required />
+            <FieldSet name='bop' content={fieldSet2Content} >
+                <TextInput content={mooContent}
+                    name='moo' type='text' />
+                <TextInput content={quackContent}
+                    name='quack' type='text' />
+            </FieldSet>
         </Component>
     )
 }
@@ -71,6 +91,19 @@ Form.args = {
         buttonAriaLabel: 'sample form'
     },
     conditionalDisabled: {
-        auth: [ 'username', 'password' ]
+        auth: [ 'username', 'password' ],
+        email: ['usename', 'password', 'fadf' ],
+        text: [ 'bop' ],
     },
 }
+
+const word = [
+    {
+        parents: [ 'auth', 'email' ],
+        conditional: [ 'username', 'password' ],
+    },
+    {
+        parents: [ 'email' ],
+        conditional: [ 'fadssf' ],
+    }
+]

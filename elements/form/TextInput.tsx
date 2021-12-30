@@ -150,7 +150,7 @@ const TextInput = ( {
 
     // check the form status everytime isValid changes
     useEffect( () => {
-        checkFormStatus( isParentDisabled ? isParentDisabled : false );
+        // checkFormStatus( isParentDisabled ? isParentDisabled : false );
     }, [ isValid ] );
 
     return (
