@@ -9,7 +9,7 @@ import { ToggleButton } from '../../elements';
 /* TYPES */
 interface Props {
     // customization
-    id?: string;
+    id: string;
     className?: string;
     // states
     isActive: boolean;
@@ -26,7 +26,7 @@ interface Props {
  */
 const Modal: FC<Props> = ( {
     children,
-    id='',
+    id,
     className='',
     isActive,
     closeModal,

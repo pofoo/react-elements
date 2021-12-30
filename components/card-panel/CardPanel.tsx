@@ -4,7 +4,7 @@ import { FC } from 'react';
 /* TYPES */
 interface Props {
     // customization
-    id?: string;
+    id: string;
     className?: string;
     // styling
     isCentered?: boolean;

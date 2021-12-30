@@ -10,7 +10,7 @@ interface Content {
 
 interface Props {
     // customization
-    id?: string;
+    id: string;
     className?: string;
     content: Content;
     // states
@@ -24,7 +24,7 @@ interface Props {
  */
 const Accordian: FC<Props> = ( {
     children,
-    id='',
+    id,
     className='',
     content: {
         label,

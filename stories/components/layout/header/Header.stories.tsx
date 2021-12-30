@@ -12,7 +12,7 @@ export default {
 const HeaderComponent = () => {
     return (
         <div style={{height: '300vh'}}>
-            <Component />
+            <Component id='header' />
         </div>
     )
 }

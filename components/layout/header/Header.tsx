@@ -1,10 +1,10 @@
 // dependencies
-import { useState, useEffect } from 'react';
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useThrottledCallback } from 'use-debounce';
 
 /* TYPES */
 interface Props {
+    id: string;
     className?: string;
 }
 
@@ -13,18 +13,13 @@ interface Props {
  */
 const Header: FC<Props> = ( {
     children,
+    id,
     className='',
 } ) => {
     
     /* HOOKS */
     const [ scrollPos, setScrollPos ] = useState<number>( 0 );
     const [ scrollDirection, setScrollDirection ] = useState<'up' | 'down' | null>( null );
-
-    const headerClasses = `
-        header-wrapper
-        ${className}
-        ${scrollDirection === 'down' ? 'hide' : ''}
-    `;
 
     /* FUNCTIONS */
     const handleScroll = ( prevScrollPos: number ): void => {
@@ -40,6 +35,13 @@ const Header: FC<Props> = ( {
         250,
     );
 
+    /* CLASSNAMES */
+    const headerClasses = `
+        header-wrapper
+        ${className}
+        ${scrollDirection === 'down' ? 'hide' : ''}
+    `;
+
     useEffect( () => {
         document.addEventListener( 'scroll', throttleScroll );
         return () => {
@@ -48,7 +50,7 @@ const Header: FC<Props> = ( {
     }, [ scrollPos ] );
 
     return (
-        <header className={headerClasses}>
+        <header id={id} className={headerClasses}>
             {children}
         </header>
     )

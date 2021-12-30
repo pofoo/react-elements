@@ -12,7 +12,7 @@ export default {
 const ProgressBarComponent = () => {
     return (
         <div style={{height: '300vh'}}>
-            <Component styles={{}}/>
+            <Component id='progress-bar' styles={{}}/>
         </div>
     )
 }

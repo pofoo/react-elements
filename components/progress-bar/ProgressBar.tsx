@@ -12,6 +12,7 @@ interface Styles {
 }
 
 interface Props {
+    id: string;
     className?: string;
     styles: Styles;
 }
@@ -20,7 +21,8 @@ interface Props {
  * Tracks the scroll position of the page via a progress bar.
  * Useful for blog pages.
  */
-const ProgressBar = ( { 
+const ProgressBar = ( {
+    id,
     className='',
     styles: {
         progressColor='blue',
@@ -58,7 +60,7 @@ const ProgressBar = ( {
     }, [ progress ] );
 
     return (
-        <section className={containerClasses}>
+        <section id={id} className={containerClasses}>
             <div className='progress-bar-wrapper' style={wrapperStyles} />
         </section>
     );

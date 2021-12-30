@@ -45,7 +45,7 @@ import getShadowColor from './getShadowColor';
 
 interface Props {
     // customization
-    id?: string;
+    id: string;
     className?: string;
     // styling
     distort?: Distort;

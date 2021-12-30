@@ -15,7 +15,7 @@ export default {
 const CardPanelComponent = ( args: { isCentered: boolean } ) => {
 
     return (
-        <Component isCentered={args.isCentered}>
+        <Component id='card-panel' isCentered={args.isCentered}>
             {
                 [ ...Array(7) ]
                     .map( () => <Card className='card-panel-card' key={nanoid(5)} /> )

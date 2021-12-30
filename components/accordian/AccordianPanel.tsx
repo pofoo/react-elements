@@ -10,7 +10,7 @@ import { CHILD_NAMES_LIST } from './constants';
 /* TYPES */
 interface Props {
     // customization
-    id?: string;
+    id: string;
     className?: string;
     // states
     onlyOne?: boolean; // only show one accordian at a time
@@ -29,7 +29,7 @@ interface Config {
  */
 const AccordianPanel: FC<Props> = ( {
     children,
-    id='',
+    id,
     className='',
     onlyOne=false, // useObjectState and rerender every accordian with an updated isActive
     startActiveList=[], // i can do this by changing the isActive state of the corresponding index

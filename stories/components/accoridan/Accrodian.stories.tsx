@@ -12,7 +12,7 @@ export default {
 const AccoridanComponent = ( args: any ) => {
 
   return (
-    <Component content={{label: 'Click Me!'}} >
+    <Component id='accordian' content={{label: 'Click Me!'}} >
         <i>Hello! I am the Content!</i>
     </Component>
   )

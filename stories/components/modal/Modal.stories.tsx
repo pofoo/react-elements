@@ -25,7 +25,7 @@ const ModalComponent = ( args: { ariaLabelledBy: string, ariaDescribedBy: string
                 ariaLabel='open modal'>
                 Open Modal
             </ToggleButton>
-            <Component isActive={isActive} closeModal={ () => setIsActive( false ) }
+            <Component id='modal' isActive={isActive} closeModal={ () => setIsActive( false ) }
                 ariaLabelledBy={ariaLabelledBy} ariaDescribedBy={ariaDescribedBy}>
                 <h1 id={ariaLabelledBy}>Modal Title</h1>
                 <p id={ariaDescribedBy}>I am a Modal Description!</p>
