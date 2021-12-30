@@ -16,7 +16,7 @@ interface Content {
 
 export interface Props {
     // customization
-    id: string;
+    id?: string;
     className?: string;
     content: Content;
     name: string;
@@ -58,6 +58,7 @@ const FieldSet: FC<Props> = ( {
 
     /* CONTENT */
     const { legend } = content;
+    const formID = id !== undefined ? id : name;
 
     /* CLASSNAMES */
     const fieldsetClasses = `
@@ -77,11 +78,13 @@ const FieldSet: FC<Props> = ( {
                 const fieldSetChild = child as ReactElement<Props>;
 
                 // TO-DO - implement conditionalDisabled
-                if ( isParentDisabled ) {}
+                if ( isParentDisabled ) {
+                    // ALL children within the fieldset must be valid to reset the disabledInputs
+                }
                 
                 return fieldSetChild;
             }
-            
+
             if ( validation === 'TextInput' ) {
                 const inputChild = child as ReactElement<TextInputProps>;
 
@@ -103,7 +106,7 @@ const FieldSet: FC<Props> = ( {
     }
 
     return (
-        <fieldset id={id} className={fieldsetClasses}
+        <fieldset id={formID} className={fieldsetClasses}
             name={name} disabled={disabled}>
             <legend>{legend}</legend>
             {renderChildren( children )}

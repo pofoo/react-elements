@@ -12,6 +12,7 @@ const PASSWORD_VALIDATION = /^/;
 
 /* TYPES */
 // TO-DO - implement Conditional Props
+
 interface Content {
     label?: string;
     placeholder?: string;
@@ -79,11 +80,12 @@ const TextInput = ( {
         inputPlaceholder = placeholder !== undefined ? placeholder : toTitleCase( type );
         inputRequired = required !== undefined ? required : true;
     }
-    if ( type === 'text' )
+    if ( type === 'text' ) {
+        inputID = id !== undefined ? id : name;
         inputRequired = required !== undefined ? required : false;
+    }
 
     /* ERRORS */
-    // TO-DO - factor this out to another function
     if ( inputID === undefined )
         throw( SyntaxError( 'If type is text, an ID must be provided for the input' ) );
 

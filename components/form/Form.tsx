@@ -38,10 +38,14 @@ export interface Props {
     onSubmit: ( input: { [ key: string ]: string } ) => void;
     buttonProps: ButtonProps;
     conditionalDisabled?: ConditionalDisabled;
-    autoFocus?: 'first' | number; // which input element to focus (based off DOM structure)
+    autoFocus?: string; // which input element to focus (based off DOM structure)
 }
 
-
+/**
+ * Form wrapper component.
+ * Handles form data to submit. 
+ * EVERY CHILD NAME ATTRIBUTE MUST BE UNIQUE AS THEY ACT AS THE KEY WITHIN THE OBJECT.
+ */
 const Form: FC<Props> = ( {
     children,
     id,
@@ -65,8 +69,6 @@ const Form: FC<Props> = ( {
         initialDisabled 
     ] = initForm( children, conditionalDisabled );
 
-    const focusInput = autoFocus === 'first' ? 0 : autoFocus;
-
     /* ERRORS */
     // TO-DO - implement conditionalDisabled errors check
     // should not have the key within the disabled input array -> i.e: { 0: [ 0, 1 ] }
@@ -75,7 +77,7 @@ const Form: FC<Props> = ( {
     // form states
     const [ formData, setFormData ] = useState<FormData>( emptyFormData );
     const [ isFormComplete, setIsFormComplete ] = useState<boolean>( canFormSubmit );
-    const [ disabledInputs, setDisabledInputs ] = useState<Set<number>>( initialDisabled );
+    const [ disabledInputs, setDisabledInputs ] = useState<Set<string>>( initialDisabled );
     // submitting states
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
     // TO-DO - make this one state object
@@ -86,10 +88,10 @@ const Form: FC<Props> = ( {
 
     /* FUNCTIONS */
     const disableAllInputs = () => {
-        // getting the number of form elements in array form -> i.e [ 0, 1, 2 ]
-        // numbers represent each input elements order in the dom tree
-        const formElementsArray = [ ...Array( 
-            Object.keys( formData ).length ).keys() ];
+        // getting all the formData keys and adding them to a new array
+        const formElementsArray = ( Object.keys( formData ) ).map( ( key ) => {
+            return key;
+        } );
 
         setDisabledInputs( new Set( formElementsArray ) );
     }
@@ -159,15 +161,17 @@ const Form: FC<Props> = ( {
                     if ( validation === 'FieldSet' ) {
                         const fieldSetChild = child as ReactElement<FieldSetProps>;
         
+                        const name = fieldSetChild.props.name;
+
                         const config: FieldSetConfig =  {
                             formData,
                             onChange: setFormData,
                             checkFormStatus,
                         }
         
-                        if ( disabledInputs.has( index ) )
+                        if ( disabledInputs.has( name ) )
                             config[ 'disabled' ] = true;
-                        if ( conditionalDisabled[ index ] )
+                        if ( conditionalDisabled[ name ] )
                             config[ 'isParentDisabled' ] = true;
                         
                         return cloneElement( fieldSetChild, config );
@@ -188,11 +192,11 @@ const Form: FC<Props> = ( {
                             checkFormStatus,
                         }
         
-                        if ( disabledInputs.has( index ) )
+                        if ( disabledInputs.has( name ) )
                             config[ 'disabled' ] = true;
-                        if ( conditionalDisabled[ index ] )
+                        if ( conditionalDisabled[ name ] )
                             config[ 'isParentDisabled' ] = true;
-                        if ( focusInput === index )
+                        if ( autoFocus === name )
                             config[ 'autoFocus' ] = true;
         
                         return cloneElement( inputChild, config );

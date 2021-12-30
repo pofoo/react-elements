@@ -9,10 +9,6 @@ type Content = {
 
 type CheckFormStatus = ( checkDisabled: boolean ) => void;
 
-type SharedConfig = {
-    disabled?: boolean;
-}
-
 type TextInputConfig = {
     onChange: SetFormData;
     content: Content;
@@ -30,17 +26,15 @@ type FieldSetConfig = {
     isParentDisabled?: boolean;
 }
 
-// key represents the parent input element that other input elements rely on
-// the value represents an array of disabled elements
-// all disabled elements are considered child inputs and MUST BE greater than the key specified (parent)
-// number is in reference to the DOM strcture of the input elements
+// key represents the name of parent input element that other input elements rely on
+// the value represents an array of disabled elements IF the given key is inValid
+// all disabled elements are considered child inputs and MUST COME AFTER than the key specified (parent)
 type ConditionalDisabled = {
-    [ key: number ]: number[];
+    [ name: string ]: string[];
 }
 
 export {
     CheckFormStatus,
-    SharedConfig,
     TextInputConfig,
     FieldSetConfig,
     ConditionalDisabled,

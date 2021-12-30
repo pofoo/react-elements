@@ -20,8 +20,9 @@ interface Props {
         buttonAriaLabel: string;
     },
     conditionalDisabled: {
-        [ key: number ]: number[];
-    }
+        [ id: string ]: string[];
+    };
+    autoFocus: string;
 }
 
 
@@ -46,14 +47,14 @@ const FormComponent = ( args: Props ) => {
     return (
         <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} 
             conditionalDisabled={conditionalDisabled}>
-            <FieldSet id='auth' name='auth' content={fieldSetContent} >
-                <TextInput id='address' content={addressContent}
+            <FieldSet name='auth' content={fieldSetContent} >
+                <TextInput content={addressContent}
                     name='address' type='text' />
             </FieldSet>
             <TextInput type='email' />
             <TextInput type='username' />
             <TextInput type='password' />
-            <TextInput id='text' content={textContent}
+            <TextInput content={textContent}
                 name='text' type='text' />
         </Component>
     )
@@ -70,8 +71,6 @@ Form.args = {
         buttonAriaLabel: 'sample form'
     },
     conditionalDisabled: {
-        // TO-DO - test conditioal disabled
-        // convert this form field ids
-        0: [ 1, 2, 3 ]
+        auth: [ 'username', 'password' ]
     },
 }
