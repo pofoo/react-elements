@@ -8,7 +8,7 @@ type ConditionalDisabled = {
     [ name: string ]: string[];
 }
 
-type CheckFormStatus = ( checkDisabled: boolean, name: string ) => void;
+type CheckFormStatus = ( checkDisabled: boolean ) => void;
 
 type Content = {
     label?: string;

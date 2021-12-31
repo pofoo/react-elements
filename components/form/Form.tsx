@@ -1,5 +1,5 @@
 // dependencies
-import { FC, FormEvent, Children, cloneElement, ReactElement, 
+import { FC, FormEvent, Children, cloneElement, ReactElement,
     useState, useEffect } from 'react';
 // elements
 import { FormButton } from '../../elements';
@@ -118,31 +118,24 @@ const Form: FC<Props> = ( {
 
     const checkFormStatus = ( 
         checkDisabled: boolean,
-        name: string,
     ) => {
         let canSubmit = true;
-        let newDisabledInputs: Set<string> = new Set();
+        const newDisabledInputs: Set<string> = new Set();
 
-        ( Object.entries( formData ) ).forEach( ( [ _, rawInput ] ) => {
-            const { isValid } = rawInput;
+        ( Object.entries( formData ) ).forEach( ( [ name, rawInput ] ) => {
+            const isValid = rawInput.isValid;
             const childInputs = expandedConditionalDisabled[ name ];
 
             if ( !isValid ) {
                 canSubmit = false; 
-                if ( checkDisabled && childInputs ) {
-                    console.log( rawInput )
-                    console.log( name )
-                    console.log( childInputs );
+                if ( checkDisabled && childInputs )
                     childInputs.forEach( input => newDisabledInputs.add( input ) );
-                }
             }
         } );
 
         setIsFormComplete( canSubmit );
-        if ( checkDisabled ) {
-            // console.log( newDisabledInputs );
+        if ( checkDisabled )
             setDisabledInputs( newDisabledInputs );
-        }
     }
 
     /* CLASSNAMES */
@@ -156,10 +149,6 @@ const Form: FC<Props> = ( {
 
     }, [ isSubmitting] );
 
-    console.log( formData );
-    // console.log( disabledInputs );
-    // console.log( expandedConditionalDisabled );
-    
     return (
         <form id={id} className={formClasses} 
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
@@ -196,7 +185,6 @@ const Form: FC<Props> = ( {
                         const prevContent = inputChild.props.content;
         
                         const config: TextInputConfig = {
-                            formData,
                             onChange: setFormData,
                             content: {
                                 ...prevContent,

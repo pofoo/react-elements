@@ -5,7 +5,7 @@ import { validateChild } from '../../lib';
 // constants
 import { CHILD_NAMES_LIST } from './constants';
 // types
-import type { CheckFormStatus, FieldSetConfig, 
+import type { CheckFormStatus, 
     TextInputConfig, ConditionalDisabled } from './types';
 import type { SetFormData, FormData } from '../../types';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
@@ -81,11 +81,8 @@ const FieldSet: FC<Props> = ( {
                     } );
         
                     // nested FieldSets
-                    if ( validation === 'FieldSet' ) {
-                        const fieldSetChild = child as ReactElement<Props>;
-                        
-                        return fieldSetChild;
-                    }
+                    if ( validation === 'FieldSet' )
+                        return child;
         
                     if ( validation === 'TextInput' ) {
                         const inputChild = child as ReactElement<TextInputProps>;
