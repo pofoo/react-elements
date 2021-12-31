@@ -1,5 +1,5 @@
 // dependencies
-import { FC, FormEvent, Children, cloneElement, ReactElement,
+import { FC, FormEvent, Children, cloneElement, ReactElement, useMemo,
     useState, useEffect } from 'react';
 // elements
 import { FormButton } from '../../elements';
@@ -63,12 +63,11 @@ const Form: FC<Props> = ( {
         ...restButtonProps
     } = buttonProps;
 
-    // wrap this in a useMemo
     const [ emptyFormData, 
         canFormSubmit, 
         initialDisabled,
         expandedConditionalDisabled,
-    ] = initForm( children, conditionalDisabled );
+    ] = useMemo( () => initForm( children, conditionalDisabled ), [] );
 
     /* ERRORS */
     // TO-DO - implement conditionalDisabled errors check
@@ -147,7 +146,7 @@ const Form: FC<Props> = ( {
     // submit the form
     useEffect( () => {
 
-    }, [ isSubmitting] );
+    }, [ isSubmitting ] );
 
     return (
         <form id={id} className={formClasses} 
