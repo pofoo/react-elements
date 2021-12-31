@@ -95,7 +95,7 @@ Form.args = {
         buttonContent: {
             text: 'submit',
         },
-        buttonAriaLabel: 'sample form'
+        buttonAriaLabel: 'sample form',
     },
     conditionalDisabled: {
         email: ['username', 'password', 'fadf' ],
