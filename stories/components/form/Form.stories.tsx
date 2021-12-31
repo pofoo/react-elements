@@ -20,7 +20,7 @@ interface Props {
         buttonAriaLabel: string;
     },
     conditionalDisabled: {
-        [ id: string ]: string[];
+        [ name: string ]: string[];
     };
     autoFocus: string;
 }
@@ -44,6 +44,11 @@ const FormComponent = ( args: Props ) => {
         placeholder: 'Address',
     }
 
+    const limboContent = {
+        label: 'Limbo',
+        placeholder: 'Limbo',
+    }
+
     const fieldSet2Content = {
         legend: 'bop',
     }
@@ -64,18 +69,20 @@ const FormComponent = ( args: Props ) => {
             <FieldSet name='auth' content={fieldSet1Content} >
                 <TextInput content={addressContent}
                     name='address' type='text' />
+                <TextInput content={limboContent}
+                    name='limbo' type='text' required />
             </FieldSet>
             <TextInput type='email' />
             <TextInput type='username' />
             <TextInput type='password' />
-            <TextInput content={textContent}
-                name='text' type='text' required />
             <FieldSet name='bop' content={fieldSet2Content} >
                 <TextInput content={mooContent}
-                    name='moo' type='text' />
+                    name='moo' type='text' required />
                 <TextInput content={quackContent}
                     name='quack' type='text' />
             </FieldSet>
+            <TextInput content={textContent}
+                name='text' type='text' required />
         </Component>
     )
 }
@@ -91,19 +98,10 @@ Form.args = {
         buttonAriaLabel: 'sample form'
     },
     conditionalDisabled: {
-        auth: [ 'username', 'password' ],
-        email: ['usename', 'password', 'fadf' ],
-        text: [ 'bop' ],
+        // email: ['username', 'password', 'fadf' ],
+        bop: [ 'text' ],
+        // text: [ 'email' ],
     },
 }
 
-const word = [
-    {
-        parents: [ 'auth', 'email' ],
-        conditional: [ 'username', 'password' ],
-    },
-    {
-        parents: [ 'email' ],
-        conditional: [ 'fadssf' ],
-    }
-]
+// transform any fieldset keys to its input parts

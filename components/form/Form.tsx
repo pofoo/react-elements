@@ -63,10 +63,11 @@ const Form: FC<Props> = ( {
         ...restButtonProps
     } = buttonProps;
 
-    // wrap this in a useCallback or useMemo
+    // wrap this in a useMemo
     const [ emptyFormData, 
         canFormSubmit, 
-        initialDisabled 
+        initialDisabled,
+        expandedConditionalDisabled,
     ] = initForm( children, conditionalDisabled );
 
     /* ERRORS */
@@ -115,24 +116,33 @@ const Form: FC<Props> = ( {
         // clear form data
     }
 
-    const checkFormStatus = ( checkDisabled: boolean ) => {
+    const checkFormStatus = ( 
+        checkDisabled: boolean,
+        name: string,
+    ) => {
         let canSubmit = true;
-        let newDisabledInputs: Set<number> = new Set();
+        let newDisabledInputs: Set<string> = new Set();
 
-        ( Object.entries( formData ) ).forEach( ( [ _, rawInput ], index ) => {
-            const isInputValid = rawInput.isValid;
-            const childInputs = conditionalDisabled[ index ];
+        ( Object.entries( formData ) ).forEach( ( [ _, rawInput ] ) => {
+            const { isValid } = rawInput;
+            const childInputs = expandedConditionalDisabled[ name ];
 
-            if ( !isInputValid ) {
+            if ( !isValid ) {
                 canSubmit = false; 
-                if ( checkDisabled && childInputs )
+                if ( checkDisabled && childInputs ) {
+                    console.log( rawInput )
+                    console.log( name )
+                    console.log( childInputs );
                     childInputs.forEach( input => newDisabledInputs.add( input ) );
+                }
             }
         } );
 
         setIsFormComplete( canSubmit );
-        if ( checkDisabled )
+        if ( checkDisabled ) {
+            // console.log( newDisabledInputs );
             setDisabledInputs( newDisabledInputs );
+        }
     }
 
     /* CLASSNAMES */
@@ -146,14 +156,15 @@ const Form: FC<Props> = ( {
 
     }, [ isSubmitting] );
 
-    // console.log( formData );
+    console.log( formData );
     // console.log( disabledInputs );
+    // console.log( expandedConditionalDisabled );
     
     return (
         <form id={id} className={formClasses} 
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
             {
-                Children.map( children, ( child, index ) => {
+                Children.map( children, ( child ) => {
                     const validation = validateChild( child, {
                         elementNames: CHILD_NAMES_LIST,
                     } );
@@ -167,6 +178,7 @@ const Form: FC<Props> = ( {
                             formData,
                             onChange: setFormData,
                             checkFormStatus,
+                            expandedConditionalDisabled,
                         }
         
                         if ( disabledInputs.has( name ) )
@@ -184,6 +196,7 @@ const Form: FC<Props> = ( {
                         const prevContent = inputChild.props.content;
         
                         const config: TextInputConfig = {
+                            formData,
                             onChange: setFormData,
                             content: {
                                 ...prevContent,

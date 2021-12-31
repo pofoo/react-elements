@@ -1,11 +1,12 @@
 // dependencies
-import { FC, Children, ReactNode, ReactElement, cloneElement } from 'react';
+import { FC, Children, ReactElement, cloneElement } from 'react';
 // lib
 import { validateChild } from '../../lib';
 // constants
 import { CHILD_NAMES_LIST } from './constants';
 // types
-import type { CheckFormStatus, FieldSetConfig, TextInputConfig } from './types';
+import type { CheckFormStatus, FieldSetConfig, 
+    TextInputConfig, ConditionalDisabled } from './types';
 import type { SetFormData, FormData } from '../../types';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
 
@@ -22,6 +23,7 @@ export interface Props {
     name: string;
     // data
     formData?: FormData;
+    expandedConditionalDisabled?: ConditionalDisabled;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: CheckFormStatus;
@@ -40,6 +42,7 @@ const FieldSet: FC<Props> = ( {
     content,
     name,
     formData,
+    expandedConditionalDisabled={},
     onChange,
     checkFormStatus,
     disabled,
@@ -67,49 +70,45 @@ const FieldSet: FC<Props> = ( {
         ${className}
     `;
 
-    const renderChildren = ( children: ReactNode ) => {
-        return Children.map( children, ( child ) => {
-            const validation = validateChild( child, {
-                elementNames: CHILD_NAMES_LIST,
-            } );
-
-            // nested FieldSets
-            if ( validation === 'FieldSet' ) {
-                const fieldSetChild = child as ReactElement<Props>;
-
-                // TO-DO - implement conditionalDisabled
-                if ( isParentDisabled ) {
-                    // ALL children within the fieldset must be valid to reset the disabledInputs
-                }
-                
-                return fieldSetChild;
-            }
-
-            if ( validation === 'TextInput' ) {
-                const inputChild = child as ReactElement<TextInputProps>;
-
-                const name = inputChild.props.name || inputChild.props.type;
-                const prevContent = inputChild.props.content;
-
-                const config: TextInputConfig = {
-                    onChange,
-                    content: {
-                        ...prevContent,
-                        value: formData[ name ].value,
-                    },
-                    checkFormStatus
-                }
-
-                return cloneElement( inputChild, config );
-            }
-        } );
-    }
-
     return (
         <fieldset id={formID} className={fieldsetClasses}
             name={name} disabled={disabled}>
-            <legend>{legend}</legend>
-            {renderChildren( children )}
+            <legend className='legend'>{legend}</legend>
+            {
+                Children.map( children, ( child ) => {
+                    const validation = validateChild( child, {
+                        elementNames: CHILD_NAMES_LIST,
+                    } );
+        
+                    // nested FieldSets
+                    if ( validation === 'FieldSet' ) {
+                        const fieldSetChild = child as ReactElement<Props>;
+                        
+                        return fieldSetChild;
+                    }
+        
+                    if ( validation === 'TextInput' ) {
+                        const inputChild = child as ReactElement<TextInputProps>;
+        
+                        const name = inputChild.props.name || inputChild.props.type;
+                        const prevContent = inputChild.props.content;
+        
+                        const config: TextInputConfig = {
+                            onChange,
+                            content: {
+                                ...prevContent,
+                                value: formData[ name ].value,
+                            },
+                            checkFormStatus,
+                        }
+
+                        if ( isParentDisabled && expandedConditionalDisabled[ name ] )
+                            config[ 'isParentDisabled' ] = true;
+
+                        return cloneElement( inputChild, config );
+                    }
+                } )
+            }
         </fieldset>
     )
 }

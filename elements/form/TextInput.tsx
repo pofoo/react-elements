@@ -3,7 +3,7 @@ import { useEffect, useState, ChangeEvent } from 'react';
 // lib
 import { toTitleCase } from '../../lib';
 // types
-import type { SetFormData, ConditionalProps } from 'types';
+import type { FormData, SetFormData, ConditionalProps } from 'types';
 
 /* CONSTANTS */
 const EMAIL_VALIDATION = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -28,7 +28,7 @@ export interface Props {
     type: 'email' | 'username' | 'text' | 'password';
     // event handlers
     onChange?: SetFormData;
-    checkFormStatus?: ( checkDisabled: boolean ) => void;
+    checkFormStatus?: ( checkDisabled: boolean, name: string ) => void;
     // states
     required?: boolean;
     disabled?: boolean;
@@ -120,6 +120,7 @@ const TextInput = ( {
             }
         } );
 
+        // TO-DO - useCallback?
         setIsValid( newValid );
     }
 
@@ -148,9 +149,13 @@ const TextInput = ( {
         ${inputType}
     `;
 
+
     // check the form status everytime isValid changes
     useEffect( () => {
-        // checkFormStatus( isParentDisabled ? isParentDisabled : false );
+        // console.log( inputName + ' ' + isParentDisabled )
+
+        // @ts-ignore
+        checkFormStatus( isParentDisabled ? isParentDisabled : false, inputName );
     }, [ isValid ] );
 
     return (

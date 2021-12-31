@@ -18,6 +18,10 @@ interface TextInputPropsWithChildren extends TextInputProps {
     children: ReactNode;
 }
 
+type FieldSetOptions = {
+    prevFieldSetChildInputs?: string[];
+}
+
 /**
  * Initializes data for form wrapper component.
  * Returns empty form data, whether the form can submit, and disabled inputs.
@@ -26,28 +30,32 @@ interface TextInputPropsWithChildren extends TextInputProps {
 const initForm = ( 
     children: ReactNode,
     conditionalDisabled: ConditionalDisabled={},
-): [ FormData, boolean, Set<string> ] => {
+): [ FormData, boolean, Set<string>, ConditionalDisabled ] => {
 
     /* CONSTANTS */
     const emptyFormData: FormData = {};
     let canFormSubmit: boolean = true;
     const IS_CONDITIONAL = !isObjectEmpty( conditionalDisabled );
     const initialDisabled: Set<string> = new Set();
+    const expandedConditionalDisabled: ConditionalDisabled = {};
 
     /* HELPER FUNCTIONS */
     const addChildInputs = ( childInputs: string[] ) => {
         childInputs.forEach( input => initialDisabled.add( input ) );
     }
-    
+
     /* MAIN FUNCTION */
-    const initChildren = ( children: ReactNode ) => {
+    const initChildren = ( 
+        children: ReactNode,
+        fieldSetOptions: FieldSetOptions={},
+    ) => {
         Children.forEach( children, ( child ) => {
             const validation = validateChild( child, {
                 elementNames: CHILD_NAMES_LIST,
             } );
 
             const sharedChild = child as ReactElement<SharedProps>;
-            let childInputs: ( string[] | null ) = null;
+            let childInputs: ( string[] | undefined ) = undefined;
             const name = sharedChild.props.name || sharedChild.props.type;
 
             if ( IS_CONDITIONAL )
@@ -57,10 +65,9 @@ const initForm = (
             if ( validation === 'FieldSet' ) {
                 const fieldSetChild = child as ReactElement<TextInputPropsWithChildren>;
 
-                if ( childInputs )
-                    addChildInputs( childInputs );
-
-                initChildren( fieldSetChild.props.children );
+                initChildren( fieldSetChild.props.children, {
+                    prevFieldSetChildInputs: childInputs,
+                } );
             }
 
             if ( validation === 'TextInput' ) {
@@ -72,7 +79,6 @@ const initForm = (
     
                 value = inputChild.props.content?.value || '';
     
-                // TO-DO - account for initial value being provided
                 if ( required === undefined && REQUIRED_TYPES.includes( type ) ) 
                     isValid = false;
                 else 
@@ -85,15 +91,25 @@ const initForm = (
                     isValid,
                 };
 
-                if ( childInputs && !isValid )
-                    addChildInputs( childInputs );
+                const { prevFieldSetChildInputs } = fieldSetOptions;
+
+                if ( !isValid ) {
+                    if ( childInputs ) {
+                        expandedConditionalDisabled[ name ] = childInputs;
+                        addChildInputs( childInputs );
+                    }
+                    else if ( prevFieldSetChildInputs ) {
+                        expandedConditionalDisabled[ name ] = prevFieldSetChildInputs;
+                        addChildInputs( prevFieldSetChildInputs );
+                    }
+                }
             }
         } );    
     }
 
     initChildren( children );
 
-    return [ emptyFormData, canFormSubmit, initialDisabled ];
+    return [ emptyFormData, canFormSubmit, initialDisabled, expandedConditionalDisabled ];
 }
 
 export default initForm;
