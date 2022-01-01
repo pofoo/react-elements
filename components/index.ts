@@ -6,6 +6,7 @@ import Modal from './modal';
 import { Ticket } from './3d';
 import { Accordian, AccordianPanel } from './accordian';
 import { Form, FieldSet } from './form';
+import Notification from './notification';
 
 export {
     Hello,
@@ -17,5 +18,6 @@ export {
     Accordian,
     AccordianPanel,
     Form,
-    FieldSet
+    FieldSet,
+    Notification,
 }
