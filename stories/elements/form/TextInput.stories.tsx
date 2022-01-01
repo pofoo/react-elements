@@ -34,6 +34,7 @@ const TextInputElement = ( args: Props ) => {
   return (
     <Form id={id} onSubmit={onSubmit} buttonProps={buttonProps}>
       <Element type={type} />
+      <Element type='username' />
     </Form>
   )
 }

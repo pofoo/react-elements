@@ -17,7 +17,6 @@ const PASSWORD_VALIDATION = /^/;
 
 interface Content {
     label?: string;
-    placeholder?: string;
     value?: string;
 }
 
@@ -39,6 +38,8 @@ export interface Props {
     // limitations
     pattern?: RegExp; // will override default pattern checking from type specification
     maxLength?: number;
+    // styling
+    isRounded?: boolean;
 }
 
 /**
@@ -59,19 +60,19 @@ const TextInput = ( {
     // TO-DO - find an appropriate maxLength
     pattern,
     maxLength=1000,
+    isRounded=true,
     ...rest
 }: Props ) => {
 
     // look into datalist
     /* CONTENT */
-    const { label, placeholder, value='' } = content;
+    const { label, value='' } = content;
 
     // by default we assume parameters for type='text'
     let inputID = id;
     let inputType = type;
     let inputName = name;
     let inputLabel = label;
-    let inputPlaceholder = placeholder;
     let inputRequired = required;
 
     if ( type === 'username' || type === 'email' || type ==='password' ) {
@@ -79,7 +80,6 @@ const TextInput = ( {
         inputType = type === 'username' ? 'text' : type;
         inputName = name !== undefined ? name : type;
         inputLabel = label !== undefined ? label : toTitleCase( type );
-        inputPlaceholder = placeholder !== undefined ? placeholder : toTitleCase( type );
         inputRequired = required !== undefined ? required : true;
     }
     if ( type === 'text' ) {
@@ -94,18 +94,11 @@ const TextInput = ( {
     if ( inputName === undefined )
         throw( SyntaxError( 'If type is text, a name must be provided for the input' ) );
 
-    if ( inputLabel === undefined || inputPlaceholder == undefined )
-        throw( SyntaxError( 'If type is text, a label and placeholder within the content prop must be provided for the input' ) );
-
     if ( onChange === undefined )
         throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
 
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
-
-    /* HOOKS */
-    const [ touched, setTouched ] = useState<boolean>( false ); 
-    const [ isValid, setIsValid ] = useState<boolean>( !inputRequired );
 
     /* FUNCTIONS */  
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
@@ -137,18 +130,34 @@ const TextInput = ( {
             return value !== '';
     }
 
+    /* HOOKS */
+    const [ touched, setTouched ] = useState<boolean>( false ); 
+    const [ isValid, setIsValid ] = useState<boolean>( 
+        value === '' ? !inputRequired : checkValid( value ) );
+
     /* CLASSNAMES */
+    const isValidClasses = isValid ? 'valid' : 'not-valid';
+
     const textInputWrapperClasses = `
+        input-wrapper
         text-input-wrapper
-        ${type}
+        ${isRounded ? 'rounded' : ''}
+        ${disabled ? 'disabled' : 'not-disabled'}
+        ${touched ? 'touched' : 'not-touched'}
+        ${inputRequired ? 'required' : 'not-required'}
+        ${isValidClasses}
+        ${isParentDisabled ? 'parent-conditional' : ''}
         ${className}
     `;
 
     const textInputClasses = `
+        input
         text-input
-        ${touched && !isValid ? 'not-valid' : 'valid'}
         ${inputType}
     `;
+
+    /* ACCESSIBILITY */
+    const validIconAriaLabel = `${inputName} ${isValidClasses} icon`
 
     // check the form status everytime isValid changes EXCEPT on initial render
     useAfterEffect( () => {
@@ -157,11 +166,16 @@ const TextInput = ( {
 
     return (
         <div className={textInputWrapperClasses}>
-            <label className='label' htmlFor={inputID}>{inputLabel}</label>
+            <label className='label text-input-label' htmlFor={inputID}>
+                {inputLabel}
+                {inputRequired && '*'}
+                <span className='valid-icon' role='presentation' 
+                    aria-label={validIconAriaLabel} aria-hidden={!touched} />
+            </label>
             <input id={inputID} className={textInputClasses} type={inputType}
                 onChange={handleChange} onBlur={() => setTouched( true )}
-                name={inputName} value={value} placeholder={inputPlaceholder}
-                required={inputRequired} disabled={disabled} autoFocus={autoFocus}
+                name={inputName} value={value} required={inputRequired} 
+                disabled={disabled} autoFocus={autoFocus}
                 maxLength={maxLength} {...rest} />
         </div>
     )

@@ -9,7 +9,7 @@ export default {
   component: Component,
 } as ComponentMeta<typeof Component>;
 
-const NotificationComponent = ( args: any) => {
+const NotificationComponent = ( args: any ) => {
 
     return (
         <Component id='notification' >

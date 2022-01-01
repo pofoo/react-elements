@@ -1,11 +1,19 @@
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$form--padding:                     2rem;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
 .form {
     width: max-content;
-    padding: 2rem;
+    padding: $form--padding;
     border: 2px solid green;
 
     .submit-button-wrapper {
         display: flex;
         justify-content: flex-end;
-        margin-top: 1rem;
+        margin-top: 2rem;
     }
 }

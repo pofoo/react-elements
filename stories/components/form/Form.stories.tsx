@@ -32,7 +32,6 @@ const FormComponent = ( args: Props ) => {
 
     const textContent = {
         label: 'Text',
-        placeholder: 'Text',
     }
 
     const fieldSet1Content = {
@@ -41,12 +40,10 @@ const FormComponent = ( args: Props ) => {
 
     const addressContent = {
         label: 'Address',
-        placeholder: 'Address',
     }
 
     const limboContent = {
         label: 'Limbo',
-        placeholder: 'Limbo',
     }
 
     const fieldSet2Content = {
@@ -55,12 +52,10 @@ const FormComponent = ( args: Props ) => {
 
     const mooContent = {
         label: 'Moo',
-        placeholder: 'Moo',
     }
 
     const quackContent = {
         label: 'Quack',
-        placeholder: 'Quack',
     }
 
     return (

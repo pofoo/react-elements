@@ -34,11 +34,13 @@ const Checkbox = ( {
 
     /* CLASSNAMES */
     const checkboxWrapperClasses = `
+        input-wrapper
         checkbox-wrapper
         ${labelPosition}
     `;
 
     const checkboxClasses = `
+        input
         checkbox
         ${isSwitch ? 'switch' : ''}
         ${className}
@@ -46,7 +48,7 @@ const Checkbox = ( {
 
     return (
         <div className={checkboxWrapperClasses}>
-            <label className='lable' htmlFor={id}>{label}</label>
+            <label className='label checkbox-label' htmlFor={id}>{label}</label>
             <input id={id} className={checkboxClasses} type='checkbox'
                 checked={checked} />
         </div>

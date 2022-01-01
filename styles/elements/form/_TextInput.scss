@@ -2,61 +2,127 @@
 @use 'sass:map';
 // constants
 @use '../../constants/colors' as *;
+// utils
+@use '../../utils/colors' as *;
 
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$text-input--border-radius:                 7px;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
 .text-input-wrapper {
-    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.2rem;
 
-    .text-input {
-        border: 2px solid blue;
-        margin-left: 0.7rem;
+    .text-input-label {
+        font-size: 90%;
+
+        .valid-icon {
+            &:before {
+                transition: opacity 0.3s ease;
+            }
+        }
+    }
     
-        transition: border 0.3s ease;
+    &.required {
+    }
 
-        &.not-valid {
-            border: 2px solid red;
+    /* SHAPE */
+    &.rounded {
+        .text-input-label {
+            margin-left: $text-input--border-radius;
         }
 
-        &:disabled {
-            border: 5px solid gray;
+        .text-input {
+            border-radius: $text-input--border-radius;
         }
-        
+    }
 
- 
-        &:required {
-            background: map.get( $colors, 'purple', 1 );
+    /* STATES */
+    &.valid {
+        .text-input-label {
+            .valid-icon {
+                &:before {
+                    content: ' ✓';
+                    color: green;
+                    opacity: 0;
+                }
+            }
+        }
+    }
 
-            &:after {
-                content: "*";
-                width: 1rem;
-                height: 1rem;
-                background: black;
-                position: absolute;
+    &.not-valid {
+        .text-input-label {
+            .valid-icon {
+                &:before {
+                    content: ' ✖';
+                    color: red;
+                    opacity: 0;
+                }
+            }
+        }
+    }
+
+    &.touched {
+        &.valid {
+            .text-input-label {
+                .valid-icon {
+                    &:before {
+                        opacity: 1;
+                    }
+                }
             }
         }
 
-        &:required {
+        &.not-valid {
+            .text-input-label {
+                .valid-icon {
+                    &:before {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            &.required {
+                .text-input {
+                    border: 2px solid red;
+                }
+            }
         }
+    }
+
+    &.parent-conditional {
+
+    }
+
+    .text-input {
+        $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
+
+        padding: 0.5rem;
+        border: 1px solid blue;
     
-        &:optional {
-    
+        transition: border 0.3s ease,
+                    transform 0.3s ease;
+
+        box-shadow:  0 1.5px 2px 1px map.get( $shadow-colors, 2 ),
+                     0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
+
+        &:disabled {
+            border: 3px solid gray;
         }
         
-        &:valid {
+        &:hover {
+
         }
-    
-        &:invalid {
-        }
-    
-        &:in-range {
-    
-        }
-    
-        &:out-of-range {
-    
-        }
-    
-        &::placeholder {
-    
+
+        &:focus {
+            // transform: scaleX( 1.03 );
+            // TO-DO - draw border
+            border-bottom: 2px solid yellow;
         }
     }
 }
