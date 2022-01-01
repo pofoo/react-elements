@@ -1,5 +1,7 @@
 // dependencies
-import { useEffect, useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
+// hooks
+import { useAfterEffect } from '../../hooks';
 // lib
 import { toTitleCase } from '../../lib';
 // types
@@ -148,9 +150,8 @@ const TextInput = ( {
         ${inputType}
     `;
 
-
-    // check the form status everytime isValid changes
-    useEffect( () => {
+    // check the form status everytime isValid changes EXCEPT on initial render
+    useAfterEffect( () => {
         checkFormStatus( isParentDisabled ? isParentDisabled : false );
     }, [ isValid ] );
 

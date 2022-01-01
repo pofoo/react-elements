@@ -1,10 +1,10 @@
 // dependencies
-import { FC, FormEvent, Children, cloneElement, ReactElement, useMemo,
-    useState, useEffect } from 'react';
+import { FC, FormEvent, Children, cloneElement, ReactElement, 
+    useMemo, useState, useEffect } from 'react';
 // elements
 import { FormButton } from '../../elements';
 // lib
-import { validateChild } from '../../lib';
+import { validateChild, isObjectEmpty } from '../../lib';
 // types
 import type { FormData } from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled } from './types';
@@ -147,6 +147,11 @@ const Form: FC<Props> = ( {
     useEffect( () => {
 
     }, [ isSubmitting ] );
+
+    // check form status on initial render - if default values are specificed
+    useEffect( () => {
+        checkFormStatus( !isObjectEmpty( conditionalDisabled ) )
+    }, [] );
 
     return (
         <form id={id} className={formClasses} 
