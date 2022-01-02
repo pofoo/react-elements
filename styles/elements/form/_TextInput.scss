@@ -16,19 +16,28 @@ $text-input--border-radius:                 7px;
 .text-input-wrapper {
     display: flex;
     flex-direction: column;
+    position: relative;
     margin-bottom: 1.2rem;
 
     .text-input-label {
-        font-size: 90%;
+        font-size: 85%;
+        width: max-content;
+        background: white;
+        margin-bottom: 0.2rem;
+        padding: 0 0.3rem;
+        z-index: 2;
+
+        transition: transform 0.3s ease;
 
         .valid-icon {
             &:before {
+                position: absolute;
+                right: $text-input--border-radius;
+                opacity: 0;
+                
                 transition: opacity 0.3s ease;
             }
         }
-    }
-    
-    &.required {
     }
 
     /* SHAPE */
@@ -49,7 +58,6 @@ $text-input--border-radius:                 7px;
                 &:before {
                     content: ' ✓';
                     color: green;
-                    opacity: 0;
                 }
             }
         }
@@ -61,7 +69,6 @@ $text-input--border-radius:                 7px;
                 &:before {
                     content: ' ✖';
                     color: red;
-                    opacity: 0;
                 }
             }
         }
@@ -86,13 +93,29 @@ $text-input--border-radius:                 7px;
                     }
                 }
             }
+        }
+    }
 
-            &.required {
-                .text-input {
-                    border: 2px solid red;
+    &.focused {
+        // i dont know why i need this
+        &.valid,
+        &.not-valid {
+            .text-input-label {
+                .valid-icon {
+                    &:before {
+                        opacity: 0;
+                    }
                 }
             }
         }
+        
+        .text-input-label {
+            transform: translate( 8px, 8px );
+        }
+    }
+
+    &.not-focused {
+        
     }
 
     &.parent-conditional {
@@ -103,26 +126,26 @@ $text-input--border-radius:                 7px;
         $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
 
         padding: 0.5rem;
-        border: 1px solid blue;
+        outline: 1px solid gray;
     
-        transition: border 0.3s ease,
-                    transform 0.3s ease;
+        transition: transform 0.3s ease,
+                    background 0.3s ease;
 
-        box-shadow:  0 1.5px 2px 1px map.get( $shadow-colors, 2 ),
-                     0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
+        box-shadow: 0 1.5px 2px 1px map.get( $shadow-colors, 2 ),
+                    0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
+
 
         &:disabled {
             border: 3px solid gray;
         }
         
         &:hover {
-
+            outline: 2px solid gray;
         }
 
         &:focus {
-            // transform: scaleX( 1.03 );
-            // TO-DO - draw border
-            border-bottom: 2px solid yellow;
+            transform: scaleX( 1.05 );
+            outline: 2px solid map.get( $colors, 'brand-blue', 3 );
         }
     }
 }

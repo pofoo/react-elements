@@ -2,22 +2,28 @@
 @use 'sass:map';
 // constants
 @use '../constants/colors' as *;
+// utils
+@use '../utils/colors' as *;
+
 
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
 $tag--padding:              0.8rem;
-$tag--border:               0.12em solid black;
+$tag--border:               2px solid #000;
 $tag--border-radius:        0.6rem;
 
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
 .tag-wrapper {
+    $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
+
     padding: $tag--padding;
     border: $tag--border;
     width: max-content;
-    box-shadow: 0 3px 3px map.get( $shadow, 2 );
+    box-shadow: 0 2px 2px 0.5px map.get( $shadow-colors, 2 ),
+                0 2px 2px 1px map.get( $shadow-colors, 1 );
 
     &.rounded {
         border-radius: $tag--border-radius;

@@ -130,8 +130,14 @@ const TextInput = ( {
             return value !== '';
     }
 
+    const handleBlur = () => {
+        setTouched( true );
+        setFocused( false );
+    }
+
     /* HOOKS */
     const [ touched, setTouched ] = useState<boolean>( false ); 
+    const [ focused, setFocused ] = useState<boolean>( autoFocus ? true : false );
     const [ isValid, setIsValid ] = useState<boolean>( 
         value === '' ? !inputRequired : checkValid( value ) );
 
@@ -147,6 +153,7 @@ const TextInput = ( {
         ${inputRequired ? 'required' : 'not-required'}
         ${isValidClasses}
         ${isParentDisabled ? 'parent-conditional' : ''}
+        ${focused ? 'focused' : 'not-focused'}
         ${className}
     `;
 
@@ -157,7 +164,7 @@ const TextInput = ( {
     `;
 
     /* ACCESSIBILITY */
-    const validIconAriaLabel = `${inputName} ${isValidClasses} icon`
+    const validIconAriaLabel = `${inputName} ${isValidClasses} icon`;
 
     // check the form status everytime isValid changes EXCEPT on initial render
     useAfterEffect( () => {
@@ -173,10 +180,12 @@ const TextInput = ( {
                     aria-label={validIconAriaLabel} aria-hidden={!touched} />
             </label>
             <input id={inputID} className={textInputClasses} type={inputType}
-                onChange={handleChange} onBlur={() => setTouched( true )}
+                onChange={handleChange} onBlur={handleBlur} onFocus={() => setFocused( true )}
                 name={inputName} value={value} required={inputRequired} 
                 disabled={disabled} autoFocus={autoFocus}
-                maxLength={maxLength} {...rest} />
+                maxLength={maxLength} 
+                autoComplete='off'
+                {...rest} />
         </div>
     )
 }
