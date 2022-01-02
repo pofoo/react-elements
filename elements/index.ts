@@ -7,6 +7,7 @@ import Card from './card';
 import AccountTag from './account-tag';
 import NavLink from './nav-link';
 import { Checkbox, FileInput, Radio, Search, Select, TextInput } from './form';
+import Blurb from './blurb';
 
 export {
     FormButton,
@@ -30,4 +31,5 @@ export {
     Search,
     Select,
     TextInput,
+    Blurb,
 }
