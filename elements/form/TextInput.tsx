@@ -41,6 +41,7 @@ export interface Props {
     // styling
     isRounded?: boolean;
     showValid?: boolean;
+    animateNotValid?: boolean;
 }
 
 /**
@@ -63,6 +64,7 @@ const TextInput = ( {
     maxLength=1000,
     isRounded=true,
     showValid=true,
+    animateNotValid=true,
     ...rest
 }: Props ) => {
 
@@ -162,6 +164,7 @@ const TextInput = ( {
     const textInputClasses = `
         input
         text-input
+        ${animateNotValid ? 'animate-not-valid' : ''}
         ${inputType}
     `;
 

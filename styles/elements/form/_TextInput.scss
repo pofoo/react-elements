@@ -12,6 +12,7 @@ $text-input--border-radius:                     7px;
 $text-input--margin-bottom:                     0.25rem;
 $text-input--transition-time:                   0.24s;
 $text-input-valid-icon--transition-time:        0.15s;
+$text-input--valid-animation-delay:             $text-input--transition-time * 0.7;
 
 /*--------------------------------------------------------------
 # Styling
@@ -116,13 +117,18 @@ $text-input-valid-icon--transition-time:        0.15s;
                 opacity: 0;
 
                 transition: opacity $text-input-valid-icon--transition-time ease
-                            $text-input--transition-time * 0.7;
+                            $text-input--valid-animation-delay;
             }
         }
 
         &.touched {
             &.not-valid {
-                // TO-DO - do the shake animation
+                .text-input {
+                    &.animate-not-valid {
+                        animation: text-input-shake $text-input--transition-time ease-in-out
+                                $text-input--valid-animation-delay;
+                    }
+                }
             }
         }
     }
@@ -152,5 +158,14 @@ $text-input-valid-icon--transition-time:        0.15s;
                 outline: 2px solid map.get( $colors, 'brand-blue', 3 );
             }
         }
+    }
+}
+
+@keyframes text-input-shake {
+    33% {
+        transform: skew( 1deg, 1deg );
+    }
+    66% {
+        transform: skew( -1deg, -1deg );
     }
 }
