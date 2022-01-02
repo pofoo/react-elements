@@ -6,6 +6,8 @@ import { useAfterEffect } from '../../hooks';
 import { toTitleCase } from '../../lib';
 // types
 import type { SetFormData, ConditionalProps } from 'types';
+// partials
+import Required from './Required'
 
 /* CONSTANTS */
 const EMAIL_VALIDATION = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -181,7 +183,11 @@ const TextInput = ( {
             <label className='label text-input-label' htmlFor={inputID}>
                 <div className='text'>
                     {inputLabel}
-                    {inputRequired && '*'}
+                    {
+                        inputRequired && (
+                            <Required />
+                        )
+                    }
                 </div>
                 {
                     showValid && (
@@ -193,9 +199,10 @@ const TextInput = ( {
                 }
             </label>
             <input id={inputID} className={textInputClasses} type={inputType}
-                onChange={handleChange} onBlur={handleBlur} onFocus={() => setFocused( true )}
+                onChange={handleChange} onBlur={handleBlur} 
+                onFocus={() => setFocused( true )} pattern={`${pattern}`}
                 name={inputName} value={value} required={inputRequired} 
-                disabled={disabled} autoFocus={autoFocus} maxLength={maxLength} 
+                disabled={disabled} autoFocus={autoFocus} maxLength={maxLength}
                 autoComplete='off'
                 {...rest} />
         </div>
