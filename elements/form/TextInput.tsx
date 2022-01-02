@@ -40,6 +40,7 @@ export interface Props {
     maxLength?: number;
     // styling
     isRounded?: boolean;
+    showValid?: boolean;
 }
 
 /**
@@ -61,6 +62,7 @@ const TextInput = ( {
     pattern,
     maxLength=1000,
     isRounded=true,
+    showValid=true,
     ...rest
 }: Props ) => {
 
@@ -174,10 +176,18 @@ const TextInput = ( {
     return (
         <div className={textInputWrapperClasses}>
             <label className='label text-input-label' htmlFor={inputID}>
-                {inputLabel}
-                {inputRequired && '*'}
-                <span className='valid-icon' role='presentation' 
-                    aria-label={validIconAriaLabel} aria-hidden={!touched && !focused} />
+                <div className='text'>
+                    {inputLabel}
+                    {inputRequired && '*'}
+                </div>
+                {
+                    showValid && (
+                        <div className='valid-icon' role='presentation' 
+                            aria-label={validIconAriaLabel} aria-hidden={!touched && !focused}>
+                            {isValid ? ' ✓' : ' ✖'}
+                        </div>
+                    )
+                }
             </label>
             <input id={inputID} className={textInputClasses} type={inputType}
                 onChange={handleChange} onBlur={handleBlur} onFocus={() => setFocused( true )}

@@ -8,7 +8,10 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$text-input--border-radius:                 7px;
+$text-input--border-radius:                     7px;
+$text-input--margin-bottom:                     0.25rem;
+$text-input--transition-time:                   0.24s;
+$text-input-valid-icon--transition-time:        0.15s;
 
 /*--------------------------------------------------------------
 # Styling
@@ -20,30 +23,30 @@ $text-input--border-radius:                 7px;
     margin-bottom: 1.2rem;
 
     .text-input-label {
-        font-size: 85%;
-        width: max-content;
-        background: white;
-        margin-bottom: 0.2rem;
-        padding: 0 0.3rem;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $text-input--margin-bottom;
         z-index: 2;
+        font-size: 85%;
 
-        transition: transform 0.27s ease;
+        .text {
+            padding: 0 0.3rem;
+            background: white;
+
+            transition: transform $text-input--transition-time ease;
+        }
 
         .valid-icon {
-            &:before {
-                position: absolute;
-                right: $text-input--border-radius;
-                opacity: 0;
-                
-                transition: opacity 0.3s ease 0.27s;
-            }
+            margin-right: $text-input--border-radius;
+
+            transition: opacity $text-input-valid-icon--transition-time ease;
         }
     }
 
     .text-input {
         $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
 
-        padding: 0.5rem;
+        padding: 0.6rem;
         outline: 1px solid gray;
     
         transition: transform 0.3s ease;
@@ -52,14 +55,17 @@ $text-input--border-radius:                 7px;
                     0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
 
         &:disabled {
-            border: 3px solid gray;
+            // TO-DO - change these colors
+            outline: 3px solid gray;
+            background: lightgray;
         }
-        
-        &:hover {
-            outline: 2px solid gray;
+
+        &:not( :disabled ) {
+            &:hover {
+                outline: 2px solid gray;
+            }
         }
     }
-
 
     /* SHAPE */
     &.rounded {
@@ -73,13 +79,14 @@ $text-input--border-radius:                 7px;
     }
 
     /* STATES */
+    &.parent-conditional {
+        // TO-DO - give some indication of parent conditional
+    }
+
     &.valid {
         .text-input-label {
             .valid-icon {
-                &:before {
-                    content: ' ✓';
-                    color: green;
-                }
+                color: green;
             }
         }
     }
@@ -87,32 +94,35 @@ $text-input--border-radius:                 7px;
     &.not-valid {
         .text-input-label {
             .valid-icon {
-                &:before {
-                    content: ' ✖';
-                    color: red;
-                }
+                color: red;
             }
         }
     }
 
     &.touched {
-        &.valid {
-            .text-input-label {
-                .valid-icon {
-                    &:before {
-                        opacity: 1;
-                    }
-                }
-            }
-        }
-
+        &.valid,
         &.not-valid {
             .text-input-label {
                 .valid-icon {
-                    &:before {
-                        opacity: 1;
-                    }
+                    opacity: 1;
                 }
+            }
+        }
+    }
+
+    &.not-focused {
+        .text-input-label {
+            .valid-icon {
+                opacity: 0;
+
+                transition: opacity $text-input-valid-icon--transition-time ease
+                            $text-input--transition-time * 0.7;
+            }
+        }
+
+        &.touched {
+            &.not-valid {
+                // TO-DO - do the shake animation
             }
         }
     }
@@ -122,25 +132,25 @@ $text-input--border-radius:                 7px;
         &.not-valid {
             .text-input-label {
                 .valid-icon {
-                    &:before {
-                        content: '';
-                        opacity: 0;
-                    }
+                    opacity: 0;
                 }
             }
         }
         
         .text-input-label {
-            transform: translate( 8px, 8px );
+            .text {
+                $translate: $text-input--margin-bottom * 2.5;
+
+                transform: translate( $translate, $translate );
+            }
         }
 
         .text-input {
             transform: scaleX( 1.05 );
-            outline: 2px solid map.get( $colors, 'brand-blue', 3 );
+
+            &:hover {
+                outline: 2px solid map.get( $colors, 'brand-blue', 3 );
+            }
         }
-    }
-
-    &.parent-conditional {
-
     }
 }
