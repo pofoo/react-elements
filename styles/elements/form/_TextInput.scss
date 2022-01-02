@@ -27,7 +27,7 @@ $text-input--border-radius:                 7px;
         padding: 0 0.3rem;
         z-index: 2;
 
-        transition: transform 0.3s ease;
+        transition: transform 0.27s ease;
 
         .valid-icon {
             &:before {
@@ -35,10 +35,31 @@ $text-input--border-radius:                 7px;
                 right: $text-input--border-radius;
                 opacity: 0;
                 
-                transition: opacity 0.3s ease;
+                transition: opacity 0.3s ease 0.27s;
             }
         }
     }
+
+    .text-input {
+        $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
+
+        padding: 0.5rem;
+        outline: 1px solid gray;
+    
+        transition: transform 0.3s ease;
+
+        box-shadow: 0 1.5px 2px 1px map.get( $shadow-colors, 2 ),
+                    0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
+
+        &:disabled {
+            border: 3px solid gray;
+        }
+        
+        &:hover {
+            outline: 2px solid gray;
+        }
+    }
+
 
     /* SHAPE */
     &.rounded {
@@ -97,12 +118,12 @@ $text-input--border-radius:                 7px;
     }
 
     &.focused {
-        // i dont know why i need this
         &.valid,
         &.not-valid {
             .text-input-label {
                 .valid-icon {
                     &:before {
+                        content: '';
                         opacity: 0;
                     }
                 }
@@ -112,40 +133,14 @@ $text-input--border-radius:                 7px;
         .text-input-label {
             transform: translate( 8px, 8px );
         }
-    }
 
-    &.not-focused {
-        
+        .text-input {
+            transform: scaleX( 1.05 );
+            outline: 2px solid map.get( $colors, 'brand-blue', 3 );
+        }
     }
 
     &.parent-conditional {
 
-    }
-
-    .text-input {
-        $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
-
-        padding: 0.5rem;
-        outline: 1px solid gray;
-    
-        transition: transform 0.3s ease,
-                    background 0.3s ease;
-
-        box-shadow: 0 1.5px 2px 1px map.get( $shadow-colors, 2 ),
-                    0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
-
-
-        &:disabled {
-            border: 3px solid gray;
-        }
-        
-        &:hover {
-            outline: 2px solid gray;
-        }
-
-        &:focus {
-            transform: scaleX( 1.05 );
-            outline: 2px solid map.get( $colors, 'brand-blue', 3 );
-        }
     }
 }

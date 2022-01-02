@@ -177,13 +177,12 @@ const TextInput = ( {
                 {inputLabel}
                 {inputRequired && '*'}
                 <span className='valid-icon' role='presentation' 
-                    aria-label={validIconAriaLabel} aria-hidden={!touched} />
+                    aria-label={validIconAriaLabel} aria-hidden={!touched && !focused} />
             </label>
             <input id={inputID} className={textInputClasses} type={inputType}
                 onChange={handleChange} onBlur={handleBlur} onFocus={() => setFocused( true )}
                 name={inputName} value={value} required={inputRequired} 
-                disabled={disabled} autoFocus={autoFocus}
-                maxLength={maxLength} 
+                disabled={disabled} autoFocus={autoFocus} maxLength={maxLength} 
                 autoComplete='off'
                 {...rest} />
         </div>
