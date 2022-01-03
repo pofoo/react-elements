@@ -1,13 +1,15 @@
 // dependencies
-import { useState, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
 // hooks
 import { useAfterEffect } from '../../hooks';
 // lib
 import { toTitleCase } from '../../lib';
 // types
 import type { SetFormData, ConditionalProps } from 'types';
+import { TextInputTypes } from './types';
 // partials
-import Required from './Required'
+import Required from './Required';
+import { handleTextInputValidityMessages } from './handleValidityMessages';
 
 /* CONSTANTS */
 const EMAIL_VALIDATION = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -28,7 +30,7 @@ export interface Props {
     className?: string;
     name?: string;
     content?: Content;
-    type: 'email' | 'username' | 'text' | 'password';
+    type: TextInputTypes;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: ( checkDisabled: boolean ) => void;
@@ -122,6 +124,8 @@ const TextInput = ( {
         } );
 
         setIsValid( newValid );
+        if ( inputRequired ) 
+            handleValidityMessages();
     }
 
     // assumes the input is required
@@ -141,7 +145,14 @@ const TextInput = ( {
         setFocused( false );
     }
 
+    const handleValidityMessages = () => {
+        const target = ref.current as HTMLInputElement;
+
+        handleTextInputValidityMessages( target, inputType );
+    }
+
     /* HOOKS */
+    const ref = useRef<HTMLInputElement>( null );
     const [ touched, setTouched ] = useState<boolean>( false ); 
     const [ focused, setFocused ] = useState<boolean>( autoFocus ? true : false );
     const [ isValid, setIsValid ] = useState<boolean>( 
@@ -178,6 +189,11 @@ const TextInput = ( {
         checkFormStatus( isParentDisabled ? isParentDisabled : false );
     }, [ isValid ] );
 
+    useEffect( () => {
+        if ( inputRequired ) 
+            handleValidityMessages();
+    }, [] );
+
     return (
         <div className={textInputWrapperClasses}>
             <label className='label text-input-label' htmlFor={inputID}>
@@ -194,11 +210,14 @@ const TextInput = ( {
                         <div className='valid-icon' role='presentation' 
                             aria-label={validIconAriaLabel} aria-hidden={!touched && !focused}>
                             {isValid ? ' ✓' : ' ✖'}
+                            {
+                                // TO-DO - render a blurb ONLY IF there is a custom validity message
+                            }
                         </div>
                     )
                 }
             </label>
-            <input id={inputID} className={textInputClasses} type={inputType}
+            <input ref={ref} id={inputID} className={textInputClasses} type={inputType}
                 onChange={handleChange} onBlur={handleBlur} 
                 onFocus={() => setFocused( true )} pattern={`${pattern}`}
                 name={inputName} value={value} required={inputRequired} 

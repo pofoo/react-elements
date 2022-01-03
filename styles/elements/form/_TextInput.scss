@@ -4,6 +4,7 @@
 @use '../../constants/colors' as *;
 // utils
 @use '../../utils/colors' as *;
+@use '../../utils/selectors' as *;
 
 /*--------------------------------------------------------------
 # Variables
@@ -155,7 +156,7 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
         .text-input {
             transform: scaleX( 1.05 );
 
-            &:hover {
+            @include tap {
                 outline: 2px solid map.get( $colors, 'brand-blue', 3 );
             }
         }
