@@ -15,6 +15,7 @@ const Blurb: FC<Props> = ( {
     className='',
 } ) => {
 
+    /* CLASSNAMES */
     const blurbClasses = `
         blurb
         ${className}

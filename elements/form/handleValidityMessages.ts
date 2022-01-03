@@ -1,11 +1,11 @@
 // types
 import { TextInputTypes } from './types';
+// lib
+import { aOrAn } from '../../lib';
 
 const handleTextInputValidityMessages = ( 
     target: HTMLInputElement,
-    type: TextInputTypes,
 ) => {
-
     if ( target.validity.valueMissing )
         target.setCustomValidity( "Don't forget to fill this out!" );
 
@@ -14,6 +14,7 @@ const handleTextInputValidityMessages = (
 
     else if ( target.validity.patternMismatch ) {
         const value = target.value;
+        const type = target.type as TextInputTypes;
 
         if ( type === 'email' ) {
             if ( value.includes( '@' ) )
@@ -28,7 +29,9 @@ const handleTextInputValidityMessages = (
 
         }
         else if ( type === 'text' ) {
+            const name = target.name;
 
+            target.setCustomValidity( `This dosen't look like ${aOrAn(name)} ${name}`)
         }
     }
 }

@@ -22,6 +22,7 @@ const PASSWORD_VALIDATION = /^/;
 interface Content {
     label?: string;
     value?: string;
+    placeholder?: string;
 }
 
 export interface Props {
@@ -74,13 +75,14 @@ const TextInput = ( {
 
     // look into datalist
     /* CONTENT */
-    const { label, value='' } = content;
+    const { label, placeholder='', value='' } = content;
 
     // by default we assume parameters for type='text'
     let inputID = id;
     let inputType = type;
     let inputName = name;
     let inputLabel = label;
+    let inputPlaceholder  = placeholder;
     let inputRequired = required;
 
     if ( type === 'username' || type === 'email' || type ==='password' ) {
@@ -89,8 +91,15 @@ const TextInput = ( {
         inputName = name !== undefined ? name : type;
         inputLabel = label !== undefined ? label : toTitleCase( type );
         inputRequired = required !== undefined ? required : true;
+
+        if ( type === 'username' ) 
+            inputPlaceholder = 'doggie69'
+        else if ( type === 'email' )
+            inputPlaceholder = 'example@gmail.com'
+        else if ( type === 'password' )
+            inputPlaceholder = '*****';
     }
-    if ( type === 'text' ) {
+    else if ( type === 'text' ) {
         inputID = id !== undefined ? id : name;
         inputRequired = required !== undefined ? required : false;
     }
@@ -148,7 +157,7 @@ const TextInput = ( {
     const handleValidityMessages = () => {
         const target = ref.current as HTMLInputElement;
 
-        handleTextInputValidityMessages( target, inputType );
+        handleTextInputValidityMessages( target );
     }
 
     /* HOOKS */
@@ -222,6 +231,7 @@ const TextInput = ( {
                 onFocus={() => setFocused( true )} pattern={`${pattern}`}
                 name={inputName} value={value} required={inputRequired} 
                 disabled={disabled} autoFocus={autoFocus} maxLength={maxLength}
+                placeholder={inputPlaceholder}
                 autoComplete='off'
                 {...rest} />
         </div>
