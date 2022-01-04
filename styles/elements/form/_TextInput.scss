@@ -56,12 +56,7 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
                 position: absolute;
                 top: -50%;
                 left: $text-input--border-radius * 2.5;
-                // TO-DO - maybe make this 2 lines for really long text?
-                // i wonder if there is a way to calc the width according to its distance
-                // to the right of the browser...
-                // white-space: nowrap;
-                // overflow: clip;
-                // pointer-events: none;
+                width: 11rem;
                 font-size: 85%;
                 color: #000;
 
@@ -75,7 +70,7 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
                             visibility $text-input-valid-icon--transition-time ease;
             }
 
-            &:hover {
+            @include tap {
                 .text-input-blurb {
                     visibility: visible;
                     opacity: 1;
@@ -185,6 +180,10 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
             .text-input-label {
                 .valid-icon {
                     opacity: 0;
+
+                    .text-input-blurb {
+                        visibility: hidden;
+                    }
                 }
             }
         }

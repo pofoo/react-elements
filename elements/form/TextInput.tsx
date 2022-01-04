@@ -225,7 +225,7 @@ const TextInput = ( {
                                 ref.current?.validationMessage !== '' &&
                                 !isValid && (
                                     <Blurb className='text-input-blurb' color={isValid ? 'green' : 'pink'}>
-                                        {ref.current?.validationMessage}  fdsajkf hj hs fhjksdh jkshf jkahf jkasdhk
+                                        {ref.current?.validationMessage}
                                     </Blurb>
                                 )
                             }
