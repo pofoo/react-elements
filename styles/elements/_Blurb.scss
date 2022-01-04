@@ -1,3 +1,36 @@
+// dependencies
+@use 'sass:map';
+@use 'sass:color';
+// constants
+@use '../constants/colors' as *;
+// utils
+@use '../utils/colors' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$blurb--padding:                    0.6rem;
+$blurb--border-radius:              10px;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
 .blurb {
+    $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
     
+    width: max-content;
+    padding: $blurb--padding;
+    border-radius: 10px;
+
+    box-shadow: 0 1.5px 1px 0.5px map.get( $shadow-colors, 2 ),
+                0 1.5px 1px 1px map.get( $shadow-colors, 1 );
+
+    @each $color, $color-map in $colors {
+        &.#{$color} {
+            $background: color.adjust( 
+                map.get( $color-map, 2 ), $alpha: -0.02 );
+
+            background: $background;
+        }
+    }
 }

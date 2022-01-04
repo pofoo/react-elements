@@ -7,6 +7,8 @@ import { toTitleCase } from '../../lib';
 // types
 import type { SetFormData, ConditionalProps } from 'types';
 import { TextInputTypes } from './types';
+// elements
+import { Blurb } from '../../elements';
 // partials
 import Required from './Required';
 import { handleTextInputValidityMessages } from './handleValidityMessages';
@@ -133,8 +135,7 @@ const TextInput = ( {
         } );
 
         setIsValid( newValid );
-        if ( inputRequired ) 
-            handleValidityMessages();
+        handleValidityMessages();
     }
 
     // assumes the input is required
@@ -155,9 +156,11 @@ const TextInput = ( {
     }
 
     const handleValidityMessages = () => {
-        const target = ref.current as HTMLInputElement;
-
-        handleTextInputValidityMessages( target );
+        if ( inputRequired ) {
+            const target = ref.current as HTMLInputElement;
+    
+            handleTextInputValidityMessages( target );
+        }
     }
 
     /* HOOKS */
@@ -199,8 +202,7 @@ const TextInput = ( {
     }, [ isValid ] );
 
     useEffect( () => {
-        if ( inputRequired ) 
-            handleValidityMessages();
+        handleValidityMessages();
     }, [] );
 
     return (
@@ -220,7 +222,13 @@ const TextInput = ( {
                             aria-label={validIconAriaLabel} aria-hidden={!touched && !focused}>
                             {isValid ? ' ✓' : ' ✖'}
                             {
-                                // TO-DO - render a blurb ONLY IF there is a custom validity message
+                                ref.current?.validationMessage !== '' &&
+                                // i think state is not updating on Input
+                                ref.current?.willValidate && (
+                                    <Blurb className='text-input-blurb' color={isValid ? 'green' : 'pink'}>
+                                        {ref.current?.validationMessage}  fdsajkf hj hs fhjksdh jkshf jkahf jkasdhk
+                                    </Blurb>
+                                )
                             }
                         </div>
                     )

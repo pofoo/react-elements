@@ -19,9 +19,17 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
 # Styling
 --------------------------------------------------------------*/
 .text-input-wrapper {
+    @keyframes shake {
+        33% {
+            transform: skew( 1deg, 1deg );
+        }
+        66% {
+            transform: skew( -1deg, -1deg );
+        }
+    }
+
     display: flex;
     flex-direction: column;
-    position: relative;
     margin-bottom: 1.2rem;
 
     .text-input-label {
@@ -39,9 +47,34 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
         }
 
         .valid-icon {
+            position: relative;
             margin-right: $text-input--border-radius;
 
             transition: opacity $text-input-valid-icon--transition-time ease;
+
+            .text-input-blurb {
+                position: absolute;
+                top: -50%;
+                left: $text-input--border-radius * 3;
+                // TO-DO - maybe make this 2 lines for really long text?
+                white-space: nowrap;
+                pointer-events: none;
+                font-size: 85%;
+                color: #000;
+                opacity: 0;
+                transform: scaleX( 0.9 );
+                transform-origin: left;
+
+                transition: opacity $text-input-valid-icon--transition-time ease,
+                            transform $text-input-valid-icon--transition-time ease;
+            }
+
+            &:hover {
+                .text-input-blurb {
+                    opacity: 1;
+                    transform: scaleX( 1 );
+                }
+            }
         }
     }
 
@@ -50,12 +83,12 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
 
         padding: 0.6rem;
         outline: 1px solid gray;
-    
-        transition: transform $text-input--transition-time ease,
-                    background $text-input--transition-time ease;
 
         box-shadow: 0 1.5px 2px 1px map.get( $shadow-colors, 2 ),
                     0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
+
+        transition: transform $text-input--transition-time ease,
+                    background $text-input--transition-time ease;
 
         &:disabled {
             // TO-DO - change these colors
@@ -127,7 +160,7 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
             &.not-valid {
                 .text-input {
                     &.animate-not-valid {
-                        animation: text-input-shake $text-input--transition-time ease-in-out
+                        animation: shake $text-input--transition-time ease-in-out
                                 $text-input--valid-animation-delay;
                     }
                 }
@@ -160,14 +193,5 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
                 outline: 2px solid map.get( $colors, 'brand-blue', 3 );
             }
         }
-    }
-}
-
-@keyframes text-input-shake {
-    33% {
-        transform: skew( 1deg, 1deg );
-    }
-    66% {
-        transform: skew( -1deg, -1deg );
     }
 }
