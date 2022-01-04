@@ -1,5 +1,7 @@
 // dependencies
 import { FC } from 'react';
+// elements
+import { Triangle } from '../../elements';
 // types
 import { Colors } from 'types';
 
