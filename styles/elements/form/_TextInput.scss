@@ -65,8 +65,8 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
                 font-size: 85%;
                 color: #000;
 
-                // visibility: hidden;
-                // opacity: 0;
+                visibility: hidden;
+                opacity: 0;
                 transform: scaleX( 0.9 );
                 transform-origin: left;
 

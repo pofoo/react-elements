@@ -223,8 +223,7 @@ const TextInput = ( {
                             {isValid ? ' ✓' : ' ✖'}
                             {
                                 ref.current?.validationMessage !== '' &&
-                                // i think state is not updating on Input
-                                ref.current?.willValidate && (
+                                !isValid && (
                                     <Blurb className='text-input-blurb' color={isValid ? 'green' : 'pink'}>
                                         {ref.current?.validationMessage}  fdsajkf hj hs fhjksdh jkshf jkahf jkasdhk
                                     </Blurb>
