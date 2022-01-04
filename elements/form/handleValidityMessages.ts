@@ -1,7 +1,7 @@
 // types
 import { TextInputTypes } from './types';
 // lib
-import { aOrAn } from '../../lib';
+import { aOrAn, toTitleCase } from '../../lib';
 
 const handleTextInputValidityMessages = ( 
     target: HTMLInputElement,
@@ -31,7 +31,7 @@ const handleTextInputValidityMessages = (
         else if ( type === 'text' ) {
             const name = target.name;
 
-            target.setCustomValidity( `This dosen't look like ${aOrAn(name)} ${name}`)
+            target.setCustomValidity( `This dosen't look like ${aOrAn(name)} ${toTitleCase(name)}`)
         }
     }
 }
