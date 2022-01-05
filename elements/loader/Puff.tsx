@@ -1,14 +1,16 @@
+// types
+import { Colors } from 'types';
 
 /* TYPES */
 interface Props {
     className?: string;
-    color: string
     ariaLabel: string;
+    color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
 }
 
 const Puff =( {
     className='',
-    color,
+    color='green',
     ariaLabel
 }: Props ) => {
 

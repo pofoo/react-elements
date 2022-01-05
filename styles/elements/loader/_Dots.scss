@@ -1,0 +1,60 @@
+ // dependencies
+ @use 'sass:map';
+ @use 'sass:color';
+ @use 'sass:math';
+ // constants
+ @use '../../constants/colors' as *;
+ // utils
+ @use '../../utils/position' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$dots--size:                            0.9rem;
+$dots--margin:                          math.div( $dots--size, 4 );
+$dots--animation-duration:              1.2s;
+$dots--animation--delay:                math.div( $dots--animation-duration, 2 );
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.dots-wrapper {
+    @keyframes pulsate {
+        50% {
+            transform: scale( 0.75 );
+            opacity: 0.2;
+        }
+        100% {
+            transform: scale( 1 );
+            opacity: 1;
+        }
+    }
+
+    margin: auto;
+
+    .dot {
+        display: inline-block;
+        width: $dots--size;
+        height: $dots--size;
+        margin: $dots--margin;
+        border-radius: 50%;
+
+        animation: pulsate $dots--animation-duration infinite linear;
+        animation-fill-mode: both;
+
+        &:nth-child( odd ) {
+            animation-delay: $dots--animation--delay;
+        }
+    }
+
+    /* COLORS */
+    @each $color, $color-map in $colors {
+        &.#{$color} {
+            .dot {
+                $background: map.get( $color-map, 3 );
+
+                background: $background;;
+            }
+        }
+    }
+}

@@ -8,6 +8,7 @@ import AccountTag from './account-tag';
 import NavLink from './nav-link';
 import { Checkbox, FileInput, Radio, Search, Select, TextInput } from './form';
 import Blurb from './blurb';
+import { Puff, Success, Fail, Dots } from './loader';
 
 export {
     FormButton,
@@ -32,4 +33,8 @@ export {
     Select,
     TextInput,
     Blurb,
+    Puff,
+    Success,
+    Fail,
+    Dots,
 }

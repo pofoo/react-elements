@@ -72,8 +72,10 @@ $puff--animation-delay:         0.3s;
     @each $color, $color-map in $colors {
         &.#{$color} {
             .puff {
-                border-color: color.adjust( 
-                            map.get( $color-map, 4 ), $lightness: -8% );
+                $color: color.adjust( 
+                    map.get( $color-map, 4 ), $lightness: -8% );
+
+                border-color: $color;
             }
         }
     }
