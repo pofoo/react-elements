@@ -3,7 +3,7 @@ import { useState, useRef, ChangeEvent, useEffect } from 'react';
 // hooks
 import { useAfterEffect } from '../../hooks';
 // lib
-import { toTitleCase, isMobile } from '../../lib';
+import { toTitleCase, isMobile, getTargetSize } from '../../lib';
 // types
 import type { SetFormData, ConditionalProps } from 'types';
 import { TextInputTypes } from './types';
@@ -111,11 +111,6 @@ const TextInput = ( {
         inputRequired = required !== undefined ? required : false;
     }
 
-    let blurbStyles: BlurbStyles = {};
-    if ( isMobile() ) {
-
-    }
-
     /* ERRORS */
     if ( inputID === undefined )
         throw( SyntaxError( 'If type is text, an ID must be provided for the input' ) );
@@ -175,6 +170,7 @@ const TextInput = ( {
 
     /* HOOKS */
     const inputRef = useRef<HTMLInputElement>( null );
+    const blurbRef = useRef<HTMLDivElement>( null );
     const [ touched, setTouched ] = useState<boolean>( false ); 
     const [ focused, setFocused ] = useState<boolean>( autoFocus ? true : false );
     const [ isValid, setIsValid ] = useState<boolean>( 
@@ -215,6 +211,17 @@ const TextInput = ( {
         handleValidityMessages();
     }, [] );
 
+    /* STYLES */
+    let blurbStyles: BlurbStyles = {};
+    if ( isMobile() ) {
+        // const [ width, height ] = getTargetSize( blurbRef.current as HTMLDivElement );
+    
+        // blurbStyles = {
+        //     top: `${-height}px`,
+        //     left: `${-width}px`,
+        // }
+    }
+
     return (
         <div className={textInputWrapperClasses}>
             <label className='label text-input-label' htmlFor={inputID}>
@@ -234,8 +241,8 @@ const TextInput = ( {
                             {
                                 inputRef.current?.validationMessage !== '' &&
                                 !isValid && (
-                                    <Blurb className='text-input-blurb' 
-                                        color={isValid ? 'green' : 'pink'}  style={{}}>
+                                    <Blurb ref={blurbRef} className='text-input-blurb' 
+                                        color={isValid ? 'green' : 'pink'}  style={blurbStyles}>
                                         {inputRef.current?.validationMessage}
                                     </Blurb>
                                 )
