@@ -2,6 +2,7 @@
 @use 'sass:map';
 // constants
 @use '../../constants/colors' as *;
+@use '../../constants/breakpoints' as *;
 // utils
 @use '../../utils/colors' as *;
 @use '../../utils/selectors' as *;
@@ -53,10 +54,12 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
             transition: opacity $text-input-valid-icon--transition-time ease;
 
             .text-input-blurb {
+                $width: 11rem;
+
                 position: absolute;
                 top: -50%;
                 left: $text-input--border-radius * 2.5;
-                width: 11rem;
+                width: $width;
                 font-size: 85%;
                 color: #000;
 
@@ -68,6 +71,11 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
                 transition: opacity $text-input-valid-icon--transition-time ease,
                             transform $text-input-valid-icon--transition-time ease,
                             visibility $text-input-valid-icon--transition-time ease;
+
+                @media ( max-width: $breakpoint--small ) {
+                    left: -$width * 1.02;
+                    transform-origin: right;
+                }
             }
 
             @include tap {
