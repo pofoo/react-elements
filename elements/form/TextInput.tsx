@@ -3,7 +3,7 @@ import { useState, useRef, ChangeEvent, useEffect } from 'react';
 // hooks
 import { useAfterEffect } from '../../hooks';
 // lib
-import { toTitleCase } from '../../lib';
+import { toTitleCase, isMobile } from '../../lib';
 // types
 import type { SetFormData, ConditionalProps } from 'types';
 import { TextInputTypes } from './types';
@@ -49,6 +49,11 @@ export interface Props {
     isRounded?: boolean;
     showValid?: boolean;
     animateNotValid?: boolean;
+}
+
+interface BlurbStyles {
+    top?: string;
+    left?: string;
 }
 
 /**
@@ -106,6 +111,11 @@ const TextInput = ( {
         inputRequired = required !== undefined ? required : false;
     }
 
+    let blurbStyles: BlurbStyles = {};
+    if ( isMobile() ) {
+
+    }
+
     /* ERRORS */
     if ( inputID === undefined )
         throw( SyntaxError( 'If type is text, an ID must be provided for the input' ) );
@@ -157,14 +167,14 @@ const TextInput = ( {
 
     const handleValidityMessages = () => {
         if ( inputRequired ) {
-            const target = ref.current as HTMLInputElement;
+            const target = inputRef.current as HTMLInputElement;
     
             handleTextInputValidityMessages( target );
         }
     }
 
     /* HOOKS */
-    const ref = useRef<HTMLInputElement>( null );
+    const inputRef = useRef<HTMLInputElement>( null );
     const [ touched, setTouched ] = useState<boolean>( false ); 
     const [ focused, setFocused ] = useState<boolean>( autoFocus ? true : false );
     const [ isValid, setIsValid ] = useState<boolean>( 
@@ -222,10 +232,11 @@ const TextInput = ( {
                             aria-label={validIconAriaLabel} aria-hidden={!touched && !focused}>
                             {isValid ? ' ✓' : ' ✖'}
                             {
-                                ref.current?.validationMessage !== '' &&
+                                inputRef.current?.validationMessage !== '' &&
                                 !isValid && (
-                                    <Blurb className='text-input-blurb' color={isValid ? 'green' : 'pink'}>
-                                        {ref.current?.validationMessage}
+                                    <Blurb className='text-input-blurb' 
+                                        color={isValid ? 'green' : 'pink'}  style={{}}>
+                                        {inputRef.current?.validationMessage}
                                     </Blurb>
                                 )
                             }
@@ -233,7 +244,7 @@ const TextInput = ( {
                     )
                 }
             </label>
-            <input ref={ref} id={inputID} className={textInputClasses} type={inputType}
+            <input ref={inputRef} id={inputID} className={textInputClasses} type={inputType}
                 onChange={handleChange} onBlur={handleBlur} 
                 onFocus={() => setFocused( true )} pattern={`${pattern}`}
                 name={inputName} value={value} required={inputRequired} 
