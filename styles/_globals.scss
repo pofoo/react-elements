@@ -17,4 +17,9 @@ main.site-content {
   // text-align: center;
 }
 
+// for transitions the bring an element off the screen onto the screen
+.overflow-transition {
+  overflow: hidden;
+}
+
 // add other customer fonts with classNames here...

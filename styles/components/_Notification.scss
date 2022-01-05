@@ -1,0 +1,64 @@
+// dependencies
+@use 'sass:map';
+// constants
+@use '../constants/colors' as *;
+// utils
+@use '../utils/colors' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$notification--padding:             1.5rem;
+$notification--border-radius:       4px;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.notification {
+    $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
+
+    position: absolute;
+    width: max-content;
+    padding: $notification--padding;
+
+    box-shadow: 0 1.5px 1px 0.5px map.get( $shadow-colors, 2 ),
+                0 1.5px 1px 1px map.get( $shadow-colors, 1 );
+
+    /* STYLING */
+    &.rounded {
+        border-radius: $notification--border-radius;
+    }
+
+    @each $color, $color-map in $colors {
+        &.#{$color} {
+            $background: map.get( $color-map, 2 );
+
+            background: $background;
+        }
+    }
+
+    /* POSITIONING */
+    &.top-right {
+        top: 3%;
+        right: 3%;
+    }
+}
+
+/* CSS-TRANSITION */
+.notification-top-right-enter {
+    transform: translateX( 100% );
+}
+
+.notification-top-right-enter-active {
+    transform: translateX( 0 );
+
+    transition: transform 0.3s ease;
+}
+
+.notification-top-right-exit-active {
+    transform: scale( 0 );
+    opacity: 0;
+
+    transition: transform 0.45s ease,
+                opacity 0.45s ease;
+}
