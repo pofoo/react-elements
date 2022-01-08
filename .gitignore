@@ -2,6 +2,7 @@
 
 # custom
 .vscode
+build-storybook.log
 
 # dependencies
 /node_modules
