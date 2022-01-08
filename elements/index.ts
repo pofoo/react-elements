@@ -2,7 +2,7 @@ import { FormButton, ToggleButton, LinkButton } from './button';
 import SVG from './svg';
 import { Arrow, Chevron, Hamburger, Triangle, Diamond, Line } from './icon';
 import Tag from './tag';
-import { TextHighlight, Header } from './text';
+import { TextHighlight, Heading } from './text';
 import Card from './card';
 import AccountTag from './account-tag';
 import NavLink from './nav-link';
@@ -23,7 +23,7 @@ export {
     Line,
     Tag,
     TextHighlight,
-    Header,
+    Heading,
     Card,
     AccountTag,
     NavLink,

@@ -16,9 +16,9 @@ interface Props {
 }
 
 /**
- * Header Text. 
+ * Heading Text. 
  */
-const Header = ( {
+const Heading = ( {
     Tag='h2',
     className='',
     content,
@@ -31,18 +31,18 @@ const Header = ( {
     const { text } = content;
 
     /* CLASSNAMES */
-    const headerClasses = `
-        header
+    const headingClasses = `
+        heading
         ${color}
         ${gradient ? 'gradient' : ''}
         ${link ? 'link' : ''}
         ${className}
     `;
     return (
-        <Tag className={headerClasses}>
+        <Tag className={headingClasses}>
             {text}
         </Tag>
     )
 }
 
-export default Header;
+export default Heading;
