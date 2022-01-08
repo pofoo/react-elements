@@ -9,8 +9,7 @@
     "build": "next build",
     "start": "next start",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=6cb807c918a7"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "nanoid": "^3.1.30",
