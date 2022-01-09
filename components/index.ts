@@ -7,6 +7,7 @@ import { Ticket } from './3d';
 import { Accordian, AccordianPanel } from './accordian';
 import { Form, FieldSet } from './form';
 import Notification from './notification';
+import List from './list';
 
 export {
     Hello,
@@ -20,4 +21,5 @@ export {
     Form,
     FieldSet,
     Notification,
+    List,
 }
