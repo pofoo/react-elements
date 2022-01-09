@@ -1,3 +1,14 @@
+// utils
+@use '../utils/position' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$list--padding:                 7rem;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
 .list {
     display: flex;
     flex-direction: column;
@@ -6,6 +17,12 @@
 
     .item {
         font-size: 200%;
-        margin-bottom: 5rem;
+        padding: $list--padding;
+
+        &.not-in-view {
+            opacity: 0.3;
+        }
+
+        transition: opacity 0.3s ease;
     }
 }

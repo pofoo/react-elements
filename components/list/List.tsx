@@ -1,5 +1,5 @@
-// dependencies
-import { nanoid } from 'nanoid';
+// installed hooks
+import { useInView } from 'react-intersection-observer';
 // types
 import { ReactNode } from 'react';
 
@@ -34,21 +34,26 @@ const List = ( {
         ${className}
     `;
 
-    const itemClasses = `
-        item
-        ${itemClassName} 
-    `;
-
     return (
         <ul id={id} className={listClasses}>
             {
-                // items.map( ( item ) => {
-                //     <li key={nanoid(5)} className={itemClasses}>{item}</li>
-                // } )
-                <>
-                <li className={itemClasses}>Hello</li>
-                <li className={itemClasses}>Hello</li>
-                </>
+                items.map( ( item, index ) => {
+                    const { ref, inView } = useInView( { 
+                        threshold: 0.95,
+                    } );
+
+                    const itemClasses = `
+                        item
+                        ${inView ? 'in-view' : 'not-in-view'}
+                        ${itemClassName}
+                    `;
+
+                    return (
+                        <li key={index} ref={ref} className={itemClasses}>
+                            {item}
+                        </li>
+                    )
+                } )
             }
         </ul>
     )
