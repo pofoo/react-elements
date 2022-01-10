@@ -75,7 +75,6 @@ const LinkButton = ( {
     const linkButtonClasses = `
         button-wrapper
         link-button-wrapper
-        ${className}
         ${type}
         button--${size}
         ${color}
