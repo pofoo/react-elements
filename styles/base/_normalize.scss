@@ -53,6 +53,10 @@ fieldset {
     background: none;
 }
 
+label {
+    cursor: pointer;
+}
+
 input {
     &:focus {
         outline: none;

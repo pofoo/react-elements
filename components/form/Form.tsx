@@ -10,6 +10,7 @@ import type { FormData } from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled } from './types';
 import type { Props as FieldSetProps } from './FieldSet';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
+import type { Props as DependentInputsProps } from './DependentInputs';
 // partial functions
 import initForm from './initForm';
 import transformData from './transformData';
@@ -34,6 +35,7 @@ interface ButtonProps {
 export interface Props {
     id: string;
     className?: string;
+    name: string;
     // TO-DO - find a better way to typecheck this
     onSubmit: ( input: { [ key: string ]: string } ) => void;
     buttonProps: ButtonProps;
@@ -50,6 +52,7 @@ const Form: FC<Props> = ( {
     children,
     id,
     className='',
+    name,
     onSubmit,
     buttonProps,
     conditionalDisabled={},
@@ -154,7 +157,7 @@ const Form: FC<Props> = ( {
     }, [] );
 
     return (
-        <form id={id} className={formClasses} 
+        <form id={id} className={formClasses} name={name}
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
             {
                 Children.map( children, ( child ) => {
@@ -180,6 +183,15 @@ const Form: FC<Props> = ( {
                             config[ 'isParentDisabled' ] = true;
                         
                         return cloneElement( fieldSetChild, config );
+                    }
+
+                    if ( validation === 'DependentInputs' ) {
+                        const dependentInputsChild = child as ReactElement<DependentInputsProps>;
+
+                        // i need all the TextInput props.
+                        const config = {
+
+                        }
                     }
 
                     if ( validation === 'TextInput' ) {

@@ -14,6 +14,7 @@ export default {
 interface Props {
   formProps: {
     id: string;
+    name: string;
     onSubmit: ( input: { [ key: string ]: string } ) => void;
     buttonProps: {
         buttonContent: {
@@ -29,10 +30,11 @@ const TextInputElement = ( args: Props ) => {
 
   /* CONTENT */
   const { formProps, type } = args;
-  const { id, onSubmit, buttonProps } = formProps;
+  const { id, name, onSubmit, buttonProps } = formProps;
 
   return (
-    <Form id={id} onSubmit={onSubmit} buttonProps={buttonProps}>
+    <Form id={id} name={name}
+      onSubmit={onSubmit} buttonProps={buttonProps}>
       <Element type={type} />
       <Element type='username' />
     </Form>
@@ -44,6 +46,7 @@ export const TextInput = Template.bind({});
 TextInput.args = {
   formProps: {
     id: 'text-input-form',
+    name: 'text-input-form',
     onSubmit: ( input ) => alert( JSON.stringify( input ) ),
     buttonProps: {
       buttonContent: {

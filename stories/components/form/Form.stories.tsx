@@ -5,13 +5,14 @@ import { Form as Component, FieldSet } from '../../../components';
 import { TextInput } from '../../../elements';
 
 export default {
-  title: 'Components/Form',
+  title: 'Components/Form/Form',
   component: Component,
 } as ComponentMeta<typeof Component>;
 
 /* TYPES */
 interface Props {
     id: string;
+    name: string;
     onSubmit: ( input: { [ key: string ]: string } ) => void;
     buttonProps: {
         buttonContent: {
@@ -28,7 +29,11 @@ interface Props {
 
 const FormComponent = ( args: Props ) => {
     /* CONTENT */
-    const { id, onSubmit, buttonProps, conditionalDisabled={} } = args;
+    const { id, 
+        name, 
+        onSubmit, 
+        buttonProps,
+        conditionalDisabled={} } = args;
 
     const textContent = {
         label: 'Text',
@@ -60,7 +65,7 @@ const FormComponent = ( args: Props ) => {
 
     return (
         <Component id={id} onSubmit={onSubmit} buttonProps={buttonProps} 
-            conditionalDisabled={conditionalDisabled}>
+            name={name} conditionalDisabled={conditionalDisabled}>
             <FieldSet name='auth' content={fieldSet1Content} >
                 <TextInput content={addressContent}
                     name='address' type='text' />
@@ -85,6 +90,7 @@ const Template: ComponentStory<typeof FormComponent> = ( args ) => <FormComponen
 export const Form = Template.bind({});
 Form.args = {
     id: 'sample-form',
+    name: 'sample-form',
     onSubmit: ( input ) => alert( JSON.stringify( input ) ),
     buttonProps: {
         buttonContent: {
@@ -98,5 +104,3 @@ Form.args = {
         // text: [ 'email' ],
     },
 }
-
-// transform any fieldset keys to its input parts

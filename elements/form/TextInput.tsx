@@ -5,18 +5,15 @@ import { useAfterEffect } from '../../hooks';
 // lib
 import { toTitleCase } from '../../lib';
 // types
-import type { SetFormData, ConditionalProps } from 'types';
-import { TextInputTypes } from './types';
+import type { FormData, SetFormData, ConditionalProps } from 'types';
+import type { TextInputTypes } from './types';
 // elements
 import { Blurb } from '../../elements';
 // partials
 import Required from './Required';
 import { handleTextInputValidityMessages } from './handleValidityMessages';
-
-/* CONSTANTS */
-const EMAIL_VALIDATION = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-// TO-DO - come up with password validation
-const PASSWORD_VALIDATION = /^/;
+// constants
+import { EMAIL_VALIDATION, PASSWORD_VALIDATION } from './constants';
 
 /* TYPES */
 // TO-DO - implement Conditional Props
@@ -49,11 +46,6 @@ export interface Props {
     isRounded?: boolean;
     showValid?: boolean;
     animateNotValid?: boolean;
-}
-
-interface BlurbStyles {
-    top?: string;
-    left?: string;
 }
 
 /**
@@ -102,9 +94,9 @@ const TextInput = ( {
         if ( type === 'username' ) 
             inputPlaceholder = 'doggie69'
         else if ( type === 'email' )
-            inputPlaceholder = 'example@gmail.com'
+            inputPlaceholder = 'example@website.com'
         else if ( type === 'password' )
-            inputPlaceholder = '*****';
+            inputPlaceholder = '********';
     }
     else if ( type === 'text' ) {
         inputID = id !== undefined ? id : name;
@@ -129,7 +121,7 @@ const TextInput = ( {
         const value = event.target.value;
         const newValid = inputRequired ? checkValid( value ) : true;
 
-        onChange( ( state ) => {
+        onChange( ( state: FormData ) => {
             return {
                 ...state,
                 [ event.target.name ]: {
@@ -158,6 +150,12 @@ const TextInput = ( {
     const handleBlur = () => {
         setTouched( true );
         setFocused( false );
+        setActualPlaceholder( originalPlaceholder.current );
+    }
+
+    const handleFocus = () => {
+        setFocused( true );
+        setActualPlaceholder( '' );
     }
 
     const handleValidityMessages = () => {
@@ -170,10 +168,13 @@ const TextInput = ( {
 
     /* HOOKS */
     const inputRef = useRef<HTMLInputElement>( null );
+    const originalPlaceholder = useRef<string>( inputPlaceholder );
     const [ touched, setTouched ] = useState<boolean>( false ); 
     const [ focused, setFocused ] = useState<boolean>( autoFocus ? true : false );
     const [ isValid, setIsValid ] = useState<boolean>( 
         value === '' ? !inputRequired : checkValid( value ) );
+    const [ actualPlaceholder, setActualPlaceholder ] = useState<string>( 
+        originalPlaceholder.current );
 
     /* CLASSNAMES */
     const isValidClasses = isValid ? 'valid' : 'not-valid';
@@ -240,11 +241,10 @@ const TextInput = ( {
                 }
             </label>
             <input ref={inputRef} id={inputID} className={textInputClasses} type={inputType}
-                onChange={handleChange} onBlur={handleBlur} 
-                onFocus={() => setFocused( true )} pattern={`${pattern}`}
+                onChange={handleChange} onBlur={() => handleBlur()} 
+                onFocus={() => handleFocus()} placeholder={actualPlaceholder}
                 name={inputName} value={value} required={inputRequired} 
                 disabled={disabled} autoFocus={autoFocus} maxLength={maxLength}
-                placeholder={inputPlaceholder}
                 autoComplete='off'
                 {...rest} />
         </div>
