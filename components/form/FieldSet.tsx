@@ -2,8 +2,6 @@
 import { FC, Children, ReactElement, cloneElement } from 'react';
 // lib
 import { validateChild } from '../../lib';
-// constants
-import { CHILD_NAMES_LIST } from './constants';
 // types
 import type { CheckFormStatus, 
     TextInputConfig, ConditionalDisabled } from './types';
@@ -76,9 +74,7 @@ const FieldSet: FC<Props> = ( {
             <legend className='legend'>{legend}</legend>
             {
                 Children.map( children, ( child ) => {
-                    const validation = validateChild( child, {
-                        elementNames: CHILD_NAMES_LIST,
-                    } );
+                    const validation = validateChild( child );
         
                     // nested FieldSets
                     if ( validation === 'FieldSet' )
@@ -104,6 +100,9 @@ const FieldSet: FC<Props> = ( {
 
                         return cloneElement( inputChild, config );
                     }
+
+                    if ( validation === true )
+                        return child;
                 } )
             }
         </fieldset>

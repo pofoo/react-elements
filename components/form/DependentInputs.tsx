@@ -2,8 +2,6 @@
 import { FC, Children } from 'react'
 // lib
 import { validateChild } from '../../lib';
-// constants
-import { CHILD_NAMES_LIST } from './constants'
 
 /* TYPES */
 export interface Props {
@@ -22,9 +20,7 @@ const DependentInputs: FC<Props> = ( {
         <>
             {
                 Children.map( children, ( child ) => {
-                    const validation = validateChild( child, {
-                        elementNames: CHILD_NAMES_LIST,
-                    } );
+                    const validation = validateChild( child );
 
                     if ( validation === 'TextInput' ) {
                         

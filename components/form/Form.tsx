@@ -14,8 +14,6 @@ import type { Props as DependentInputsProps } from './DependentInputs';
 // partial functions
 import initForm from './initForm';
 import transformData from './transformData';
-// constants
-import { CHILD_NAMES_LIST } from './constants';
 
 /* TYPES */
 interface ButtonProps {
@@ -161,9 +159,7 @@ const Form: FC<Props> = ( {
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
             {
                 Children.map( children, ( child ) => {
-                    const validation = validateChild( child, {
-                        elementNames: CHILD_NAMES_LIST,
-                    } );
+                    const validation = validateChild( child );
         
                     if ( validation === 'FieldSet' ) {
                         const fieldSetChild = child as ReactElement<FieldSetProps>;

@@ -8,7 +8,7 @@ import type { FormData } from 'types';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
 import type { Props as FieldSetProps } from './FieldSet';
 // constants
-import { REQUIRED_TYPES, CHILD_NAMES_LIST, UNIQUE_INPUTS } from './constants';
+import { REQUIRED_TYPES, UNIQUE_INPUTS } from './constants';
 
 /* TYPES */
 type SharedProps = TextInputProps & FieldSetProps;
@@ -50,9 +50,7 @@ const initForm = (
         fieldSetOptions: FieldSetOptions={},
     ) => {
         Children.forEach( children, ( child ) => {
-            const validation = validateChild( child, {
-                elementNames: CHILD_NAMES_LIST,
-            } );
+            const validation = validateChild( child );
 
             const sharedChild = child as ReactElement<SharedProps>;
             let childInputs: ( string[] | undefined ) = undefined;
