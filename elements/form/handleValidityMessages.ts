@@ -4,16 +4,25 @@ import { TextInputTypes } from './types';
 import { aOrAn, toTitleCase, hasNumber, hasLetter,
     hasSpecialChar } from '../../lib';
 
+export interface Options {
+    match?: string; // this input must match the parent input
+}
+
 const handleTextInputValidityMessages = ( 
     target: HTMLInputElement,
+    options: Options={},
 ) => {
     if ( target.willValidate ) {
+        /* CONTENT */
+        const { match } = options;
+
         if ( target.validity.valueMissing )
             target.setCustomValidity( "Don't forget to fill this out!" );
     
         else if ( target.validity.patternMismatch ) {
             const value = target.value;
             const type = target.type as TextInputTypes;
+            const name = target.name;
     
             if ( type === 'email' ) {
                 if ( value.includes( '@' ) )
@@ -34,12 +43,11 @@ const handleTextInputValidityMessages = (
                     target.setCustomValidity( 'Password must contain as least one special character' );
                 
             }
-            else if ( type === 'text' ) {
-                const name = target.name;
-    
+            else if ( type === 'text' )
                 target.setCustomValidity( `This dosen't look like ${aOrAn(name)} ${toTitleCase(name)}`)
-            }
         }
+        else if ( match )
+            target.setCustomValidity( `${name}'s don't match!` )
         else
             target.setCustomValidity( '' );
     }

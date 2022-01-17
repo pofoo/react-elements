@@ -24,6 +24,11 @@ interface Content {
     placeholder?: string;
 }
 
+interface Match {
+    value: string;
+    type?: string;
+}
+
 export interface Props {
     // customization
     id?: string;
@@ -39,6 +44,7 @@ export interface Props {
     disabled?: boolean;
     autoFocus?: boolean;
     isParentDisabled?: boolean; // whether other input relies on this input for its disabled attribute
+    match?: string; // if match is specfied, this input MUST equal the match string
     // limitations
     pattern?: RegExp; // will override default pattern checking from type specification
     maxLength?: number;
@@ -47,6 +53,12 @@ export interface Props {
     showValid?: boolean;
     animateNotValid?: boolean;
 }
+
+// matching 2 passwords
+// matching 2 different input types
+// matching 2 of the same input types
+
+
 
 /**
  * Text Input.
@@ -63,6 +75,7 @@ const TextInput = ( {
     disabled=false,
     autoFocus=false,
     isParentDisabled,
+    match,
     // TO-DO - find an appropriate maxLength
     pattern,
     maxLength=1000,
@@ -83,6 +96,8 @@ const TextInput = ( {
     let inputLabel = label;
     let inputPlaceholder  = placeholder;
     let inputRequired = required;
+    // TO-DO - strip pattern regex to become an input string
+    const inputPattern = pattern;
 
     if ( type === 'username' || type === 'email' || type ==='password' ) {
         inputID = id !== undefined ? id : type;

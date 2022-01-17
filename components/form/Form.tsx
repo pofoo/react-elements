@@ -7,7 +7,8 @@ import { FormButton } from '../../elements';
 import { validateChild, isObjectEmpty } from '../../lib';
 // types
 import type { FormData } from 'types';
-import type { TextInputConfig, FieldSetConfig, ConditionalDisabled } from './types';
+import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
+    DependentInputsConfig, DisabledInputs } from './types';
 import type { Props as FieldSetProps } from './FieldSet';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
 import type { Props as DependentInputsProps } from './DependentInputs';
@@ -78,7 +79,7 @@ const Form: FC<Props> = ( {
     // form states
     const [ formData, setFormData ] = useState<FormData>( emptyFormData );
     const [ isFormComplete, setIsFormComplete ] = useState<boolean>( canFormSubmit );
-    const [ disabledInputs, setDisabledInputs ] = useState<Set<string>>( initialDisabled );
+    const [ disabledInputs, setDisabledInputs ] = useState<DisabledInputs>( initialDisabled );
     // submitting states
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
     // TO-DO - make this one state object
@@ -149,7 +150,7 @@ const Form: FC<Props> = ( {
 
     }, [ isSubmitting ] );
 
-    // check form status on initial render - if default values are specificed
+    // check form status on initial render - this is for if default values are specificed
     useEffect( () => {
         checkFormStatus( !isObjectEmpty( conditionalDisabled ) )
     }, [] );
@@ -184,10 +185,15 @@ const Form: FC<Props> = ( {
                     if ( validation === 'DependentInputs' ) {
                         const dependentInputsChild = child as ReactElement<DependentInputsProps>;
 
-                        // i need all the TextInput props.
-                        const config = {
-
+                        const config: DependentInputsConfig = {
+                            formData, 
+                            conditionalDisabled,
+                            disabledInputs,
+                            onChange: setFormData,
+                            checkFormStatus,
                         }
+
+                        return cloneElement( dependentInputsChild, config );
                     }
 
                     if ( validation === 'TextInput' ) {

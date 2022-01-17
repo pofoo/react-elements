@@ -30,16 +30,22 @@ const DependentInputsComponent = ( args: Props ) => {
     const { formProps,  buttonProps } = args;
     const { id, onSubmit, name } = formProps;
 
+    const confirmPasswordContent = {
+        label: 'Confirm Password',
+    }
+
     return (
         <Form id={id} onSubmit={onSubmit} 
             buttonProps={buttonProps} name={name}>
-            <Component>
+            <Component depType='match'>
                 <TextInput type='password'/>
-                <TextInput type='password'/>
+                <TextInput name='confirm-password' content={confirmPasswordContent} 
+                    type='password'/>
             </Component>
         </Form>
     )
 }
+
 const Template: ComponentStory<typeof DependentInputsComponent> = ( args ) => <DependentInputsComponent {...args} />;
 export const DependentInputs = Template.bind({});
 DependentInputs.args = {

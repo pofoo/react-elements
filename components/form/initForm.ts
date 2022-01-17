@@ -6,15 +6,20 @@ import { isObjectEmpty, validateChild } from '../../lib';
 import { ConditionalDisabled } from './types';
 import type { FormData } from 'types';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
+import type { Props as DependentInputsProps } from './DependentInputs';
 import type { Props as FieldSetProps } from './FieldSet';
 // constants
 import { REQUIRED_TYPES, UNIQUE_INPUTS } from './constants';
 
 /* TYPES */
-type SharedProps = TextInputProps & FieldSetProps;
+export type SharedProps = TextInputProps & FieldSetProps;
 
 // TO-DO - find a better way to include children in typescript
-interface TextInputPropsWithChildren extends TextInputProps {
+export interface TextInputPropsWithChildren extends TextInputProps {
+    children: ReactNode;
+}
+
+interface DependentInputPropsWithChildren extends DependentInputsProps {
     children: ReactNode;
 }
 
@@ -63,9 +68,15 @@ const initForm = (
             if ( validation === 'FieldSet' ) {
                 const fieldSetChild = child as ReactElement<TextInputPropsWithChildren>;
 
-                initChildren( fieldSetChild.props.children, {
+                return initChildren( fieldSetChild.props.children, {
                     prevFieldSetChildInputs: childInputs,
                 } );
+            }
+
+            if ( validation === 'DependentInputs' ) {
+                const depdendentInputsChild = child as ReactElement<DependentInputPropsWithChildren>;
+
+                return initChildren( depdendentInputsChild.props.children );
             }
 
             if ( validation === 'TextInput' ) {

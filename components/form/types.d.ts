@@ -8,15 +8,17 @@ type ConditionalDisabled = {
     [ name: string ]: string[];
 }
 
+type DisabledInputs = Set<string>;
+
 type CheckFormStatus = ( checkDisabled: boolean ) => void;
 
-type Content = {
+interface Content {
     label?: string;
     value?: string;
     placeholder?: string;
 }
 
-type TextInputConfig = {
+interface TextInputConfig {
     onChange: SetFormData;
     content: Content;
     checkFormStatus: CheckFormStatus;
@@ -25,18 +27,28 @@ type TextInputConfig = {
     autoFocus?: boolean;
 }
 
-type FieldSetConfig = {
+interface FieldSetConfig {
     formData: FormData;
     onChange: SetFormData;
     expandedConditionalDisabled: ConditionalDisabled;
-    checkFormStatus?: CheckFormStatus;
+    checkFormStatus: CheckFormStatus;
     disabled?: boolean;
     isParentDisabled?: boolean;
 }
 
+interface DependentInputsConfig {
+    formData: FormData;
+    conditionalDisabled: ConditionalDisabled;
+    disabledInputs: DisabledInputs;
+    onChange: SetFormData;
+    checkFormStatus: CheckFormStatus;
+}
+
 export {
     ConditionalDisabled,
+    DisabledInputs,
     CheckFormStatus,
     TextInputConfig,
     FieldSetConfig,
+    DependentInputsConfig,
 }
