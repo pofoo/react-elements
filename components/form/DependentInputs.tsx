@@ -1,17 +1,16 @@
 // dependencies
-import { FC, Children, ReactElement, cloneElement } from 'react'
+import { FC, Children, ReactElement, cloneElement, useRef } from 'react'
 // lib
 import { validateChild } from '../../lib';
 // types
 import type { CheckFormStatus, DisabledInputs, 
     TextInputConfig, ConditionalDisabled } from './types';
 import type { SetFormData, FormData } from '../../types';
-import type { Props as TextInputProps } from '../../elements/form/TextInput';
+import type { Props as TextInputProps, Match } from '../../elements/form/TextInput';
 
 /* TYPES */
 export interface Props {
     // when type is match, all the following inputs have to have the same value as the first input
-    // it is assumed that all inputs will be of the same name
     depType: 'match';
     // data
     formData?: FormData;
@@ -23,6 +22,9 @@ export interface Props {
     checkFormStatus?: CheckFormStatus;
 }
 
+interface DependentTextInputConfig extends TextInputConfig {
+    match?: Match;
+}
 
 /**
  * Conditional Inupts wrapper component that adds logic.
@@ -44,12 +46,15 @@ const DependentInputs: FC<Props> = ( {
 
     if ( disabledInputs === undefined )
         throw( SyntaxError( 'disabledInputs not specified - use built in Form wrapper component' ) );
-        
+
     if ( onChange === undefined )
         throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
 
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
+
+    /* HOOKS */
+    const match = useRef<Match>();
 
     return (
         <>
@@ -62,12 +67,13 @@ const DependentInputs: FC<Props> = ( {
 
                         const name = inputChild.props.name || inputChild.props.type;
                         const prevContent = inputChild.props.content;
+                        const value = formData[ name ].value;
         
-                        const config: TextInputConfig = {
+                        const config: DependentTextInputConfig = {
                             onChange,
                             content: {
                                 ...prevContent,
-                                value: formData[ name ].value,
+                                value,
                             },
                             checkFormStatus,
                         }
@@ -80,8 +86,13 @@ const DependentInputs: FC<Props> = ( {
                             config[ 'autoFocus' ] = true;
                         
                         if ( depType === 'match' ) {
-                            if ( index === 0 ) {}
-                            else {}
+                            if ( index === 0 )
+                                match.current = {
+                                    value,
+                                    name,
+                                }
+                            else
+                                config[ 'match' ] = match.current;
                         }
 
                         return cloneElement( inputChild, config );

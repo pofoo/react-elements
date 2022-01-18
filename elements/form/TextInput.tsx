@@ -18,15 +18,15 @@ import { EMAIL_VALIDATION, PASSWORD_VALIDATION } from './constants';
 /* TYPES */
 // TO-DO - implement Conditional Props
 
-interface Content {
+export interface Content {
     label?: string;
     value?: string;
     placeholder?: string;
 }
 
-interface Match {
+export interface Match {
     value: string;
-    type?: string;
+    name: string;
 }
 
 export interface Props {
@@ -44,7 +44,8 @@ export interface Props {
     disabled?: boolean;
     autoFocus?: boolean;
     isParentDisabled?: boolean; // whether other input relies on this input for its disabled attribute
-    match?: string; // if match is specfied, this input MUST equal the match string
+    isParentMatch?: boolean; // whether this input value must be matched by other inputs
+    match?: Match; // if match is specfied, this input MUST equal the match value
     // limitations
     pattern?: RegExp; // will override default pattern checking from type specification
     maxLength?: number;
@@ -53,11 +54,6 @@ export interface Props {
     showValid?: boolean;
     animateNotValid?: boolean;
 }
-
-// matching 2 passwords
-// matching 2 different input types
-// matching 2 of the same input types
-
 
 
 /**
@@ -75,6 +71,7 @@ const TextInput = ( {
     disabled=false,
     autoFocus=false,
     isParentDisabled,
+    isParentMatch,
     match,
     // TO-DO - find an appropriate maxLength
     pattern,
@@ -96,8 +93,9 @@ const TextInput = ( {
     let inputLabel = label;
     let inputPlaceholder  = placeholder;
     let inputRequired = required;
+    let inputPattern = pattern;
     // TO-DO - strip pattern regex to become an input string
-    const inputPattern = pattern;
+    const patternString = pattern;
 
     if ( type === 'username' || type === 'email' || type ==='password' ) {
         inputID = id !== undefined ? id : type;
@@ -108,10 +106,14 @@ const TextInput = ( {
 
         if ( type === 'username' ) 
             inputPlaceholder = 'doggie69'
-        else if ( type === 'email' )
+        else if ( type === 'email' ) {
             inputPlaceholder = 'example@website.com'
-        else if ( type === 'password' )
+            inputPattern = EMAIL_VALIDATION;
+        }
+        else if ( type === 'password' ) {
+            inputPattern = PASSWORD_VALIDATION;
             inputPlaceholder = '********';
+        }
     }
     else if ( type === 'text' ) {
         inputID = id !== undefined ? id : name;
@@ -148,18 +150,30 @@ const TextInput = ( {
 
         setIsValid( newValid );
         handleValidityMessages();
+
+        if ( isParentMatch ) {
+            // we need to checkValid for the input variables that have match
+        }
     }
 
     // assumes the input is required
     const checkValid = ( value: string ) => {
-        if ( pattern ) 
-            return pattern.test( value );
-        else if ( inputType === 'email' ) 
-            return EMAIL_VALIDATION.test( value );
-        else if ( inputType === 'password' )
-            return PASSWORD_VALIDATION.test( value );
-        else
-            return value !== '';
+        if ( match ) {
+            if ( inputPattern ) {
+                const isPatternValid = inputPattern.test( value );
+
+                if ( isPatternValid )
+                    return value === match.value;
+                
+                return isPatternValid;
+            }
+
+            return value === match.value;
+        }
+        if ( inputPattern )
+            return inputPattern.test( value );
+        
+         return value !== '';
     }
 
     const handleBlur = () => {
@@ -176,8 +190,8 @@ const TextInput = ( {
     const handleValidityMessages = () => {
         if ( inputRequired ) {
             const target = inputRef.current as HTMLInputElement;
-    
-            handleTextInputValidityMessages( target );
+
+            handleTextInputValidityMessages( target, { match } );
         }
     }
 

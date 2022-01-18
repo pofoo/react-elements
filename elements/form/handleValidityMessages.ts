@@ -1,11 +1,12 @@
 // types
-import { TextInputTypes } from './types';
+import type { TextInputTypes } from './types';
+import type { Match } from './TextInput';
 // lib
 import { aOrAn, toTitleCase, hasNumber, hasLetter,
     hasSpecialChar } from '../../lib';
 
 export interface Options {
-    match?: string; // this input must match the parent input
+    match?: Match;
 }
 
 const handleTextInputValidityMessages = ( 
@@ -47,7 +48,7 @@ const handleTextInputValidityMessages = (
                 target.setCustomValidity( `This dosen't look like ${aOrAn(name)} ${toTitleCase(name)}`)
         }
         else if ( match )
-            target.setCustomValidity( `${name}'s don't match!` )
+            target.setCustomValidity( `Input must match previous ${toTitleCase(match.name)} input!` )
         else
             target.setCustomValidity( '' );
     }

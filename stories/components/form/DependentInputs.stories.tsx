@@ -39,8 +39,8 @@ const DependentInputsComponent = ( args: Props ) => {
             buttonProps={buttonProps} name={name}>
             <Component depType='match'>
                 <TextInput type='password'/>
-                <TextInput name='confirm-password' content={confirmPasswordContent} 
-                    type='password'/>
+                <TextInput id='confirm-password' name='confirm-password' 
+                    content={confirmPasswordContent} type='password'/>
             </Component>
         </Form>
     )
