@@ -44,7 +44,6 @@ export interface Props {
     disabled?: boolean;
     autoFocus?: boolean;
     isParentDisabled?: boolean; // whether other input relies on this input for its disabled attribute
-    isParentMatch?: boolean; // whether this input value must be matched by other inputs
     match?: Match; // if match is specfied, this input MUST equal the match value
     // limitations
     pattern?: RegExp; // will override default pattern checking from type specification
@@ -71,10 +70,9 @@ const TextInput = ( {
     disabled=false,
     autoFocus=false,
     isParentDisabled,
-    isParentMatch,
     match,
-    // TO-DO - find an appropriate maxLength
     pattern,
+    // TO-DO - find an appropriate maxLength
     maxLength=1000,
     isRounded=true,
     showValid=true,
@@ -133,16 +131,18 @@ const TextInput = ( {
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
 
-    /* FUNCTIONS */  
-    const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
-        const value = event.target.value;
-        const newValid = inputRequired ? checkValid( value ) : true;
-
+    /* FUNCTIONS */
+    const setFormState = ( 
+        newValid: boolean,
+        newValue?: string,
+    ) => {
         onChange( ( state: FormData ) => {
             return {
                 ...state,
-                [ event.target.name ]: {
-                    value,
+                // @ts-ignore
+                [ inputName ]: {
+                    // @ts-ignore
+                    value: typeof newValue === 'string' ? newValue : value,
                     isValid: newValid,
                 },
             }
@@ -150,11 +150,13 @@ const TextInput = ( {
 
         setIsValid( newValid );
         handleValidityMessages();
+    }
 
-        // if ( isParentMatch ) {
-        //     // we need to checkValid for the input variables that have match
-        //     checkFormStatus( isParentDisabled ? isParentDisabled : false );
-        // }
+    const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
+        const newValue = event.target.value;
+        const newValid = inputRequired ? checkValid( newValue ) : true;
+
+        setFormState( newValid, newValue );
     }
 
     // assumes the input is required
@@ -233,25 +235,23 @@ const TextInput = ( {
     const validIconAriaLabel = `${inputName} ${isValidClasses} icon`;
 
     // check the form status everytime isValid changes EXCEPT on initial render
-    if ( !isParentMatch ) {
-        useAfterEffect( () => {
-            checkFormStatus( isParentDisabled ? isParentDisabled : false );
-        }, [ isValid ] );
-    }
-
-    if ( match ) {
-        useAfterEffect( () => {
-            const newValid = inputRequired ? checkValid( value ) : true;
-
-            setIsValid( newValid );
-            checkFormStatus( isParentDisabled ? isParentDisabled : false );
-        })
-    }
+    useAfterEffect( () => {
+        checkFormStatus( isParentDisabled ? isParentDisabled : false );
+    }, [ isValid ] );
 
     useEffect( () => {
         handleValidityMessages();
     }, [] );
 
+    if ( match ) {
+        useAfterEffect( () => {
+            const newValid = inputRequired ? checkValid( value ) : true;
+
+            if ( newValid !== isValid )
+                setFormState( newValid );
+        } );
+    }
+   
     return (
         <div className={textInputWrapperClasses}>
             <label className='label text-input-label' htmlFor={inputID}>
