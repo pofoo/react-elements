@@ -11,6 +11,7 @@ const useAfterEffect = (
     dep: ( any[] | undefined )=undefined,
 ) => {
     
+    /* HOOKS */
     const isFirstRender = useRef<boolean>( true );
 
     if ( !dep || dep.length === 0 )

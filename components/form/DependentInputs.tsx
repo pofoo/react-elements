@@ -22,8 +22,9 @@ export interface Props {
     checkFormStatus?: CheckFormStatus;
 }
 
-interface DependentTextInputConfig extends TextInputConfig {
+export interface DependentTextInputConfig extends TextInputConfig {
     match?: Match;
+    isParentMatch?: boolean;
 }
 
 /**
@@ -86,11 +87,14 @@ const DependentInputs: FC<Props> = ( {
                             config[ 'autoFocus' ] = true;
                         
                         if ( depType === 'match' ) {
-                            if ( index === 0 )
+                            if ( index === 0 ) {
                                 match.current = {
                                     value,
                                     name,
                                 }
+
+                                config[ 'isParentMatch' ] = true;
+                            }
                             else
                                 config[ 'match' ] = match.current;
                         }

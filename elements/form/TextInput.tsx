@@ -151,9 +151,10 @@ const TextInput = ( {
         setIsValid( newValid );
         handleValidityMessages();
 
-        if ( isParentMatch ) {
-            // we need to checkValid for the input variables that have match
-        }
+        // if ( isParentMatch ) {
+        //     // we need to checkValid for the input variables that have match
+        //     checkFormStatus( isParentDisabled ? isParentDisabled : false );
+        // }
     }
 
     // assumes the input is required
@@ -232,9 +233,20 @@ const TextInput = ( {
     const validIconAriaLabel = `${inputName} ${isValidClasses} icon`;
 
     // check the form status everytime isValid changes EXCEPT on initial render
-    useAfterEffect( () => {
-        checkFormStatus( isParentDisabled ? isParentDisabled : false );
-    }, [ isValid ] );
+    if ( !isParentMatch ) {
+        useAfterEffect( () => {
+            checkFormStatus( isParentDisabled ? isParentDisabled : false );
+        }, [ isValid ] );
+    }
+
+    if ( match ) {
+        useAfterEffect( () => {
+            const newValid = inputRequired ? checkValid( value ) : true;
+
+            setIsValid( newValid );
+            checkFormStatus( isParentDisabled ? isParentDisabled : false );
+        })
+    }
 
     useEffect( () => {
         handleValidityMessages();
