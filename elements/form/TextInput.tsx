@@ -94,8 +94,6 @@ const TextInput = ( {
     let inputPlaceholder  = placeholder;
     let inputRequired = required;
     let inputPattern = pattern;
-    // TO-DO - strip pattern regex to become an input string
-    const patternString = pattern;
 
     if ( type === 'username' || type === 'email' || type ==='password' ) {
         inputID = id !== undefined ? id : type;
@@ -119,6 +117,8 @@ const TextInput = ( {
         inputID = id !== undefined ? id : name;
         inputRequired = required !== undefined ? required : false;
     }
+
+    const patternString = inputPattern ? inputPattern.source : '';
 
     /* ERRORS */
     if ( inputID === undefined )
@@ -270,7 +270,7 @@ const TextInput = ( {
                 }
             </label>
             <input ref={inputRef} id={inputID} className={textInputClasses} type={inputType}
-                onChange={handleChange} onBlur={() => handleBlur()} 
+                onChange={handleChange} onBlur={() => handleBlur()} pattern={patternString}
                 onFocus={() => handleFocus()} placeholder={actualPlaceholder}
                 name={inputName} value={value} required={inputRequired} 
                 disabled={disabled} autoFocus={autoFocus} maxLength={maxLength}

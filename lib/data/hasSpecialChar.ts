@@ -3,7 +3,7 @@
  * Else, returns false.
  */
  const hasSpecialChar = ( val: string ) => {
-    return /[@$!%*#?&]/.test( val );
+    return /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test( val );
 }
 
 export default hasSpecialChar;

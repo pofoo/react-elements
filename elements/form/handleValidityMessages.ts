@@ -19,7 +19,7 @@ const handleTextInputValidityMessages = (
 
         if ( target.validity.valueMissing )
             target.setCustomValidity( "Don't forget to fill this out!" );
-    
+
         else if ( target.validity.patternMismatch ) {
             const value = target.value;
             const type = target.type as TextInputTypes;
@@ -32,7 +32,6 @@ const handleTextInputValidityMessages = (
                     target.setCustomValidity( `Hmmm... ${value} does not have an @ in it...?` );
             }
             else if ( type === 'username' ) {}
-            // TO-DO - password mismatch custom validity
             else if ( type === 'password' ) {
                 if ( value.length < 8 )
                     target.setCustomValidity( 'Password must be at least 8 characters' );
@@ -40,9 +39,8 @@ const handleTextInputValidityMessages = (
                     target.setCustomValidity( 'Password must have at least one number' );
                 else if ( !hasLetter( value ) )
                     target.setCustomValidity( 'Password must contain at least one letter' );
-                else if ( !hasSpecialChar( value) )
+                else if ( !hasSpecialChar( value ) )
                     target.setCustomValidity( 'Password must contain as least one special character' );
-                
             }
             else if ( type === 'text' )
                 target.setCustomValidity( `This dosen't look like ${aOrAn(name)} ${toTitleCase(name)}`)
