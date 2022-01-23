@@ -7,8 +7,7 @@ import initAccordianPanel from './initAccordianPanel';
 // types
 import type { Props as AccordianProps } from './Accordian';
 import type { AccordianStates } from './types';
-// constants
-import { CHILD_NAMES_LIST } from './constants';
+
 
 /* TYPES */
 interface Props {
@@ -73,10 +72,8 @@ const AccordianPanel: FC<Props> = ( {
     return (
         <section id={id} className={accordianPanelClasses}>
             {
-                Children.map( children, ( child, index ) => {  
-                    const validation = validateChild( child, {
-                        elementNames: CHILD_NAMES_LIST,
-                    } );
+                Children.map( children, ( child ) => {  
+                    const validation = validateChild( child );
 
                     if ( validation === 'Accordian' ) {
                         const accordianChild = child as ReactElement<AccordianProps>;

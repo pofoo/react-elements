@@ -5,26 +5,28 @@ import { useAfterEffect } from '../../hooks';
 // lib
 import { toTitleCase } from '../../lib';
 // types
-import type { SetFormData, ConditionalProps } from 'types';
-import { TextInputTypes } from './types';
+import type { FormData, SetFormData, ConditionalProps } from 'types';
+import type { TextInputTypes } from './types';
 // elements
 import { Blurb } from '../../elements';
 // partials
 import Required from './Required';
 import { handleTextInputValidityMessages } from './handleValidityMessages';
-
-/* CONSTANTS */
-const EMAIL_VALIDATION = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-// TO-DO - come up with password validation
-const PASSWORD_VALIDATION = /^/;
+// constants
+import { EMAIL_VALIDATION, PASSWORD_VALIDATION } from './constants';
 
 /* TYPES */
 // TO-DO - implement Conditional Props
 
-interface Content {
+export interface Content {
     label?: string;
     value?: string;
     placeholder?: string;
+}
+
+export interface Match {
+    value: string;
+    name: string;
 }
 
 export interface Props {
@@ -42,6 +44,7 @@ export interface Props {
     disabled?: boolean;
     autoFocus?: boolean;
     isParentDisabled?: boolean; // whether other input relies on this input for its disabled attribute
+    match?: Match; // if match is specfied, this input MUST equal the match value
     // limitations
     pattern?: RegExp; // will override default pattern checking from type specification
     maxLength?: number;
@@ -51,10 +54,6 @@ export interface Props {
     animateNotValid?: boolean;
 }
 
-interface BlurbStyles {
-    top?: string;
-    left?: string;
-}
 
 /**
  * Text Input.
@@ -71,8 +70,9 @@ const TextInput = ( {
     disabled=false,
     autoFocus=false,
     isParentDisabled,
-    // TO-DO - find an appropriate maxLength
+    match,
     pattern,
+    // TO-DO - find an appropriate maxLength
     maxLength=1000,
     isRounded=true,
     showValid=true,
@@ -91,6 +91,7 @@ const TextInput = ( {
     let inputLabel = label;
     let inputPlaceholder  = placeholder;
     let inputRequired = required;
+    let inputPattern = pattern;
 
     if ( type === 'username' || type === 'email' || type ==='password' ) {
         inputID = id !== undefined ? id : type;
@@ -101,15 +102,21 @@ const TextInput = ( {
 
         if ( type === 'username' ) 
             inputPlaceholder = 'doggie69'
-        else if ( type === 'email' )
-            inputPlaceholder = 'example@gmail.com'
-        else if ( type === 'password' )
-            inputPlaceholder = '*****';
+        else if ( type === 'email' ) {
+            inputPlaceholder = 'example@website.com'
+            inputPattern = EMAIL_VALIDATION;
+        }
+        else if ( type === 'password' ) {
+            inputPattern = PASSWORD_VALIDATION;
+            inputPlaceholder = '********';
+        }
     }
     else if ( type === 'text' ) {
         inputID = id !== undefined ? id : name;
         inputRequired = required !== undefined ? required : false;
     }
+
+    const patternString = inputPattern ? inputPattern.source : '';
 
     /* ERRORS */
     if ( inputID === undefined )
@@ -124,16 +131,18 @@ const TextInput = ( {
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
 
-    /* FUNCTIONS */  
-    const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
-        const value = event.target.value;
-        const newValid = inputRequired ? checkValid( value ) : true;
-
-        onChange( ( state ) => {
+    /* FUNCTIONS */
+    const setFormState = ( 
+        newValid: boolean,
+        newValue?: string,
+    ) => {
+        onChange( ( state: FormData ) => {
             return {
                 ...state,
-                [ event.target.name ]: {
-                    value,
+                // @ts-ignore
+                [ inputName ]: {
+                    // @ts-ignore
+                    value: typeof newValue === 'string' ? newValue : value,
                     isValid: newValid,
                 },
             }
@@ -143,37 +152,61 @@ const TextInput = ( {
         handleValidityMessages();
     }
 
+    const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
+        const newValue = event.target.value;
+        const newValid = inputRequired ? checkValid( newValue ) : true;
+
+        setFormState( newValid, newValue );
+    }
+
     // assumes the input is required
     const checkValid = ( value: string ) => {
-        if ( pattern ) 
-            return pattern.test( value );
-        else if ( inputType === 'email' ) 
-            return EMAIL_VALIDATION.test( value );
-        else if ( inputType === 'password' )
-            return PASSWORD_VALIDATION.test( value );
-        else
-            return value !== '';
+        if ( match ) {
+            if ( inputPattern ) {
+                const isPatternValid = inputPattern.test( value );
+
+                if ( isPatternValid )
+                    return value === match.value;
+                
+                return isPatternValid;
+            }
+
+            return value === match.value;
+        }
+        if ( inputPattern )
+            return inputPattern.test( value );
+        
+         return value !== '';
     }
 
     const handleBlur = () => {
         setTouched( true );
         setFocused( false );
+        setActualPlaceholder( originalPlaceholder.current );
+    }
+
+    const handleFocus = () => {
+        setFocused( true );
+        setActualPlaceholder( '' );
     }
 
     const handleValidityMessages = () => {
         if ( inputRequired ) {
             const target = inputRef.current as HTMLInputElement;
-    
-            handleTextInputValidityMessages( target );
+
+            handleTextInputValidityMessages( target, { match } );
         }
     }
 
     /* HOOKS */
     const inputRef = useRef<HTMLInputElement>( null );
+    const originalPlaceholder = useRef<string>( inputPlaceholder );
     const [ touched, setTouched ] = useState<boolean>( false ); 
     const [ focused, setFocused ] = useState<boolean>( autoFocus ? true : false );
     const [ isValid, setIsValid ] = useState<boolean>( 
         value === '' ? !inputRequired : checkValid( value ) );
+    const [ actualPlaceholder, setActualPlaceholder ] = useState<string>( 
+        originalPlaceholder.current );
 
     /* CLASSNAMES */
     const isValidClasses = isValid ? 'valid' : 'not-valid';
@@ -210,6 +243,15 @@ const TextInput = ( {
         handleValidityMessages();
     }, [] );
 
+    if ( match ) {
+        useAfterEffect( () => {
+            const newValid = inputRequired ? checkValid( value ) : true;
+
+            if ( newValid !== isValid )
+                setFormState( newValid );
+        } );
+    }
+   
     return (
         <div className={textInputWrapperClasses}>
             <label className='label text-input-label' htmlFor={inputID}>
@@ -240,11 +282,10 @@ const TextInput = ( {
                 }
             </label>
             <input ref={inputRef} id={inputID} className={textInputClasses} type={inputType}
-                onChange={handleChange} onBlur={handleBlur} 
-                onFocus={() => setFocused( true )} pattern={`${pattern}`}
+                onChange={handleChange} onBlur={() => handleBlur()} pattern={patternString}
+                onFocus={() => handleFocus()} placeholder={actualPlaceholder}
                 name={inputName} value={value} required={inputRequired} 
                 disabled={disabled} autoFocus={autoFocus} maxLength={maxLength}
-                placeholder={inputPlaceholder}
                 autoComplete='off'
                 {...rest} />
         </div>

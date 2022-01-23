@@ -72,6 +72,7 @@ interface Props {
     isRounded?: boolean;
     hover?: 'lift' | 'press' | 'pulse' | 'glimmer';
     click?: 'ripple';
+    onClick?: ( ...args: any ) => void;
 }
 
 
@@ -93,6 +94,7 @@ const FormButton = ( {
     isRounded=true,
     hover='lift',
     click='ripple',
+    ...rest
 }: Props ) => {
 
     /* ERRORS */
@@ -130,7 +132,7 @@ const FormButton = ( {
 
     return (
         <button className={buttonClasses} aria-label={ariaLabel}
-            type={type} disabled={disabled}>
+            type={type} disabled={disabled} {...rest}>
             {
                 icon && (
                     // TO-DO - adjust width and height depending on button size

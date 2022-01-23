@@ -1,7 +1,9 @@
 // dependencies
 @use 'sass:map';
 // constants
-@use '../constants/colors' as *;
+@use '../../constants/colors' as *;
+// utils
+@use '../../utils/selectors' as *;
 
 /*--------------------------------------------------------------
 # Variables
@@ -30,7 +32,7 @@ $text-highlight--transition:              0.3s ease;
             transition: transform $text-highlight--transition;
         }
 
-        &:hover {
+        @include tap {
             &:before {
                 transform: scaleX(1);
                 transform-origin: bottom left;

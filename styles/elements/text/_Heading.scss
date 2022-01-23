@@ -1,0 +1,51 @@
+// dependencies
+@use 'sass:map';
+@use 'sass:color';
+// constants
+@use '../../constants/colors' as *;
+// utils
+@use '../../utils/colors' as *;
+@use '../../utils/selectors' as *;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.heading {
+    width: max-content;
+    
+    @each $color, $color-map in $colors {
+        &.#{$color} {
+            $color: color.adjust( map.get( $color-map, 4 ), 
+                    $alpha: 1 );
+
+            color: $color;
+        }
+    }
+
+    &.gradient {
+        $color-1: color.adjust( map.get( $colors, 'blue', 4 ),
+                $alpha: 1 );
+        $color-2: color.adjust( map.get( $colors, 'green', 4 ),
+                $alpha: 1 );
+        $color-3: color.adjust( map.get( $colors, 'purple', 4 ),
+                $alpha: 1 );
+
+        background-image: linear-gradient( 
+            45deg, 
+            $color-1 33%, 
+            $color-2 33%,
+            $color-3 66% );
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; 
+
+        background-size: 100%;
+        transition: background-size 0.35s linear;
+
+        &.link {
+            @include tap {
+                background-size: 400%;
+            }
+        }
+    }
+}

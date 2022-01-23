@@ -1,0 +1,28 @@
+// utils
+@use '../utils/position' as *;
+
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
+$list--padding:                 7rem;
+
+/*--------------------------------------------------------------
+# Styling
+--------------------------------------------------------------*/
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: '🤯 ';
+
+    .item {
+        font-size: 200%;
+        padding: $list--padding;
+
+        &.not-in-view {
+            opacity: 0.3;
+        }
+
+        transition: opacity 0.3s ease;
+    }
+}

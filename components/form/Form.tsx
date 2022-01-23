@@ -7,14 +7,14 @@ import { FormButton } from '../../elements';
 import { validateChild, isObjectEmpty } from '../../lib';
 // types
 import type { FormData } from 'types';
-import type { TextInputConfig, FieldSetConfig, ConditionalDisabled } from './types';
+import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
+    DependentInputsConfig, DisabledInputs } from './types';
 import type { Props as FieldSetProps } from './FieldSet';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
+import type { Props as DependentInputsProps } from './DependentInputs';
 // partial functions
 import initForm from './initForm';
 import transformData from './transformData';
-// constants
-import { CHILD_NAMES_LIST } from './constants';
 
 /* TYPES */
 interface ButtonProps {
@@ -34,6 +34,7 @@ interface ButtonProps {
 export interface Props {
     id: string;
     className?: string;
+    name: string;
     // TO-DO - find a better way to typecheck this
     onSubmit: ( input: { [ key: string ]: string } ) => void;
     buttonProps: ButtonProps;
@@ -50,6 +51,7 @@ const Form: FC<Props> = ( {
     children,
     id,
     className='',
+    name,
     onSubmit,
     buttonProps,
     conditionalDisabled={},
@@ -77,7 +79,7 @@ const Form: FC<Props> = ( {
     // form states
     const [ formData, setFormData ] = useState<FormData>( emptyFormData );
     const [ isFormComplete, setIsFormComplete ] = useState<boolean>( canFormSubmit );
-    const [ disabledInputs, setDisabledInputs ] = useState<Set<string>>( initialDisabled );
+    const [ disabledInputs, setDisabledInputs ] = useState<DisabledInputs>( initialDisabled );
     // submitting states
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
     // TO-DO - make this one state object
@@ -148,19 +150,17 @@ const Form: FC<Props> = ( {
 
     }, [ isSubmitting ] );
 
-    // check form status on initial render - if default values are specificed
+    // check form status on initial render - this is for if default values are specificed
     useEffect( () => {
         checkFormStatus( !isObjectEmpty( conditionalDisabled ) )
     }, [] );
 
     return (
-        <form id={id} className={formClasses} 
+        <form id={id} className={formClasses} name={name}
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
             {
                 Children.map( children, ( child ) => {
-                    const validation = validateChild( child, {
-                        elementNames: CHILD_NAMES_LIST,
-                    } );
+                    const validation = validateChild( child );
         
                     if ( validation === 'FieldSet' ) {
                         const fieldSetChild = child as ReactElement<FieldSetProps>;
@@ -180,6 +180,20 @@ const Form: FC<Props> = ( {
                             config[ 'isParentDisabled' ] = true;
                         
                         return cloneElement( fieldSetChild, config );
+                    }
+
+                    if ( validation === 'DependentInputs' ) {
+                        const dependentInputsChild = child as ReactElement<DependentInputsProps>;
+
+                        const config: DependentInputsConfig = {
+                            formData, 
+                            conditionalDisabled,
+                            disabledInputs,
+                            onChange: setFormData,
+                            checkFormStatus,
+                        }
+
+                        return cloneElement( dependentInputsChild, config );
                     }
 
                     if ( validation === 'TextInput' ) {

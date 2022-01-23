@@ -31,8 +31,10 @@ const Tag = ( {
     isRounded=true,
 }: Props ) => {
 
+    /* CONTENT */
     const { text, icon=null } = content;
 
+    /* CLASSNAMES */
     const tagClasses = `
         tag-wrapper
         ${className}

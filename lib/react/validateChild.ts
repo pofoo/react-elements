@@ -7,8 +7,9 @@ export type Element = 'primitive' | 'HTMLElement' | 'JSXElement';
 export interface Options {
     // when provided, the HTML tag of the child is checked to match the element names array
     // if a match is found, the element name will be returned
+    // by default when elementNames is not speciifed, all JSXElement names will be returned
     // overrides match Element array
-    elementNames?: string[];
+    elementNames?: string[] | undefined;
     // array of potential element children that are allowed to be rendered
     match?: Element[];
 }
@@ -40,10 +41,12 @@ const validateChild = (
         if ( typeof type === 'function' ) {
             const displayName = type.name;
             
-            if ( elementNames && elementNames.includes( displayName ) )
+            if ( elementNames ) {
+                if ( elementNames.includes( displayName ) )
+                    return elementNames.includes( displayName ) ? displayName : false;
+            }
+            else if ( match.includes( 'JSXElement' ) )
                 return displayName;
-            
-            return match.includes( 'JSXElement' ) ? true : false;
         }
     }
 
