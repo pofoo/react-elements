@@ -11,5 +11,5 @@ export default {
 const Template: ComponentStory<typeof Element> = ( args ) => <Element {...args} />;
 export const Dots = Template.bind({});
 Dots.args = {
-    color: 'green',
+    color: 'purple',
 }

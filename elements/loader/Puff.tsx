@@ -4,8 +4,8 @@ import { Colors } from 'types';
 /* TYPES */
 interface Props {
     className?: string;
-    ariaLabel: string;
     color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
+    ariaLabel: string;
 }
 
 const Puff =( {
