@@ -8,6 +8,8 @@ import { Accordian, AccordianPanel } from './accordian';
 import { Form, FieldSet, DependentInputs } from './form';
 import Notification from './notification';
 import List from './list';
+import TagInput from './tag-input';
+import Panel from './panel';
 
 export {
     Hello,
@@ -23,4 +25,6 @@ export {
     Notification,
     List,
     DependentInputs,
+    TagInput,
+    Panel,
 }

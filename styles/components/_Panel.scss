@@ -1,0 +1,41 @@
+// constants
+@use '../constants/breakpoints' as *;
+
+.panel {
+    display: flex;
+    justify-content: center;
+
+    .text {
+        flex-basis: 40%;
+        margin: auto;
+    }
+
+    .panel-icon {
+        flex-basis: 55%;
+    }
+
+    @media ( min-width: $breakpoint--medium ) {
+        .text {
+            padding-top: 1rem;
+        }
+
+        .panel-icon {
+            padding-left: 5rem;
+        }
+    }
+
+    @media ( max-width: $breakpoint--medium ) {
+        flex-direction: column; 
+
+        .text {
+            order: 2;
+            text-align: center;
+        }
+
+        .panel-icon {
+            order: 1;
+            align-self: center;
+            padding: 0 2.5rem 2.5rem 2.5rem;
+        }
+    }
+}

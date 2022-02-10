@@ -22,18 +22,17 @@ const Heading = ( {
     Tag='h2',
     className='',
     content,
-    color='blue',
-    gradient=true,
-    link=true,
+    color,
+    gradient=false,
+    link=false,
 }: Props ) => {
-
     /* CONTENT */
     const { text } = content;
 
     /* CLASSNAMES */
     const headingClasses = `
         heading
-        ${color}
+        ${color ? color : ''}
         ${gradient ? 'gradient' : ''}
         ${link ? 'link' : ''}
         ${className}
