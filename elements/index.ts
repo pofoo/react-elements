@@ -9,6 +9,7 @@ import NavLink from './nav-link';
 import { Checkbox, FileInput, Radio, Search, Select, TextInput } from './form';
 import Blurb from './blurb';
 import { Puff, Success, Fail, Dots } from './loader';
+import XClose from './x-close';
 
 export {
     FormButton,
@@ -38,4 +39,5 @@ export {
     Success,
     Fail,
     Dots,
+    XClose,
 }

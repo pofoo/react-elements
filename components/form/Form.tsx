@@ -20,7 +20,8 @@ import initForm from './initForm';
 import transformData from './transformData';
 
 /* TYPES */
-export type OnSubmit = <T>( input: TransformedFormData<T> ) => Promise<boolean | undefined | void>;
+export type OnSubmit = <T>( input: TransformedFormData<T> ) => 
+    ( Promise<boolean | undefined | void> ) | ( boolean | undefined | void );
 
 interface ButtonProps {
     buttonContent: {
@@ -140,6 +141,8 @@ const Form: FC<Props> = ( {
             clearForm();
         else if ( didFormSubmit === false )
             setDisabledInputs( prevDisabled );
+        else
+            clearForm();
 
         if ( showSubmitAnimation ) {
             setFormReturn( didFormSubmit ? 'success' : 'fail' );

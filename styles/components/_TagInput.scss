@@ -1,0 +1,24 @@
+// animations
+@use '../animations/scaleIn' as *;
+
+.tag-input-wrapper {
+    .tags-wrapper {
+        display: flex;
+
+        .tag {
+            $tag-gap: 0.3rem;
+
+            margin: 0 $tag-gap $tag-gap $tag-gap;
+
+            &:first-child {
+                margin: 0 $tag-gap $tag-gap 0;
+            }
+    
+            &:last-child {
+                margin: 0 0 $tag-gap $tag-gap;
+            }
+
+            animation: scale-in 0.3s ease;
+        }
+    }
+}

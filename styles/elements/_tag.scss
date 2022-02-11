@@ -16,7 +16,7 @@ $tag--border-radius:        0.6rem;
 /*--------------------------------------------------------------
 # Styling
 --------------------------------------------------------------*/
-.tag-wrapper {
+.tag {
     $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
 
     padding: $tag--padding;

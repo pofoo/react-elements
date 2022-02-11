@@ -25,58 +25,73 @@ export interface Props {
     id: string;
     className?: string;
     content: Content;
+    tagLimit?: number;
 }
 
 const TagInput = ( {
     id,
     className,
     content={},
+    tagLimit=3,
 }: Props ) => {
-    /* CONSTANTS */
-    const TAG_INPUT_NAME = 'tag-input';
-
     /* HOOKS */
     const [ tags, setTags ] = useState<Tag[]>( [] );
 
     /* FUNCTIONS */
     const onSubmit = ( input: TransformedFormData<Input> ) => {
-        setTags( ( prevTags ) => {
-            return [
-                {
-                    text: input.tagInput,
-                },
-                ...prevTags,
-            ]
-        } );
+        if ( tags.length >= tagLimit ) {
+            alert( `You can only have ${tagLimit} tags!` );
+            
+            return false;
+        }
+        else
+            setTags( ( prevTags ) => {
+                return [
+                    ...prevTags,
+                    {
+                        text: input.tagInput,
+                    },
+                ]
+            } );
     }
 
     /* CONTENT */
     const { buttonText='Add Tag' } = content;
 
     const buttonProps = {
-        content: {
+        buttonContent: {
             text: buttonText,
         },
-        ariaLabel: 'Add Tag',
+        buttonAriaLabel: 'Add Tag',
     }
 
     const textInputContent = {
         placeholder: 'Tag',
+        label: 'Tag your blogpost!'
     }
 
+    /* CLASSNAMES */
+    const tagInputClasses = `
+        tag-input-wrapper
+        ${className}
+    `;
+
     return (
-        <section id={id} className={className}>
-            {
-                tags.map( ( { text } ) => {
-                    return (
-                        <Tag content={{text}} />
-                    )
-                } )
-            }
+        <section id={id} className={tagInputClasses}>
+            <div className='tags-wrapper'>
+                {
+                    tags.map( ( { text } ) => {
+                        return (
+                            <Tag content={{text}} />
+                        )
+                    } )
+                }
+            </div>
             <Form id='tag-input-form' name='tag-input-form' 
-                onSubmit={() => {}} buttonProps={buttonProps}>
-                <TextInput id='tag-input' name={TAG_INPUT_NAME} type='text'
-                    content={textInputContent} />
+                onSubmit={onSubmit} buttonProps={buttonProps}
+                showSubmitAnimation={false}>
+                <TextInput id='tag-input' name='tagInput' type='text'
+                    content={textInputContent} showValid={false} />
             </Form>
         </section>
     )

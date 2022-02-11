@@ -3,7 +3,7 @@ import { FC } from 'react';
 // hooks
 import { useClickOutsideRef, useFocusTrap } from '../../hooks';
 // elements
-import { ToggleButton } from '../../elements';
+import { ToggleButton, XClose } from '../../elements';
 
 
 /* TYPES */
@@ -56,10 +56,7 @@ const Modal: FC<Props> = ( {
             <div ref={ref} className={modalWrapperClasses}
                 role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
                 {children}
-                <ToggleButton className='x-close' onClick={closeModal}
-                    ariaLabel='close modal' isPressed={isActive}>
-                    &times;
-                </ToggleButton>
+                <XClose onClick={closeModal} ariaLabel='close modal' isPressed={isActive} />
             </div>
             {
                 showBackdrop && (

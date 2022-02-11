@@ -54,7 +54,7 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
             transition: opacity $text-input-valid-icon--transition-time ease;
 
             .text-input-blurb {
-                $width: 11rem;
+                $width: 10rem;
 
                 position: absolute;
                 top: -50%;
@@ -72,7 +72,7 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
                             transform $text-input-valid-icon--transition-time ease,
                             visibility $text-input-valid-icon--transition-time ease;
 
-                @media ( max-width: $breakpoint--small ) {
+                @media ( max-width: $breakpoint--medium ) {
                     left: -$width * 1.02;
                     transform-origin: right;
                 }
@@ -92,7 +92,7 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
         $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
 
         padding: 0.6rem;
-        outline: 1px solid gray;
+        outline: 2px solid gray;
 
         box-shadow: 0 1.5px 2px 1px map.get( $shadow-colors, 2 ),
                     0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
@@ -102,13 +102,13 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
 
         &:disabled {
             // TO-DO - change these colors
-            outline: 3px solid gray;
+            outline: 4px solid gray;
             background: lightgray;
         }
 
         &:not( :disabled ) {
             &:hover {
-                outline: 2px solid gray;
+                outline: 3px solid gray;
             }
         }
 
@@ -173,7 +173,7 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
         &.touched {
             &.not-valid {
                 .text-input {
-                    &.animate-not-valid {
+                    &.animate {
                         animation: shake $text-input--transition-time ease-in-out
                                 $text-input--valid-animation-delay;
                     }
@@ -197,15 +197,19 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
         }
         
         .text-input-label {
-            .text {
-                $translate: $text-input--margin-bottom * 2.5;
+            &.animate {
+                .text {
+                    $translate: $text-input--margin-bottom * 2.5;
 
-                transform: translate( $translate, $translate );
+                    transform: translate( $translate, $translate );
+                }
             }
         }
 
         .text-input {
-            transform: scaleX( 1.05 );
+            &.animate {
+                transform: scaleX( 1.03 );
+            }
 
             @include tap {
                 outline: 2px solid map.get( $colors, 'brand-blue', 3 );

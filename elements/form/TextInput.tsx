@@ -49,8 +49,12 @@ export interface Props {
     maxLength?: number;
     // styling
     isRounded?: boolean;
-    showValid?: boolean;
+    // toggle animate to disabled ALL animations
+    animate?: boolean;
+    animateInput?: boolean;
     animateNotValid?: boolean;
+    animateLabel?: boolean;
+    showValid?: boolean;
 }
 
 /**
@@ -74,8 +78,11 @@ const TextInput = ( {
     pattern,
     maxLength=100,
     isRounded=true,
-    showValid=true,
+    animate=true,
+    animateInput=true,
     animateNotValid=true,
+    animateLabel=true,
+    showValid=true,
     ...rest
 }: Props ) => {
 
@@ -123,13 +130,13 @@ const TextInput = ( {
 
     if ( inputName === undefined )
         throw( SyntaxError( 'If type is text, a name must be provided for the input' ) );
+        
+    if ( inputLabel === undefined )
+        throw( SyntaxError( 'If type is text, a name must be provided for the input for accessibility purposes' ) );
 
     if ( onChange === undefined )
         throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
 
-    if ( checkFormStatus === undefined )
-        throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
-    
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
     
@@ -138,7 +145,7 @@ const TextInput = ( {
 
     if ( isValid === undefined )
         throw( SyntaxError( 'isValid value not specified - use built in Form wrapper component' ) );
-    
+
     /* FUNCTIONS */
     const setFormState = ( 
         newValid: boolean,
@@ -198,6 +205,7 @@ const TextInput = ( {
     const textInputWrapperClasses = `
         input-wrapper
         text-input-wrapper
+        ${animate && animateInput ? 'animate' : ''}
         ${isRounded ? 'rounded' : ''}
         ${disabled ? 'disabled' : 'not-disabled'}
         ${touched ? 'touched' : 'not-touched'}
@@ -211,8 +219,14 @@ const TextInput = ( {
     const textInputClasses = `
         input
         text-input
-        ${animateNotValid ? 'animate-not-valid' : ''}
+        ${animate && animateNotValid ? 'animate' : ''}
         ${inputType}
+    `;
+
+    const labelClasses = `
+        label
+        text-input-label
+        ${animate && animateLabel ? 'animate' : ''}
     `;
 
     // check the form status everytime isValid changes EXCEPT on initial render
@@ -242,7 +256,7 @@ const TextInput = ( {
    
     return (
         <div className={textInputWrapperClasses}>
-            <label className='label text-input-label' htmlFor={inputID}>
+            <label className={labelClasses} htmlFor={inputID}>
                 <div className='text'>
                     {inputLabel}
                     {
@@ -252,7 +266,7 @@ const TextInput = ( {
                     }
                 </div>
                 {
-                    showValid && (
+                    animate && showValid && (
                         <div className='valid-icon' role='presentation' 
                             aria-label={`${inputName} ${isValidClasses} icon`} 
                             aria-hidden={!touched && !focused}>
@@ -270,6 +284,9 @@ const TextInput = ( {
                     )
                 }
             </label>
+            {
+
+            }
             <input ref={inputRef} id={inputID} className={textInputClasses} type={inputType}
                 onChange={handleChange} onBlur={() => handleBlur()}
                 onFocus={() => handleFocus()} placeholder={actualPlaceholder}

@@ -36,7 +36,7 @@ const Tag = ( {
 
     /* CLASSNAMES */
     const tagClasses = `
-        tag-wrapper
+        tag
         ${className}
         ${color}
         ${isRounded ? 'rounded' : ''}
