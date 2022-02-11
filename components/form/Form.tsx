@@ -5,10 +5,13 @@ import { FC, FormEvent, Children, cloneElement, ReactElement,
 import { FormButton } from '../../elements';
 // lib
 import { validateChild, isObjectEmpty } from '../../lib';
+// utils
+import checkValid from './checkValid';
 // types
-import type { FormData } from 'types';
+import type { FormData, TransformedFormData} from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
-    DependentInputsConfig, DisabledInputs } from './types';
+    DependentInputsConfig, DisabledInputs,
+    InitialValues } from './types';
 import type { Props as FieldSetProps } from './FieldSet';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
 import type { Props as DependentInputsProps } from './DependentInputs';
@@ -17,6 +20,8 @@ import initForm from './initForm';
 import transformData from './transformData';
 
 /* TYPES */
+export type OnSubmit = <T>( input: TransformedFormData<T> ) => Promise<boolean | undefined | void>;
+
 interface ButtonProps {
     buttonContent: {
         text: string;
@@ -35,8 +40,12 @@ export interface Props {
     id: string;
     className?: string;
     name: string;
+    // overrides any values placed in input child content prop
+    initialValues?: InitialValues;
+    // If returns true, the form sucessfully submitted. If returns false, the form failed to submit.
     // TO-DO - find a better way to typecheck this
-    onSubmit: ( input: { [ key: string ]: string } ) => void;
+    onSubmit: OnSubmit;
+    showSubmitAnimation?: boolean;
     buttonProps: ButtonProps;
     conditionalDisabled?: ConditionalDisabled;
     autoFocus?: string; // which input element to focus (based off DOM structure)
@@ -52,7 +61,9 @@ const Form: FC<Props> = ( {
     id,
     className='',
     name,
+    initialValues={},
     onSubmit,
+    showSubmitAnimation=true,
     buttonProps,
     conditionalDisabled={},
     autoFocus,
@@ -65,11 +76,14 @@ const Form: FC<Props> = ( {
         ...restButtonProps
     } = buttonProps;
 
-    const [ emptyFormData, 
+    const { initialFormData, 
         canFormSubmit, 
         initialDisabled,
         expandedConditionalDisabled,
-    ] = useMemo( () => initForm( children, conditionalDisabled ), [] );
+    } = useMemo( () => initForm( children, { 
+        initialValues,
+        conditionalDisabled,
+    } ), [] );
 
     /* ERRORS */
     // TO-DO - implement conditionalDisabled errors check
@@ -77,16 +91,12 @@ const Form: FC<Props> = ( {
 
     /* HOOKS */
     // form states
-    const [ formData, setFormData ] = useState<FormData>( emptyFormData );
+    const [ formData, setFormData ] = useState<FormData>( initialFormData );
     const [ isFormComplete, setIsFormComplete ] = useState<boolean>( canFormSubmit );
     const [ disabledInputs, setDisabledInputs ] = useState<DisabledInputs>( initialDisabled );
     // submitting states
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
-    // TO-DO - make this one state object
-    // TO-DO - render these as side effects when isSubmitting changes
     const [ formReturn, setFormReturn ] = useState<'success' | 'fail' | null>( null );
-    const [ isSuccess, setIsSuccess ] = useState<boolean | null>( null );
-    const [ isFail, setIsFail ] = useState<boolean | null>( null );
 
     /* FUNCTIONS */
     const disableAllInputs = () => {
@@ -96,25 +106,47 @@ const Form: FC<Props> = ( {
         } );
 
         setDisabledInputs( new Set( formElementsArray ) );
+
+        return disabledInputs;
     }
 
-    const onFormSubmit = ( event: FormEvent, data: FormData ) => {
+    const clearForm = ( resetValues: boolean=true ) => {
+        const { initialFormData: emptyFormData, 
+            canFormSubmit,
+            initialDisabled, 
+        } = initForm( children, {
+                initialValues,
+                ignoreChildValues: true,
+                conditionalDisabled,
+            } );
+
+        if ( resetValues ) {
+            setFormData( emptyFormData );
+            setIsFormComplete( canFormSubmit );
+        }
+
+        setDisabledInputs( initialDisabled );
+    }
+
+    const onFormSubmit = async ( event: FormEvent, data: FormData ) => {
         event.preventDefault();
+
         setIsSubmitting( true );
-        disableAllInputs();
-        // call the onSubmit function - might want to do this asynchronously and see result to the the states
-        onSubmit( transformData( data ) );
-        setTimeout( () => {
-            setIsSubmitting( false );
-            setDisabledInputs( new Set() );
-            // setIsSuccess( true );
-            // setTimeout( () => setIsSuccess( false ), 1500 );
-            setIsFail( true );
-            setTimeout( () => setIsFail( false ), 1500 );
-        }, 1000 )
-        // set isSuccess or isFail depending on result
-        // show notification
-        // clear form data
+        const prevDisabled = disableAllInputs();
+
+        const didFormSubmit = await onSubmit( transformData( data ) );
+
+        if ( didFormSubmit )
+            clearForm();
+        else if ( didFormSubmit === false )
+            setDisabledInputs( prevDisabled );
+
+        if ( showSubmitAnimation ) {
+            setFormReturn( didFormSubmit ? 'success' : 'fail' );
+            setTimeout( () => setFormReturn( null ), 1000 );
+        }
+
+        setIsSubmitting( false );
     }
 
     const checkFormStatus = ( 
@@ -144,12 +176,7 @@ const Form: FC<Props> = ( {
         form
         ${className}
     `;
-
-    // submit the form
-    useEffect( () => {
-
-    }, [ isSubmitting ] );
-
+    
     // check form status on initial render - this is for if default values are specificed
     useEffect( () => {
         checkFormStatus( !isObjectEmpty( conditionalDisabled ) )
@@ -186,7 +213,7 @@ const Form: FC<Props> = ( {
                         const dependentInputsChild = child as ReactElement<DependentInputsProps>;
 
                         const config: DependentInputsConfig = {
-                            formData, 
+                            formData,
                             conditionalDisabled,
                             disabledInputs,
                             onChange: setFormData,
@@ -201,14 +228,17 @@ const Form: FC<Props> = ( {
         
                         const name = inputChild.props.name || inputChild.props.type;
                         const prevContent = inputChild.props.content;
+                        const inputData = formData[ name ];
         
                         const config: TextInputConfig = {
                             onChange: setFormData,
                             content: {
                                 ...prevContent,
-                                value: formData[ name ].value,
+                                value: inputData.value,
                             },
                             checkFormStatus,
+                            checkValid,
+                            isValid: inputData.isValid,
                         }
         
                         if ( disabledInputs.has( name ) )
@@ -227,8 +257,9 @@ const Form: FC<Props> = ( {
             }
             <div className='submit-button-wrapper'>
                 <FormButton className={buttonClassName} content={buttonContent}
-                    ariaLabel={buttonAriaLabel} isDisabled={isSubmitting || !isFormComplete ? true : false}
-                    isSuccess={isSuccess ? true : false} isFail={isFail ? true : false}
+                    ariaLabel={buttonAriaLabel} isDisabled={isSubmitting || !isFormComplete}
+                    isSuccess={formReturn === 'success'} isFail={formReturn === 'fail'}
+                    isLoading={isSubmitting}
                     {...restButtonProps} />
             </div>
             {

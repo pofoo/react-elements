@@ -11,7 +11,7 @@ import type ObjectAtLeastOne from './objectAtLeastOne';
 import type ConditionalProps from './conditionalProps';
 import type { ReactTapEvent, TapEvent } from './tap-event';
 import type SetState from './setState';
-import type { FormData, SetFormData } from './formData';
+import type { FormData, SetFormData, TransformedFormData } from './formData';
 
 export type {
     Href,
@@ -31,4 +31,5 @@ export type {
     SetState,
     FormData,
     SetFormData,
+    TransformedFormData,
 }

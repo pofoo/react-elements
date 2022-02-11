@@ -2,6 +2,8 @@
 import { FC, Children, ReactElement, cloneElement } from 'react';
 // lib
 import { validateChild } from '../../lib';
+// utils
+import checkValid from './checkValid';
 // types
 import type { CheckFormStatus, 
     TextInputConfig, ConditionalDisabled } from './types';
@@ -85,14 +87,17 @@ const FieldSet: FC<Props> = ( {
         
                         const name = inputChild.props.name || inputChild.props.type;
                         const prevContent = inputChild.props.content;
+                        const inputData = formData[ name ];
         
                         const config: TextInputConfig = {
                             onChange,
                             content: {
                                 ...prevContent,
-                                value: formData[ name ].value,
+                                value: inputData.value,
                             },
                             checkFormStatus,
+                            checkValid,
+                            isValid: inputData.isValid,
                         }
 
                         if ( isParentDisabled && expandedConditionalDisabled[ name ] )

@@ -2,11 +2,13 @@
 import { FC, Children, ReactElement, cloneElement, useRef } from 'react'
 // lib
 import { validateChild } from '../../lib';
+// utils
+import checkValid from './checkValid';
 // types
 import type { CheckFormStatus, DisabledInputs, 
     TextInputConfig, ConditionalDisabled } from './types';
 import type { SetFormData, FormData } from '../../types';
-import type { Props as TextInputProps, Match } from '../../elements/form/TextInput';
+import type { TextInputProps, Match } from '../../elements/form/types';
 
 /* TYPES */
 export interface Props {
@@ -67,7 +69,8 @@ const DependentInputs: FC<Props> = ( {
 
                         const name = inputChild.props.name || inputChild.props.type;
                         const prevContent = inputChild.props.content;
-                        const value = formData[ name ].value;
+                        const inputData = formData[ name ];
+                        const value = inputData.value;
         
                         const config: DependentTextInputConfig = {
                             onChange,
@@ -76,6 +79,8 @@ const DependentInputs: FC<Props> = ( {
                                 value,
                             },
                             checkFormStatus,
+                            checkValid,
+                            isValid: inputData.isValid,
                         }
     
                         if ( disabledInputs.has( name ) )
