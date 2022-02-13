@@ -1,5 +1,6 @@
 // dependencies
 @use 'sass:map';
+@use 'sass:math';
 // constants
 @use '../constants/colors' as *;
 // utils
@@ -10,9 +11,9 @@
 /*--------------------------------------------------------------
 # Variables
 --------------------------------------------------------------*/
-$tag--padding:              0.8rem;
+$tag--padding:              0.6rem;
 $tag--border:               2px solid #000;
-$tag--border-radius:        0.6rem;
+$tag--border-radius:        0.65rem;
 
 /*--------------------------------------------------------------
 # Styling
@@ -24,12 +25,15 @@ $tag--border-radius:        0.6rem;
     position: relative;
     cursor: default;
     padding: $tag--padding;
-    border: $tag--border;
     width: max-content;
-    box-shadow: 0 2px 2px 0.5px map.get( $shadow-colors, 2 ),
-                0 2px 2px 1px map.get( $shadow-colors, 1 );
 
     transition: opacity $transition;
+
+    &.retro {
+        border: $tag--border;
+        box-shadow: 0 2px 2px 0.5px map.get( $shadow-colors, 2 ),
+                    0 2px 2px 1px map.get( $shadow-colors, 1 );
+    }
 
     &.rounded {
         border-radius: $tag--border-radius;
@@ -51,6 +55,11 @@ $tag--border-radius:        0.6rem;
             transition: opacity $transition;
         }
 
+        &.retro {
+            top: 7%;
+            right: 0;
+        }
+
         @include tap {
             opacity: 0.8;
     
@@ -58,12 +67,16 @@ $tag--border-radius:        0.6rem;
                 opacity: 1;
 
                 &:before {
+                    $width: 80%;
+
+                    width: $width;
+                    left: math.div( ( 100% - $width ), 2 );
                     transform: scale( 0.7 );
                 }
 
                 @include tap {
                     &:before {
-                        transform: scale( 0.9 );
+                        transform: scale( 0.8 );
                     }
                 }
             }

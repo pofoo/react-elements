@@ -1,18 +1,7 @@
 /*--------------------------------------------------------------
 # Base Colors
 --------------------------------------------------------------*/
-export const colors = {
-    /*--------------------------------------------------------------
-    # Brand Colors
-        5 - strongest color strength, 1 - weakest color strength
-    --------------------------------------------------------------*/
-    brandBlue: {
-        5:                          '#3B6CEB',
-        4:                          '#467EEB',
-        3:                          '#6F97FF',
-        2:                          '#8EABF8',
-        1:                          '#B7CBFF',
-    },
+export const COLORS = {
     /*--------------------------------------------------------------
     # Pallete
         4 - strongest color strength, 1 - weakest color strength
@@ -55,10 +44,20 @@ export const colors = {
     },
 };
 
+export const BRAND_COLORS = {
+    brandBlue: {
+        5:                          '#3B6CEB',
+        4:                          '#467EEB',
+        3:                          '#6F97FF',
+        2:                          '#8EABF8',
+        1:                          '#B7CBFF',
+    },
+}
+
 /*--------------------------------------------------------------
 # Background Colors
 --------------------------------------------------------------*/
-export const background = {
+export const BACKGROUND_COLORS = {
     ghostWhite:                  '#F8F7FF',
     antiqueWhite:                '#FFEEDD',
     mintCream:                   '#DBE7E4',
@@ -69,7 +68,7 @@ export const background = {
 # Shadow Colors
     4 - strongest color strength, 1 - weakest color strength
 --------------------------------------------------------------*/
-export const shadow = {
+export const SHADOW_COLORS = {
     4:                          'rgba( 0, 0, 0, 0.3 )',
     3:                          'rgba( 0, 0, 0, 0.25 )',
     2:                          'rgba( 0, 0, 0, 0.2 )',

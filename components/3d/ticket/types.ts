@@ -1,3 +1,5 @@
+import type { Colors } from 'types';
+
 export interface Distort {
     xDistort?: number;
     yDistort?: number;
@@ -33,4 +35,4 @@ export interface SmoothAnimationStyles {
     perspective: string;
 }
 
-export type Shadow = 'brandBlue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink' | 'shadow';
+export type Shadow = Colors | 'shadow';

@@ -1,11 +1,13 @@
 // dependencies
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 // components
 import { Form } from '../form';
 // elements
 import { Tag, TextInput } from '../../elements';
+// lib
+import { COLORS, changeArrayIndex } from '../../lib';
 // types
-import type { TransformedFormData } from 'types';
+import type { TransformedFormData, Colors } from 'types';
 
 
 /* TYPES */
@@ -27,6 +29,7 @@ export interface Props {
     content: Content;
     tagLimit?: number;
     maxTagLength?:number;
+    alternateColor?: boolean;
 }
 
 const TagInput = ( {
@@ -35,9 +38,14 @@ const TagInput = ( {
     content={},
     tagLimit=3,
     maxTagLength=25,
+    alternateColor=true,
 }: Props ) => {
     /* HOOKS */
+    const colorNames = useRef<Colors[]>( Object.keys( COLORS ) as Colors[] );
     const [ tags, setTags ] = useState<Tag[]>( [] );
+    const [ currColors, setCurrColors ] = useState<Colors[]>( 
+        [ colorNames.current[ 0 ] ] );
+    const [ colorIndex, setColorIndex ] = useState<number>( 1 );
 
     /* FUNCTIONS */
     const onSubmit = ( input: TransformedFormData<Input> ) => {
@@ -46,7 +54,7 @@ const TagInput = ( {
             
             return false;
         }
-        else
+        else {
             setTags( ( prevTags ) => {
                 return [
                     ...prevTags,
@@ -55,6 +63,20 @@ const TagInput = ( {
                     },
                 ]
             } );
+
+            if ( alternateColor ) {
+                setCurrColors( ( colors ) => {
+                    return [
+                        ...colors,
+                        colorNames.current[ colorIndex ],
+                    ]
+                } );
+                setColorIndex( ( index ) => {
+                    return changeArrayIndex( 
+                        index, colorNames.current.length );
+                } );
+            }
+        }
     }
 
     const deleteTag = ( index: number ) => {
@@ -94,7 +116,8 @@ const TagInput = ( {
                         }
 
                         return (
-                            <Tag key={text} content={{text}} close={close} />
+                            <Tag key={text} content={{text}} close={close}
+                                color={currColors[index]} />
                         )
                     } )
                 }

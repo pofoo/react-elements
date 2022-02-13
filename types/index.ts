@@ -5,7 +5,7 @@ import type EventFunction from './eventFunction';
 import type OnChange from './onChange';
 import type OnSubmit from './onSubmit';
 import type OnInput from './onInput';
-import type { Colors, BackgroundColors } from './colors';
+import type { Colors, BackgroundColors, BrandColors } from './colors';
 import type Image from './Image';
 import type ObjectAtLeastOne from './objectAtLeastOne';
 import type ConditionalProps from './conditionalProps';
@@ -34,4 +34,5 @@ export type {
     SetFormData,
     TransformedFormData,
     VoidFn,
+    BrandColors,
 }
