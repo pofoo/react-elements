@@ -58,9 +58,6 @@ const DependentInputs: FC<Props> = ( {
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
 
-    if ( focusedInput === undefined )
-        throw( SyntaxError( 'focusedInput Ref Object not specified - use built in Form wrapper component' ) );
-
     /* HOOKS */
     const match = useRef<Match>();
 

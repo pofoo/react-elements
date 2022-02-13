@@ -1,5 +1,6 @@
 // types
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { FormOnSubmit } from '../../../components/types';
 // components
 import { Form } from '../../../components';
 // elements
@@ -15,7 +16,7 @@ interface Props {
   formProps: {
     id: string;
     name: string;
-    onSubmit: ( input: { [ key: string ]: string } ) => void;
+    onSubmit: FormOnSubmit;
     buttonProps: {
         buttonContent: {
             text: string;
@@ -47,7 +48,11 @@ TextInput.args = {
   formProps: {
     id: 'text-input-form',
     name: 'text-input-form',
-    onSubmit: ( input ) => alert( JSON.stringify( input ) ),
+    onSubmit: async ( input ) => {
+      await setTimeout( 
+        () => alert( JSON.stringify( input ) ), 
+        500 );
+    },
     buttonProps: {
       buttonContent: {
         text: 'submit',

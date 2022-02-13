@@ -15,6 +15,7 @@ $text-input--margin-bottom:                     0.25rem;
 $text-input--transition-time:                   0.24s;
 $text-input-valid-icon--transition-time:        0.15s;
 $text-input--valid-animation-delay:             $text-input--transition-time * 0.7;
+$text-input--disabled-color:                    lightgray;
 
 /*--------------------------------------------------------------
 # Styling
@@ -103,7 +104,7 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
         &:disabled {
             // TO-DO - change these colors
             outline: 4px solid gray;
-            background: lightgray;
+            background: $text-input--disabled-color;
         }
 
         &:not( :disabled ) {
@@ -131,6 +132,14 @@ $text-input--valid-animation-delay:             $text-input--transition-time * 0
     /* STATES */
     &.parent-conditional {
         // TO-DO - give some indication of parent conditional
+    }
+
+    &.disabled {
+        .text-input-label {
+            .text {
+                background: $text-input--disabled-color;
+            }
+        }
     }
 
     &.valid {
