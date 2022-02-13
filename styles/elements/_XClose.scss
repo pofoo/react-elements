@@ -8,14 +8,16 @@
 .x-close {
     position: relative;
     font-size: 30px;
+    mix-blend-mode: multiply;
 
     // background on hover and focus
     &:before {
+        $width: 80%;
         content: "";
         position: absolute;
-        width: 100%;
+        width: $width;
         height: 100%;
-        right: 0rem;
+        left: ( 100% - $width ) / 2;
         mix-blend-mode: multiply;
         border-radius: 20%;
         
@@ -31,7 +33,7 @@
     &.background {
         &:before {
             opacity: 0.7;
-            transform: scale( 0.9 );
+            transform: scale( 0.7 );
         }
     }
 
@@ -52,7 +54,7 @@
     @include tap {
         &:before {
             opacity: 1;
-            transform: scale( 0.97 );
+            transform: scale( 0.9 );
         }
     }
 }

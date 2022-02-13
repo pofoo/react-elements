@@ -1,9 +1,14 @@
-// partials
+// elements
 import SVG from '../svg';
+import XClose from '../x-close';
 // types
-// import { Colors } from 'types';
+import type { Colors, VoidFn } from 'types';
 
 /* TYPES */
+interface Close {
+    onClick: VoidFn;
+}
+
 interface Content {
     text: string;
     icon?: {
@@ -16,9 +21,11 @@ interface Props {
     // customization
     className?: string;
     content: Content;
+    close?: Close;
     // styling
     color?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
     isRounded?: boolean;
+    type?: 'retro' | 'glass';
 }
 
 /**
@@ -27,10 +34,11 @@ interface Props {
 const Tag = ( {
     className='',
     content,
+    close,
     color='green',
     isRounded=true,
+    type='retro',
 }: Props ) => {
-
     /* CONTENT */
     const { text, icon=null } = content;
 
@@ -40,6 +48,8 @@ const Tag = ( {
         ${className}
         ${color}
         ${isRounded ? 'rounded' : ''}
+        ${type ? type : ''}
+        ${close ? 'has-close' : ''}
     `;
 
     // TO-DO - implement icon
@@ -54,6 +64,12 @@ const Tag = ( {
                 )
             }
             <span className='tag-text'>{text}</span>
+            {
+                close !== undefined && (
+                    <XClose onClick={close.onClick} ariaLabel={`delete ${text} tag`}
+                        shape='circle' showBackground={true} />
+                )
+            }
         </div>
     )
 }

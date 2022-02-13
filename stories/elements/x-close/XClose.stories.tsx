@@ -14,5 +14,4 @@ export const XClose = Template.bind({});
 XClose.args = {
     onClick: () => null,
     ariaLabel: 'close this thing',
-    isPressed: false,
 }

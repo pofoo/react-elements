@@ -5,6 +5,7 @@ type FormData = {
     [ key: string ]: {
         value: string;
         isValid: boolean;
+        resetTouched?: true;
     }
 }
 

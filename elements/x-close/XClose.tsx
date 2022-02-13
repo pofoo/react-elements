@@ -1,14 +1,13 @@
 // elements
 import { ToggleButton } from '../button';
 // types
-import type { Colors, OnClick } from 'types';
+// import type { Colors } from 'types';
 
 /* TYPES */
 interface Props {
     className?: string;
-    onClick: OnClick;
+    onClick: () => void;
     ariaLabel: string;
-    isPressed: boolean;
     backgroundColor?: 'brand-blue' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple' | 'pink';
     showBackground?: boolean;
     shape?: 'square' | 'circle';
@@ -18,7 +17,6 @@ const XClose = ( {
     className,
     onClick,
     ariaLabel,
-    isPressed,
     backgroundColor='pink',
     showBackground=false,
     shape='square',
@@ -34,7 +32,7 @@ const XClose = ( {
 
     return (
         <ToggleButton className={xCloseClasses} onClick={onClick}
-            ariaLabel={ariaLabel} isPressed={isPressed}>
+            ariaLabel={ariaLabel} ariaHasPopup={false} isPressed={true}>
             &times;
         </ToggleButton>
     )

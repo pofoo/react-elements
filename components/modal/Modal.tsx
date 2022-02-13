@@ -56,7 +56,7 @@ const Modal: FC<Props> = ( {
             <div ref={ref} className={modalWrapperClasses}
                 role='dialog' aria-labelledby={ariaLabelledBy} aria-describedby={ariaDescribedBy}>
                 {children}
-                <XClose onClick={closeModal} ariaLabel='close modal' isPressed={isActive} />
+                <XClose onClick={closeModal} ariaLabel='close modal' />
             </div>
             {
                 showBackdrop && (

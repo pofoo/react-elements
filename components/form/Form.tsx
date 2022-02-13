@@ -1,6 +1,6 @@
 // dependencies
-import { FC, FormEvent, Children, cloneElement, ReactElement, 
-    useMemo, useState, useEffect } from 'react';
+import { FC, FormEvent, Children, cloneElement, ReactElement,
+    useMemo, useState, useEffect, useRef } from 'react';
 // elements
 import { FormButton } from '../../elements';
 // lib
@@ -11,7 +11,7 @@ import checkValid from './checkValid';
 import type { FormData, TransformedFormData} from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
     DependentInputsConfig, DisabledInputs,
-    InitialValues } from './types';
+    InitialValues, FocusedInput } from './types';
 import type { Props as FieldSetProps } from './FieldSet';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
 import type { Props as DependentInputsProps } from './DependentInputs';
@@ -41,15 +41,16 @@ export interface Props {
     id: string;
     className?: string;
     name: string;
-    // overrides any values placed in input child content prop
-    initialValues?: InitialValues;
-    // If returns true, the form sucessfully submitted. If returns false, the form failed to submit.
-    // TO-DO - find a better way to typecheck this
+    // data
+    initialValues?: InitialValues; // overrides any values placed in input child content prop
+    conditionalDisabled?: ConditionalDisabled;
     onSubmit: OnSubmit;
+    // styling
     showSubmitAnimation?: boolean;
     buttonProps: ButtonProps;
-    conditionalDisabled?: ConditionalDisabled;
+    // customization
     autoFocus?: string; // which input element to focus (based off DOM structure)
+    keepFocus?: boolean; // keeps focus on the last focused input element after the form is submitted
 }
 
 /**
@@ -68,6 +69,7 @@ const Form: FC<Props> = ( {
     buttonProps,
     conditionalDisabled={},
     autoFocus,
+    keepFocus,
 } ) => {
 
     /* CONTENT */
@@ -92,6 +94,7 @@ const Form: FC<Props> = ( {
 
     /* HOOKS */
     // form states
+    const focusedInput = useRef<HTMLInputElement>( null ) as FocusedInput;
     const [ formData, setFormData ] = useState<FormData>( initialFormData );
     const [ isFormComplete, setIsFormComplete ] = useState<boolean>( canFormSubmit );
     const [ disabledInputs, setDisabledInputs ] = useState<DisabledInputs>( initialDisabled );
@@ -119,6 +122,7 @@ const Form: FC<Props> = ( {
                 initialValues,
                 ignoreChildValues: true,
                 conditionalDisabled,
+                setTouched: true,
             } );
 
         if ( resetValues ) {
@@ -147,6 +151,13 @@ const Form: FC<Props> = ( {
         if ( showSubmitAnimation ) {
             setFormReturn( didFormSubmit ? 'success' : 'fail' );
             setTimeout( () => setFormReturn( null ), 1000 );
+        }
+
+        if ( keepFocus ) {
+            const input = focusedInput.current;
+
+            if ( input )
+                input.focus();
         }
 
         setIsSubmitting( false );
@@ -182,7 +193,7 @@ const Form: FC<Props> = ( {
     
     // check form status on initial render - this is for if default values are specificed
     useEffect( () => {
-        checkFormStatus( !isObjectEmpty( conditionalDisabled ) )
+        checkFormStatus( !isObjectEmpty( conditionalDisabled ) );
     }, [] );
 
     return (
@@ -202,12 +213,13 @@ const Form: FC<Props> = ( {
                             onChange: setFormData,
                             checkFormStatus,
                             expandedConditionalDisabled,
+                            focusedInput,
                         }
         
                         if ( disabledInputs.has( name ) )
-                            config[ 'disabled' ] = true;
+                            config.disabled = true;
                         if ( conditionalDisabled[ name ] )
-                            config[ 'isParentDisabled' ] = true;
+                            config.isParentDisabled = true;
                         
                         return cloneElement( fieldSetChild, config );
                     }
@@ -221,6 +233,7 @@ const Form: FC<Props> = ( {
                             disabledInputs,
                             onChange: setFormData,
                             checkFormStatus,
+                            focusedInput,
                         }
 
                         return cloneElement( dependentInputsChild, config );
@@ -232,6 +245,7 @@ const Form: FC<Props> = ( {
                         const name = inputChild.props.name || inputChild.props.type;
                         const prevContent = inputChild.props.content;
                         const inputData = formData[ name ];
+                        const resetTouched = inputData.resetTouched;
         
                         const config: TextInputConfig = {
                             onChange: setFormData,
@@ -242,14 +256,18 @@ const Form: FC<Props> = ( {
                             checkFormStatus,
                             checkValid,
                             isValid: inputData.isValid,
+                            focusedInput,
                         }
+
+                        if ( resetTouched )
+                            config.resetTouched = true;
         
                         if ( disabledInputs.has( name ) )
-                            config[ 'disabled' ] = true;
+                            config.disabled = true;
                         if ( conditionalDisabled[ name ] )
-                            config[ 'isParentDisabled' ] = true;
+                            config.isParentDisabled = true;
                         if ( autoFocus === name )
-                            config[ 'autoFocus' ] = true;
+                            config.autoFocus = true;
         
                         return cloneElement( inputChild, config );
                     }

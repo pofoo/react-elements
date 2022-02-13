@@ -1,4 +1,5 @@
 // types
+import type { RefObject, MutableRefObject } from 'react';
 import type { SetFormData, FormData } from '../../types';
 import type { Props as DependentInputsProps } from './DependentInputs';
 import type { Props as FieldSetProps } from './FieldSet';
@@ -20,6 +21,8 @@ type DisabledInputs = Set<string>;
 
 type CheckFormStatus = ( checkDisabled: boolean ) => void;
 
+type FocusedInput = MutableRefObject<HTMLInputElement| null>;
+
 interface Content {
     label?: string;
     value?: string;
@@ -32,9 +35,11 @@ interface TextInputConfig {
     checkFormStatus: CheckFormStatus;
     checkValid: CheckValid;
     isValid: boolean;
+    focusedInput: FocusedInput;
     disabled?: boolean;
     isParentDisabled?: boolean;
     autoFocus?: boolean;
+    resetTouched?: true;
 }
 
 interface FieldSetConfig {
@@ -42,6 +47,7 @@ interface FieldSetConfig {
     onChange: SetFormData;
     expandedConditionalDisabled: ConditionalDisabled;
     checkFormStatus: CheckFormStatus;
+    focusedInput: FocusedInput;
     disabled?: boolean;
     isParentDisabled?: boolean;
 }
@@ -52,6 +58,7 @@ interface DependentInputsConfig {
     disabledInputs: DisabledInputs;
     onChange: SetFormData;
     checkFormStatus: CheckFormStatus;
+    focusedInput: FocusedInput;
 }
 
 export type {
@@ -66,4 +73,5 @@ export type {
     FieldSetProps,
     CheckValid,
     FormOnSubmit,
+    FocusedInput,
 }

@@ -26,6 +26,7 @@ export interface Props {
     className?: string;
     content: Content;
     tagLimit?: number;
+    maxTagLength?:number;
 }
 
 const TagInput = ( {
@@ -33,6 +34,7 @@ const TagInput = ( {
     className,
     content={},
     tagLimit=3,
+    maxTagLength=25,
 }: Props ) => {
     /* HOOKS */
     const [ tags, setTags ] = useState<Tag[]>( [] );
@@ -53,6 +55,12 @@ const TagInput = ( {
                     },
                 ]
             } );
+    }
+
+    const deleteTag = ( index: number ) => {
+        setTags( ( tags ) => {
+            return tags.filter( ( _, i ) => index !== i );
+        } );
     }
 
     /* CONTENT */
@@ -80,18 +88,24 @@ const TagInput = ( {
         <section id={id} className={tagInputClasses}>
             <div className='tags-wrapper'>
                 {
-                    tags.map( ( { text } ) => {
+                    tags.map( ( { text }, index ) => {
+                        const close = {
+                            onClick: () => deleteTag( index ),
+                        }
+
                         return (
-                            <Tag content={{text}} />
+                            <Tag key={text} content={{text}} close={close} />
                         )
                     } )
                 }
             </div>
             <Form id='tag-input-form' name='tag-input-form' 
                 onSubmit={onSubmit} buttonProps={buttonProps}
-                showSubmitAnimation={false}>
+                showSubmitAnimation={false} keepFocus={true}>
                 <TextInput id='tag-input' name='tagInput' type='text'
-                    content={textInputContent} showValid={false} />
+                    content={textInputContent} required 
+                    showValid={false} animateNotValid={false}
+                    maxLength={maxTagLength} showRequired={false} />
             </Form>
         </section>
     )

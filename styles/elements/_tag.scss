@@ -4,6 +4,7 @@
 @use '../constants/colors' as *;
 // utils
 @use '../utils/colors' as *;
+@use '../utils/selectors' as *;
 
 
 /*--------------------------------------------------------------
@@ -18,15 +19,55 @@ $tag--border-radius:        0.6rem;
 --------------------------------------------------------------*/
 .tag {
     $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
+    $transition: 0.19s ease;
 
+    position: relative;
+    cursor: default;
     padding: $tag--padding;
     border: $tag--border;
     width: max-content;
     box-shadow: 0 2px 2px 0.5px map.get( $shadow-colors, 2 ),
                 0 2px 2px 1px map.get( $shadow-colors, 1 );
 
+    transition: opacity $transition;
+
     &.rounded {
         border-radius: $tag--border-radius;
+    }
+    
+    &.has-close {
+        padding-right: $tag--padding * 1.5;
+
+        .x-close {
+            font-size: 14px;
+            position: absolute;
+            top: 7%;
+            right: 0;
+
+            &:before {
+                transform: scale( 0 );
+            }
+    
+            transition: opacity $transition;
+        }
+
+        @include tap {
+            opacity: 0.8;
+    
+            .x-close {
+                opacity: 1;
+
+                &:before {
+                    transform: scale( 0.7 );
+                }
+
+                @include tap {
+                    &:before {
+                        transform: scale( 0.9 );
+                    }
+                }
+            }
+        }
     }
 
     @each $color, $color-map in $colors {

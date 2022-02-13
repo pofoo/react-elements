@@ -20,6 +20,7 @@ interface Options {
     initialValues?: InitialValues;
     ignoreChildValues?: boolean;
     conditionalDisabled?: ConditionalDisabled;
+    setTouched?: boolean;
 }
 
 export type SharedProps = TextInputProps & FieldSetProps;
@@ -57,7 +58,8 @@ const initForm = (
     /* CONSTANTS */
     const { initialValues={},
         ignoreChildValues,
-        conditionalDisabled={} } = options;
+        conditionalDisabled={},
+        setTouched=false } = options;
 
     const initialFormData: FormData = {};
     let canFormSubmit: boolean = true;
@@ -122,6 +124,9 @@ const initForm = (
                         value,
                         isValid,
                     };
+
+                    if ( setTouched )
+                        initialFormData[ name ].resetTouched = true;
     
                     const { prevFieldSetChildInputs } = fieldSetOptions;
     

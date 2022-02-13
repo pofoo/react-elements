@@ -12,6 +12,7 @@ import type ConditionalProps from './conditionalProps';
 import type { ReactTapEvent, TapEvent } from './tap-event';
 import type SetState from './setState';
 import type { FormData, SetFormData, TransformedFormData } from './formData';
+import type VoidFn from './voidFn';
 
 export type {
     Href,
@@ -32,4 +33,5 @@ export type {
     FormData,
     SetFormData,
     TransformedFormData,
+    VoidFn,
 }

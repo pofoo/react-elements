@@ -47,7 +47,7 @@ const handleTextInputValidityMsgs = (
             target.setCustomValidity( 'Password must contain as least one special character!' );
     }
     else if ( type === 'text' )
-        target.setCustomValidity( `This dosen't look like ${aOrAn(name)} ${toTitleCase(name)}!`);
+        target.setCustomValidity( `This dosen't look like ${aOrAn(name)} ${toTitleCase(name)}!` );
     else if ( match )
         target.setCustomValidity( `Input must match previous ${toTitleCase(match.name)} input!` )
 }

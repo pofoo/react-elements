@@ -5,7 +5,7 @@ import { validateChild } from '../../lib';
 // utils
 import checkValid from './checkValid';
 // types
-import type { CheckFormStatus, 
+import type { CheckFormStatus, FocusedInput,
     TextInputConfig, ConditionalDisabled } from './types';
 import type { SetFormData, FormData } from '../../types';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
@@ -24,6 +24,7 @@ export interface Props {
     // data
     formData?: FormData;
     expandedConditionalDisabled?: ConditionalDisabled;
+    focusedInput?: FocusedInput;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: CheckFormStatus;
@@ -43,6 +44,7 @@ const FieldSet: FC<Props> = ( {
     name,
     formData,
     expandedConditionalDisabled={},
+    focusedInput,
     onChange,
     checkFormStatus,
     disabled,
@@ -58,6 +60,9 @@ const FieldSet: FC<Props> = ( {
 
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
+    
+    if ( focusedInput === undefined )
+        throw( SyntaxError( 'focusedInput Ref Object not specified - use built in Form wrapper component' ) );
 
     /* CONTENT */
     const { legend } = content;
@@ -88,6 +93,7 @@ const FieldSet: FC<Props> = ( {
                         const name = inputChild.props.name || inputChild.props.type;
                         const prevContent = inputChild.props.content;
                         const inputData = formData[ name ];
+                        const resetTouched = inputData.resetTouched;
         
                         const config: TextInputConfig = {
                             onChange,
@@ -98,10 +104,14 @@ const FieldSet: FC<Props> = ( {
                             checkFormStatus,
                             checkValid,
                             isValid: inputData.isValid,
+                            focusedInput,
                         }
 
+                        if ( resetTouched )
+                            config.resetTouched = true;
+
                         if ( isParentDisabled && expandedConditionalDisabled[ name ] )
-                            config[ 'isParentDisabled' ] = true;
+                            config.isParentDisabled = true;
 
                         return cloneElement( inputChild, config );
                     }

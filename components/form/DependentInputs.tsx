@@ -6,7 +6,8 @@ import { validateChild } from '../../lib';
 import checkValid from './checkValid';
 // types
 import type { CheckFormStatus, DisabledInputs, 
-    TextInputConfig, ConditionalDisabled } from './types';
+    TextInputConfig, ConditionalDisabled,
+    FocusedInput } from './types';
 import type { SetFormData, FormData } from '../../types';
 import type { TextInputProps, Match } from '../../elements/form/types';
 
@@ -19,6 +20,7 @@ export interface Props {
     disabledInputs?: DisabledInputs;
     conditionalDisabled?: ConditionalDisabled;
     autoFocus?: string;
+    focusedInput?: FocusedInput;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: CheckFormStatus;
@@ -38,6 +40,7 @@ const DependentInputs: FC<Props> = ( {
     disabledInputs,
     conditionalDisabled={},
     autoFocus,
+    focusedInput,
     onChange,
     checkFormStatus,
 } ) => {
@@ -55,6 +58,9 @@ const DependentInputs: FC<Props> = ( {
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
 
+    if ( focusedInput === undefined )
+        throw( SyntaxError( 'focusedInput Ref Object not specified - use built in Form wrapper component' ) );
+
     /* HOOKS */
     const match = useRef<Match>();
 
@@ -71,6 +77,7 @@ const DependentInputs: FC<Props> = ( {
                         const prevContent = inputChild.props.content;
                         const inputData = formData[ name ];
                         const value = inputData.value;
+                        const resetTouched = inputData.resetTouched;
         
                         const config: DependentTextInputConfig = {
                             onChange,
@@ -81,14 +88,18 @@ const DependentInputs: FC<Props> = ( {
                             checkFormStatus,
                             checkValid,
                             isValid: inputData.isValid,
+                            focusedInput,
                         }
+
+                        if ( resetTouched )
+                            config.resetTouched = true;
     
                         if ( disabledInputs.has( name ) )
-                            config[ 'disabled' ] = true;
+                            config.disabled = true;
                         if ( conditionalDisabled[ name ] )
-                            config[ 'isParentDisabled' ] = true;
+                            config.isParentDisabled = true;
                         if ( autoFocus === name )
-                            config[ 'autoFocus' ] = true;
+                            config.autoFocus = true;
                         
                         if ( depType === 'match' ) {
                             if ( index === 0 )
@@ -97,7 +108,7 @@ const DependentInputs: FC<Props> = ( {
                                     name,
                                 }
                             else
-                                config[ 'match' ] = match.current;
+                                config.match = match.current;
                         }
 
                         return cloneElement( inputChild, config );

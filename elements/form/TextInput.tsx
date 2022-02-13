@@ -7,7 +7,7 @@ import { toTitleCase } from '../../lib';
 // types
 import type { FormData, SetFormData, ConditionalProps } from 'types';
 import type { TextInputTypes, Match } from './types';
-import type { CheckValid } from '../../components/types';
+import type { CheckValid, FocusedInput } from '../../components/types';
 // elements
 import { Blurb } from '../../elements';
 // partials
@@ -44,17 +44,19 @@ export interface Props {
     autoFocus?: boolean;
     isParentDisabled?: boolean; // whether other input relies on this input for its disabled attribute
     match?: Match; // if match is specfied, this input MUST equal the match value
+    resetTouched?: true;
+    focusedInput?: FocusedInput;
     // limitations
     pattern?: RegExp; // will override default pattern checking from type specification
     maxLength?: number;
     // styling
     isRounded?: boolean;
-    // toggle animate to disabled ALL animations
-    animate?: boolean;
+    animate?: boolean; // toggle animate to disabled ALL animations
     animateInput?: boolean;
     animateNotValid?: boolean;
     animateLabel?: boolean;
     showValid?: boolean;
+    showRequired?: boolean;
 }
 
 /**
@@ -75,6 +77,8 @@ const TextInput = ( {
     autoFocus=false,
     isParentDisabled,
     match,
+    resetTouched,
+    focusedInput,
     pattern,
     maxLength=100,
     isRounded=true,
@@ -83,6 +87,7 @@ const TextInput = ( {
     animateNotValid=true,
     animateLabel=true,
     showValid=true,
+    showRequired=true,
     ...rest
 }: Props ) => {
 
@@ -146,6 +151,9 @@ const TextInput = ( {
     if ( isValid === undefined )
         throw( SyntaxError( 'isValid value not specified - use built in Form wrapper component' ) );
 
+    if ( focusedInput === undefined )
+        throw( SyntaxError( 'focusedInput Ref Object not specified - use built in Form wrapper component' ) );
+
     /* FUNCTIONS */
     const setFormState = ( 
         newValid: boolean,
@@ -180,6 +188,7 @@ const TextInput = ( {
     const handleFocus = () => {
         setFocused( true );
         setActualPlaceholder( '' );
+        focusedInput.current = inputRef.current;
     }
 
     const handleValidityMsgs = () => {
@@ -194,7 +203,7 @@ const TextInput = ( {
     /* HOOKS */
     const inputRef = useRef<HTMLInputElement>( null );
     const originalPlaceholder = useRef<string>( inputPlaceholder );
-    const [ touched, setTouched ] = useState<boolean>( false ); 
+    const [ touched, setTouched ] = useState<boolean | null>( false ); 
     const [ focused, setFocused ] = useState<boolean>( autoFocus ? true : false );
     const [ actualPlaceholder, setActualPlaceholder ] = useState<string>( 
         originalPlaceholder.current );
@@ -237,13 +246,19 @@ const TextInput = ( {
             inputRef.current?.setCustomValidity( '' );
     }, [ isValid ] );
 
+    useAfterEffect( () => {
+        if ( resetTouched )
+            setTouched( false );
+    }, [ resetTouched ] );
+
     useEffect( () => {
         handleValidityMsgs();
-    }, [] );
+    } );
 
-    useAfterEffect( () => {
-        handleValidityMsgs();
-    } )
+    useEffect( () => {
+        if ( autoFocus )
+            focusedInput.current = inputRef.current;
+    }, [] );
 
     if ( match ) {
         useAfterEffect( () => {
@@ -260,7 +275,7 @@ const TextInput = ( {
                 <div className='text'>
                     {inputLabel}
                     {
-                        inputRequired && (
+                        showRequired && inputRequired && (
                             <Required />
                         )
                     }

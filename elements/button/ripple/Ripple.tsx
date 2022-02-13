@@ -70,7 +70,7 @@ const Ripple = ( {
         <div className={rippleClasses} 
             role='presentation' tabIndex={-1}
             onClick={handleRippleClick}
-            onPointerUp={cleanupRipples}>
+            onPointerUp={() => cleanupRipples()}>
             {
                 styles.length > 0 && (
                     styles.map( ( style, index ) => {

@@ -1,5 +1,7 @@
 // dependencies
-import { FC, MouseEvent } from 'react';
+import { FC } from 'react';
+// types
+import type { VoidFn } from 'types';
 
 /* TYPES */
 interface AriaLabel {
@@ -12,7 +14,7 @@ interface Props {
     id?: string;
     className?: string;
     // event handlers
-    onClick: ( event: MouseEvent<HTMLButtonElement> ) => void;
+    onClick: VoidFn;
     // accessibility
     ariaLabel: AriaLabel | string;
     isPressed: boolean;
@@ -50,7 +52,7 @@ const ToggleButton: FC<Props> = ( {
     `;
 
     return (
-        <button id={id} className={buttonClasses} onClick={onClick} type='button'
+        <button id={id} className={buttonClasses} onClick={() => onClick()} type='button'
             aria-pressed={isPressed} aria-haspopup={ariaHasPopup} aria-label={label}
             {...rest}>
             {children}
