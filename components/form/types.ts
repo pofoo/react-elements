@@ -35,7 +35,7 @@ interface TextInputConfig {
     checkFormStatus: CheckFormStatus;
     checkValid: CheckValid;
     isValid: boolean;
-    focusedInput: FocusedInput;
+    focusedInput?: FocusedInput;
     disabled?: boolean;
     isParentDisabled?: boolean;
     autoFocus?: boolean;
@@ -47,9 +47,9 @@ interface FieldSetConfig {
     onChange: SetFormData;
     expandedConditionalDisabled: ConditionalDisabled;
     checkFormStatus: CheckFormStatus;
-    focusedInput: FocusedInput;
     disabled?: boolean;
     isParentDisabled?: boolean;
+    focusedInput?: FocusedInput;
 }
 
 interface DependentInputsConfig {
@@ -58,7 +58,7 @@ interface DependentInputsConfig {
     disabledInputs: DisabledInputs;
     onChange: SetFormData;
     checkFormStatus: CheckFormStatus;
-    focusedInput: FocusedInput;
+    focusedInput?: FocusedInput;
 }
 
 export type {

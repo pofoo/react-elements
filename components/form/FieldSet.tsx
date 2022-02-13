@@ -104,12 +104,12 @@ const FieldSet: FC<Props> = ( {
                             checkFormStatus,
                             checkValid,
                             isValid: inputData.isValid,
-                            focusedInput,
                         }
 
                         if ( resetTouched )
                             config.resetTouched = true;
-
+                        if ( focusedInput )
+                            config.focusedInput = focusedInput;
                         if ( isParentDisabled && expandedConditionalDisabled[ name ] )
                             config.isParentDisabled = true;
 

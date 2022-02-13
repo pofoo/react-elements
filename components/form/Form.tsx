@@ -213,9 +213,10 @@ const Form: FC<Props> = ( {
                             onChange: setFormData,
                             checkFormStatus,
                             expandedConditionalDisabled,
-                            focusedInput,
                         }
-        
+
+                        if ( keepFocus )
+                            config.focusedInput = focusedInput;
                         if ( disabledInputs.has( name ) )
                             config.disabled = true;
                         if ( conditionalDisabled[ name ] )
@@ -233,8 +234,10 @@ const Form: FC<Props> = ( {
                             disabledInputs,
                             onChange: setFormData,
                             checkFormStatus,
-                            focusedInput,
                         }
+
+                        if ( keepFocus )
+                            config.focusedInput = focusedInput;
 
                         return cloneElement( dependentInputsChild, config );
                     }
@@ -256,12 +259,12 @@ const Form: FC<Props> = ( {
                             checkFormStatus,
                             checkValid,
                             isValid: inputData.isValid,
-                            focusedInput,
                         }
 
                         if ( resetTouched )
                             config.resetTouched = true;
-        
+                        if ( keepFocus )
+                            config.focusedInput = focusedInput;
                         if ( disabledInputs.has( name ) )
                             config.disabled = true;
                         if ( conditionalDisabled[ name ] )

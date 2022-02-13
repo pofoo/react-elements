@@ -151,9 +151,6 @@ const TextInput = ( {
     if ( isValid === undefined )
         throw( SyntaxError( 'isValid value not specified - use built in Form wrapper component' ) );
 
-    if ( focusedInput === undefined )
-        throw( SyntaxError( 'focusedInput Ref Object not specified - use built in Form wrapper component' ) );
-
     /* FUNCTIONS */
     const setFormState = ( 
         newValid: boolean,
@@ -188,7 +185,8 @@ const TextInput = ( {
     const handleFocus = () => {
         setFocused( true );
         setActualPlaceholder( '' );
-        focusedInput.current = inputRef.current;
+        if ( focusedInput )
+            focusedInput.current = inputRef.current;
     }
 
     const handleValidityMsgs = () => {
@@ -256,7 +254,7 @@ const TextInput = ( {
     } );
 
     useEffect( () => {
-        if ( autoFocus )
+        if ( autoFocus && focusedInput )
             focusedInput.current = inputRef.current;
     }, [] );
 
@@ -299,9 +297,6 @@ const TextInput = ( {
                     )
                 }
             </label>
-            {
-
-            }
             <input ref={inputRef} id={inputID} className={textInputClasses} type={inputType}
                 onChange={handleChange} onBlur={() => handleBlur()}
                 onFocus={() => handleFocus()} placeholder={actualPlaceholder}
