@@ -1,10 +1,11 @@
 // types
-import type { RefObject, MutableRefObject } from 'react';
+import type { MutableRefObject } from 'react';
 import type { SetFormData, FormData } from '../../types';
 import type { Props as DependentInputsProps } from './DependentInputs';
 import type { Props as FieldSetProps } from './FieldSet';
 import type { CheckValid } from './checkValid';
 import type { OnSubmit as FormOnSubmit } from './Form';
+import type { VoidFn } from 'types';
 
 // key represents the name of parent input element that other input elements rely on
 // the value represents an array of disabled elements IF the given key is inValid
@@ -23,6 +24,14 @@ type CheckFormStatus = ( checkDisabled: boolean ) => void;
 
 type FocusedInput = MutableRefObject<HTMLInputElement| null>;
 
+type UpdateCache = ( data: any ) => void;
+
+interface Cache {
+    getCache: VoidFn;
+    updateCache: UpdateCache;
+    clearCache: VoidFn;
+}
+
 interface Content {
     label?: string;
     value?: string;
@@ -35,6 +44,7 @@ interface TextInputConfig {
     checkFormStatus: CheckFormStatus;
     checkValid: CheckValid;
     isValid: boolean;
+    updateCache?: UpdateCache;
     focusedInput?: FocusedInput;
     disabled?: boolean;
     isParentDisabled?: boolean;
@@ -47,6 +57,7 @@ interface FieldSetConfig {
     onChange: SetFormData;
     expandedConditionalDisabled: ConditionalDisabled;
     checkFormStatus: CheckFormStatus;
+    updateCache?: UpdateCache;
     disabled?: boolean;
     isParentDisabled?: boolean;
     focusedInput?: FocusedInput;
@@ -58,6 +69,7 @@ interface DependentInputsConfig {
     disabledInputs: DisabledInputs;
     onChange: SetFormData;
     checkFormStatus: CheckFormStatus;
+    updateCache?: UpdateCache;
     focusedInput?: FocusedInput;
 }
 
@@ -74,4 +86,6 @@ export type {
     CheckValid,
     FormOnSubmit,
     FocusedInput,
+    Cache,
+    UpdateCache,
 }

@@ -60,7 +60,7 @@ export interface Props {
  * Handles form data to submit. 
  * EVERY CHILD NAME ATTRIBUTE MUST BE UNIQUE AS THEY ACT AS THE KEY WITHIN THE OBJECT.
  */
-const Form: FC<Props> = ( {
+const DexieForm: FC<Props> = ( {
     children,
     id,
     className='',
@@ -310,4 +310,4 @@ const Form: FC<Props> = ( {
     )
 }
 
-export default Form;
+export default DexieForm;

@@ -6,9 +6,11 @@ import { validateChild } from '../../lib';
 import checkValid from './checkValid';
 // types
 import type { CheckFormStatus, FocusedInput,
-    TextInputConfig, ConditionalDisabled } from './types';
+    TextInputConfig, ConditionalDisabled,
+    UpdateCache } from './types';
 import type { SetFormData, FormData } from '../../types';
 import type { Props as TextInputProps } from '../../elements/form/TextInput';
+
 
 /* TYPES */
 interface Content {
@@ -25,6 +27,7 @@ export interface Props {
     formData?: FormData;
     expandedConditionalDisabled?: ConditionalDisabled;
     focusedInput?: FocusedInput;
+    updateCache?: UpdateCache;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: CheckFormStatus;
@@ -45,6 +48,7 @@ const FieldSet: FC<Props> = ( {
     formData,
     expandedConditionalDisabled={},
     focusedInput,
+    updateCache,
     onChange,
     checkFormStatus,
     disabled,
@@ -109,6 +113,8 @@ const FieldSet: FC<Props> = ( {
                             config.focusedInput = focusedInput;
                         if ( isParentDisabled && expandedConditionalDisabled[ name ] )
                             config.isParentDisabled = true;
+                        if ( updateCache )
+                            config.updateCache = updateCache;
 
                         return cloneElement( inputChild, config );
                     }

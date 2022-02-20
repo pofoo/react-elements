@@ -7,7 +7,7 @@ import { toTitleCase } from '../../lib';
 // types
 import type { FormData, SetFormData, ConditionalProps } from 'types';
 import type { TextInputTypes, Match } from './types';
-import type { CheckValid, FocusedInput } from '../../components/types';
+import type { CheckValid, FocusedInput, UpdateCache } from '../../components/types';
 // elements
 import { Blurb } from '../../elements';
 // partials
@@ -17,9 +17,9 @@ import { handleTextInputValidityMsgs } from './handleValidityMsgs';
 import { EMAIL_VALIDATION, PASSWORD_VALIDATION, 
     USERNAME_VALIDATION } from '../../lib';
 
+    
 /* TYPES */
 // TO-DO - implement Conditional Props
-
 export interface Content {
     label?: string;
     value?: string;
@@ -37,6 +37,7 @@ export interface Props {
     onChange?: SetFormData;
     checkFormStatus?: ( checkDisabled: boolean ) => void;
     checkValid?: CheckValid;
+    updateCache?: UpdateCache;
     // states
     isValid?: boolean;
     required?: boolean;
@@ -71,6 +72,7 @@ const TextInput = ( {
     onChange,
     checkFormStatus,
     checkValid,
+    updateCache,
     required,
     isValid,
     disabled=false,
@@ -157,7 +159,7 @@ const TextInput = ( {
         newValue?: string,
     ) => {
         onChange( ( state: FormData ) => {
-            return {
+            const newFormData = {
                 ...state,
                 // @ts-ignore
                 [ inputName ]: {
@@ -165,6 +167,14 @@ const TextInput = ( {
                     isValid: newValid,
                 },
             }
+
+            if ( updateCache ) {
+                updateCache( newFormData );
+                console.log( 'NEW FORM DATA' );
+                console.log( newFormData );
+            }
+                
+            return newFormData;
         } );
     }
 

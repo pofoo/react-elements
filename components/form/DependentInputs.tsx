@@ -7,9 +7,10 @@ import checkValid from './checkValid';
 // types
 import type { CheckFormStatus, DisabledInputs, 
     TextInputConfig, ConditionalDisabled,
-    FocusedInput } from './types';
+    FocusedInput, UpdateCache } from './types';
 import type { SetFormData, FormData } from '../../types';
 import type { TextInputProps, Match } from '../../elements/form/types';
+
 
 /* TYPES */
 export interface Props {
@@ -21,6 +22,7 @@ export interface Props {
     conditionalDisabled?: ConditionalDisabled;
     autoFocus?: string;
     focusedInput?: FocusedInput;
+    updateCache?: UpdateCache;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: CheckFormStatus;
@@ -41,6 +43,7 @@ const DependentInputs: FC<Props> = ( {
     conditionalDisabled={},
     autoFocus,
     focusedInput,
+    updateCache,
     onChange,
     checkFormStatus,
 } ) => {
@@ -97,7 +100,9 @@ const DependentInputs: FC<Props> = ( {
                             config.isParentDisabled = true;
                         if ( autoFocus === name )
                             config.autoFocus = true;
-                        
+                        if ( updateCache )
+                            config.updateCache = updateCache;
+
                         if ( depType === 'match' ) {
                             if ( index === 0 )
                                 match.current = {
