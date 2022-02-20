@@ -6,7 +6,8 @@ import { TextHighlight, Heading } from './text';
 import Card from './card';
 import AccountTag from './account-tag';
 import NavLink from './nav-link';
-import { Checkbox, FileInput, Radio, Search, Select, TextInput } from './form';
+import { Checkbox, FileInput, Radio, Search, Select, 
+    TextInput, Textarea } from './form';
 import Blurb from './blurb';
 import { Puff, Success, Fail, Dots } from './loader';
 import XClose from './x-close';
@@ -40,4 +41,5 @@ export {
     Fail,
     Dots,
     XClose,
+    Textarea,
 }

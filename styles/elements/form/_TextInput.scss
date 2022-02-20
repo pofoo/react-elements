@@ -99,17 +99,18 @@ $text-input--disabled-color:                    lightgray;
                     0 1.5px 2px 1.5px map.get( $shadow-colors, 1 );
 
         transition: transform $text-input--transition-time ease,
-                    background $text-input--transition-time ease;
+                    background $text-input--transition-time ease,
+                    outline 0.04s ease;
 
         &:disabled {
             // TO-DO - change these colors
-            outline: 4px solid gray;
+            outline-width: 4px;
             background: $text-input--disabled-color;
         }
 
         &:not( :disabled ) {
             &:hover {
-                outline: 3px solid gray;
+                outline-width: 3px;
             }
         }
 
@@ -132,14 +133,6 @@ $text-input--disabled-color:                    lightgray;
     /* STATES */
     &.parent-conditional {
         // TO-DO - give some indication of parent conditional
-    }
-
-    &.disabled {
-        .text-input-label {
-            .text {
-                background: $text-input--disabled-color;
-            }
-        }
     }
 
     &.valid {
@@ -205,6 +198,14 @@ $text-input--disabled-color:                    lightgray;
             }
         }
         
+        &.disabled {
+            .text-input-label {
+                .text {
+                    background: $text-input--disabled-color;
+                }
+            }
+        }
+
         .text-input-label {
             &.animate {
                 .text {

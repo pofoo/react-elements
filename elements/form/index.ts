@@ -4,6 +4,7 @@ import Search from './Search';
 import Select from './Select';
 import FileInput from './FileInput';
 import TextInput from './TextInput';
+import Textarea from './Textarea';
 
 export {
     Checkbox,
@@ -12,4 +13,5 @@ export {
     Select,
     FileInput,
     TextInput,
+    Textarea,
 }

@@ -17,15 +17,15 @@ $scroll-bar-thumb--border-radius:   20px;
     Put a '*' in front of the '::' for all properties if you want scrollbar styling to apply to sub-components
 --------------------------------------------------------------*/
 /* CHROME, EDGE, SAFARI */
-::-webkit-scrollbar {
+body::-webkit-scrollbar {
     width: $scrollbar--width; // width of the ENTIRE scrollbar - including thumb
 }
 
-::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
     background: $scrollbar--background-color; // background color of the scroll bar
 }
 
-::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
     background-color: $scrollbar-thumb--color; // color of the scroll thumb
     border-radius: $scroll-bar-thumb--border-radius; // roundness of the scroll thumb
     // border: 1px solid orange; // border of the scroll thumb

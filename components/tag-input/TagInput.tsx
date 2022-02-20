@@ -15,12 +15,16 @@ interface Tag {
     text: string;
 }
 
+interface ButtonContent {
+    text: string;
+}
+
 interface Input {
     tagInput: string;
 }
 
 interface Content {
-    buttonText?: string;
+    buttonContent?: ButtonContent;
 }
 
 export interface Props {
@@ -86,12 +90,14 @@ const TagInput = ( {
     }
 
     /* CONTENT */
-    const { buttonText='Add Tag' } = content;
+    const defaultButtonContent = {
+        text: 'Add Tag',
+    }
+
+    const { buttonContent=defaultButtonContent } = content;
 
     const buttonProps = {
-        buttonContent: {
-            text: buttonText,
-        },
+        buttonContent,
         buttonAriaLabel: 'Add Tag',
     }
 
