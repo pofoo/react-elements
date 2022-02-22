@@ -8,7 +8,7 @@ import { isObjectEmpty, validateChild,
 // types
 import { ConditionalDisabled, InitialValues,
     DisabledInputs } from './types';
-import type { FormData, VoidFn } from 'types';
+import type { FormData } from 'types';
 import type { TextInputProps, TextInputTypes } from '../../elements/form/types';
 import type { Props as DependentInputsProps } from './DependentInputs';
 import type { Props as FieldSetProps } from './FieldSet';
@@ -21,7 +21,6 @@ interface Options {
     ignoreChildValues?: boolean;
     conditionalDisabled?: ConditionalDisabled;
     setTouched?: boolean;
-    getCache?: VoidFn;
 }
 
 export type SharedProps = TextInputProps & FieldSetProps;
@@ -39,7 +38,7 @@ type FieldSetOptions = {
     prevFieldSetChildInputs?: string[];
 }
 
-interface InitFormValues {
+interface InitialFormValues {
     initialFormData: FormData,
     canFormSubmit: boolean;
     initialDisabled: DisabledInputs;
@@ -54,14 +53,13 @@ interface InitFormValues {
 const initForm = ( 
     children: ReactNode,
     options: Options,
-): InitFormValues => {
+): InitialFormValues => {
 
     /* CONSTANTS */
     const { initialValues={},
         ignoreChildValues,
         conditionalDisabled={},
-        setTouched=false,
-        getCache, } = options;
+        setTouched=false } = options;
 
     const initialFormData: FormData = {};
     let canFormSubmit: boolean = true;
@@ -102,9 +100,8 @@ const initForm = (
                 if ( validation === 'TextInput' ) {
                     const inputChild = child as ReactElement<TextInputProps>;
 
-                    const initValue = getCache ? getCache() :
-                        initialValues[ name ];
-                    const value = initValue ? initValue : 
+                    const initValue = initialValues[ name ];
+                    const value = initValue ? initValue :
                         ignoreChildValues ? '' : inputChild.props.content?.value || '';
                     const type: TextInputTypes = inputChild.props.type;
                     const required = inputChild.props.required || REQUIRED_TYPES.includes ( type ) ?

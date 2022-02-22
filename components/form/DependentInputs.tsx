@@ -7,9 +7,9 @@ import checkValid from './checkValid';
 // types
 import type { CheckFormStatus, DisabledInputs, 
     TextInputConfig, ConditionalDisabled,
-    FocusedInput, UpdateCache } from './types';
+    FocusedInput } from './types';
 import type { SetFormData, FormData } from '../../types';
-import type { TextInputProps, Match } from '../../elements/form/types';
+import type { TextInputProps, Match, InputCache } from '../../elements/types';
 
 
 /* TYPES */
@@ -22,7 +22,7 @@ export interface Props {
     conditionalDisabled?: ConditionalDisabled;
     autoFocus?: string;
     focusedInput?: FocusedInput;
-    updateCache?: UpdateCache;
+    cache?: InputCache;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: CheckFormStatus;
@@ -43,7 +43,7 @@ const DependentInputs: FC<Props> = ( {
     conditionalDisabled={},
     autoFocus,
     focusedInput,
-    updateCache,
+    cache,
     onChange,
     checkFormStatus,
 } ) => {
@@ -55,8 +55,8 @@ const DependentInputs: FC<Props> = ( {
     if ( disabledInputs === undefined )
         throw( SyntaxError( 'disabledInputs not specified - use built in Form wrapper component' ) );
 
-    if ( onChange === undefined )
-        throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
+    if ( onChange === undefined && cache === undefined )
+        throw( SyntaxError( 'onChange function or cache not specified - use built in Form OR CacheForm wrapper component' ) );
 
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
@@ -75,12 +75,11 @@ const DependentInputs: FC<Props> = ( {
 
                         const name = inputChild.props.name || inputChild.props.type;
                         const prevContent = inputChild.props.content;
-                        const inputData = formData[ name ];
+                        const inputData = cache ? cache.formData[ name ] : formData[ name ];
                         const value = inputData.value;
                         const resetTouched = inputData.resetTouched;
         
                         const config: DependentTextInputConfig = {
-                            onChange,
                             content: {
                                 ...prevContent,
                                 value,
@@ -100,8 +99,10 @@ const DependentInputs: FC<Props> = ( {
                             config.isParentDisabled = true;
                         if ( autoFocus === name )
                             config.autoFocus = true;
-                        if ( updateCache )
-                            config.updateCache = updateCache;
+                        if ( onChange )
+                            config.onChange = onChange;
+                        if ( cache )
+                            config.cache = cache;
 
                         if ( depType === 'match' ) {
                             if ( index === 0 )

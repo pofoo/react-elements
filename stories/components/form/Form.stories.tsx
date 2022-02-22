@@ -1,8 +1,10 @@
 // types
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { TransformedFormData } from 'types';
 // components
 import { Form as Component, FieldSet } from '../../../components';
 import { TextInput } from '../../../elements';
+
 
 export default {
   title: 'Components/Form/Form',
@@ -10,10 +12,21 @@ export default {
 } as ComponentMeta<typeof Component>;
 
 /* TYPES */
+interface Input {
+    address: string;
+    limbo: string;
+    email: string;
+    username: string;
+    password: string;
+    moo: string;
+    quack: string;
+    text: string;
+}
+
 interface Props {
     id: string;
     name: string;
-    onSubmit: ( input: { [ key: string ]: string } ) => void;
+    onSubmit: ( input: TransformedFormData<Input> ) => void;
     buttonProps: {
         buttonContent: {
             text: string;
@@ -25,7 +38,6 @@ interface Props {
     };
     autoFocus: string;
 }
-
 
 const FormComponent = ( args: Props ) => {
     /* CONTENT */
@@ -86,12 +98,13 @@ const FormComponent = ( args: Props ) => {
         </Component>
     )
 }
+
 const Template: ComponentStory<typeof FormComponent> = ( args ) => <FormComponent {...args} />;
 export const Form = Template.bind({});
 Form.args = {
     id: 'sample-form',
     name: 'sample-form',
-    onSubmit: ( input ) => alert( JSON.stringify( input ) ),
+    onSubmit: ( input: Input ) => alert( JSON.stringify( input ) ),
     buttonProps: {
         buttonContent: {
             text: 'submit',

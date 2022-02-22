@@ -2,18 +2,22 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import type { FormOnSubmit } from '../../../components/types';
 // components
-import { DexieForm as Component } from '../../../components';
+import { CacheForm as Component } from '../../../components';
 // elements
 import { TextInput } from '../../../elements';
+// db
+import { putDexieFormCache, clearDexieFormCache } from '../../../db/client/mutations';
+import { getDexieFormCache } from '../../../db/client/queries';
+
 
 export default {
-  title: 'Components/Form/Dexie Form',
+  title: 'Components/Form/Cache Form',
   component: Component,
 } as ComponentMeta<typeof Component>;
 
 /* TYPES */
 interface Props {
-  dexieFormProps: {
+  cacheFormProps: {
     id: string;
     name: string;
     onSubmit: FormOnSubmit;
@@ -27,13 +31,19 @@ interface Props {
   type: 'email' | 'username';
 }
 
-const DexieFormComponent = ( args: Props ) => {
+const CacheFormComponent = ( args: Props ) => {
   /* CONTENT */
-  const { dexieFormProps, type } = args;
-  const { id, name, onSubmit, buttonProps } = dexieFormProps;
+  const { cacheFormProps, type } = args;
+  const { id, name, onSubmit, buttonProps } = cacheFormProps;
+
+  const cache = {
+    getCache: getDexieFormCache,
+    updateCache: putDexieFormCache,
+    clearCache: clearDexieFormCache,
+  }
 
   return (
-    <Component id={id} name={name}
+    <Component id={id} name={name} cache={cache}
       onSubmit={onSubmit} buttonProps={buttonProps}>
       <TextInput type={type} />
       <TextInput type='username' />
@@ -41,10 +51,10 @@ const DexieFormComponent = ( args: Props ) => {
   )
 }
 
-const Template: ComponentStory<typeof DexieFormComponent> = ( args ) => <DexieFormComponent {...args} />;
-export const DexieForm = Template.bind({});
-DexieForm.args = {
-  dexieFormProps: {
+const Template: ComponentStory<typeof CacheFormComponent> = ( args ) => <CacheFormComponent {...args} />;
+export const CacheForm = Template.bind({});
+CacheForm.args = {
+  cacheFormProps: {
     id: 'text-input-form',
     name: 'text-input-form',
     onSubmit: async ( input ) => {

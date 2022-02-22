@@ -6,10 +6,9 @@ import { validateChild } from '../../lib';
 import checkValid from './checkValid';
 // types
 import type { CheckFormStatus, FocusedInput,
-    TextInputConfig, ConditionalDisabled,
-    UpdateCache } from './types';
+    TextInputConfig, ConditionalDisabled } from './types';
 import type { SetFormData, FormData } from '../../types';
-import type { Props as TextInputProps } from '../../elements/form/TextInput';
+import type { TextInputProps, InputCache } from '../../elements/types';
 
 
 /* TYPES */
@@ -27,7 +26,7 @@ export interface Props {
     formData?: FormData;
     expandedConditionalDisabled?: ConditionalDisabled;
     focusedInput?: FocusedInput;
-    updateCache?: UpdateCache;
+    cache?: InputCache;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: CheckFormStatus;
@@ -48,7 +47,7 @@ const FieldSet: FC<Props> = ( {
     formData,
     expandedConditionalDisabled={},
     focusedInput,
-    updateCache,
+    cache,
     onChange,
     checkFormStatus,
     disabled,
@@ -59,8 +58,8 @@ const FieldSet: FC<Props> = ( {
     if ( formData === undefined )
         throw( SyntaxError( 'formData not specified - use built in Form wrapper component' ) );
 
-    if ( onChange === undefined )
-        throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
+    if ( onChange === undefined && cache === undefined )
+        throw( SyntaxError( 'onChange function or cache not specified - use built in Form OR CacheForm wrapper component' ) );
 
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
@@ -93,11 +92,10 @@ const FieldSet: FC<Props> = ( {
         
                         const name = inputChild.props.name || inputChild.props.type;
                         const prevContent = inputChild.props.content;
-                        const inputData = formData[ name ];
+                        const inputData = cache ? cache.formData[name] : formData[ name ];
                         const resetTouched = inputData.resetTouched;
         
                         const config: TextInputConfig = {
-                            onChange,
                             content: {
                                 ...prevContent,
                                 value: inputData.value,
@@ -113,8 +111,10 @@ const FieldSet: FC<Props> = ( {
                             config.focusedInput = focusedInput;
                         if ( isParentDisabled && expandedConditionalDisabled[ name ] )
                             config.isParentDisabled = true;
-                        if ( updateCache )
-                            config.updateCache = updateCache;
+                        if ( cache )
+                            config.cache = cache;
+                        if ( onChange )
+                            config.onChange = onChange;
 
                         return cloneElement( inputChild, config );
                     }

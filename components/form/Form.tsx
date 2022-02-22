@@ -8,20 +8,19 @@ import { validateChild, isObjectEmpty } from '../../lib';
 // utils
 import checkValid from './checkValid';
 // types
-import type { FormData, TransformedFormData} from 'types';
+import type { FormData, TransformedFormData } from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
     DependentInputsConfig, DisabledInputs,
-    InitialValues, FocusedInput, Cache } from './types';
-import type { Props as FieldSetProps } from './FieldSet';
-import type { Props as TextInputProps } from '../../elements/form/TextInput';
-import type { Props as DependentInputsProps } from './DependentInputs';
+    InitialValues, FocusedInput,
+    FieldSetProps, DependentInputsProps } from './types';
+import type { TextInputProps } from '../../elements/types';
 // partial functions
 import initForm from './initForm';
 import transformData from './transformData';
 
 
 /* TYPES */
-export type OnSubmit = <T>( input: TransformedFormData<T> ) => 
+export type OnSubmit = <T extends object>( input: TransformedFormData<T> ) => 
     ( Promise<boolean | undefined | void> ) | ( boolean | undefined | void );
 
 interface ButtonProps {
@@ -44,7 +43,6 @@ export interface Props {
     name: string;
     // data
     initialValues?: InitialValues; // overrides any values placed in input child content prop
-    cache?: Cache; // cache functions to store formData
     conditionalDisabled?: ConditionalDisabled;
     onSubmit: OnSubmit;
     // styling
@@ -66,7 +64,6 @@ const Form: FC<Props> = ( {
     className='',
     name,
     initialValues={},
-    cache={},
     onSubmit,
     showSubmitAnimation=true,
     buttonProps,
@@ -82,8 +79,6 @@ const Form: FC<Props> = ( {
         ...restButtonProps
     } = buttonProps;
 
-    const { getCache, updateCache, clearCache } = cache;
-
     const { initialFormData, 
         canFormSubmit, 
         initialDisabled,
@@ -91,7 +86,6 @@ const Form: FC<Props> = ( {
     } = useMemo( () => initForm( children, { 
         initialValues,
         conditionalDisabled,
-        getCache,
     } ), [] );
 
     /* ERRORS */
@@ -137,8 +131,6 @@ const Form: FC<Props> = ( {
         }
 
         setDisabledInputs( initialDisabled );
-        if ( clearCache )
-            clearCache();
     }
 
     const onFormSubmit = async ( event: FormEvent, data: FormData ) => {
@@ -203,7 +195,7 @@ const Form: FC<Props> = ( {
     useEffect( () => {
         checkFormStatus( !isObjectEmpty( conditionalDisabled ) );
     }, [] );
-
+    
     return (
         <form id={id} className={formClasses} name={name}
             onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
@@ -229,8 +221,6 @@ const Form: FC<Props> = ( {
                             config.disabled = true;
                         if ( conditionalDisabled[ name ] )
                             config.isParentDisabled = true;
-                        if ( updateCache )
-                            config.updateCache = updateCache;
                         
                         return cloneElement( fieldSetChild, config );
                     }
@@ -248,8 +238,6 @@ const Form: FC<Props> = ( {
 
                         if ( keepFocus )
                             config.focusedInput = focusedInput;
-                        if ( updateCache )
-                            config.updateCache = updateCache;
 
                         return cloneElement( dependentInputsChild, config );
                     }
@@ -283,8 +271,6 @@ const Form: FC<Props> = ( {
                             config.isParentDisabled = true;
                         if ( autoFocus === name )
                             config.autoFocus = true;
-                        if ( updateCache )
-                            config.updateCache = updateCache;
 
                         return cloneElement( inputChild, config );
                     }

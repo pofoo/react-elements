@@ -1,11 +1,11 @@
 import Form from './Form';
 import FieldSet from './FieldSet';
 import DependentInputs from './DependentInputs';
-import DexieForm from './DexieForm';
+import CacheForm from './CacheForm';
 
 export {
     Form,
     FieldSet,
     DependentInputs,
-    DexieForm,
+    CacheForm,
 };

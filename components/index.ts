@@ -5,7 +5,7 @@ import ProgressBar from './progress-bar';
 import Modal from './modal';
 import { Ticket } from './3d';
 import { Accordian, AccordianPanel } from './accordian';
-import { Form, FieldSet, DependentInputs, DexieForm } from './form';
+import { Form, FieldSet, DependentInputs, CacheForm } from './form';
 import Notification from './notification';
 import List from './list';
 import TagInput from './tag-input';
@@ -27,5 +27,5 @@ export {
     DependentInputs,
     TagInput,
     Panel,
-    DexieForm,
+    CacheForm,
 }

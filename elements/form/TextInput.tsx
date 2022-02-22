@@ -5,9 +5,9 @@ import { useAfterEffect } from '../../hooks';
 // lib
 import { toTitleCase } from '../../lib';
 // types
-import type { FormData, SetFormData, ConditionalProps } from 'types';
-import type { TextInputTypes, Match } from './types';
-import type { CheckValid, FocusedInput, UpdateCache } from '../../components/types';
+import type { SetFormData, ConditionalProps } from 'types';
+import type { TextInputTypes, Match, InputCache } from './types';
+import type { CheckValid, FocusedInput } from '../../components/types';
 // elements
 import { Blurb } from '../../elements';
 // partials
@@ -20,6 +20,7 @@ import { EMAIL_VALIDATION, PASSWORD_VALIDATION,
     
 /* TYPES */
 // TO-DO - implement Conditional Props
+// TO-DO - implement Pick keyword to show that either cache of onChange needs to be specified
 export interface Content {
     label?: string;
     value?: string;
@@ -37,7 +38,7 @@ export interface Props {
     onChange?: SetFormData;
     checkFormStatus?: ( checkDisabled: boolean ) => void;
     checkValid?: CheckValid;
-    updateCache?: UpdateCache;
+    cache?: InputCache;
     // states
     isValid?: boolean;
     required?: boolean;
@@ -72,7 +73,7 @@ const TextInput = ( {
     onChange,
     checkFormStatus,
     checkValid,
-    updateCache,
+    cache,
     required,
     isValid,
     disabled=false,
@@ -141,8 +142,8 @@ const TextInput = ( {
     if ( inputLabel === undefined )
         throw( SyntaxError( 'If type is text, a name must be provided for the input for accessibility purposes' ) );
 
-    if ( onChange === undefined )
-        throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
+    if ( onChange === undefined && cache === undefined )
+        throw( SyntaxError( 'onChange function or cache not specified - use built in Form OR CacheForm wrapper component' ) );
 
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
@@ -158,24 +159,27 @@ const TextInput = ( {
         newValid: boolean,
         newValue?: string,
     ) => {
-        onChange( ( state: FormData ) => {
-            const newFormData = {
-                ...state,
-                // @ts-ignore
-                [ inputName ]: {
-                    value: typeof newValue === 'string' ? newValue : value,
-                    isValid: newValid,
-                },
+        const newInputData = {
+            // @ts-ignore
+            [ inputName ]: {
+                value: typeof newValue === 'string' ? newValue : value,
+                isValid: newValid,
             }
+        }
 
-            if ( updateCache ) {
-                updateCache( newFormData );
-                console.log( 'NEW FORM DATA' );
-                console.log( newFormData );
-            }
-                
-            return newFormData;
-        } );
+        if ( onChange )
+            onChange( ( state ) => {
+                return {
+                    ...state,
+                    ...newInputData,
+                }
+            } );
+
+        if ( cache )
+            cache.updateCache( {
+                ...cache.formData,
+                ...newInputData,
+            } );
     }
 
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
