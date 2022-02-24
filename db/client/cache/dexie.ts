@@ -1,5 +1,7 @@
 // dependencies
 import { Dexie, Table } from 'dexie';
+// events
+import { populate } from './events';
 // constants
 import { DEXIE_FORM_CACHE } from '../../constants';
 // types
@@ -19,3 +21,5 @@ export class CacheDb extends Dexie {
 }
 
 export const cacheDb = new CacheDb();
+
+// cacheDb.on( 'populate', populate );

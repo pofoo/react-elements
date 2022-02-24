@@ -214,114 +214,108 @@ const CacheForm: FC<Props> = ( {
     if ( !formData ) return null;
 
     return (
-        <>
-        {
-            formData && (
-                <form id={id} className={formClasses} name={name}
-                    onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
-                    {
-                        Children.map( children, ( child ) => {
-                            const validation = validateChild( child );
-        
-                            const cache = {
-                                updateCache,
-                                formData,
-                            }
-                
-                            if ( validation === 'FieldSet' ) {
-                                const fieldSetChild = child as ReactElement<FieldSetProps>;
-                
-                                const name = fieldSetChild.props.name;
-        
-                                const config: FieldSetConfig =  {
-                                    cache,
-                                    checkFormStatus,
-                                    expandedConditionalDisabled,
-                                }
-        
-                                if ( keepFocus )
-                                    config.focusedInput = focusedInput;
-                                if ( disabledInputs.has( name ) )
-                                    config.disabled = true;
-                                if ( conditionalDisabled[ name ] )
-                                    config.isParentDisabled = true;
-                                
-                                return cloneElement( fieldSetChild, config );
-                            }
-        
-                            if ( validation === 'DependentInputs' ) {
-                                const dependentInputsChild = child as ReactElement<DependentInputsProps>;
-        
-                                const config: DependentInputsConfig = {
-                                    conditionalDisabled,
-                                    disabledInputs,
-                                    cache,
-                                    checkFormStatus,
-                                }
-        
-                                if ( keepFocus )
-                                    config.focusedInput = focusedInput;
-        
-                                return cloneElement( dependentInputsChild, config );
-                            }
-        
-                            if ( validation === 'TextInput' ) {
-                                const inputChild = child as ReactElement<TextInputProps>;
-                
-                                if ( inputChild.props.type === PASSWORD )
-                                    throw( SyntaxError( 'Password inputs are not allowed to be in CacheForms' ) );
-                                
-                                const name = inputChild.props.name || inputChild.props.type;
-                                const prevContent = inputChild.props.content;
-                                const inputData = formData[ name ];
-                                const resetTouched = inputData.resetTouched;
-                
-                                const config: TextInputConfig = {
-                                    cache,
-                                    content: {
-                                        ...prevContent,
-                                        value: inputData.value,
-                                    },
-                                    checkFormStatus,
-                                    checkValid,
-                                    isValid: inputData.isValid,
-                                }
-        
-                                if ( resetTouched )
-                                    config.resetTouched = true;
-                                if ( keepFocus )
-                                    config.focusedInput = focusedInput;
-                                if ( disabledInputs.has( name ) )
-                                    config.disabled = true;
-                                if ( conditionalDisabled[ name ] )
-                                    config.isParentDisabled = true;
-                                if ( autoFocus === name )
-                                    config.autoFocus = true;
-        
-                                return cloneElement( inputChild, config );
-                            }
-                
-                            if ( validation === true )
-                                return child;
-                        } )
+        <form id={id} className={formClasses} name={name}
+            onSubmit={( event: FormEvent ) => onFormSubmit( event, formData )}>
+            {
+                Children.map( children, ( child ) => {
+                    const validation = validateChild( child );
+
+                    const cache = {
+                        updateCache,
+                        formData,
                     }
-                    <div className='submit-button-wrapper'>
-                        <FormButton className={buttonClassName} content={buttonContent}
-                            ariaLabel={buttonAriaLabel} isDisabled={isSubmitting || !isFormComplete}
-                            isSuccess={formReturn === 'success'} isFail={formReturn === 'fail'}
-                            isLoading={isSubmitting}
-                            {...restButtonProps} />
-                    </div>
-                    {
-                        // TO-DO - add overall form loader
-                        isSubmitting && (
-                            <span className='loader' role='presentation' />
-                        )
+        
+                    if ( validation === 'FieldSet' ) {
+                        const fieldSetChild = child as ReactElement<FieldSetProps>;
+        
+                        const name = fieldSetChild.props.name;
+
+                        const config: FieldSetConfig =  {
+                            cache,
+                            checkFormStatus,
+                            expandedConditionalDisabled,
+                        }
+
+                        if ( keepFocus )
+                            config.focusedInput = focusedInput;
+                        if ( disabledInputs.has( name ) )
+                            config.disabled = true;
+                        if ( conditionalDisabled[ name ] )
+                            config.isParentDisabled = true;
+                        
+                        return cloneElement( fieldSetChild, config );
                     }
-                </form>
-            )
-        }
-        </>
+
+                    if ( validation === 'DependentInputs' ) {
+                        const dependentInputsChild = child as ReactElement<DependentInputsProps>;
+
+                        const config: DependentInputsConfig = {
+                            conditionalDisabled,
+                            disabledInputs,
+                            cache,
+                            checkFormStatus,
+                        }
+
+                        if ( keepFocus )
+                            config.focusedInput = focusedInput;
+
+                        return cloneElement( dependentInputsChild, config );
+                    }
+
+                    if ( validation === 'TextInput' ) {
+                        const inputChild = child as ReactElement<TextInputProps>;
+        
+                        if ( inputChild.props.type === PASSWORD )
+                            throw( SyntaxError( 'Password inputs are not allowed to be in CacheForms' ) );
+                        
+                        const name = inputChild.props.name || inputChild.props.type;
+                        const prevContent = inputChild.props.content;
+                        const inputData = formData[ name ];
+                        const resetTouched = inputData.resetTouched;
+        
+                        const config: TextInputConfig = {
+                            cache,
+                            content: {
+                                ...prevContent,
+                                value: inputData.value,
+                            },
+                            checkFormStatus,
+                            checkValid,
+                            isValid: inputData.isValid,
+                        }
+
+                        if ( resetTouched )
+                            config.resetTouched = true;
+                        if ( keepFocus )
+                            config.focusedInput = focusedInput;
+                        if ( disabledInputs.has( name ) )
+                            config.disabled = true;
+                        if ( conditionalDisabled[ name ] )
+                            config.isParentDisabled = true;
+                        if ( autoFocus === name )
+                            config.autoFocus = true;
+
+                        return cloneElement( inputChild, config );
+                    }
+        
+                    if ( validation === true )
+                        return child;
+                } )
+            }
+            <div className='submit-button-wrapper'>
+                <FormButton className={buttonClassName} content={buttonContent}
+                    ariaLabel={buttonAriaLabel} isDisabled={isSubmitting || !isFormComplete}
+                    isSuccess={formReturn === 'success'} isFail={formReturn === 'fail'}
+                    isLoading={isSubmitting}
+                    {...restButtonProps} />
+            </div>
+            {
+                // TO-DO - add overall form loader
+                isSubmitting && (
+                    <span className='loader' role='presentation' />
+                )
+            }
+        </form>
     )
 }
 

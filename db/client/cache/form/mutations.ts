@@ -32,7 +32,3 @@ export const putDexieFormCache = (
         ...omitSensetiveFields( data ),
     } as DexieFormCacheWithId );
 }
-
-export const clearDexieFormCache = () => {
-    return cacheDb.dexieForm.clear();
-}

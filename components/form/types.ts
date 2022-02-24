@@ -28,12 +28,10 @@ type FocusedInput = MutableRefObject<HTMLInputElement| null>;
 type GetCache = <T extends object>() => PromiseExtended<
     ( FormData<T> ) | undefined>;
 type UpdateCache = <T extends object>( data: FormData<T> ) => Promise<any>;
-type ClearCache = () => PromiseExtended<void>;
 
 interface CacheFunctions {
-    getCache: GetCache;
     updateCache: UpdateCache;
-    clearCache: ClearCache;
+    cacheFormData?: FormData;
 }
 
 interface Content {

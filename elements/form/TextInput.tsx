@@ -4,10 +4,6 @@ import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { useAfterEffect } from '../../hooks';
 // lib
 import { toTitleCase } from '../../lib';
-// types
-import type { SetFormData, ConditionalProps } from 'types';
-import type { TextInputTypes, Match, InputCache } from './types';
-import type { CheckValid, FocusedInput } from '../../components/types';
 // elements
 import { Blurb } from '../../elements';
 // partials
@@ -16,6 +12,10 @@ import { handleTextInputValidityMsgs } from './handleValidityMsgs';
 // constants
 import { EMAIL_VALIDATION, PASSWORD_VALIDATION, 
     USERNAME_VALIDATION } from '../../lib';
+// types
+import type { SetFormData, ConditionalProps } from 'types';
+import type { TextInputTypes, Match, InputCache } from './types';
+import type { CheckValid, FocusedInput } from '../../components/types';
 
     
 /* TYPES */

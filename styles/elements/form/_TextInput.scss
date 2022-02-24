@@ -162,6 +162,17 @@ $text-input--disabled-color:                    lightgray;
         }
     }
 
+    &.not-touched {
+        &.valid,
+        &.not-valid {
+            .text-input-label {
+                .valid-icon {
+                    visibility: hidden;
+                }
+            }
+        }
+    }
+
     &.not-focused {
         .text-input-label {
             .valid-icon {

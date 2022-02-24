@@ -47,7 +47,6 @@ const DependentInputs: FC<Props> = ( {
     onChange,
     checkFormStatus,
 } ) => {
-
      /* ERRORS */
      if ( formData === undefined )
         throw( SyntaxError( 'formData not specified - use built in Form wrapper component' ) );

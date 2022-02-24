@@ -1,12 +1,14 @@
+// dependencies
+import { useLiveQuery } from 'dexie-react-hooks';
 // types
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import type { FormOnSubmit } from '../../../components/types';
 // components
-import { CacheForm as Component } from '../../../components';
+import { Form as Component } from '../../../components';
 // elements
 import { TextInput } from '../../../elements';
 // db
-import { putDexieFormCache, clearDexieFormCache } from '../../../db/client/mutations';
+import { putDexieFormCache } from '../../../db/client/mutations';
 import { getDexieFormCache } from '../../../db/client/queries';
 
 
@@ -36,11 +38,21 @@ const CacheFormComponent = ( args: Props ) => {
   const { cacheFormProps, type } = args;
   const { id, name, onSubmit, buttonProps } = cacheFormProps;
 
+  /* HOOKS */
+  const formData = useLiveQuery( async () => {
+    const formCache = await getDexieFormCache();
+
+    return formCache;
+  } );
+
+  // if ( !formData ) return null;
+
   const cache = {
-    getCache: getDexieFormCache,
     updateCache: putDexieFormCache,
-    clearCache: clearDexieFormCache,
+    cacheFormData: formData,
   }
+
+  console.log( typeof formData );
 
   return (
     <Component id={id} name={name} cache={cache}
@@ -58,9 +70,8 @@ CacheForm.args = {
     id: 'text-input-form',
     name: 'text-input-form',
     onSubmit: async ( input ) => {
-      await setTimeout( 
-        () => alert( JSON.stringify( input ) ), 
-        500 );
+      return new Promise( resolve => setTimeout( 
+        () => resolve( true ), 800 ) );
     },
     buttonProps: {
       buttonContent: {

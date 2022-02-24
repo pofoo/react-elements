@@ -4,7 +4,7 @@ import { FC, FormEvent, Children, cloneElement, ReactElement,
 // elements
 import { FormButton } from '../../elements';
 // lib
-import { validateChild, isObjectEmpty } from '../../lib';
+import { validateChild, isObjectEmpty, PASSWORD } from '../../lib';
 // utils
 import checkValid from './checkValid';
 // types
@@ -12,7 +12,7 @@ import type { FormData, TransformedFormData } from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
     DependentInputsConfig, DisabledInputs,
     InitialValues, FocusedInput,
-    FieldSetProps, DependentInputsProps } from './types';
+    FieldSetProps, DependentInputsProps, CacheFunctions, } from './types';
 import type { TextInputProps } from '../../elements/types';
 // partial functions
 import initForm from './initForm';
@@ -45,6 +45,7 @@ export interface Props {
     initialValues?: InitialValues; // overrides any values placed in input child content prop
     conditionalDisabled?: ConditionalDisabled;
     onSubmit: OnSubmit;
+    cache?: CacheFunctions;
     // styling
     showSubmitAnimation?: boolean;
     buttonProps: ButtonProps;
@@ -65,19 +66,21 @@ const Form: FC<Props> = ( {
     name,
     initialValues={},
     onSubmit,
+    cache={},
     showSubmitAnimation=true,
     buttonProps,
     conditionalDisabled={},
     autoFocus,
     keepFocus,
 } ) => {
-
     /* CONTENT */
     const { buttonContent, 
         buttonAriaLabel, 
         buttonClassName='',
         ...restButtonProps
     } = buttonProps;
+
+    const { updateCache, cacheFormData } = cache;
 
     const { initialFormData, 
         canFormSubmit, 
@@ -86,7 +89,8 @@ const Form: FC<Props> = ( {
     } = useMemo( () => initForm( children, { 
         initialValues,
         conditionalDisabled,
-    } ), [] );
+        cacheFormData,
+    } ), [ cacheFormData ] );
 
     /* ERRORS */
     // TO-DO - implement conditionalDisabled errors check
@@ -105,7 +109,9 @@ const Form: FC<Props> = ( {
     /* FUNCTIONS */
     const disableAllInputs = () => {
         // getting all the formData keys and adding them to a new array
-        const formElementsArray = ( Object.keys( formData ) ).map( ( key ) => {
+        const formElementsArray = 
+            ( Object.keys( cacheFormData ? initialFormData : formData ) )
+            .map( ( key ) => {
             return key;
         } );
 
@@ -115,7 +121,7 @@ const Form: FC<Props> = ( {
     }
 
     const clearForm = ( resetValues: boolean=true ) => {
-        const { initialFormData: emptyFormData, 
+        const { initialFormData: resetFormData, 
             canFormSubmit,
             initialDisabled, 
         } = initForm( children, {
@@ -126,7 +132,11 @@ const Form: FC<Props> = ( {
             } );
 
         if ( resetValues ) {
-            setFormData( emptyFormData );
+            if ( updateCache )
+                updateCache( resetFormData );
+            else
+                setFormData( resetFormData );
+
             setIsFormComplete( canFormSubmit );
         }
 
@@ -141,9 +151,7 @@ const Form: FC<Props> = ( {
 
         const didFormSubmit = await onSubmit( transformData( data ) );
 
-        if ( didFormSubmit )
-            clearForm();
-        else if ( didFormSubmit === false )
+        if ( didFormSubmit === false )
             setDisabledInputs( prevDisabled );
         else
             clearForm();
@@ -169,7 +177,8 @@ const Form: FC<Props> = ( {
         let canSubmit = true;
         const newDisabledInputs: Set<string> = new Set();
 
-        ( Object.entries( formData ) ).forEach( ( [ name, rawInput ] ) => {
+        ( Object.entries( cacheFormData ? initialFormData : formData ) )
+            .forEach( ( [ name, rawInput ] ) => {
             const isValid = rawInput.isValid;
             const childInputs = expandedConditionalDisabled[ name ];
 
@@ -202,19 +211,26 @@ const Form: FC<Props> = ( {
             {
                 Children.map( children, ( child ) => {
                     const validation = validateChild( child );
-        
+                    
                     if ( validation === 'FieldSet' ) {
                         const fieldSetChild = child as ReactElement<FieldSetProps>;
         
                         const name = fieldSetChild.props.name;
 
                         const config: FieldSetConfig =  {
-                            formData,
-                            onChange: setFormData,
                             checkFormStatus,
                             expandedConditionalDisabled,
                         }
 
+                        if ( updateCache )
+                            config.cache = {
+                                updateCache,
+                                formData: initialFormData,
+                            }
+                        else {
+                            config.formData = formData;
+                            config.onChange = setFormData;
+                        }
                         if ( keepFocus )
                             config.focusedInput = focusedInput;
                         if ( disabledInputs.has( name ) )
@@ -229,13 +245,20 @@ const Form: FC<Props> = ( {
                         const dependentInputsChild = child as ReactElement<DependentInputsProps>;
 
                         const config: DependentInputsConfig = {
-                            formData,
                             conditionalDisabled,
                             disabledInputs,
-                            onChange: setFormData,
                             checkFormStatus,
                         }
 
+                        if ( updateCache )
+                            config.cache = {
+                                updateCache,
+                                formData: initialFormData,
+                            }
+                        else {
+                            config.formData = formData;
+                            config.onChange = setFormData;
+                        }
                         if ( keepFocus )
                             config.focusedInput = focusedInput;
 
@@ -246,12 +269,14 @@ const Form: FC<Props> = ( {
                         const inputChild = child as ReactElement<TextInputProps>;
         
                         const name = inputChild.props.name || inputChild.props.type;
+                        if ( updateCache && name === PASSWORD )
+                            throw( SyntaxError( 'Password inputs are not allowed to be in cached forms' ) );
+                    
                         const prevContent = inputChild.props.content;
-                        const inputData = formData[ name ];
+                        const inputData = cacheFormData ? initialFormData[ name ] : formData[ name ];
                         const resetTouched = inputData.resetTouched;
         
                         const config: TextInputConfig = {
-                            onChange: setFormData,
                             content: {
                                 ...prevContent,
                                 value: inputData.value,
@@ -261,6 +286,13 @@ const Form: FC<Props> = ( {
                             isValid: inputData.isValid,
                         }
 
+                        if ( updateCache )
+                            config.cache = {
+                                updateCache,
+                                formData: initialFormData,
+                            }
+                        else
+                            config.onChange = setFormData;
                         if ( resetTouched )
                             config.resetTouched = true;
                         if ( keepFocus )

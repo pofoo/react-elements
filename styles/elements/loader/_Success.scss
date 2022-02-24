@@ -74,9 +74,8 @@ $animation-duration:            0.7s;
         }
     }
 
-    // @include center-absolute;
+    @include center-absolute;
     position: absolute;
-    // display: inline-block;
     width: $success--size;
     height: $success--size;
     border-radius: 50%;

@@ -15,17 +15,18 @@ import type { Props as FieldSetProps } from './FieldSet';
 // constants
 import { REQUIRED_TYPES, UNIQUE_INPUTS } from './constants';
 
+
 /* TYPES */
 interface Options {
     initialValues?: InitialValues;
     ignoreChildValues?: boolean;
     conditionalDisabled?: ConditionalDisabled;
     setTouched?: boolean;
+    cacheFormData?: FormData;
 }
 
 export type SharedProps = TextInputProps & FieldSetProps;
 
-// TO-DO - find a better way to include children in typescript
 interface TextInputPropsWithChildren extends TextInputProps {
     children: ReactNode;
 }
@@ -39,7 +40,7 @@ type FieldSetOptions = {
 }
 
 interface InitialFormValues {
-    initialFormData: FormData,
+    initialFormData: FormData;
     canFormSubmit: boolean;
     initialDisabled: DisabledInputs;
     expandedConditionalDisabled: ConditionalDisabled;
@@ -54,24 +55,19 @@ const initForm = (
     children: ReactNode,
     options: Options,
 ): InitialFormValues => {
-
     /* CONSTANTS */
     const { initialValues={},
         ignoreChildValues,
         conditionalDisabled={},
-        setTouched=false } = options;
+        setTouched=false,
+        cacheFormData, } = options;
 
     const initialFormData: FormData = {};
     let canFormSubmit: boolean = true;
     const IS_CONDITIONAL = !isObjectEmpty( conditionalDisabled );
     const initialDisabled: DisabledInputs = new Set();
     const expandedConditionalDisabled: ConditionalDisabled = {};
-
-    /* HELPER FUNCTIONS */
-    const addChildInputs = ( childInputs: string[] ) => {
-        childInputs.forEach( input => initialDisabled.add( input ) );
-    }
-
+    
     /* MAIN FUNCTION */
     const initChildren = ( 
         children: ReactNode,
@@ -98,44 +94,59 @@ const initForm = (
                 }
 
                 if ( validation === 'TextInput' ) {
-                    const inputChild = child as ReactElement<TextInputProps>;
-
-                    const initValue = initialValues[ name ];
-                    const value = initValue ? initValue :
-                        ignoreChildValues ? '' : inputChild.props.content?.value || '';
-                    const type: TextInputTypes = inputChild.props.type;
-                    const required = inputChild.props.required || REQUIRED_TYPES.includes ( type ) ?
-                        true : false;
-                    const match = inputChild.props.match;
-    
-                    let isValid: boolean;
-                    if ( type === 'username' )
-                        isValid = required ? checkValid( value, USERNAME_VALIDATION, { match } ) : true;
-                    else if ( type === 'email' )
-                        isValid = required ? checkValid( value, EMAIL_VALIDATION, { match } ) : true;
-                    else if ( type === 'password' )
-                        isValid = required ? checkValid( value, PASSWORD_VALIDATION, { match } ) : true;
-                    else
-                        isValid = required ? value !== '' : true;
-                    
-                    if ( !isValid ) canFormSubmit = false;
-        
-                    initialFormData[ name ] = {
-                        value,
-                        isValid,
-                    };
-
-                    if ( setTouched )
-                        initialFormData[ name ].resetTouched = true;
-    
+                    /* OPTIONS */
                     const { prevFieldSetChildInputs } = fieldSetOptions;
-    
-                    if ( !isValid ) {
-                        if ( prevFieldSetChildInputs ) {
-                            expandedConditionalDisabled[ name ] = prevFieldSetChildInputs;
-                            addChildInputs( prevFieldSetChildInputs );
+
+                    /* HELPER FUNCTIONS */
+                    const handleFormFeatures = ( 
+                        isValid: boolean,
+                        formData: FormData,
+                    ) => {
+                        if ( !isValid ) {
+                            canFormSubmit = false;
+                
+                            if ( prevFieldSetChildInputs ) {
+                                expandedConditionalDisabled[ name ] = prevFieldSetChildInputs;
+                                prevFieldSetChildInputs.forEach( 
+                                    input => initialDisabled.add( input ) );
+                            }
                         }
+
+                        if ( setTouched )
+                            formData[ name ].resetTouched = true;
                     }
+
+                    if ( cacheFormData === undefined ) {
+                        const inputChild = child as ReactElement<TextInputProps>;
+    
+                        const initValue = initialValues[ name ];
+                        const value = ignoreChildValues ? '' : initValue ? initValue :
+                            inputChild.props.content?.value || '';
+                        const type: TextInputTypes = inputChild.props.type;
+                        const required = inputChild.props.required || REQUIRED_TYPES.includes ( type ) ?
+                            true : false;
+                        const match = inputChild.props.match;
+        
+                        let isValid: boolean;
+                        if ( type === 'username' )
+                            isValid = required ? checkValid( value, USERNAME_VALIDATION, { match } ) : true;
+                        else if ( type === 'email' )
+                            isValid = required ? checkValid( value, EMAIL_VALIDATION, { match } ) : true;
+                        else if ( type === 'password' )
+                            isValid = required ? checkValid( value, PASSWORD_VALIDATION, { match } ) : true;
+                        else
+                            isValid = required ? value !== '' : true;
+            
+                        initialFormData[ name ] = {
+                            value,
+                            isValid,
+                        };
+                        
+                        handleFormFeatures( isValid, initialFormData );
+                    }
+                    else
+                        handleFormFeatures( 
+                            cacheFormData[ name ].isValid, cacheFormData );
                 }
             }
 
@@ -149,7 +160,12 @@ const initForm = (
 
     initChildren( children );
 
-    return { initialFormData, canFormSubmit, initialDisabled, expandedConditionalDisabled }
+    return { 
+        initialFormData: cacheFormData ? cacheFormData : initialFormData, 
+        canFormSubmit, 
+        initialDisabled, 
+        expandedConditionalDisabled,
+    }
 }
 
 export default initForm;

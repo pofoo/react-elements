@@ -3,6 +3,7 @@ import { CONFIRM_PASSWORD } from '../../lib';
 // types
 import { FormData } from 'types';
 
+
 /* TYPES */
 export interface Options {
     sanitizePassword?: boolean;
