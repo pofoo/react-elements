@@ -22,4 +22,4 @@ export class CacheDb extends Dexie {
 
 export const cacheDb = new CacheDb();
 
-// cacheDb.on( 'populate', populate );
+cacheDb.on( 'populate', populate );
