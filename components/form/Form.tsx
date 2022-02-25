@@ -213,6 +213,7 @@ const Form: FC<Props> = ( {
             {
                 Children.map( children, ( child ) => {
                     const validation = validateChild( child );
+                    const actualFormData = cacheFormData ? cacheFormData : formData;
                     
                     if ( validation === 'FieldSet' ) {
                         const fieldSetChild = child as ReactElement<FieldSetProps>;
@@ -227,10 +228,10 @@ const Form: FC<Props> = ( {
                         if ( updateCache )
                             config.cache = {
                                 updateCache,
-                                formData: initialFormData,
+                                formData: actualFormData,
                             }
                         else {
-                            config.formData = formData;
+                            config.formData = actualFormData;
                             config.onChange = setFormData;
                         }
                         if ( keepFocus )
@@ -255,10 +256,10 @@ const Form: FC<Props> = ( {
                         if ( updateCache )
                             config.cache = {
                                 updateCache,
-                                formData: initialFormData,
+                                formData: actualFormData,
                             }
                         else {
-                            config.formData = formData;
+                            config.formData = actualFormData;
                             config.onChange = setFormData;
                         }
                         if ( keepFocus )
@@ -270,12 +271,13 @@ const Form: FC<Props> = ( {
                     if ( validation === 'TextInput' ) {
                         const inputChild = child as ReactElement<TextInputProps>;
         
-                        const name = inputChild.props.name || inputChild.props.type;
-                        if ( updateCache && name === PASSWORD )
+                        const type = inputChild.props.type;
+                        if ( updateCache && type === PASSWORD )
                             throw( SyntaxError( 'Password inputs are not allowed to be in cached forms' ) );
-                    
+
+                        const name = inputChild.props.name || type;
                         const prevContent = inputChild.props.content;
-                        const inputData = cacheFormData ? cacheFormData[ name ] : formData[ name ];
+                        const inputData = actualFormData[ name ];
                         const resetTouched = inputData.resetTouched;
         
                         const config: TextInputConfig = {
@@ -291,7 +293,7 @@ const Form: FC<Props> = ( {
                         if ( updateCache )
                             config.cache = {
                                 updateCache,
-                                formData: initialFormData,
+                                formData: actualFormData,
                             }
                         else
                             config.onChange = setFormData;

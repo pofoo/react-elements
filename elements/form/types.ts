@@ -11,7 +11,7 @@ interface Match {
 }
 
 interface InputCache {
-    updateCache: UpdateCache;
+    updateCache: UpdateCache<FormData>;
     formData: FormData;
 }
 

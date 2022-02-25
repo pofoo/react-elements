@@ -1,5 +1,4 @@
 import type { PromiseExtended } from 'dexie';
-import type { FormData } from './f';
 
 // based off dexie Table functions
 type GetCache<T extends object = any> = () => PromiseExtended<( T ) | undefined>;
