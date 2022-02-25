@@ -1,7 +1,7 @@
 // constants
 import { CONFIRM_PASSWORD } from '../../lib';
 // types
-import { FormData } from 'types';
+import { FormData, TransformedFormData } from 'types';
 
 
 /* TYPES */
@@ -20,7 +20,7 @@ export interface Options {
     /* OPTIONS */
     const { sanitizePassword=true } = options;
 
-    const input: { [ key: string ]: string | Promise<string> } = {};
+    const input: TransformedFormData = {};
 
     ( Object.entries( data ) ).forEach( ( [ name, rawInput ] ) => {
         if ( sanitizePassword && name === CONFIRM_PASSWORD )

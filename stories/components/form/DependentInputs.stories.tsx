@@ -1,6 +1,7 @@
 // types
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
 import type { TransformedFormData } from 'types';
+import type { FormOnSubmit } from '../../../components/types';
 // components
 import { Form, DependentInputs as Component } from '../../../components';
 import { TextInput } from '../../../elements';
@@ -19,7 +20,7 @@ interface Props {
     formProps: {
         id: string;
         name: string;
-        onSubmit: ( input: TransformedFormData<Input> ) => void;
+        onSubmit: FormOnSubmit<Input>;
     },
     buttonProps: {
         buttonContent: {
@@ -56,8 +57,8 @@ export const DependentInputs = Template.bind({});
 DependentInputs.args = {
     formProps: {
         id: 'sample-form',
-        name: 'sample-form',
-        onSubmit: ( input: Input ) => alert( JSON.stringify( input ) ),
+        name: 'sampleForm',
+        onSubmit: ( input ) => alert( JSON.stringify( input ) ),
     },
     buttonProps: {
         buttonContent: {

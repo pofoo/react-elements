@@ -12,7 +12,7 @@ import checkValid from './checkValid';
 import type { FormData, TransformedFormData} from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
     DependentInputsConfig, DisabledInputs,
-    InitialValues, FocusedInput, CacheFunctions,
+    InitialValues, FocusedInput, Cache,
     FieldSetProps, DependentInputsProps } from './types';
 import type { TextInputProps } from '../../elements/types';
 // partial functions
@@ -44,7 +44,7 @@ export interface Props {
     name: string;
     // data
     initialValues?: InitialValues; // overrides any values placed in input child content prop
-    cache: CacheFunctions; // cache functions to store formData
+    cache: Cache; // cache functions to store formData
     conditionalDisabled?: ConditionalDisabled;
     onSubmit: OnSubmit;
     // styling

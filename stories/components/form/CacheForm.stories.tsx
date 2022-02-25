@@ -18,11 +18,16 @@ export default {
 } as ComponentMeta<typeof Component>;
 
 /* TYPES */
+interface Input {
+  email: string;
+  username: string;
+}
+
 interface Props {
   cacheFormProps: {
     id: string;
     name: string;
-    onSubmit: FormOnSubmit;
+    onSubmit: FormOnSubmit<Input>;
     buttonProps: {
         buttonContent: {
             text: string;
@@ -45,14 +50,10 @@ const CacheFormComponent = ( args: Props ) => {
     return formCache;
   } );
 
-  // if ( !formData ) return null;
-
   const cache = {
     updateCache: putDexieFormCache,
     cacheFormData: formData,
   }
-
-  console.log( typeof formData );
 
   return (
     <Component id={id} name={name} cache={cache}
@@ -68,7 +69,7 @@ export const CacheForm = Template.bind({});
 CacheForm.args = {
   cacheFormProps: {
     id: 'text-input-form',
-    name: 'text-input-form',
+    name: 'textInputForm',
     onSubmit: async ( input ) => {
       return new Promise( resolve => setTimeout( 
         () => resolve( true ), 800 ) );

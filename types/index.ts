@@ -14,6 +14,8 @@ import type SetState from './setState';
 import type { FormData, SetFormData, TransformedFormData, 
     FormDataValues } from './formData';
 import type VoidFn from './voidFn';
+import type { GetCache, UpdateCache } from './cache';
+
 
 export type {
     Href,
@@ -37,4 +39,6 @@ export type {
     VoidFn,
     BrandColors,
     FormDataValues,
+    GetCache,
+    UpdateCache,
 }

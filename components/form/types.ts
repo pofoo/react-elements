@@ -1,12 +1,12 @@
 // types
 import type { MutableRefObject } from 'react';
-import type { SetFormData, FormData } from '../../types';
+import type { SetFormData, FormData, UpdateCache } from '../../types';
 import type { Props as DependentInputsProps } from './DependentInputs';
 import type { Props as FieldSetProps } from './FieldSet';
 import type { CheckValid } from './checkValid';
 import type { OnSubmit as FormOnSubmit } from './Form';
-import type { PromiseExtended } from 'dexie';
 import type { InputCache } from '../../elements/types';
+
 
 // key represents the name of parent input element that other input elements rely on
 // the value represents an array of disabled elements IF the given key is inValid
@@ -25,12 +25,8 @@ type CheckFormStatus = ( checkDisabled: boolean ) => void;
 
 type FocusedInput = MutableRefObject<HTMLInputElement| null>;
 
-type GetCache = <T extends object>() => PromiseExtended<
-    ( FormData<T> ) | undefined>;
-type UpdateCache = <T extends object>( data: FormData<T> ) => Promise<any>;
-
-interface CacheFunctions {
-    updateCache: UpdateCache;
+interface Cache {
+    updateCache?: UpdateCache;
     cacheFormData?: FormData;
 }
 
@@ -88,7 +84,5 @@ export type {
     CheckValid,
     FormOnSubmit,
     FocusedInput,
-    CacheFunctions,
-    GetCache,
-    UpdateCache,
+    Cache,
 }

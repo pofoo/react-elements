@@ -12,7 +12,7 @@ import type { FormData, TransformedFormData } from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
     DependentInputsConfig, DisabledInputs,
     InitialValues, FocusedInput,
-    FieldSetProps, DependentInputsProps, CacheFunctions, } from './types';
+    FieldSetProps, DependentInputsProps, Cache, } from './types';
 import type { TextInputProps } from '../../elements/types';
 // partial functions
 import initForm from './initForm';
@@ -20,7 +20,8 @@ import transformData from './transformData';
 
 
 /* TYPES */
-export type OnSubmit = <T extends object>( input: TransformedFormData<T> ) => 
+export type OnSubmit<T extends object = any> =
+    ( input: TransformedFormData<T> ) => 
     ( Promise<boolean | undefined | void> ) | ( boolean | undefined | void );
 
 interface ButtonProps {
@@ -45,7 +46,7 @@ export interface Props {
     initialValues?: InitialValues; // overrides any values placed in input child content prop
     conditionalDisabled?: ConditionalDisabled;
     onSubmit: OnSubmit;
-    cache?: CacheFunctions;
+    cache?: Cache;
     // styling
     showSubmitAnimation?: boolean;
     buttonProps: ButtonProps;
@@ -82,6 +83,7 @@ const Form: FC<Props> = ( {
 
     const { updateCache, cacheFormData } = cache;
 
+    // TO-DO - this is being run EVERYTIME - causing us to map through the input children twice every time
     const { initialFormData, 
         canFormSubmit, 
         initialDisabled,
@@ -90,7 +92,7 @@ const Form: FC<Props> = ( {
         initialValues,
         conditionalDisabled,
         cacheFormData,
-    } ), [ cacheFormData ] );
+    } ), [] );
 
     /* ERRORS */
     // TO-DO - implement conditionalDisabled errors check
@@ -110,7 +112,7 @@ const Form: FC<Props> = ( {
     const disableAllInputs = () => {
         // getting all the formData keys and adding them to a new array
         const formElementsArray = 
-            ( Object.keys( cacheFormData ? initialFormData : formData ) )
+            ( Object.keys( cacheFormData ? cacheFormData : formData ) )
             .map( ( key ) => {
             return key;
         } );
@@ -177,7 +179,7 @@ const Form: FC<Props> = ( {
         let canSubmit = true;
         const newDisabledInputs: Set<string> = new Set();
 
-        ( Object.entries( cacheFormData ? initialFormData : formData ) )
+        ( Object.entries( cacheFormData ? cacheFormData : formData ) )
             .forEach( ( [ name, rawInput ] ) => {
             const isValid = rawInput.isValid;
             const childInputs = expandedConditionalDisabled[ name ];
@@ -273,7 +275,7 @@ const Form: FC<Props> = ( {
                             throw( SyntaxError( 'Password inputs are not allowed to be in cached forms' ) );
                     
                         const prevContent = inputChild.props.content;
-                        const inputData = cacheFormData ? initialFormData[ name ] : formData[ name ];
+                        const inputData = cacheFormData ? cacheFormData[ name ] : formData[ name ];
                         const resetTouched = inputData.resetTouched;
         
                         const config: TextInputConfig = {

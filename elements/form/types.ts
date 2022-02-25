@@ -1,6 +1,5 @@
-import type { SetState, FormData } from '../../types';
+import type { SetState, FormData, UpdateCache } from '../../types';
 import type { Props as TextInputProps } from './TextInput';
-import type { UpdateCache } from 'components/types';
 
 type TextInputTypes = 'email' | 'username' | 'password' | 'text';
 
