@@ -162,8 +162,7 @@ const TextInput = ( {
         newValue?: string,
     ) => {
         const newInputData = {
-            // @ts-ignore
-            [ inputName ]: {
+            [ inputName as string ]: {
                 value: typeof newValue === 'string' ? newValue : value,
                 isValid: newValid,
             }
@@ -208,8 +207,7 @@ const TextInput = ( {
     const handleValidityMsgs = () => {
         if ( inputRequired && !isValid ) {
             const target = inputRef.current as HTMLInputElement;
-            const content = { value, type, name: inputName };
-            // @ts-ignore
+            const content = { value, type, name: inputName as string };
             handleTextInputValidityMsgs( target, content, { match } );
         }
     }
