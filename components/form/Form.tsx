@@ -53,6 +53,7 @@ export interface Props {
     // customization
     autoFocus?: string; // which input element to focus (based off DOM structure)
     keepFocus?: boolean; // keeps focus on the last focused input element after the form is submitted
+    trimValuesOnSubmit?: boolean; // if true, input values will be trimmed before submit
 }
 
 /**
@@ -73,6 +74,7 @@ const Form: FC<Props> = ( {
     conditionalDisabled={},
     autoFocus,
     keepFocus,
+    trimValuesOnSubmit,
 } ) => {
     /* CONTENT */
     const { buttonContent, 

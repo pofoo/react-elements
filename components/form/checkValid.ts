@@ -1,9 +1,11 @@
 // types
 import type { Match } from 'elements/form/types';
 
+
 /* TYPES */
 interface Options {
     match?: Match;
+    noEmptyVal?: boolean;
 }
 
 export type CheckValid = ( value: string, pattern?: RegExp, options?: Options ) => boolean;
@@ -18,8 +20,8 @@ const checkValid = (
     options: Options={},
 ) => {
     /* OPTIONS */
-    const { match } = options;
-    const isValueEmpty = value === '';
+    const { match, noEmptyVal } = options;
+    const isValueEmpty = noEmptyVal ? value.trim() === '' : value === '';
 
     if ( match ) {
         const isMatchValid = value === match.value && !isValueEmpty;

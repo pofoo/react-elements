@@ -7,6 +7,7 @@ import { FormData, TransformedFormData } from 'types';
 /* TYPES */
 export interface Options {
     sanitizePassword?: boolean;
+    trimValues?: boolean;
 }
 
 /**
@@ -18,7 +19,7 @@ export interface Options {
      options: Options={},
 ) => {
     /* OPTIONS */
-    const { sanitizePassword=true } = options;
+    const { sanitizePassword=true, trimValues } = options;
 
     const input: TransformedFormData = {};
 
@@ -26,7 +27,7 @@ export interface Options {
         if ( sanitizePassword && name === CONFIRM_PASSWORD )
             return;
         
-        input[ name ] = rawInput.value;
+        input[ name ] = trimValues ? rawInput.value.trim() : rawInput.value;
     } );
 
     return input;

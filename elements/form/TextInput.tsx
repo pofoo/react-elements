@@ -51,6 +51,7 @@ export interface Props {
     // limitations
     pattern?: RegExp; // will override default pattern checking from type specification
     maxLength?: number;
+    noEmptyVal?: boolean; // if true, no empty strings are permitted
     // styling
     isRounded?: boolean;
     animate?: boolean; // toggle animate to disabled ALL animations
@@ -84,6 +85,7 @@ const TextInput = ( {
     focusedInput,
     pattern,
     maxLength=100,
+    noEmptyVal,
     isRounded=true,
     animate=true,
     animateInput=true,
@@ -185,7 +187,7 @@ const TextInput = ( {
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {
         const newValue = event.target.value;
         const newValid = inputRequired ? 
-            checkValid( newValue, inputPattern, { match } ) : true;
+            checkValid( newValue, inputPattern, { match, noEmptyVal } ) : true;
 
         setFormState( newValid, newValue );
     }
@@ -274,7 +276,8 @@ const TextInput = ( {
 
     if ( match ) {
         useAfterEffect( () => {
-            const newValid = inputRequired ? checkValid( value, inputPattern, { match } ) : true;
+            const newValid = inputRequired ? 
+                checkValid( value, inputPattern, { match, noEmptyVal } ) : true;
 
             if ( newValid !== isValid )
                 setFormState( newValid );
