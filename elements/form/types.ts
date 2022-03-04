@@ -1,24 +1,33 @@
-import type { SetState, FormData, UpdateCache } from '../../types';
+import type { FormData, UpdateCache } from '../../types';
 import type { Props as TextInputProps } from './TextInput';
 
 type TextInputTypes = 'email' | 'username' | 'password' | 'text';
-
-type FlexOnChange = SetState<any>;
 
 interface Match {
     value: string;
     name: string;
 }
 
-interface InputCache {
+type InputFlexOnChange = ( content: string ) => void;
+
+type HTMLFormElements = HTMLInputElement | HTMLTextAreaElement;
+
+interface TextInputCache {
     updateCache: UpdateCache<FormData>;
     formData: FormData;
+}
+
+interface TextareaCache {
+    updateCache: UpdateCache;
+    formData?: FormData;
 }
 
 export type {
     TextInputTypes,
     TextInputProps,
     Match,
-    FlexOnChange,
-    InputCache,
+    TextInputCache,
+    TextareaCache,
+    InputFlexOnChange,
+    HTMLFormElements,
 }

@@ -14,8 +14,8 @@ import { EMAIL_VALIDATION, PASSWORD_VALIDATION,
     USERNAME_VALIDATION } from '../../lib';
 // types
 import type { SetFormData, ConditionalProps } from 'types';
-import type { TextInputTypes, Match, InputCache } from './types';
-import type { CheckValid, FocusedInput } from '../../components/types';
+import type { TextInputTypes, Match, TextInputCache } from './types';
+import type { CheckValid, FormFocusedInput } from '../../components/types';
 
     
 /* TYPES */
@@ -38,7 +38,7 @@ export interface Props {
     onChange?: SetFormData;
     checkFormStatus?: ( checkDisabled: boolean ) => void;
     checkValid?: CheckValid;
-    cache?: InputCache;
+    cache?: TextInputCache;
     // states
     isValid?: boolean;
     required?: boolean;
@@ -47,7 +47,7 @@ export interface Props {
     isParentDisabled?: boolean; // whether other input relies on this input for its disabled attribute
     match?: Match; // if match is specfied, this input MUST equal the match value
     resetTouched?: true;
-    focusedInput?: FocusedInput;
+    focusedInput?: FormFocusedInput;
     // limitations
     pattern?: RegExp; // will override default pattern checking from type specification
     maxLength?: number;
@@ -194,7 +194,7 @@ const TextInput = ( {
     const handleBlur = () => {
         setTouched( true );
         setFocused( false );
-        setActualPlaceholder( originalPlaceholder.current );
+        setActualPlaceholder( inputPlaceholder );
     }
 
     const handleFocus = () => {
@@ -214,11 +214,9 @@ const TextInput = ( {
 
     /* HOOKS */
     const inputRef = useRef<HTMLInputElement>( null );
-    const originalPlaceholder = useRef<string>( inputPlaceholder );
     const [ touched, setTouched ] = useState<boolean | null>( false ); 
     const [ focused, setFocused ] = useState<boolean>( autoFocus ? true : false );
-    const [ actualPlaceholder, setActualPlaceholder ] = useState<string>( 
-        originalPlaceholder.current );
+    const [ actualPlaceholder, setActualPlaceholder ] = useState<string>( inputPlaceholder );
 
     /* CLASSNAMES */
     const isValidClasses = isValid ? 'valid' : 'not-valid';

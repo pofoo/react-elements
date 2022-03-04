@@ -8,21 +8,19 @@ import { validateChild, isObjectEmpty, PASSWORD } from '../../lib';
 // utils
 import checkValid from './checkValid';
 // types
-import type { FormData, TransformedFormData } from 'types';
+import type { FormData, TransformedFormData, OnSaveSubmit } from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
     DependentInputsConfig, DisabledInputs,
-    InitialValues, FocusedInput,
+    InitialValues, FormFocusedInput,
     FieldSetProps, DependentInputsProps, Cache, } from './types';
-import type { TextInputProps } from '../../elements/types';
+import type { TextInputProps, HTMLFormElements } from '../../elements/types';
 // partial functions
 import initForm from './initForm';
 import transformData from './transformData';
 
 
 /* TYPES */
-export type OnSubmit<T extends object = any> =
-    ( input: TransformedFormData<T> ) => 
-    ( Promise<boolean | undefined | void> ) | ( boolean | undefined | void );
+export type OnSubmit<T extends object = any> = OnSaveSubmit<TransformedFormData<T>>;
 
 interface ButtonProps {
     buttonContent: {
@@ -102,7 +100,7 @@ const Form: FC<Props> = ( {
 
     /* HOOKS */
     // form states
-    const focusedInput = useRef<HTMLInputElement>( null ) as FocusedInput;
+    const focusedInput = useRef<HTMLFormElements>( null ) as FormFocusedInput;
     const [ formData, setFormData ] = useState<FormData>( initialFormData );
     const [ isFormComplete, setIsFormComplete ] = useState<boolean>( canFormSubmit );
     const [ disabledInputs, setDisabledInputs ] = useState<DisabledInputs>( initialDisabled );
@@ -110,11 +108,13 @@ const Form: FC<Props> = ( {
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
     const [ formReturn, setFormReturn ] = useState<'success' | 'fail' | null>( null );
 
+    const actualFormData = cacheFormData ? cacheFormData : formData;
+
     /* FUNCTIONS */
     const disableAllInputs = () => {
         // getting all the formData keys and adding them to a new array
         const formElementsArray = 
-            ( Object.keys( cacheFormData ? cacheFormData : formData ) )
+            ( Object.keys( actualFormData ) )
             .map( ( key ) => {
             return key;
         } );
@@ -153,7 +153,9 @@ const Form: FC<Props> = ( {
         setIsSubmitting( true );
         const prevDisabled = disableAllInputs();
 
-        const didFormSubmit = await onSubmit( transformData( data ) );
+        const didFormSubmit = await onSubmit( transformData( data, {
+            trimValues: trimValuesOnSubmit
+        } ) );
 
         if ( didFormSubmit === false )
             setDisabledInputs( prevDisabled );
@@ -181,7 +183,7 @@ const Form: FC<Props> = ( {
         let canSubmit = true;
         const newDisabledInputs: Set<string> = new Set();
 
-        ( Object.entries( cacheFormData ? cacheFormData : formData ) )
+        ( Object.entries( actualFormData ) )
             .forEach( ( [ name, rawInput ] ) => {
             const isValid = rawInput.isValid;
             const childInputs = expandedConditionalDisabled[ name ];
@@ -215,7 +217,6 @@ const Form: FC<Props> = ( {
             {
                 Children.map( children, ( child ) => {
                     const validation = validateChild( child );
-                    const actualFormData = cacheFormData ? cacheFormData : formData;
                     
                     if ( validation === 'FieldSet' ) {
                         const fieldSetChild = child as ReactElement<FieldSetProps>;

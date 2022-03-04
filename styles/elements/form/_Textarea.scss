@@ -1,20 +1,32 @@
 // dependencies
+@use 'sass:map';
 @use 'sass:color';
-// utils
+// constants
+@use '../../constants/colors' as *;
+// utils'
+@use '../../utils/colors' as *;
 @use '../../utils/selectors' as *;
 
+
 .textarea-wrapper {
-    $color: black;
+    $color: gray;
+    $disabled-color: lightgray;
 
     display: flex;
     flex-direction: column;
 
     .label {
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.3rem;
+        font-size: 95%;
     }
 
     .textarea {
+        $shadow-colors: getShadowColors( map.get( $shadow, 2 ) );
+
         outline: 1px solid $color;
+        padding: 0.5rem;
+        box-shadow: inset 1px 1px 3px map.get( $shadow-colors, 2 ),
+                    inset 1px 1px 1.5px map.get( $shadow-colors, 1 );
 
         transition: outline 0.04s ease;
 
@@ -22,16 +34,26 @@
             resize: none;
         }
 
-        @include tap {
-            outline-width: 2px;
+        &.rounded {
+            border-radius: 3px;
+        }
+
+        &.not-read-only {
+            @include tap {
+                outline-width: 2px;
+            }
         }
 
         &:focus {
             outline-color: color.adjust( $color, $alpha: -0.1 );
         }
+    }
 
-        &.rounded {
-            border-radius: 3px;
+
+    &.disabled {
+        .textarea {
+            outline: 3px solid $color;
+            background: $disabled-color;
         }
     }
 }

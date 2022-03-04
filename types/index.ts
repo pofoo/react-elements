@@ -15,6 +15,7 @@ import type { FormData, SetFormData, TransformedFormData,
     FormDataValues } from './formData';
 import type VoidFn from './voidFn';
 import type { GetCache, UpdateCache } from './cache';
+import type OnSaveSubmit from './onSaveSubmit';
 
 
 export type {
@@ -41,4 +42,5 @@ export type {
     FormDataValues,
     GetCache,
     UpdateCache,
+    OnSaveSubmit,
 }

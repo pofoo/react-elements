@@ -1,9 +1,9 @@
 // dependencies
-import { useState, ChangeEvent } from 'react';
+import { useState } from 'react';
 // types
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
-// import type { FlexOnChange } from '@elements/form/types';
-import type { FlexOnChange } from '../../../elements/form/types';
+import type { InputFlexOnChange } from 'elements/types';
+import type { SetFormData } from 'types';
 // elements
 import { Textarea as Element } from '../../../elements';
 
@@ -16,26 +16,27 @@ export default {
 /* TYPES */
 interface Content {
     label: string;
+    placeholder?: string;
+    value?: string;
 }
 
 interface Props {
     id: string;
     content: Content;
     name: string;
-    onChange: FlexOnChange;
+    onChange: InputFlexOnChange | SetFormData;
 }
 
 const TextareaElement = ( args: Props ) => {
-    /* HOOKS */
-    const [ value, setValue ] = useState<string>( '' );
-
-    /* FUNCTIONS */
-    const onChange = ( event: ChangeEvent<HTMLTextAreaElement> ) => {
-        setValue( event.target.value );
-    }
-
     /* CONTENT */
     const { id, content, name } = args;
+    /* HOOKS */
+    const [ value, setValue ] = useState<string>( content.value ? content.value : '' );
+
+    /* FUNCTIONS */
+    const onChange = ( content: string ) => {
+        setValue( content );
+    }
 
     const actualContent = {
         ...content,
@@ -44,7 +45,7 @@ const TextareaElement = ( args: Props ) => {
 
     return (
         <Element id={id} content={actualContent} name={name}
-            onChange={onChange} />
+            onChange={onChange} isInForm={false} />
     )
 }
 
@@ -54,6 +55,7 @@ Textarea.args = {
   id: 'textarea',
   content: {
       label: 'This is a textarea',
+      placeholder: 'This is a textarea',
   },
   name: 'aTextarea',
 }

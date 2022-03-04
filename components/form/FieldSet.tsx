@@ -5,10 +5,10 @@ import { validateChild } from '../../lib';
 // utils
 import checkValid from './checkValid';
 // types
-import type { CheckFormStatus, FocusedInput,
+import type { CheckFormStatus, FormFocusedInput,
     TextInputConfig, ConditionalDisabled } from './types';
 import type { SetFormData, FormData } from '../../types';
-import type { TextInputProps, InputCache } from '../../elements/types';
+import type { TextInputProps, TextInputCache } from '../../elements/types';
 
 
 /* TYPES */
@@ -25,8 +25,8 @@ export interface Props {
     // data
     formData?: FormData;
     expandedConditionalDisabled?: ConditionalDisabled;
-    focusedInput?: FocusedInput;
-    cache?: InputCache;
+    focusedInput?: FormFocusedInput;
+    cache?: TextInputCache;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: CheckFormStatus;

@@ -7,9 +7,9 @@ import checkValid from './checkValid';
 // types
 import type { CheckFormStatus, DisabledInputs, 
     TextInputConfig, ConditionalDisabled,
-    FocusedInput } from './types';
+    FormFocusedInput } from './types';
 import type { SetFormData, FormData } from '../../types';
-import type { TextInputProps, Match, InputCache } from '../../elements/types';
+import type { TextInputProps, Match, TextInputCache } from '../../elements/types';
 
 
 /* TYPES */
@@ -21,8 +21,8 @@ export interface Props {
     disabledInputs?: DisabledInputs;
     conditionalDisabled?: ConditionalDisabled;
     autoFocus?: string;
-    focusedInput?: FocusedInput;
-    cache?: InputCache;
+    focusedInput?: FormFocusedInput;
+    cache?: TextInputCache;
     // event handlers
     onChange?: SetFormData;
     checkFormStatus?: CheckFormStatus;
