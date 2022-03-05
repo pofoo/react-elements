@@ -55,6 +55,8 @@ const CacheFormComponent = ( args: Props ) => {
     cacheFormData: formData,
   }
 
+  if ( !formData ) return null;
+
   return (
     <Component id={id} name={name} cache={cache}
       onSubmit={onSubmit} buttonProps={buttonProps}>

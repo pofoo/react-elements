@@ -13,14 +13,13 @@ import { handleTextInputValidityMsgs } from './handleValidityMsgs';
 import { EMAIL_VALIDATION, PASSWORD_VALIDATION, 
     USERNAME_VALIDATION } from '../../lib';
 // types
-import type { SetFormData, ConditionalProps } from 'types';
-import type { TextInputTypes, Match, TextInputCache } from './types';
-import type { CheckValid, FormFocusedInput } from '../../components/types';
+import type { ConditionalProps } from 'types';
+import type { TextInputTypes, Match } from './types';
+import type { CheckValid, FormFocusedInput, FormOnChange } from '../../components/types';
 
     
 /* TYPES */
 // TO-DO - implement Conditional Props
-// TO-DO - implement Pick keyword to show that either cache of onChange needs to be specified
 export interface Content {
     label?: string;
     value?: string;
@@ -35,10 +34,9 @@ export interface Props {
     content?: Content;
     type: TextInputTypes;
     // event handlers
-    onChange?: SetFormData;
+    onChange?: FormOnChange;
     checkFormStatus?: ( checkDisabled: boolean ) => void;
     checkValid?: CheckValid;
-    cache?: TextInputCache;
     // states
     isValid?: boolean;
     required?: boolean;
@@ -74,7 +72,6 @@ const TextInput = ( {
     onChange,
     checkFormStatus,
     checkValid,
-    cache,
     required,
     isValid,
     disabled=false,
@@ -142,10 +139,10 @@ const TextInput = ( {
         throw( SyntaxError( 'If type is text, a name must be provided for the input' ) );
         
     if ( inputLabel === undefined )
-        throw( SyntaxError( 'If type is text, a name must be provided for the input for accessibility purposes' ) );
+        throw( SyntaxError( 'If type is text, a label must be provided for the input for accessibility purposes' ) );
 
-    if ( onChange === undefined && cache === undefined )
-        throw( SyntaxError( 'onChange function or cache not specified - use built in Form OR CacheForm wrapper component' ) );
+    if ( onChange === undefined )
+        throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component' ) );
 
     if ( checkFormStatus === undefined )
         throw( SyntaxError( 'checkFormStatus function not specified - use built in Form wrapper component' ) );
@@ -161,26 +158,12 @@ const TextInput = ( {
         newValid: boolean,
         newValue?: string,
     ) => {
-        const newInputData = {
+        onChange( {
             [ inputName as string ]: {
                 value: typeof newValue === 'string' ? newValue : value,
                 isValid: newValid,
             }
-        }
-
-        if ( onChange )
-            onChange( ( state ) => {
-                return {
-                    ...state,
-                    ...newInputData,
-                }
-            } );
-
-        if ( cache )
-            cache.updateCache( {
-                ...cache.formData,
-                ...newInputData,
-            } );
+        } );
     }
 
     const handleChange = ( event: ChangeEvent<HTMLInputElement> ) => {

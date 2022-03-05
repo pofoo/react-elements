@@ -7,10 +7,9 @@ import Required from './Required';
 // hooks
 import { useAfterEffect } from '../../hooks'
 // types
-import type { SetFormData, FormData } from 'types';
-import type { TextareaCache, InputFlexOnChange } from './types';
+import type { InputFlexOnChange } from './types';
 import type { ChangeEvent } from 'react';
-import type { FormFocusedInput, CheckFormStatus } from '../../components/types';
+import type { FormFocusedInput, CheckFormStatus, FormOnChange } from '../../components/types';
 
 
 /* TYPES */
@@ -38,8 +37,7 @@ interface Props {
     focusedInput?: FormFocusedInput;
     // event handlers
     checkFormStatus?: CheckFormStatus;
-    onChange?: SetFormData | InputFlexOnChange;
-    cache?: TextareaCache;
+    onChange?: FormOnChange | InputFlexOnChange;
     // limitations
     minLength?: number;
     maxLength?: number;
@@ -53,8 +51,6 @@ interface Props {
 
 /**
  * Textarea
- * TO-DO:
- * 1. 
  */
 const Textarea = ( {
     id,
@@ -72,7 +68,6 @@ const Textarea = ( {
     focusedInput,
     checkFormStatus,
     onChange,
-    cache,
     minLength,
     maxLength,
     minRows=2,
@@ -81,12 +76,14 @@ const Textarea = ( {
     isRounded=true,
     showRequired=true,
 }: Props ) => {
-    /* ERRORS */
-    if ( onChange === undefined && cache === undefined )
-        throw( SyntaxError( 'Both onChange function and cache not specified - use built in Form wrapper component OR specify your own custom onChange function or cache' ) );
-
     /* CONTENT */
-    const { label, placeholder='', value } = content;
+    const { label, placeholder='', value='' } = content;
+
+    /* ERRORS */
+    if ( onChange === undefined )
+        throw( SyntaxError( 'onChange function not specified - use built in Form wrapper component OR specify your own custom onChange function' ) );
+    if ( label === undefined )
+        throw( SyntaxError( 'A label must be provided for the textarea for accessibility purposes' ) );
 
     /* HOOKS */
     const ref = useRef<HTMLTextAreaElement>( null );
@@ -97,37 +94,19 @@ const Textarea = ( {
         const newValue = event.target.value;
 
         if ( isInForm ) {
-            const newInputData = {
+            const formOnChange = onChange as FormOnChange;
+
+            formOnChange( {
                 [ name ]: {
                     value: newValue,
                     isValid: noEmptyVal ? newValue?.trim() !== '' : newValue !== '',
                 }
-            }
-
-            if ( onChange ) {
-                const setFormData = onChange as SetFormData;
-
-                setFormData( ( state ) => {
-                    return {
-                        ...state,
-                        ...newInputData,
-                    }
-                } );
-            }
-            if ( cache ) {
-                cache.updateCache( {
-                    ...cache.formData as FormData,
-                    ...newInputData,
-                } );
-            }
+            } );
         }
         else {
-            if ( onChange ) {
-                const changeFn = onChange as InputFlexOnChange;
-                changeFn( newValue );
-            }
-            if ( cache )
-                cache.updateCache( newValue );
+            const changeFn = onChange as InputFlexOnChange;
+
+            changeFn( newValue );
         }
     }
 
@@ -140,7 +119,6 @@ const Textarea = ( {
         if ( focusedInput )
             focusedInput.current = ref.current;
     }
-
 
     /* CLASSNAMES */
     const textareaWrapperClasses = `

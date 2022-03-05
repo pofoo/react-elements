@@ -12,7 +12,7 @@ import type { FormData, TransformedFormData, OnSaveSubmit } from 'types';
 import type { TextInputConfig, FieldSetConfig, ConditionalDisabled,
     DependentInputsConfig, DisabledInputs,
     InitialValues, FormFocusedInput,
-    FieldSetProps, DependentInputsProps, Cache, } from './types';
+    FieldSetProps, DependentInputsProps, FormCache, } from './types';
 import type { TextInputProps, HTMLFormElements } from '../../elements/types';
 // partial functions
 import initForm from './initForm';
@@ -44,7 +44,7 @@ export interface Props {
     initialValues?: InitialValues; // overrides any values placed in input child content prop
     conditionalDisabled?: ConditionalDisabled;
     onSubmit: OnSubmit;
-    cache?: Cache;
+    cache?: FormCache;
     // styling
     showSubmitAnimation?: boolean;
     buttonProps: ButtonProps;
@@ -83,7 +83,6 @@ const Form: FC<Props> = ( {
 
     const { updateCache, cacheFormData } = cache;
 
-    // TO-DO - this is being run EVERYTIME - causing us to map through the input children twice every time
     const { initialFormData, 
         canFormSubmit, 
         initialDisabled,
@@ -108,13 +107,11 @@ const Form: FC<Props> = ( {
     const [ isSubmitting, setIsSubmitting ] = useState<boolean>( false );
     const [ formReturn, setFormReturn ] = useState<'success' | 'fail' | null>( null );
 
-    const actualFormData = cacheFormData ? cacheFormData : formData;
-
     /* FUNCTIONS */
     const disableAllInputs = () => {
         // getting all the formData keys and adding them to a new array
         const formElementsArray = 
-            ( Object.keys( actualFormData ) )
+            ( Object.keys( formData ) )
             .map( ( key ) => {
             return key;
         } );
@@ -136,10 +133,10 @@ const Form: FC<Props> = ( {
             } );
 
         if ( resetValues ) {
+            setFormData( resetFormData );
+
             if ( updateCache )
                 updateCache( resetFormData );
-            else
-                setFormData( resetFormData );
 
             setIsFormComplete( canFormSubmit );
         }
@@ -183,7 +180,7 @@ const Form: FC<Props> = ( {
         let canSubmit = true;
         const newDisabledInputs: Set<string> = new Set();
 
-        ( Object.entries( actualFormData ) )
+        ( Object.entries( formData ) )
             .forEach( ( [ name, rawInput ] ) => {
             const isValid = rawInput.isValid;
             const childInputs = expandedConditionalDisabled[ name ];
@@ -198,6 +195,21 @@ const Form: FC<Props> = ( {
         setIsFormComplete( canSubmit );
         if ( checkDisabled )
             setDisabledInputs( newDisabledInputs );
+    }
+
+    const handleChange = ( input: FormData ) => {
+        setFormData( ( state ) => {
+            return {
+                ...state,
+                ...input,
+            }
+        } );
+
+        if ( updateCache )
+            updateCache( {
+                ...formData,
+                ...input,
+            } );
     }
 
     /* CLASSNAMES */
@@ -224,19 +236,12 @@ const Form: FC<Props> = ( {
                         const name = fieldSetChild.props.name;
 
                         const config: FieldSetConfig =  {
+                            formData,
+                            onChange: handleChange,
                             checkFormStatus,
                             expandedConditionalDisabled,
                         }
 
-                        if ( updateCache )
-                            config.cache = {
-                                updateCache,
-                                formData: actualFormData,
-                            }
-                        else {
-                            config.formData = actualFormData;
-                            config.onChange = setFormData;
-                        }
                         if ( keepFocus )
                             config.focusedInput = focusedInput;
                         if ( disabledInputs.has( name ) )
@@ -251,20 +256,13 @@ const Form: FC<Props> = ( {
                         const dependentInputsChild = child as ReactElement<DependentInputsProps>;
 
                         const config: DependentInputsConfig = {
+                            formData,
+                            onChange: handleChange,
                             conditionalDisabled,
                             disabledInputs,
                             checkFormStatus,
                         }
 
-                        if ( updateCache )
-                            config.cache = {
-                                updateCache,
-                                formData: actualFormData,
-                            }
-                        else {
-                            config.formData = actualFormData;
-                            config.onChange = setFormData;
-                        }
                         if ( keepFocus )
                             config.focusedInput = focusedInput;
 
@@ -280,7 +278,7 @@ const Form: FC<Props> = ( {
 
                         const name = inputChild.props.name || type;
                         const prevContent = inputChild.props.content;
-                        const inputData = actualFormData[ name ];
+                        const inputData = formData[ name ];
                         const resetTouched = inputData.resetTouched;
         
                         const config: TextInputConfig = {
@@ -288,18 +286,12 @@ const Form: FC<Props> = ( {
                                 ...prevContent,
                                 value: inputData.value,
                             },
+                            onChange: handleChange,
                             checkFormStatus,
                             checkValid,
                             isValid: inputData.isValid,
                         }
 
-                        if ( updateCache )
-                            config.cache = {
-                                updateCache,
-                                formData: actualFormData,
-                            }
-                        else
-                            config.onChange = setFormData;
                         if ( resetTouched )
                             config.resetTouched = true;
                         if ( keepFocus )

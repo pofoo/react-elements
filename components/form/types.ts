@@ -1,11 +1,11 @@
 // types
 import type { MutableRefObject } from 'react';
-import type { SetFormData, FormData, UpdateCache } from '../../types';
+import type { FormData, UpdateCache } from '../../types';
 import type { Props as DependentInputsProps } from './DependentInputs';
 import type { Props as FieldSetProps } from './FieldSet';
 import type { CheckValid } from './checkValid';
 import type { OnSubmit as FormOnSubmit } from './Form';
-import type { TextInputCache, HTMLFormElements } from '../../elements/types';
+import type { HTMLFormElements } from '../../elements/types';
 
 
 // key represents the name of parent input element that other input elements rely on
@@ -25,7 +25,9 @@ type CheckFormStatus = ( checkDisabled: boolean ) => void;
 
 type FormFocusedInput = MutableRefObject<HTMLFormElements| null>;
 
-interface Cache {
+type FormOnChange = ( input: FormData ) => unknown;
+
+interface FormCache {
     updateCache?: UpdateCache;
     cacheFormData?: FormData;
 }
@@ -37,12 +39,11 @@ interface Content {
 }
 
 interface TextInputConfig {
-    onChange?: SetFormData;
+    onChange?: FormOnChange;
     content: Content;
     checkFormStatus: CheckFormStatus;
     checkValid: CheckValid;
     isValid: boolean;
-    cache?: TextInputCache;
     focusedInput?: FormFocusedInput;
     disabled?: boolean;
     isParentDisabled?: boolean;
@@ -51,23 +52,21 @@ interface TextInputConfig {
 }
 
 interface FieldSetConfig {
-    formData?: FormData;
-    onChange?: SetFormData;
+    formData: FormData;
+    onChange: FormOnChange;
     expandedConditionalDisabled: ConditionalDisabled;
     checkFormStatus: CheckFormStatus;
-    cache?: TextInputCache;
     disabled?: boolean;
     isParentDisabled?: boolean;
     focusedInput?: FormFocusedInput;
 }
 
 interface DependentInputsConfig {
-    formData?: FormData;
+    formData: FormData;
     conditionalDisabled: ConditionalDisabled;
     disabledInputs: DisabledInputs;
-    onChange?: SetFormData;
+    onChange: FormOnChange;
     checkFormStatus: CheckFormStatus;
-    cache?: TextInputCache;
     focusedInput?: FormFocusedInput;
 }
 
@@ -84,5 +83,6 @@ export type {
     CheckValid,
     FormOnSubmit,
     FormFocusedInput,
-    Cache,
+    FormCache,
+    FormOnChange,
 }
