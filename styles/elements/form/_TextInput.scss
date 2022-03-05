@@ -217,6 +217,18 @@ $text-input--disabled-color:                    lightgray;
             }
         }
 
+        &.not-disabled {
+            .text-input {
+                &.animate {
+                    transform: scaleX( 1.03 );
+                }
+
+                @include tap {
+                    outline: 2px solid map.get( $colors, 'brand-blue', 3 );
+                }
+            }
+        }
+
         .text-input-label {
             &.animate {
                 .text {
@@ -224,16 +236,6 @@ $text-input--disabled-color:                    lightgray;
 
                     transform: translate( $translate, $translate );
                 }
-            }
-        }
-
-        .text-input {
-            &.animate {
-                transform: scaleX( 1.03 );
-            }
-
-            @include tap {
-                outline: 2px solid map.get( $colors, 'brand-blue', 3 );
             }
         }
     }
