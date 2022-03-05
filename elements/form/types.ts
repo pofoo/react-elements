@@ -8,7 +8,7 @@ interface Match {
     name: string;
 }
 
-type InputFlexOnChange = ( content: string ) => void;
+type InputFlexOnChange = ( content: string ) => unknown;
 
 type HTMLFormElements = HTMLInputElement | HTMLTextAreaElement;
 
