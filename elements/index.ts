@@ -11,6 +11,7 @@ import { Checkbox, FileInput, Radio, Search, Select,
 import Blurb from './blurb';
 import { Puff, Success, Fail, Dots } from './loader';
 import XClose from './x-close';
+import Pagination from './pagination';
 
 export {
     FormButton,
@@ -42,4 +43,5 @@ export {
     Dots,
     XClose,
     Textarea,
+    Pagination,
 }

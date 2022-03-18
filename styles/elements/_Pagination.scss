@@ -1,0 +1,12 @@
+.pagination {
+    display: flex;
+
+    .number {
+        border: 1px solid black;
+        border-radius: 8px;
+
+        &.active {
+            background: lightblue;
+        }
+    }
+}
